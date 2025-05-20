@@ -5,23 +5,21 @@ namespace App\Livewire\Dashboard\Blog;
 use Livewire\Component;
 use App\Models\BlogPost;
 
-class Create extends Component
-{
+class Create extends Component{
     public $title;
     public $content;
 
     protected $listeners = ['updateContent'];
 
-public function updateContent($value)
-{
-        dd($this->title,$this->content);
+    public function updateContent($value){
+            dd($value);
 
-    $this->content = $value;
-}
+        $this->content = $value;
+    }
 
 
-    public function save()
-    {
+    public function save($content){
+        dd($this->content);
         $this->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
@@ -36,14 +34,13 @@ public function updateContent($value)
         $this->reset(['title', 'content']);
         $this->dispatch('resetEditor');
     }
-    public function debug()
-{
-    dd($this->content,$this->title,);
-}
+
+    public function debug(){
+        dd($this->content,$this->title,);
+    }
 
 
-    public function render()
-    {
+    public function render(){
         return view('livewire.dashboard.blog.create')->layout('components.layouts.dashboard');
     }
 }
