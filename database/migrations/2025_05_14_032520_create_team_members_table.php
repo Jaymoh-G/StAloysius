@@ -17,6 +17,7 @@ return new class extends Migration
         $table->string('position');
         $table->text('description');
         $table->text('experience');
+        $table->string('slug')->unique();
         $table->json('professional_skills')->nullable();
         $table->json('socials')->nullable();
         $table->string('image')->nullable();

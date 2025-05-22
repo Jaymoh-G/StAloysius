@@ -14,7 +14,17 @@ return new class extends Migration
         Schema::create('blog_posts', function (Blueprint $table) {
          $table->id();
         $table->string('title');
+         $table->string('slug')->unique();
+         $table->foreignId('category_id')->nullable()->constrained()->onDelete('cascade');
         $table->text('content'); // for CKEditor
+     $table->text('paragraph1')->nullable();
+        $table->text('paragraph2')->nullable();
+        $table->text('paragraph3')->nullable();
+        $table->text('paragraph4')->nullable();
+        $table->text('paragraph5')->nullable();
+        $table->text('paragraph6')->nullable();
+        $table->text('paragraph7')->nullable();
+         $table->string('banner')->nullable();
         $table->timestamps();
         });
     }

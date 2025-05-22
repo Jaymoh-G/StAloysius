@@ -13,16 +13,18 @@ return new class extends Migration
     {
          Schema::create('departments', function (Blueprint $table) {
         $table->id();
-        $table->string('title');
-     $table->foreignId('category_id')->nullable()->constrained()->onDelete('cascade');
-        $table->text('description')->nullable();
-        $table->string('image1')->nullable();
-        $table->string('image2')->nullable();
-        $table->string('image3')->nullable();
+       $table->string('name')->default('Untitled');
+        $table->string('slug')->unique();
+     $table->foreignId('dep_category_id')->nullable()->constrained()->onDelete('cascade');
+        $table->longText('content')->nullable();
     $table->longText('paragraph1')->nullable();
     $table->longText('paragraph2')->nullable();
     $table->longText('paragraph3')->nullable();
     $table->longText('paragraph4')->nullable();
+    $table->longText('paragraph5')->nullable();
+    $table->longText('paragraph6')->nullable();
+    $table->longText('paragraph7')->nullable();
+     $table->string('banner')->nullable();
         $table->timestamps();
     });
     }

@@ -1,47 +1,48 @@
 <?php
 
-namespace App\Livewire\Dashboard\Blog;
+namespace App\Livewire\Dashboard\Departments;
 
 use Storage;
 use Livewire\Component;
-use App\Models\BlogPost;
-use App\Models\Category;
 use App\Models\BlogImage;
+use App\Models\Department;
+use App\Models\DepCategory;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 
-class Create extends Component
+class Manage extends Component
 {
     use WithFileUploads;
-    public $title, $slug, $content, $paragraph1, $paragraph2, $paragraph3, $paragraph4, $paragraph5, $paragraph6, $paragraph7, $category_id;
-    public $postId;
+    public $name, $slug, $content, $paragraph1, $paragraph2, $paragraph3, $paragraph4, $paragraph5, $paragraph6, $paragraph7, $dep_category_id;
+    public $depId;
     public $images = [];
-    public $categories = [];
+    public $depCategories = [];
     public $featuredImageIndex = null;
     public $featured = false;
     public $banner;
     public $existingBanner;
     public $existingImages = [];
-    protected $listeners = ['updateContent', 'categoryCreated' => 'refreshCategories'];
+    protected $listeners = ['updateContent', 'depCreated' => 'refreshDepartments'];
 
 
-    public function mount($postId = null)
+
+    public function mount($depId = null)
     {
+        $this->depCategories = DepCategory::all();
 
+        if ($depId) {
+            $this->depId = $depId;
+            $dep = Department::with('images')->findOrFail($depId);
 
-        if ($postId) {
-            $this->postId = $postId;
-            $post = BlogPost::with('images')->findOrFail($postId);
+            $this->name = $dep->name;
+            $this->slug = Str::slug($this->name);
+            $this->content = $dep->content;
+            $this->dep_category_id = $dep->dep_category_id;
+            $this->featured = $dep->featured ?? false;
+            $this->existingImages = $dep->images;
+            $this->existingBanner = $dep->banner;
 
-            $this->title = $post->title;
-            $this->slug = Str::slug($this->title);
-            $this->content = $post->content;
-            $this->category_id = $post->category_id;
-            $this->featured = $post->featured ?? false;
-            $this->existingImages = $post->images;
-            $this->existingBanner = $post->banner;
-
-            foreach ($post->images as $index => $image) {
+            foreach ($dep->images as $index => $image) {
                 if ($image->is_featured) {
                     $this->featuredImageIndex = 'existing_' . $index;
                     break;
@@ -49,7 +50,7 @@ class Create extends Component
             }
             // Assign paragraphs
             for ($i = 1; $i <= 7; $i++) {
-                $this->{'paragraph' . $i} = $post->{'paragraph' . $i};
+                $this->{'paragraph' . $i} = $dep->{'paragraph' . $i};
             }
         }
     }
@@ -67,34 +68,39 @@ class Create extends Component
             $this->{'paragraph' . ($i + 1)} = $paragraphs[$i] ?? null;
         }
     }
-
-    public function refreshCategories($newCategoryId = null)
+    public function refreshDepartments($newDepId = null)
     {
-        $this->categories = Category::all();
-        if ($newCategoryId) {
-            $this->category_id = $newCategoryId;
+        $this->depCategories = DepCategory::all();
+        if ($newDepId) {
+            $this->dep_category_id = $newDepId;
         }
     }
-    public function updatedTitle($value)
-    {
-        $this->slug = Str::slug($value);
-    }
 
-    public function submit($content)
+public function updatedName($value)
+{
+    $this->slug = Str::slug($value);
+}
+
+
+    public function submit()
     {
+
         $this->validate([
-            'title' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:blog_posts,slug,' . $this->postId,
-            'category_id' => 'required|exists:categories,id',
+            'name' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:departments,slug,' . $this->depId,
+            'dep_category_id' => 'required|exists:dep_categories,id',
+            'content' => 'required|string',
+'content' => 'required|string',
+
             'images.*' => 'image|max:2048',
             'banner' => 'image|max:2048',
         ]);
 
         $data = [
-            'title' => $this->title,
+            'name' => $this->name,
             'slug' => $this->slug,
             'content' => $this->content,
-            'category_id' => $this->category_id,
+            'dep_category_id' => $this->dep_category_id,
             'featured' => $this->featured,
             'paragraph1' => $this->paragraph1,
             'paragraph2' => $this->paragraph2,
@@ -105,11 +111,11 @@ class Create extends Component
             'paragraph7' => $this->paragraph7,
         ];
 
-        if ($this->postId) {
-            $blog = BlogPost::findOrFail($this->postId);
-            $blog->update($data);
+        if ($this->depId) {
+            $dep = Department::findOrFail($this->depId);
+            $dep->update($data);
         } else {
-            $blog = BlogPost::create($data);
+            $dep = Department::create($data);
         }
         if ($this->banner) {
             // Delete old banner if updating
@@ -117,14 +123,14 @@ class Create extends Component
                 Storage::disk('public')->delete($this->existingBanner);
             }
 
-            $bannerPath = $this->banner->store('blog_banners', 'public');
-            $blog->banner = $bannerPath;
-            $blog->save();
+            $bannerPath = $this->banner->store('dep_banners', 'public');
+            $dep->banner = $bannerPath;
+            $dep->save();
         }
 
         // Reset all existing images to not featured
-        if ($this->postId) {
-            foreach ($blog->images as $eIndex => $img) {
+        if ($this->depId) {
+            foreach ($dep->images as $eIndex => $img) {
                 $img->update(['is_featured' => false]);
             }
         }
@@ -135,28 +141,30 @@ class Create extends Component
                 // New uploaded image
                 $index = (int) $this->featuredImageIndex;
                 if (isset($this->images[$index])) {
-                    $image = $blog->images()->latest()->skip(count($this->images) - 1 - $index)->first();
+                    $image = $dep->images()->latest()->skip(count($this->images) - 1 - $index)->first();
                     if ($image) {
                         $image->update(['is_featured' => true]);
                     }
                 }
             } elseif (str_starts_with($this->featuredImageIndex, 'existing_')) {
                 $existingIndex = (int) str_replace('existing_', '', $this->featuredImageIndex);
-                if (isset($blog->images[$existingIndex])) {
-                    $blog->images[$existingIndex]->update(['is_featured' => true]);
+                if (isset($dep->images[$existingIndex])) {
+                    $dep->images[$existingIndex]->update(['is_featured' => true]);
                 }
             }
         }
 
-
-
         foreach ($this->images as $index => $image) {
-            $path = $image->store('blog_images', 'public');
-            $blog->images()->create(['path' => $path, 'is_featured' => $index == $this->featuredImageIndex,]);
+            $path = $image->store('dep_images', 'public');
+         $dep->images()->create([
+    'path' => $path,
+    'is_featured' => ((string)$index === (string)$this->featuredImageIndex),
+]);
+
         }
-        session()->flash('message', $this->postId ? 'Blog post updated!' : 'Blog post created!');
+        session()->flash('message', $this->depId ? 'Department updated!' : 'Department created!');
         $this->dispatch('resetEditor');
-        return redirect()->route('dashboard.blog.index'); // 👈 Redirect to the listing page
+        return redirect()->route('departments.index'); // 👈 Redirect to the listing page
     }
 
     public function deleteImage($imageId)
@@ -171,29 +179,29 @@ class Create extends Component
             $image->delete();
 
             // Refresh the existing images list
-            $this->existingImages = $this->postId
-                ? \App\Models\BlogPost::with('images')->find($this->postId)->images
+            $this->existingImages = $this->depId
+                ? Department::with('images')->find($this->depId)->images
                 : [];
         }
     }
-
     public function deleteBanner()
     {
         if ($this->existingBanner) {
             Storage::disk('public')->delete($this->existingBanner);
             $this->existingBanner = null;
 
-            if ($this->postId) {
-                $blog = BlogPost::find($this->postId);
-                $blog->banner = null;
-                $blog->save();
+            if ($this->depId) {
+                $dep = Department::find($this->depId);
+                $dep->banner = null;
+                $dep->save();
             }
         }
     }
 
-
     public function render()
     {
-        return view('livewire.dashboard.blog.create')->layout('components.layouts.dashboard');
+$depCategories = Department::with('depCategory','images') ->orderBy('updated_at', 'desc')->get();
+        return view('livewire.dashboard.departments.manage',compact('depCategories'))
+            ->layout('components.layouts.dashboard');
     }
 }

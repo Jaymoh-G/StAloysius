@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\BlogPost;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,6 +26,13 @@ protected static function boot()
 }
 protected $fillable = [
         'name',
-        'slug', 
+        'slug',
     ];
+
+
+public function blogPosts()
+{
+    return $this->hasMany(BlogPost::class);
+}
+
 }

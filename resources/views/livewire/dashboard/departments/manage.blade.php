@@ -1,22 +1,22 @@
 <div class="container-fluid">
     <div class="card">
-        <div class="card-header"><h4 class="card-title">Create Post</h4></div>
+        <div class="card-header"><h4 class="card-title">Create Department</h4></div>
         <div class="card-body">
             @if (session()->has('message'))
             <div class="alert alert-success">{{ session("message") }}</div>
             @endif
 
             <form
-                wire:submit.prevent="submit(document.querySelector('#content').value)"
+                wire:submit.prevent="submit"
             >
                 <div class="mb-3">
                     <input
                         type="text"
-                        wire:model.defer="title"
-                        placeholder="Title"
+                        wire:model.defer="name"
+                        placeholder="name"
                         class="form-control"
                     />
-                    @error('title')
+                    @error('name')
                     <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
                 <!-- <div>
@@ -24,30 +24,29 @@
                     <input type="text" wire:model="slug" id="slug" readonly />
                 </div> -->
                 <div class="mb-3">
-                    <label for="category_id" class="form-label">Category</label>
+                    <label for="dep_category_id" class="form-label">Department Category</label>
                     <div class="d-flex gap-2">
                         <select
-                            wire:model.defer="category_id"
+                            wire:model.defer="dep_category_id"
                             class="form-control"
-                            id="category_id"
+                            id="dep_category_id"
                         >
                             <option value="">Select Category</option>
-                            @foreach($categories as $category)
-                            <option value="{{ $category->id }}">
-                                {{ $category->name }}
-                            </option>
-                            @endforeach
+                          @foreach($depCategories as $depcat)
+    <option value="{{ $depcat->id }}">{{ $depcat->name }}</option>
+@endforeach
+
                         </select>
                         <button
                             type="button"
                             class="btn btn-primary btn-xs text-nowrap"
                             data-bs-toggle="modal"
-                            data-bs-target="#createCategoryModal"
+                            data-bs-target="#ManageDepCategoryModal"
                         >
-                            + Add Category
+                            + Add Department Category
                         </button>
                     </div>
-                    @error('category_id')
+                    @error('dep_category_id')
                     <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
@@ -233,7 +232,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Save Post</button>
+                <button type="submit" class="btn btn-primary">Save Department</button>
             </form>
         </div>
     </div>
@@ -241,14 +240,14 @@
     <!-- Category Modal -->
     <div
         class="modal fade"
-        id="createCategoryModal"
+        id="ManageDepCategoryModal"
         tabindex="-1"
-        aria-labelledby="createCategoryModalLabel"
+        aria-labelledby="ManageDepCategoryModalLabel"
         aria-hidden="true"
     >
         <div class="modal-dialog">
             <div class="modal-content">
-                @livewire('dashboard.category.create-category-modal')
+                @livewire('dashboard.departments.dep-categories.manage-dep-category-modal')
             </div>
         </div>
     </div>
@@ -279,7 +278,7 @@
 <script>
     window.addEventListener("closeModal", () => {
         const modal = bootstrap.Modal.getInstance(
-            document.getElementById("createCategoryModal")
+            document.getElementById("ManageDepCategoryModal")
         );
         if (modal) modal.hide();
     });

@@ -1,14 +1,14 @@
 <div>
-   @section
+   @section('content')
      <main class="main">
 
         <!-- breadcrumb -->
-        <div class="site-breadcrumb" style="background: url(assets/img/breadcrumb/01.jpg)">
+        <div class="site-breadcrumb" style="background: url('{{ asset('storage/' . $blog->banner) }}')">
             <div class="container">
-                <h2 class="breadcrumb-title">Blog Single</h2>
+                <h2 class="breadcrumb-title">{{ $blog->title }}</h2>
                 <ul class="breadcrumb-menu">
-                    <li><a href="index.html">Home</a></li>
-                    <li class="active">Blog Single</li>
+                    <li><a href="/">Home</a></li>
+                    <li class="active">{{ $blog->title }}</li>
                 </ul>
             </div>
         </div>
@@ -22,16 +22,19 @@
                     <div class="col-lg-8">
                         <div class="blog-single-wrapper">
                             <div class="blog-single-content">
+                              @if ($blog->featuredImage)
                                 <div class="blog-thumb-img">
-                                    <img src="assets/img/blog/single.jpg"  alt="thumb">
+                                    <img src="{{ asset('storage/' . $blog->featuredImage->path) }}"  alt="thumb">
                                 </div>
+                               @else
+    <p>No featured image available.</p>
+@endif
                                 <div class="blog-info">
                                     <div class="blog-meta">
                                         <div class="blog-meta-left">
                                             <ul>
                                                 <li><i class="far fa-user"></i><a href="#">Jean R Gunter</a></li>
-                                                <li><i class="far fa-comments"></i>3.2k Comments</li>
-												<li><i class="far fa-thumbs-up"></i>1.4k Like</li>
+                                                <li>Category: {{ $blog->category->name ?? 'Uncategorized' }}</li>
                                             </ul>
                                         </div>
                                         <div class="blog-meta-right">
@@ -39,31 +42,57 @@
                                         </div>
                                     </div>
                                     <div class="blog-details">
-                                        <h3 class="blog-details-title mb-20">It is a long established fact that a reader</h3>
+                                        <h3 class="blog-details-title mb-20">{{ $blog->title }}</h3>
                                         <p class="mb-10">
-                                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
+                                       {!! $blog->paragraph1 !!}
                                         </p>
                                         <p class="mb-10">
-                                            But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful.
+                                          {!! $blog->paragraph2 !!}
                                         </p>
-										<blockquote class="blockqoute">
-											It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution.
-                                            <h6 class="blockqoute-author">Mark Crawford</h6>
-                                        </blockquote>
-										<p class="mb-20">
-											In a free hour when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection.
+<p class="mb-20">
+										 {!! $blog->paragraph3 !!}
+
+</p>
+
+                                        <div class="row">
+
+ @if ($blog->images->count() > 1)
+                                            <div class="col-md-6 mb-20">
+                                                <img src="{{ asset('storage/' . $blog->images[1]->path) }}" alt="{{$blog->images[1]->name}}">
+                                            </div>
+                                                 @endif
+                                            @if ($blog->images->count() > 2)
+                                            <div class="col-md-6 mb-20">
+                                                <img src="{{ asset('storage/' . $blog->images[2]->path) }}" alt="">
+                                            </div>
+                                            @endif
+                                        </div>
+
+                                        	<p class="mb-20">
+								 {!! $blog->paragraph4 !!}
+										</p>
+                                        <p class="mb-20">
+									 {!! $blog->paragraph5 !!}
 										</p>
 
                                         <div class="row">
+
+ @if ($blog->images->count() > 3)
                                             <div class="col-md-6 mb-20">
-                                                <img src="assets/img/blog/01.jpg" alt="">
+                                                <img src="{{ asset('storage/' . $blog->images[3]->path) }}" alt="{{$blog->images[1]->name}}">
                                             </div>
+                                                 @endif
+                                            @if ($blog->images->count() > 4)
                                             <div class="col-md-6 mb-20">
-                                                <img src="assets/img/blog/02.jpg" alt="">
+                                                <img src="{{ asset('storage/' . $blog->images[4]->path) }}" alt="">
                                             </div>
+                                            @endif
                                         </div>
-                                        <p class="mb-20">
-											Power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection.
+                                            <p class="mb-20">
+									 {!! $blog->paragraph6 !!}
+										</p>
+                                            <p class="mb-20">
+									 {!! $blog->paragraph7 !!}
 										</p>
                                         <hr>
 										<div class="blog-details-tags pb-20">
@@ -164,44 +193,27 @@
                             <!-- category -->
                             <div class="widget category">
                                 <h5 class="widget-title">Category</h5>
+                                @foreach ($categories as $category)
                                 <div class="category-list">
-                                    <a href="#"><i class="far fa-arrow-right"></i>Online Courses<span>(10)</span></a>
-                                    <a href="#"><i class="far fa-arrow-right"></i>Basic Knowledge<span>(15)</span></a>
-                                    <a href="#"><i class="far fa-arrow-right"></i>Improve Your Skills<span>(20)</span></a>
-                                    <a href="#"><i class="far fa-arrow-right"></i>Proffesionals Course<span>(30)</span></a>
-                                    <a href="#"><i class="far fa-arrow-right"></i>Complete Course<span>(25)</span></a>
+                                    <a href="#"><i class="far fa-arrow-right"></i> {{ $category->name }}<span>({{ $category->blog_posts_count }})</span></a>
+
                                 </div>
+                                @endforeach
                             </div>
                             <!-- recent post -->
                             <div class="widget recent-post">
                                 <h5 class="widget-title">Recent Post</h5>
+                                @foreach ($recentPosts as $post)
                                 <div class="recent-post-single">
                                     <div class="recent-post-img">
-                                        <img src="assets/img/blog/bs-1.jpg" alt="thumb">
+                                        <img src="{{ asset('storage/' .  $post->images[0]->path) }}" alt="thumb">
                                     </div>
                                     <div class="recent-post-bio">
-                                        <h6><a href="#">There are many variations passages available</a></h6>
-                                        <span><i class="far fa-clock"></i>June 18, 2024</span>
+                                        <h6><a href="#">{{ $post->title }}</a></h6>
+                                        <span><i class="far fa-clock"></i>{{ $post->created_at->format('M d, Y') }}</span>
                                     </div>
                                 </div>
-                                <div class="recent-post-single">
-                                    <div class="recent-post-img">
-                                        <img src="assets/img/blog/bs-2.jpg" alt="thumb">
-                                    </div>
-                                    <div class="recent-post-bio">
-                                        <h6><a href="#">There are many variations passages available</a></h6>
-                                        <span><i class="far fa-clock"></i>June 18, 2024</span>
-                                    </div>
-                                </div>
-                                <div class="recent-post-single">
-                                    <div class="recent-post-img">
-                                        <img src="assets/img/blog/bs-3.jpg" alt="thumb">
-                                    </div>
-                                    <div class="recent-post-bio">
-                                        <h6><a href="#">There are many variations passages available</a></h6>
-                                        <span><i class="far fa-clock"></i>June 18, 2024</span>
-                                    </div>
-                                </div>
+@endforeach
                             </div>
                             <!-- social share -->
                             <div class="widget social-share">

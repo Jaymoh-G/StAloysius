@@ -31,31 +31,37 @@ use App\Livewire\Frontend\Testimonials;
 use App\Livewire\Frontend\OurFacilities;
 use App\Livewire\Frontend\SuccessStories;
 use App\Livewire\Frontend\AdmissionPolicy;
+use App\Livewire\Dashboard\Albums\AlbumForm;
 use App\Livewire\Frontend\FeePayingStudents;
 use App\Livewire\Frontend\UpdatesSinglePage;
-use App\Livewire\Dashboard\Blog\Edit as BlogEdit;
+use App\Livewire\Dashboard\Albums\AlbumIndex;
 use App\Livewire\Dashboard\Team\Edit as TeamEdit;
 use App\Livewire\Frontend\ChristianLifeCommunity;
 use App\Livewire\Dashboard\Blog\Index as BlogIndex;
 use App\Livewire\Dashboard\Facilities\FacilityForm;
 use App\Livewire\Dashboard\Index as DashboardIndex;
-use App\Livewire\Dashboard\Team\Index as TeamIndex;
 
+use App\Livewire\Dashboard\Team\Index as TeamIndex;
 use App\Livewire\Dashboard\Facilities\FacilityIndex;
 use App\Livewire\Dashboard\Blog\Create as BlogCreate;
+
 use App\Livewire\Dashboard\Team\Create as TeamCreate;
 
 use App\Livewire\Frontend\TeamMember as TeamMemberShow;;
+use App\Livewire\Dashboard\AlbumCategories\AlbumCategoryForm;
 use App\Livewire\Dashboard\Categories\Index as CategoryIndex;
 use App\Livewire\Dashboard\Departments\Edit as DepartmentEdit;
 use App\Livewire\Dashboard\Departments\Index as DepartmentIndex;
-use App\Livewire\Dashboard\Departments\Create as DepartmentCreate;
+use App\Livewire\Dashboard\Departments\Manage as DepartmentManage;
+use App\Livewire\Dashboard\AlbumCategories\Index as AlbumCategoryIndex;
+use App\Livewire\Dashboard\Departments\DepCategories\Index;
+use App\Models\DepCategory;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard as HtmlDashboard;
 
 Route::get('/', Home::class);
 Route::get('/contact-us', ContactUs::class)->name('contact');
 Route::get('/updates', Updates::class)->name('updates');
-Route::get('/updates-single', UpdatesSinglePage::class)->name('updates-single');
+Route::get('/updates/{slug}', UpdatesSinglePage::class)->name('updates.single');
 Route::get('/facilities', OurFacilities::class)->name('our-facilities');
 Route::get('/facility', Facility::class)->name('facility');
 Route::get('/clubs', OurClubs::class)->name('our-clubs');
@@ -91,14 +97,16 @@ Route::get('/dashboard/categories', CategoryIndex::class)
 
 Route::prefix('dashboard/departments')->name('departments.')->group(function () {
     Route::get('/', DepartmentIndex::class)->name('index');        // List departments
-    Route::get('/create', DepartmentCreate::class)->name('create'); // Create form
+    Route::get('/create', DepartmentManage::class)->name('create'); // Create form
     Route::get('/{department}/edit', DepartmentEdit::class)->name('edit'); // Edit form
+    Route::get('/categories', Index::class)->name('categories.index'); // Edit form
+    Route::get('/categories/{id}/edit', Index::class)->name('categories.edit'); // Edit form
 });
 
 Route::prefix('dashboard/blog')->name('dashboard.blog.')->group(function () {
     Route::get('/', BlogIndex::class)->name('index');       // List all posts
     Route::get('/create', BlogCreate::class)->name('create'); // Create a post
-    Route::get('/{id}/edit', BlogEdit::class)->name('edit'); // Edit a post
+    Route::get('/{postId}/edit', BlogCreate::class)->name('edit'); // Edit a post
 });
 
 Route::prefix('dashboard/team')->as('dashboard.team.')->group(function () {
@@ -112,3 +120,22 @@ Route::prefix('dashboard/facilities')->name('dashboard.facilities.')->group(func
     Route::get('/create', FacilityForm::class)->name('create');   // Create new facility
     Route::get('/{id}/edit', FacilityForm::class)->name('edit');  // Edit facility
 });
+
+
+
+Route::prefix('dashboard/albums/categories')->name('album.categories.')->group(function () {
+    Route::get('/', AlbumCategoryIndex::class)->name('index');
+    Route::get('/create', AlbumCategoryForm::class)->name('create');
+    Route::get('/{categoryId}/edit', AlbumCategoryForm::class)->name('edit');
+});
+
+Route::prefix('dashboard/albums')->name('albums.')->group(function () {
+    Route::get('/', AlbumIndex::class)->name('index');
+    Route::get('/create', AlbumForm::class)->name('create');
+    Route::get('/{albumId}/edit', AlbumForm::class)->name('edit');
+});
+
+
+use App\Http\Controllers\CkeditorUploadController;
+
+Route::post('/ckeditor/upload', [CkeditorUploadController::class, 'upload'])->name('ckeditor.upload');

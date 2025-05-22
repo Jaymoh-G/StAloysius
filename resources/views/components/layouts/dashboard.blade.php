@@ -8,7 +8,7 @@
     <meta name="robots" content="index, follow" />
     <meta name="format-detection" content="telephone=no" />
 
-    <title>Workload Project Management</title>
+    <title>St Aloysius Gonzaga Seconday School </title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/png" href="{{ asset('adminassets/images/favicon.png') }}" />
@@ -40,7 +40,7 @@
         <div class="footer">
             <div class="copyright">
                 <p>
-                    &copy; 2025 Designed & Developed by 
+                    &copy; 2025 Designed & Developed by
                     <a href="https://breezetech.co.ke" target="_blank" rel="noopener noreferrer">Breezetech Systems</a>
                 </p>
             </div>

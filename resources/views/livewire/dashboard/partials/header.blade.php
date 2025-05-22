@@ -129,7 +129,7 @@
                             </li>
 							<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Gallery</a>
                                 <ul aria-expanded="false">
-                                    <li><a href="./page-error-400.html">List</a></li>
+                                    <li><a href="{{route('albums.index')}}">Albums</a></li>
                                     <li><a href="./page-error-403.html">Add</a></li>
                                 </ul>
                             </li>
@@ -146,6 +146,7 @@
                         <ul aria-expanded="false">
                             <li><a href="{{route('departments.index')}}">List</a></li>
                             <li><a href="{{route('departments.create')}}">Add</a></li>
+                            <li><a href="{{route('departments.categories.index')}}">Categories</a></li>
                         </ul>
                     </li>		  	      	   <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
 							<i class="fas fa-table"></i>
