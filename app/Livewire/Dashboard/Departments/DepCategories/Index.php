@@ -4,9 +4,12 @@ namespace App\Livewire\Dashboard\Departments\DepCategories;
 
 use App\Models\DepCategory;
 use Livewire\Component;
-
+/**
+ * @method \Illuminate\View\View layout(string $layout)
+ */
 class Index extends Component
 {
+
     public $name, $dep_category_id;
     public $updateMode = false;
 
@@ -54,10 +57,12 @@ class Index extends Component
         session()->flash('message', 'Category deleted.');
 
     }
+
+
     public function render()
     {
         return view('livewire.dashboard.departments.dep-categories.index', [
             'deps' => DepCategory::latest()->get(),
-        ])->layout('components.layouts.dashboard');;
+        ])->layout('components.layouts.dashboard');
     }
 }

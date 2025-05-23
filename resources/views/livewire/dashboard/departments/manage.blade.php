@@ -12,17 +12,15 @@
                 <div class="mb-3">
                     <input
                         type="text"
-                        wire:model.defer="name"
+                        wire:model="name"
                         placeholder="name"
                         class="form-control"
+                        id="name"
                     />
                     @error('name')
                     <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
-                <!-- <div>
-                    <label for="slug">Slug</label>
-                    <input type="text" wire:model="slug" id="slug" readonly />
-                </div> -->
+
                 <div class="mb-3">
                     <label for="dep_category_id" class="form-label">Department Category</label>
                     <div class="d-flex gap-2">

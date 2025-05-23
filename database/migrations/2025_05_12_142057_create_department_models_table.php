@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-         Schema::create('departments', function (Blueprint $table) {
+         Schema::create('department_models', function (Blueprint $table) {
         $table->id();
-       $table->string('name')->default('Untitled');
+       $table->string('name')->unique();
         $table->string('slug')->unique();
      $table->foreignId('dep_category_id')->nullable()->constrained()->onDelete('cascade');
         $table->longText('content')->nullable();

@@ -5,7 +5,7 @@ namespace App\Livewire\Dashboard\Departments;
 use Storage;
 use Livewire\Component;
 use App\Models\BlogImage;
-use App\Models\Department;
+use App\Models\DepartmentModel;
 use App\Models\DepCategory;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
@@ -32,7 +32,7 @@ class Manage extends Component
 
         if ($depId) {
             $this->depId = $depId;
-            $dep = Department::with('images')->findOrFail($depId);
+            $dep = DepartmentModel::with('images')->findOrFail($depId);
 
             $this->name = $dep->name;
             $this->slug = Str::slug($this->name);
@@ -76,10 +76,10 @@ class Manage extends Component
         }
     }
 
-public function updatedName($value)
-{
-    $this->slug = Str::slug($value);
-}
+    public function updatedName($value)
+    {
+        $this->slug = Str::slug($value);
+    }
 
 
     public function submit()
@@ -87,11 +87,9 @@ public function updatedName($value)
 
         $this->validate([
             'name' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:departments,slug,' . $this->depId,
+            'slug' => 'required|string|max:255|unique:department_models,slug,' . $this->depId,
             'dep_category_id' => 'required|exists:dep_categories,id',
             'content' => 'required|string',
-'content' => 'required|string',
-
             'images.*' => 'image|max:2048',
             'banner' => 'image|max:2048',
         ]);
@@ -110,12 +108,11 @@ public function updatedName($value)
             'paragraph6' => $this->paragraph6,
             'paragraph7' => $this->paragraph7,
         ];
-
         if ($this->depId) {
-            $dep = Department::findOrFail($this->depId);
+            $dep = DepartmentModel::findOrFail($this->depId);
             $dep->update($data);
         } else {
-            $dep = Department::create($data);
+            $dep = DepartmentModel::create($data);
         }
         if ($this->banner) {
             // Delete old banner if updating
@@ -156,11 +153,10 @@ public function updatedName($value)
 
         foreach ($this->images as $index => $image) {
             $path = $image->store('dep_images', 'public');
-         $dep->images()->create([
-    'path' => $path,
-    'is_featured' => ((string)$index === (string)$this->featuredImageIndex),
-]);
-
+            $dep->images()->create([
+                'path' => $path,
+                'is_featured' => ((string)$index === (string)$this->featuredImageIndex),
+            ]);
         }
         session()->flash('message', $this->depId ? 'Department updated!' : 'Department created!');
         $this->dispatch('resetEditor');
@@ -180,7 +176,7 @@ public function updatedName($value)
 
             // Refresh the existing images list
             $this->existingImages = $this->depId
-                ? Department::with('images')->find($this->depId)->images
+                ? DepartmentModel::with('images')->find($this->depId)->images
                 : [];
         }
     }
@@ -191,7 +187,7 @@ public function updatedName($value)
             $this->existingBanner = null;
 
             if ($this->depId) {
-                $dep = Department::find($this->depId);
+                $dep = DepartmentModel::find($this->depId);
                 $dep->banner = null;
                 $dep->save();
             }
@@ -200,8 +196,8 @@ public function updatedName($value)
 
     public function render()
     {
-$depCategories = Department::with('depCategory','images') ->orderBy('updated_at', 'desc')->get();
-        return view('livewire.dashboard.departments.manage',compact('depCategories'))
+        $depCategories = DepartmentModel::with('depCategory', 'images')->orderBy('updated_at', 'desc')->get();
+        return view('livewire.dashboard.departments.manage', compact('depCategories'))
             ->layout('components.layouts.dashboard');
     }
 }

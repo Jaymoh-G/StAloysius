@@ -7,7 +7,9 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
 use App\Models\Facility;
-
+/**
+ * @method \Illuminate\View\View layout(string $layout)
+ */
 class FacilityForm extends Component
 {
     use WithFileUploads;

@@ -7,12 +7,9 @@
                 class="btn btn-success"
                 data-bs-toggle="modal"
                 data-bs-target="#manageDepCategoryModal"
-            wire:click="$dispatch('editCategory', { id: null })"
             >
                 Add New Category
             </button>
-
-
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -39,11 +36,23 @@
                                     class="btn btn-primary shadow btn-xs sharp me-1"
                                     data-bs-toggle="modal"
                                     data-bs-target="#manageDepCategoryModal"
-                                   wire:click="$dispatch('editCategory', { id: {{ $dep->id }} })"
+                                    wire:click="$dispatch('editDepCategory', { id: {{ $dep->id }} })"
                                 >
+
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
+                                <!-- Delete Button -->
+                                <a
+                                    class="btn btn-danger shadow btn-xs sharp me-1"
+                                       data-bs-toggle="modal"
+                                    data-bs-target="#manageDepCategoryModal"
+                                    wire:click="$dispatch('deleteDepCategory', { id: '{{ $dep->id }}' })"
 
+                                >
+
+
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
                             </td>
                         </tr>
                         @empty
@@ -72,12 +81,13 @@
             </div>
         </div>
     </div>
-
 </div>
 <script>
-    document.addEventListener('livewire:initialized', () => {
-        Livewire.on('closeModal', () => {
-            const modal = bootstrap.Modal.getInstance(document.getElementById('manageDepCategoryModal'));
+    document.addEventListener("livewire:initialized", () => {
+        Livewire.on("closeModal", () => {
+            const modal = bootstrap.Modal.getInstance(
+                document.getElementById("manageDepCategoryModal")
+            );
             if (modal) {
                 modal.hide();
             }

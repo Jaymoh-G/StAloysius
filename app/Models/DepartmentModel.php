@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BlogPost extends Model
+class DepartmentModel extends Model
 {
     protected $fillable = [
-        'title',
+        'name',
         'slug',
         'content',
-        'category_id',
+        'dep_category_id',
         'paragraph1',
         'paragraph2',
         'paragraph3',
@@ -18,17 +18,16 @@ class BlogPost extends Model
         'paragraph5',
         'paragraph6',
         'paragraph7',
+        'banner',
     ];
-
-    public function category()
+    public function depCategory()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(DepCategory::class);
     }
     public function images()
     {
         return $this->hasMany(BlogImage::class);
     }
-    // BlogPost.php
     public function featuredImage()
     {
         return $this->hasOne(BlogImage::class)->where('is_featured', true);

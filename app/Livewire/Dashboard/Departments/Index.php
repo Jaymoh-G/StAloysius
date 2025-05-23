@@ -1,15 +1,14 @@
 <?php
 
 namespace App\Livewire\Dashboard\Departments;
-
-use App\Models\Department;
 use Livewire\Component;
+use App\Models\DepartmentModel;
 
 class Index extends Component
 {
     public $depIdToDelete;
     protected $listeners = ['deleteDep'];
-
+    
     public function deleteDep($depId)
 {
     $this->depIdToDelete = $depId;
@@ -19,7 +18,7 @@ class Index extends Component
 public function deletePostConfirmed()
 {
     if ($this->depIdToDelete) {
-        Department::find($this->depIdToDelete)?->delete();
+        DepartmentModel::find($this->depIdToDelete)?->delete();
         session()->flash('message', 'Blog post deleted successfully!');
         $this->depIdToDelete = null;
 
@@ -30,7 +29,8 @@ public function deletePostConfirmed()
 
     public function render()
     {
-        $deps = Department::with('depCategory','images') ->orderBy('updated_at', 'desc')->paginate(10);
+        $deps = DepartmentModel::with('depCategory','images') ->orderBy('updated_at', 'desc')->paginate(10);
+
         return view('livewire.dashboard.departments.index',compact('deps'))->layout('components.layouts.dashboard');
     }
 }

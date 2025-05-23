@@ -9,7 +9,13 @@ class ManageDepCategoryModal extends Component
 {
     public $name;
     public $depCategoryId = null;
-    protected $listeners = ['editDepCategory' => 'loadDepCategory'];
+    protected $listeners = [
+        'editDepCategory' => 'loadDepCategory',
+        'deleteDepCategory' => 'loadDepCategoryForDelete',  // new method for delete load
+        'resetForm' => 'resetForm',
+
+    ];
+
     public function rules()
     {
         return [
@@ -35,28 +41,38 @@ class ManageDepCategoryModal extends Component
 
         $this->reset();
     }
-   public function loadDepCategory($id, $isDelete = false)
-{
-    $depCategory = DepCategory::findOrFail($id);
-    $this->depCategoryId = $depCategory->id;
-    $this->name = $depCategory->name;
-
-    if ($isDelete) {
-        $this->deleteCategory();
+    public function loadDepCategory($id)
+    {
+        $depCategory = DepCategory::findOrFail($id);
+        $this->depCategoryId = $depCategory->id;
+        $this->name = $depCategory->name;
     }
-}
+
+    public function loadDepCategoryForDelete($id)
+    {
+        $this->reset(['name', 'depCategoryId']); // optional reset
+        $depCategory = DepCategory::findOrFail($id);
+        $this->depCategoryId = $depCategory->id;
+        $this->name = $depCategory->name;
+    }
+
 
     public function deleteDepCategory()
     {
         if ($this->depCategoryId) {
             DepCategory::find($this->depCategoryId)?->delete();
-            session()->flash('message', 'Deparment Category deleted successfully!');
-            $this->dispatch('categoryDeleted');
+            session()->flash('message', 'Department Category deleted successfully!');
+            $this->dispatch('depCategoryDeleted');
             $this->dispatch('closeModal');
             $this->reset();
         }
     }
-
+    public function resetForm()
+    {
+        $this->reset(['name', 'depCategoryId']);
+        $this->resetValidation();
+        session()->forget('message');
+    }
 
     public function render()
     {

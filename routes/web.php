@@ -73,8 +73,10 @@ Route::get('/event', Event::class)->name('event');
 Route::get('/our-team', OurTeam::class)->name('our-team');
 Route::get('/our-team/{slug}', TeamMemberShow::class)->name('frontend.team.show');
 Route::get('/media', Media::class)->name('media');
+
 Route::get('/departments', Departments::class)->name('departments');
-Route::get('/department', Department::class)->name('department');
+Route::get('/departments/{slug}',Department::class)->name('department');
+
 Route::get('/faqs', Faqs::class)->name('faqs');
 Route::get('/testimonials', Testimonials::class)->name('testimonials');
 Route::get('/join-us', JoinUs::class)->name('join-us');
@@ -98,7 +100,7 @@ Route::get('/dashboard/categories', CategoryIndex::class)
 Route::prefix('dashboard/departments')->name('departments.')->group(function () {
     Route::get('/', DepartmentIndex::class)->name('index');        // List departments
     Route::get('/create', DepartmentManage::class)->name('create'); // Create form
-    Route::get('/{department}/edit', DepartmentEdit::class)->name('edit'); // Edit form
+    Route::get('/{depId}/edit', DepartmentManage::class)->name('edit'); // Edit form
     Route::get('/categories', Index::class)->name('categories.index'); // Edit form
     Route::get('/categories/{id}/edit', Index::class)->name('categories.edit'); // Edit form
 });
