@@ -13,7 +13,31 @@
             </div>
         </div>
         <!-- breadcrumb end -->
+  <!-- scholarship details -->
+        <div class="campus-life-details pb-80">
+            <div class="container">
+                <div class="details-wrapper">
+                    <div class="row">
 
+                        <div class="col-lg-6">
+                            <div class="details-item">
+                                <h3 class="mb-3">Eligibility Criteria</h3>
+                                <p>
+                                    There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
+                                </p>
+                                <ul class="content-list mt-2">
+                                    <li><i class="fas fa-check-circle"></i>A prospective student must be a Kenyan child who has sat for KCPE and attained 300 marks and above</li>
+                                    <li><i class="fas fa-check-circle"></i>The applicant must hail from a needy background drawn mainly from Kibera slums and their environs.</li>
+                                    <li><i class="fas fa-check-circle"></i>They have to commit to the policies and values of the school. </li>
+                                    <li><i class="fas fa-check-circle"></i>4.	An eligible student must fill out the scholarship form and attach all the required documents. These documents include an authentic KCPE result slip, a copy of a birth certificate, and a death certificate where applicable.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- scholarship details end -->
 
         <!-- scholarship -->
         <div class="scholarship pt-120">
@@ -70,41 +94,7 @@
         <!-- scholarship end -->
 
 
-        <!-- scholarship details -->
-        <div class="campus-life-details pb-80">
-            <div class="container">
-                <div class="details-wrapper">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="details-item">
-                                <h3 class="mb-3">Guidance and Advice</h3>
-                                <p>
-                                    There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.
-                                    There are many variations of passages of Lorem Ipsum available, but the majority have suffered.
-                                </p>
-                                <a href="#" class="theme-btn mt-4">Apply For Scholarship<i class="fas fa-arrow-right-long"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="details-item">
-                                <h3 class="mb-3">Scholarships Requirements</h3>
-                                <p>
-                                    There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
-                                </p>
-                                <ul class="content-list mt-2">
-                                    <li><i class="fas fa-check-circle"></i>Sed ut perspiciatis unde omnis iste natus error sit doloremque laudantium.</li>
-                                    <li><i class="fas fa-check-circle"></i>Totam rem aperiam eaque ipsa quae ab illo inventore veritatis.</li>
-                                    <li><i class="fas fa-check-circle"></i>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit.</li>
-                                    <li><i class="fas fa-check-circle"></i>Dolores eos qui ratione voluptatem sequi nesciunte porro quisquam est.</li>
-                                    <li><i class="fas fa-check-circle"></i>Etos qui ratione voluptatem sequi nesciunte porro quisquam est.</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- scholarship details end -->
+
 
     </main>
     @endsection

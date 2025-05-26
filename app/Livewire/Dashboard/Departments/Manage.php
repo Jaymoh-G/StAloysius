@@ -13,7 +13,8 @@ use Livewire\WithFileUploads;
 class Manage extends Component
 {
     use WithFileUploads;
-    public $name, $slug, $content, $paragraph1, $paragraph2, $paragraph3, $paragraph4, $paragraph5, $paragraph6, $paragraph7, $dep_category_id;
+    public $paragraphs = [];
+    public $name, $slug, $content, $dep_category_id;
     public $depId;
     public $images = [];
     public $depCategories = [];
@@ -49,9 +50,11 @@ class Manage extends Component
                 }
             }
             // Assign paragraphs
-            for ($i = 1; $i <= 7; $i++) {
-                $this->{'paragraph' . $i} = $dep->{'paragraph' . $i};
-            }
+$this->paragraphs = [];
+for ($i = 1; $i <= 21; $i++) {
+    $this->paragraphs[$i - 1] = $dep->{'paragraph' . $i};
+}
+
         }
     }
 
@@ -60,13 +63,14 @@ class Manage extends Component
 
         $this->content = $value;
         // Extract paragraphs
-        preg_match_all('/<p[^>]*>(.*?)<\/p>/i', $value, $matches);
-        $paragraphs = $matches[1];
-
+       preg_match_all('/<(p|h[1-6]|div|section|article|blockquote)[^>]*>.*?<\/\1>/is', $value, $matches);
+    $paragraphs = $matches[0]; // Capture entire HTML tags with content
         // Assign paragraphs to variables (sanitize or decode HTML as needed)
-        for ($i = 0; $i < 7; $i++) {
-            $this->{'paragraph' . ($i + 1)} = $paragraphs[$i] ?? null;
-        }
+       $this->paragraphs = [];
+foreach ($paragraphs as $index => $para) {
+    $this->paragraphs[$index] = $para;
+}
+
     }
     public function refreshDepartments($newDepId = null)
     {
@@ -86,28 +90,44 @@ class Manage extends Component
     {
 
         $this->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:department_models,name,' . $this->depId,
             'slug' => 'required|string|max:255|unique:department_models,slug,' . $this->depId,
             'dep_category_id' => 'required|exists:dep_categories,id',
             'content' => 'required|string',
-            'images.*' => 'image|max:2048',
-            'banner' => 'image|max:2048',
+           'images.*' => $this->depId ? 'nullable|image|max:2048' : 'required|image|max:2048',
+           'banner' => $this->depId ? 'nullable|image|max:2048' : 'required|image|max:2048',
+            'featured'=>'required',
         ]);
 
-        $data = [
-            'name' => $this->name,
-            'slug' => $this->slug,
-            'content' => $this->content,
-            'dep_category_id' => $this->dep_category_id,
-            'featured' => $this->featured,
-            'paragraph1' => $this->paragraph1,
-            'paragraph2' => $this->paragraph2,
-            'paragraph3' => $this->paragraph3,
-            'paragraph4' => $this->paragraph4,
-            'paragraph5' => $this->paragraph5,
-            'paragraph6' => $this->paragraph6,
-            'paragraph7' => $this->paragraph7,
-        ];
+ // Correct paragraph extraction for HTML
+    preg_match_all('/<(p|h[1-6]|div|section|article|blockquote)[^>]*>.*?<\/\1>/is', $this->content, $matches);
+    $paragraphs = $matches[0];
+
+    $this->paragraphs = [];
+
+    foreach ($paragraphs as $index => $para) {
+        if ($index < 21) {
+            $this->paragraphs[$index + 1] = $para;
+        }
+    }
+
+// Then build $data
+$data = [
+    'name' => $this->name,
+    'slug' => $this->slug,
+    'content' => $this->content,
+    'dep_category_id' => $this->dep_category_id,
+    'featured' => $this->featured,
+];
+
+foreach ($this->paragraphs as $index => $para) {
+    if ($index >= 1 && $index <= 21) {
+        $data['paragraph' . $index] = $para;
+    }
+}
+
+
+
         if ($this->depId) {
             $dep = DepartmentModel::findOrFail($this->depId);
             $dep->update($data);

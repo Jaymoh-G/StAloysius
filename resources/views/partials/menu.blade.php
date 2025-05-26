@@ -149,6 +149,27 @@
                                                     <a
                                                         class="dropdown-item"
                                                         href="academic-single.html"
+                                                        >Games Department </a
+                                                    >
+                                                </li>
+                                                    <li>
+                                                    <a
+                                                        class="dropdown-item"
+                                                        href="http://127.0.0.1:8000/departments/development-department"
+                                                        >Development Department</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        class="dropdown-item"
+                                                        href="academic-single.html"
+                                                        >ICT Department</a
+                                                    >
+                                                </li>
+                                                <li>
+                                                    <a
+                                                        class="dropdown-item"
+                                                        href="academic-single.html"
                                                         >Library Department</a
                                                     >
                                                 </li>
@@ -156,28 +177,14 @@
                                                     <a
                                                         class="dropdown-item"
                                                         href="academic-single.html"
-                                                        >Kitchen Department</a
+                                                        >Psychosocial Department </a
                                                     >
                                                 </li>
                                                 <li>
                                                     <a
                                                         class="dropdown-item"
                                                         href="academic-single.html"
-                                                        >Sports Department</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        class="dropdown-item"
-                                                        href="academic-single.html"
-                                                        >Sanitation Department </a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        class="dropdown-item"
-                                                        href="academic-single.html"
-                                                        >Counselling Department</a
+                                                        >Storekeeper Department</a
                                                     >
                                                 </li>
                                             </ul>
@@ -256,7 +263,7 @@
                                                             >Agriculture Club</a
                                                         >
                                                     </li>
-                                                
+
                                                 </ul>
                                             </div>
                                         </div>

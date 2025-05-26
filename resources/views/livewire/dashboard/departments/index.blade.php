@@ -113,7 +113,7 @@
                                 </a>
                                 <button
                                     class="btn btn-danger shadow btn-xs sharp"
-                                    wire:click.prevent="deletePost({{ $dep->id }})"
+                                    wire:click.prevent="deleteDep({{ $dep->id }})"
                                     title="Delete"
                                 >
                                     <i class="fa fa-trash"></i>

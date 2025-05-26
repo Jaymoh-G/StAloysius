@@ -3,13 +3,13 @@
         <!-- hero slider -->
         <div class="hero-section">
             <div class="hero-slider owl-carousel owl-theme">
-                <div class="hero-single" style="background: url(assets/img/slider/slider-1.jpg)">
+                <div class="hero-single" style="background: url(assets/img/slider/s3.jpg)">
                     <div class="container">
                         <div class="row align-items-center">
                             <div class="col-md-12 col-lg-7">
                                 <div class="hero-content">
                                     <h6 class="hero-sub-title" data-animation="fadeInDown" data-delay=".25s">
-                                        <i class="far fa-book-open-reader"></i>Welcome To Eduka!
+                                        <i class="far fa-book-open-reader"></i>Welcome To St. Aloysius Gonzaga Sch
                                     </h6>
                                     <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s">
                                         Start Your Beautiful And <span>Bright</span> Future
@@ -30,13 +30,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="hero-single" style="background: url(assets/img/slider/slider-2.jpg)">
+                <div class="hero-single" style="background: url(assets/img/slider/s1.jpg)">
                     <div class="container">
                         <div class="row align-items-center">
                             <div class="col-md-12 col-lg-7">
                                 <div class="hero-content">
                                     <h6 class="hero-sub-title" data-animation="fadeInDown" data-delay=".25s">
-                                        <i class="far fa-book-open-reader"></i>Welcome To Eduka!
+                                        <i class="far fa-book-open-reader"></i>Welcome To St Aloysius
                                     </h6>
                                     <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s">
                                         Start Your Beautiful And <span>Bright</span> Future
@@ -57,13 +57,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="hero-single" style="background: url(assets/img/slider/slider-3.jpg)">
+                <div class="hero-single" style="background: url(assets/img/slider/s4.jpg)">
                     <div class="container">
                         <div class="row align-items-center">
                             <div class="col-md-12 col-lg-7">
                                 <div class="hero-content">
                                     <h6 class="hero-sub-title" data-animation="fadeInDown" data-delay=".25s">
-                                        <i class="far fa-book-open-reader"></i>Welcome To Eduka!
+                                        <i class="far fa-book-open-reader"></i>Welcome
                                     </h6>
                                     <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s">
                                         Start Your Beautiful And <span>Bright</span> Future
@@ -179,7 +179,7 @@
                             <div class="site-heading mb-3">
                                 <span class="site-title-tagline"><i class="far fa-book-open-reader"></i> About Us</span>
                                 <h2 class="site-title">
-                                    Our Edukation System <span>Inspires</span> You More.
+                                    Our Education System <span>Inspires</span> You More.
                                 </h2>
                             </div>
                             <p class="about-text">

@@ -15,10 +15,10 @@
                                 in some form by injected humour words believable.
                             </p>
                             <ul class="footer-contact">
-                                <li><a href="tel:+21236547898"><i class="far fa-phone"></i>+2 123 654 7898</a></li>
-                                <li><i class="far fa-map-marker-alt"></i>25/B Milford Road, New York</li>
+                                <li><a href="tel:+21236547898"><i class="far fa-phone"></i>+254 715 409 166</a></li>
+                                <li><i class="far fa-map-marker-alt"></i> Langata, Chweya Road, off Ngong Langata Link Road</li>
                                 <li><a href="mailto:info@example.com"><i
-                                            class="far fa-envelope"></i>info@example.com</a></li>
+                                            class="far fa-envelope"></i> info@staloysiusgonzaga.ac.ke</a></li>
                             </ul>
                         </div>
                     </div>

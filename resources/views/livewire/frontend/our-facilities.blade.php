@@ -37,7 +37,7 @@
                             </div>
                             <div class="facility-content">
                                 <h3 class="facility-title">
-                                    <a href="#">Library Facility</a>
+                                    <a href="#">Sports and Athletics </a>
                                 </h3>
                                 <p class="facility-text">
                                     There are many variations of passages orem psum available but the majority have
@@ -56,7 +56,7 @@
                             </div>
                             <div class="facility-content">
                                 <h3 class="facility-title">
-                                    <a href="#">Hall Facility</a>
+                                    <a href="#">Performing Arts</a>
                                 </h3>
                                 <p class="facility-text">
                                     There are many variations of passages orem psum available but the majority have
@@ -75,7 +75,7 @@
                             </div>
                             <div class="facility-content">
                                 <h3 class="facility-title">
-                                    <a href="#">Canteen Food Facility</a>
+                                    <a href="#">Science Labs (Chemistry, Biology, and Physics)</a>
                                 </h3>
                                 <p class="facility-text">
                                     There are many variations of passages orem psum available but the majority have
@@ -94,7 +94,7 @@
                             </div>
                             <div class="facility-content">
                                 <h3 class="facility-title">
-                                    <a href="#">Transport Facility</a>
+                                    <a href="#">Computer Labs</a>
                                 </h3>
                                 <p class="facility-text">
                                     There are many variations of passages orem psum available but the majority have
@@ -113,7 +113,7 @@
                             </div>
                             <div class="facility-content">
                                 <h3 class="facility-title">
-                                    <a href="#">Lab Facility</a>
+                                    <a href="#">Classrooms</a>
                                 </h3>
                                 <p class="facility-text">
                                     There are many variations of passages orem psum available but the majority have
@@ -132,7 +132,43 @@
                             </div>
                             <div class="facility-content">
                                 <h3 class="facility-title">
-                                    <a href="#">Gymnasium Facility</a>
+                                    <a href="#">Sick Bay</a>
+                                </h3>
+                                <p class="facility-text">
+                                    There are many variations of passages orem psum available but the majority have
+                                    suffer alteration in some form by injected.
+                                </p>
+                                <div class="facility-arrow">
+                                    <a href="#" class="theme-btn">Read More<i class="fas fa-arrow-right-long"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div><div class="col-md-6 col-lg-4">
+                        <div class="facility-item wow fadeInUp" data-wow-delay=".25s">
+                            <div class="facility-img">
+                                <img src="assets/img/facility/06.jpg" alt="">
+                            </div>
+                            <div class="facility-content">
+                                <h3 class="facility-title">
+                                    <a href="#">Kitchen & Dining Hall</a>
+                                </h3>
+                                <p class="facility-text">
+                                    There are many variations of passages orem psum available but the majority have
+                                    suffer alteration in some form by injected.
+                                </p>
+                                <div class="facility-arrow">
+                                    <a href="#" class="theme-btn">Read More<i class="fas fa-arrow-right-long"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div><div class="col-md-6 col-lg-4">
+                        <div class="facility-item wow fadeInUp" data-wow-delay=".25s">
+                            <div class="facility-img">
+                                <img src="assets/img/facility/06.jpg" alt="">
+                            </div>
+                            <div class="facility-content">
+                                <h3 class="facility-title">
+                                    <a href="#">2 Libraries</a>
                                 </h3>
                                 <p class="facility-text">
                                     There are many variations of passages orem psum available but the majority have
