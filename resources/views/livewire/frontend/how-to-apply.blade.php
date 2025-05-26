@@ -25,7 +25,7 @@
                                 <span class="site-title-tagline"><i class="far fa-book-open-reader"></i> How To
                                     Apply</span>
                                 <h2 class="site-title">
-                                    Details About <span>How To Apply</span> Eduka.
+                                    Details About <span>How To Apply</span>.
                                 </h2>
                             </div>
                             <p class="content-text">
@@ -114,62 +114,13 @@
                     <div class="col-lg-6 mx-auto">
                         <div class="site-heading text-center">
                             <span class="site-title-tagline"><i class="far fa-book-open-reader"></i> Features</span>
-                            <h2 class="site-title">Our Awesome <span>Features</span></h2>
+                            <h2 class="site-title">Our  <span>School</span></h2>
                             <p>It is a long established fact that a reader will be distracted by the readable content of
                                 a page when looking at its layout.</p>
                         </div>
                     </div>
                 </div>
-                <div class="row g-4">
-                    <div class="col-md-6 col-lg-3">
-                        <div class="feature-item wow fadeInUp" data-wow-delay=".25s">
-                            <span class="count">01</span>
-                            <div class="feature-icon">
-                                <img src="assets/img/icon/scholarship.svg" alt="">
-                            </div>
-                            <div class="feature-content">
-                                <h4 class="feature-title">Scholarship Facility</h4>
-                                <p>It is a long established fact that a reader will be distracted.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="feature-item active wow fadeInDown" data-wow-delay=".25s">
-                            <span class="count">02</span>
-                            <div class="feature-icon">
-                                <img src="assets/img/icon/teacher.svg" alt="">
-                            </div>
-                            <div class="feature-content">
-                                <h4 class="feature-title">Skilled Lecturers</h4>
-                                <p>It is a long established fact that a reader will be distracted.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="feature-item wow fadeInUp" data-wow-delay=".25s">
-                            <span class="count">03</span>
-                            <div class="feature-icon">
-                                <img src="assets/img/icon/library.svg" alt="">
-                            </div>
-                            <div class="feature-content">
-                                <h4 class="feature-title">Book Library Facility</h4>
-                                <p>It is a long established fact that a reader will be distracted.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="feature-item wow fadeInUp" data-wow-delay=".25s">
-                            <span class="count">04</span>
-                            <div class="feature-icon">
-                                <img src="assets/img/icon/money.svg" alt="">
-                            </div>
-                            <div class="feature-content">
-                                <h4 class="feature-title">Affordable Price</h4>
-                                <p>It is a long established fact that a reader will be distracted.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
         <!-- feature area end -->
@@ -182,7 +133,7 @@
                     <div class="row align-items-center">
                         <div class="col-lg-12">
                             <div class="video-wrapper">
-                                <a class="play-btn popup-youtube" href="https://www.youtube.com/watch?v=ckHzmP1evNU">
+                                <a class="play-btn popup-youtube" href="#">
                                     <i class="fas fa-play"></i>
                                 </a>
                             </div>

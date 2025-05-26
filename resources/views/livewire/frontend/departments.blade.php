@@ -7,10 +7,10 @@
             style="background: url(assets/img/breadcrumb/01.jpg)"
         >
             <div class="container">
-                <h2 class="breadcrumb-title">Academics Department</h2>
+                <h2 class="breadcrumb-title">Our Departments</h2>
                 <ul class="breadcrumb-menu">
                     <li><a href="index.html">Home</a></li>
-                    <li class="active">Academics Department</li>
+                    <li class="active">Our Departments</li>
                 </ul>
             </div>
         </div>

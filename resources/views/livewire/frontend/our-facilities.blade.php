@@ -22,8 +22,8 @@
                 <div class="row">
                     <div class="col-lg-6 mx-auto">
                         <div class="site-heading text-center">
-                            <span class="site-title-tagline"><i class="far fa-book-open-reader"></i> Our Facilities</span>
-                            <h2 class="site-title">Let's Check Our <span>Facilities</span></h2>
+                            <span class="site-title-tagline"><i class="far fa-book-open-reader"></i></span>
+                            <h2 class="site-title">Our <span>Facilities</span></h2>
                             <p>It is a long established fact that a reader will be distracted by the readable content of
                                 a page when looking at its layout.</p>
                         </div>

@@ -37,7 +37,7 @@
                     </div>
                     <div class="col-md-6 col-lg-3">
                         <div class="footer-widget-box list">
-                            <h4 class="footer-widget-title">Our Campus</h4>
+                            <h4 class="footer-widget-title">Important Links</h4>
                             <ul class="footer-list">
                                 <li><a href="#"><i class="fas fa-caret-right"></i> Co-Curricular Activities</a></li>
                                 <li><a href="#"><i class="fas fa-caret-right"></i> Success Stories</a></li>
@@ -73,7 +73,7 @@
                     <div class="row">
                         <div class="col-md-6 align-self-center">
                             <p class="copyright-text">
-                                &copy; Copyright <span id="date"></span> <a href="#"> Eduka </a> All Rights Reserved.
+                                &copy; Copyright <span id="date"></span> <a href="#"> St. Aloysius Gonzaga Secondary School </a> All Rights Reserved.
                             </p>
                         </div>
                         <div class="col-md-6 align-self-center">

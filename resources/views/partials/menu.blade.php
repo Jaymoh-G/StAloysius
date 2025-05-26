@@ -48,7 +48,7 @@
                                 >
                             </li>
                             <li>
-                                <a class="dropdown-item" href=""
+                                <a class="dropdown-item" href="http://127.0.0.1:8000/our-team/madam-beatrice-maina"
                                     >Principal's Message</a
                                 >
                             </li>
@@ -92,7 +92,9 @@
                     <li class="nav-item mega-menu dropdown">
                         <a
                             class="nav-link dropdown-toggle"
-                            href="#"
+                            href="{{
+                                                            route('departments')
+                                                        }}"
                             data-bs-toggle="dropdown"
                             >Departments</a
                         >
@@ -107,38 +109,35 @@
                                                     <a
                                                         class="dropdown-item"
                                                         href="academic-single.html"
-                                                        >Art And Design</a
+                                                        >Mathematics Department </a
                                                     >
                                                 </li>
                                                 <li>
                                                     <a
                                                         class="dropdown-item"
                                                         href="academic-single.html"
-                                                        >Acting And Drama</a
+                                                        >Language Department</a
                                                     >
                                                 </li>
                                                 <li>
                                                     <a
                                                         class="dropdown-item"
                                                         href="academic-single.html"
-                                                        >Accounting And
-                                                        Finance</a
+                                                        >Science Department</a
                                                     >
                                                 </li>
                                                 <li>
                                                     <a
                                                         class="dropdown-item"
                                                         href="academic-single.html"
-                                                        >Biology And
-                                                        Conservation</a
+                                                        >Humanities Department</a
                                                     >
                                                 </li>
                                                 <li>
                                                     <a
                                                         class="dropdown-item"
                                                         href="academic-single.html"
-                                                        >Science And
-                                                        Engineering</a
+                                                        >Technical Department</a
                                                     >
                                                 </li>
                                             </ul>
@@ -150,36 +149,35 @@
                                                     <a
                                                         class="dropdown-item"
                                                         href="academic-single.html"
-                                                        >Software Systems</a
+                                                        >Library Department</a
                                                     >
                                                 </li>
                                                 <li>
                                                     <a
                                                         class="dropdown-item"
                                                         href="academic-single.html"
-                                                        >Human Resource</a
+                                                        >Kitchen Department</a
                                                     >
                                                 </li>
                                                 <li>
                                                     <a
                                                         class="dropdown-item"
                                                         href="academic-single.html"
-                                                        >Health
-                                                        Administration</a
+                                                        >Sports Department</a
                                                     >
                                                 </li>
                                                 <li>
                                                     <a
                                                         class="dropdown-item"
                                                         href="academic-single.html"
-                                                        >Biochemistry</a
+                                                        >Sanitation Department </a
                                                     >
                                                 </li>
                                                 <li>
                                                     <a
                                                         class="dropdown-item"
                                                         href="academic-single.html"
-                                                        >Computer Science</a
+                                                        >Counselling Department</a
                                                     >
                                                 </li>
                                             </ul>
@@ -193,7 +191,7 @@
                                                         href="{{
                                                             route('departments')
                                                         }}"
-                                                        >Academics Department</a
+                                                        >Mentorship Program</a
                                                     >
                                                 </li>
 
@@ -201,14 +199,14 @@
                                                     <a
                                                         class="dropdown-item"
                                                         href="faculty.html"
-                                                        >Our Faculty</a
+                                                        >Graduate Program</a
                                                     >
                                                 </li>
                                                 <li>
                                                     <a
                                                         class="dropdown-item"
                                                         href="faculty-single.html"
-                                                        >Faculty Single</a
+                                                        >Catechism Program</a
                                                     >
                                                 </li>
                                                 <li>
@@ -217,7 +215,16 @@
                                                         href="{{
                                                             route('contact')
                                                         }}"
-                                                        >Contact With Us</a
+                                                        >Social Needs Program</a
+                                                    >
+                                                </li>
+                                                    <li>
+                                                    <a
+                                                        class="dropdown-item"
+                                                        href="{{
+                                                            route('contact')
+                                                        }}"
+                                                        >Students Welfare</a
                                                     >
                                                 </li>
                                             </ul>
@@ -238,7 +245,7 @@
                                                         <a
                                                             class="dropdown-item"
                                                             href="academic-single.html"
-                                                            >Art And Design</a
+                                                            >First Aid Club</a
                                                         >
                                                     </li>
 
@@ -246,18 +253,10 @@
                                                         <a
                                                             class="dropdown-item"
                                                             href="academic-single.html"
-                                                            >Biology And
-                                                            Conservation</a
+                                                            >Agriculture Club</a
                                                         >
                                                     </li>
-                                                    <li>
-                                                        <a
-                                                            class="dropdown-item"
-                                                            href="academic-single.html"
-                                                            >Science And
-                                                            Engineering</a
-                                                        >
-                                                    </li>
+                                                
                                                 </ul>
                                             </div>
                                         </div>
@@ -336,13 +335,7 @@
                                     >Gallery</a
                                 >
                             </li>
-                            <li>
-                                <a
-                                    class="dropdown-item"
-                                    href="{{ route('success-stories') }}"
-                                    >Downloads</a
-                                >
-                            </li>
+
                         </ul>
                     </li>
                     <li class="nav-item dropdown">

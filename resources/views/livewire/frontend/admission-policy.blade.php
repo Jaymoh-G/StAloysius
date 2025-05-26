@@ -6,10 +6,10 @@
         <!-- breadcrumb -->
         <div class="site-breadcrumb" style="background: url(assets/img/breadcrumb/01.jpg)">
             <div class="container">
-                <h2 class="breadcrumb-title">Health Care</h2>
+                <h2 class="breadcrumb-title">Admission Policy</h2>
                 <ul class="breadcrumb-menu">
-                    <li><a href="index.html">Home</a></li>
-                    <li class="active">Health Care</li>
+                    <li><a href="/">Home</a></li>
+                    <li class="active">Admission Policy</li>
                 </ul>
             </div>
         </div>
@@ -24,7 +24,7 @@
                         <img src="assets/img/health-care/01.jpg" alt="">
                     </div>
                     <div class="my-4">
-                        <h3 class="mb-2">Medical Care For Health</h3>
+                        <h3 class="mb-2">Heading One</h3>
                         <p>We are the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted.</p>
                     </div>
                     <div class="row">
@@ -36,11 +36,11 @@
                         </div>
                     </div>
                     <div class="my-4">
-                        <h3 class="mb-2">Happiness Begins With Good Health</h3>
+                        <h3 class="mb-2">Sub-heading</h3>
                         <p>Righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted.</p>
                     </div>
                     <div class="my-4">
-                        <h3 class="mb-2">Health Care Access And Quality</h3>
+                        <h3 class="mb-2">Another Sub-heading</h3>
                         <p>Ther hand we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted.</p>
                         <ul class="content-list mt-2">
                             <li><i class="fas fa-check-circle"></i>Sed ut perspiciatis unde omnis iste natus error sit doloremque laudantium.</li>
@@ -51,7 +51,7 @@
                         </ul>
                     </div>
                     <div class="my-4">
-                        <h3 class="mb-2">Health Care Objectives</h3>
+                        <h3 class="mb-2">Another Sub-heading</h3>
                         <p>Denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted.</p>
                     </div>
                 </div>

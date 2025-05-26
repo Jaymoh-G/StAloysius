@@ -34,7 +34,7 @@
                                     <div class="scholarship-icon">
                                         <img src="assets/img/icon/scholarship.svg" alt="">
                                     </div>
-                                    <h4>Eduka Scholarships</h4>
+                                    <h4>Scholarships Source One</h4>
                                     <p>
                                         There are many variations of passages available but the majority have suffered alteration in some form by injected humour randomised words which don't look even slightly believable.
                                     </p>
@@ -45,7 +45,7 @@
                                     <div class="scholarship-icon">
                                         <img src="assets/img/icon/scholarship-2.svg" alt="">
                                     </div>
-                                    <h4>Talent Hunt Scholarship</h4>
+                                    <h4>Scholarships Source Two</h4>
                                     <p>
                                         There are many variations of passages available but the majority have suffered alteration in some form by injected humour randomised words which don't look even slightly believable.
                                     </p>
@@ -56,7 +56,7 @@
                                     <div class="scholarship-icon">
                                         <img src="assets/img/icon/scholarship-3.svg" alt="">
                                     </div>
-                                    <h4>State Scholarships</h4>
+                                    <h4>Scholarships Source Three</h4>
                                     <p>
                                         There are many variations of passages available but the majority have suffered alteration in some form by injected humour randomised words which don't look even slightly believable.
                                     </p>
