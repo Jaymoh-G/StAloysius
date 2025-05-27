@@ -7,7 +7,6 @@ use App\Livewire\Frontend\Event;
 use App\Livewire\Frontend\Media;
 use App\Livewire\Frontend\Events;
 use App\Livewire\Frontend\JoinUs;
-use App\Livewire\Frontend\Layout;
 use App\Livewire\Frontend\AboutUs;
 use App\Livewire\Frontend\Gallery;
 use App\Livewire\Frontend\OurTeam;
@@ -18,7 +17,6 @@ use App\Livewire\Frontend\OurClubs;
 use App\Livewire\Frontend\Admission;
 use App\Livewire\Frontend\ContactUs;
 use App\Livewire\Frontend\SupportUs;
-use App\Livewire\Dashboard\Dashboard;
 use App\Livewire\Frontend\Department;
 use App\Livewire\Frontend\HowToApply;
 use App\Livewire\Frontend\OurPillars;
@@ -35,28 +33,25 @@ use App\Livewire\Dashboard\Albums\AlbumForm;
 use App\Livewire\Frontend\FeePayingStudents;
 use App\Livewire\Frontend\UpdatesSinglePage;
 use App\Livewire\Dashboard\Albums\AlbumIndex;
-use App\Livewire\Dashboard\Team\Edit as TeamEdit;
 use App\Livewire\Frontend\ChristianLifeCommunity;
 use App\Livewire\Dashboard\Blog\Index as BlogIndex;
 use App\Livewire\Dashboard\Facilities\FacilityForm;
 use App\Livewire\Dashboard\Index as DashboardIndex;
-
 use App\Livewire\Dashboard\Team\Index as TeamIndex;
 use App\Livewire\Dashboard\Facilities\FacilityIndex;
 use App\Livewire\Dashboard\Blog\Create as BlogCreate;
-
 use App\Livewire\Dashboard\Team\Create as TeamCreate;
-
 use App\Livewire\Frontend\TeamMember as TeamMemberShow;;
 use App\Livewire\Dashboard\AlbumCategories\AlbumCategoryForm;
 use App\Livewire\Dashboard\Categories\Index as CategoryIndex;
-use App\Livewire\Dashboard\Departments\Edit as DepartmentEdit;
 use App\Livewire\Dashboard\Departments\Index as DepartmentIndex;
 use App\Livewire\Dashboard\Departments\Manage as DepartmentManage;
 use App\Livewire\Dashboard\AlbumCategories\Index as AlbumCategoryIndex;
 use App\Livewire\Dashboard\Departments\DepCategories\Index;
-use App\Models\DepCategory;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard as HtmlDashboard;
+use App\Livewire\Dashboard\Events\Index as EventIndex;
+use App\Livewire\Dashboard\Events\Manage as EventCreate;
+use App\Livewire\Dashboard\Events\Manage as EventEdit;
+
 
 Route::get('/', Home::class);
 Route::get('/contact-us', ContactUs::class)->name('contact');
@@ -73,10 +68,8 @@ Route::get('/event', Event::class)->name('event');
 Route::get('/our-team', OurTeam::class)->name('our-team');
 Route::get('/our-team/{slug}', TeamMemberShow::class)->name('frontend.team.show');
 Route::get('/media', Media::class)->name('media');
-
 Route::get('/departments', Departments::class)->name('departments');
 Route::get('/departments/{slug}',Department::class)->name('department');
-
 Route::get('/faqs', Faqs::class)->name('faqs');
 Route::get('/testimonials', Testimonials::class)->name('testimonials');
 Route::get('/join-us', JoinUs::class)->name('join-us');
@@ -93,7 +86,6 @@ Route::get('/fee-paying-students', FeePayingStudents::class)->name('fee-paying-s
 Route::get('/pillars', OurPillars::class)->name('our-pillars');
 Route::get('/christian-life-community', ChristianLifeCommunity::class)->name('clc');
 Route::get('/dashboard', DashboardIndex::class)->name('dashboard');
-
 Route::get('/dashboard/categories', CategoryIndex::class)
     ->name('dashboard.categories');
 
@@ -123,8 +115,6 @@ Route::prefix('dashboard/facilities')->name('dashboard.facilities.')->group(func
     Route::get('/{id}/edit', FacilityForm::class)->name('edit');  // Edit facility
 });
 
-
-
 Route::prefix('dashboard/albums/categories')->name('album.categories.')->group(function () {
     Route::get('/', AlbumCategoryIndex::class)->name('index');
     Route::get('/create', AlbumCategoryForm::class)->name('create');
@@ -135,6 +125,12 @@ Route::prefix('dashboard/albums')->name('albums.')->group(function () {
     Route::get('/', AlbumIndex::class)->name('index');
     Route::get('/create', AlbumForm::class)->name('create');
     Route::get('/{albumId}/edit', AlbumForm::class)->name('edit');
+});
+
+Route::prefix('dashboard/events')->name('dashboard.events.')->group(function () {
+    Route::get('/', EventIndex::class)->name('index');
+    Route::get('/create', EventCreate::class)->name('create');
+    Route::get('/{eventId}/edit', EventEdit::class)->name('edit');
 });
 
 

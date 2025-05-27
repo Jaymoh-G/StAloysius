@@ -123,8 +123,8 @@
                             </li>
                             <li><a class="has-arrow" href="#" aria-expanded="false">Events</a>
                                 <ul aria-expanded="false">
-                                    <li><a href="./page-error-400.html">List</a></li>
-                                    <li><a href="./page-error-403.html">Add</a></li>
+                                    <li><a href="{{route('dashboard.events.index')}}">List</a></li>
+                                    <li><a href="{{route('dashboard.events.create')}}">Add</a></li>
                                 </ul>
                             </li>
 							<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Gallery</a>

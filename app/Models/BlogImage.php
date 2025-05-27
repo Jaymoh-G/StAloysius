@@ -12,4 +12,8 @@ class BlogImage extends Model
     {
         return $this->belongsTo(BlogPost::class);
     }
+    public function event()
+{
+    return $this->belongsTo(EventModel::class, 'event_id');
+}
 }
