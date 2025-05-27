@@ -11,14 +11,21 @@ class Index extends Component
     use WithPagination;
 
     public $eventIdToDelete;
-    protected $listeners = ['deleteEvent'];
+  protected $listeners = [
+    'deleteEvent',
+    'eventCategoryUpdated' => 'refreshList',
+];
 
     public function deleteEvent($eventId)
     {
         $this->eventIdToDelete = $eventId;
         $this->dispatch('show-delete-modal');
     }
-
+public function refreshList()
+{
+    // Trigger any logic needed to refresh the list
+    $this->resetPage(); // Optional if using pagination
+}
     public function deleteConfirmed()
     {
         if ($this->eventIdToDelete) {

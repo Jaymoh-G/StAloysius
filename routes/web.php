@@ -52,6 +52,9 @@ use App\Livewire\Dashboard\Events\Index as EventIndex;
 use App\Livewire\Dashboard\Events\Manage as EventCreate;
 use App\Livewire\Dashboard\Events\Manage as EventEdit;
 
+use App\Livewire\Dashboard\Events\Categories\Index as EventCategoryIndex;
+use App\Livewire\Dashboard\Events\Categories\Index as EventCategoryEdit;
+
 
 Route::get('/', Home::class);
 Route::get('/contact-us', ContactUs::class)->name('contact');
@@ -131,7 +134,12 @@ Route::prefix('dashboard/events')->name('dashboard.events.')->group(function () 
     Route::get('/', EventIndex::class)->name('index');
     Route::get('/create', EventCreate::class)->name('create');
     Route::get('/{eventId}/edit', EventEdit::class)->name('edit');
+      Route::get('/categories', EventCategoryIndex::class)->name('categories.index');
+    Route::get('/{id}/edit', EventCategoryEdit::class)->name('categories.edit');
 });
+
+
+
 
 
 use App\Http\Controllers\CkeditorUploadController;
