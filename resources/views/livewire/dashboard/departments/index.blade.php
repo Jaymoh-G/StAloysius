@@ -97,7 +97,7 @@
                             <td>{{ $dep->updated_at->format("j M, Y") }}</td>
                             <td class="text-end">
                                 <a
-                                    href="{{ route('department', ['slug' => $dep->slug]) }}"
+                                    href="{{ route('department', $dep->slug) }}"
                                     class="btn btn-success shadow btn-xs sharp me-1"
                                     title="view"
                                     target="_blank"

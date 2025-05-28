@@ -67,7 +67,7 @@ Route::get('/about-us', AboutUs::class)->name('about-us');
 Route::get('/club', Club::class)->name('club');
 Route::get('/support-us', SupportUs::class)->name('support-us');
 Route::get('/events', Events::class)->name('events');
-Route::get('/event', Event::class)->name('event');
+Route::get('/events/{slug}', Event::class)->name('event');
 Route::get('/our-team', OurTeam::class)->name('our-team');
 Route::get('/our-team/{slug}', TeamMemberShow::class)->name('frontend.team.show');
 Route::get('/media', Media::class)->name('media');
@@ -134,8 +134,9 @@ Route::prefix('dashboard/events')->name('dashboard.events.')->group(function () 
     Route::get('/', EventIndex::class)->name('index');
     Route::get('/create', EventCreate::class)->name('create');
     Route::get('/{eventId}/edit', EventEdit::class)->name('edit');
+
       Route::get('/categories', EventCategoryIndex::class)->name('categories.index');
-    Route::get('/{id}/edit', EventCategoryEdit::class)->name('categories.edit');
+    Route::get('/categories/{eventCategoryId}/edit', EventCategoryEdit::class)->name('categories.edit');
 });
 
 

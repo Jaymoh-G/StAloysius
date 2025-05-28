@@ -87,5 +87,10 @@
     <script>
         console.log("Livewire:", window.Livewire);
     </script>
+      <style>
+    .form-control {
+        border: 1px solid #dbd9d6 !important;
+    }
+</style>
 </body>
 </html>

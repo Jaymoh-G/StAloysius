@@ -14,9 +14,10 @@
                             <th>#</th>
                             <th>Title</th>
                             <th>Venue</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                            <th>Updated</th>
+                            <th>Event Date</th>
+                            <th>Organizer</th>
+                            <th>Banner</th>
+                            <th>Images</th>
                             <th class="text-end">Actions</th>
                         </tr>
                     </thead>
@@ -24,16 +25,65 @@
                         @forelse($events as $index => $event)
                         <tr>
                             <td>{{ $index + 1 }}</td>
-                            <td>{{ $event->title }}</td>
-                            <td>{{ $event->venue }}</td>
-                            <td>{{ $event->date->format('j M Y') }}</td>
-                            <td>{{ ucfirst($event->status) }}</td>
-                            <td>{{ $event->updated_at->format('j M, Y') }}</td>
+                            <td>{{ $event->name }}</td>
+                            <td>{{ $event->location }}</td>
+                            <td>{{ $event->start_date }}</td>
+                            <td>{{ $event->organizer_name }}</td>
+                          <td>
+                                <img
+                                    src="{{ asset('storage/' . $event->banner) }}"
+                                    alt="No Custom Banner"
+                                    class="img-thumbnail"
+                                    style="height: 60px; width: auto"
+                                />
+                            </td>
+ <td>
+                                <div class="d-flex flex-wrap gap-1">
+                                    @php $featured =
+                                    $event->images->firstWhere('is_featured',
+                                    true); $others = $event->images->where('id',
+                                    '!=', optional($featured)->id)->take(4);
+                                    @endphp @if($featured)
+                                    <div class="position-relative">
+                                        <img
+                                            src="{{ asset('storage/' . $featured->path) }}"
+                                            alt="Featured Image"
+                                            class="img-thumbnail"
+                                            style="height: 60px; width: 60px"
+                                        />
+                                        <span
+                                            class="bg-white position-absolute top-0 start-0 m-1"
+                                            ><i
+                                                class="text-success bi bi-check-circle-fill"
+                                            ></i
+                                        ></span>
+                                    </div>
+                                    @endif
+                                    <div>
+                                        @foreach($others as $image)
+                                        <img
+                                            src="{{ asset('storage/' . $image->path) }}"
+                                            alt="Blog Image"
+                                            class="img-thumbnail"
+                                            style="height: 60px; width: 60px"
+                                        />
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </td>
                             <td class="text-end">
-                                <a href="{{ route('events.edit', $event->id) }}" class="btn btn-primary btn-sm me-1">
+                                  <a
+                                    href="{{ route('event', $event->slug) }}"
+                                    class="btn btn-success shadow btn-xs sharp me-1"
+                                    title="view"
+                                    target="_blank"
+                                >
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{{ route('dashboard.events.edit', $event->id) }}" class="btn btn-primary shadow btn-xs sharp me-1">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
-                                <button class="btn btn-danger btn-sm"
+                                <button class="btn btn-danger shadow btn-xs sharp me-1"
                                         wire:click.prevent="deleteEvent({{ $event->id }})">
                                     <i class="fas fa-trash"></i>
                                 </button>

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire\Dashboard\Events;
 
 use Livewire\Component;
@@ -38,9 +39,17 @@ class Manage extends Component
             $event = EventModel::with('images')->findOrFail($eventId);
 
             $this->fill($event->only([
-                'name', 'slug', 'content', 'event_category_id',
-                'start_date', 'end_date', 'event_time', 'location',
-                'organizer_name', 'organizer_description', 'featured',
+                'name',
+                'slug',
+                'content',
+                'event_category_id',
+                'start_date',
+                'end_date',
+                'event_time',
+                'location',
+                'organizer_name',
+                'organizer_description',
+                'featuredImageIndex',
             ]));
 
             $this->existingImages = $event->images;
@@ -48,7 +57,7 @@ class Manage extends Component
             $this->existingOrganizerPhoto = $event->organizer_photo;
 
             foreach ($event->images as $index => $img) {
-                if ($img->is_featured) {
+                if ($img->featured) {
                     $this->featuredImageIndex = 'existing_' . $index;
                     break;
                 }
@@ -74,6 +83,7 @@ class Manage extends Component
 
     public function submit()
     {
+
         $this->validate([
             'name' => 'required|string|max:255|unique:event_models,name,' . $this->eventId,
             'slug' => 'required|string|max:255|unique:event_models,slug,' . $this->eventId,
@@ -85,9 +95,10 @@ class Manage extends Component
             'location' => 'required|string|max:255',
             'organizer_name' => 'required|string|max:255',
             'organizer_description' => 'nullable|string',
-            'organizer_photo' => $this->eventId ? 'nullable|image|max:2048' : 'required|image|max:2048',
-            'images.*' => $this->eventId ? 'nullable|image|max:2048' : 'required|image|max:2048',
-            'banner' => $this->eventId ? 'nullable|image|max:2048' : 'required|image|max:2048',
+            // 'organizer_photo' => $this->eventId ? 'nullable|image|max:2048' : 'required|image|max:2048',
+            // 'images' => 'required|array|min:1',
+            // 'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // individual file rules
+            // 'banner' => $this->eventId ? 'nullable|image|max:2048' : 'required|image|max:2048',
             'featured' => 'required|boolean',
         ]);
 
@@ -107,12 +118,12 @@ class Manage extends Component
             'organizer_description' => $this->organizer_description,
             'featured' => $this->featured,
         ];
-
+dd($data);
         foreach ($this->paragraphs as $i => $para) {
             $data['paragraph' . ($i + 1)] = $para;
         }
-
         $event = $this->eventId
+
             ? tap(EventModel::findOrFail($this->eventId))->update($data)
             : EventModel::create($data);
 
@@ -130,24 +141,24 @@ class Manage extends Component
 
         // Handle images
         if ($this->eventId) {
-            $event->images()->update(['is_featured' => false]); // reset featured
+            $event->images()->update(['featured' => false]); // reset featured
         }
 
         foreach ($this->images as $index => $img) {
             $path = $img->store('event_images', 'public');
             $event->images()->create([
                 'path' => $path,
-                'is_featured' => ((string)$index === (string)$this->featuredImageIndex),
+                'featured' => ((string)$index === (string)$this->featuredImageIndex),
             ]);
         }
 
         if (str_starts_with($this->featuredImageIndex, 'existing_')) {
             $existingIndex = (int) str_replace('existing_', '', $this->featuredImageIndex);
-            $event->images[$existingIndex]?->update(['is_featured' => true]);
+            $event->images[$existingIndex]?->update(['featured' => true]);
         }
 
         session()->flash('message', $this->eventId ? 'Event updated!' : 'Event created!');
-        return redirect()->route('events.index');
+        return redirect()->route('dashboard.events.index');
     }
 
     public function deleteImage($imageId)

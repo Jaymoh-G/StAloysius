@@ -1,14 +1,14 @@
 <div class="container-fluid">
     <div class="card">
-        <div class="card-header"><h4 class="card-title">Create Department</h4></div>
+        <div class="card-header">
+            <h4 class="card-title">Create Department</h4>
+        </div>
         <div class="card-body">
             @if (session()->has('message'))
             <div class="alert alert-success">{{ session("message") }}</div>
             @endif
 
-            <form
-                wire:submit.prevent="submit"
-            >
+            <form wire:submit.prevent="submit">
                 <div class="mb-3">
                     <input
                         type="text"
@@ -22,7 +22,9 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="dep_category_id" class="form-label">Department Category</label>
+                    <label for="dep_category_id" class="form-label"
+                        >Department Category</label
+                    >
                     <div class="d-flex gap-2">
                         <select
                             wire:model.defer="dep_category_id"
@@ -30,10 +32,11 @@
                             id="dep_category_id"
                         >
                             <option value="">Select Category</option>
-                          @foreach($depCategories as $depcat)
-    <option value="{{ $depcat->id }}">{{ $depcat->name }}</option>
-@endforeach
-
+                            @foreach($depCategories as $depcat)
+                            <option value="{{ $depcat->id }}">
+                                {{ $depcat->name }}
+                            </option>
+                            @endforeach
                         </select>
                         <button
                             type="button"
@@ -65,17 +68,15 @@
                 </div>
 
                 <div class="mb-4">
-                  <div class="flex items-center gap-4">
-                      <label for="images">Upload Images</label>
-                     <input
+                    <div class="flex items-center gap-4">
+                        <label for="images">Upload Images</label>
+                        <input
                             type="file"
                             wire:model="images"
                             multiple
                             class="block"
                             id="images"
                         />
-
-                    <div>
 
                         @error('images.*')
                         <span class="text-danger">{{ $message }}</span>
@@ -84,7 +85,6 @@
                         {{-- Preview Area --}}
                         <div class="mt-3 d-flex flex-wrap gap-3">
                             @foreach ($images as $index => $image)
-
                             @if(is_object($image))
                             <div class="position-relative">
                                 <img
@@ -168,8 +168,6 @@
                         </div>
                         @endif
                         <div class="mb-4">
-
-
                             @if ($banner)
                             <div class="my-2">
                                 <img
@@ -185,7 +183,7 @@
                                 <button
                                     wire:click="$set('banner', null)"
                                     type="button"
-                                   class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1"
+                                    class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1"
                                     title="remove banner"
                                 >
                                     &times;
@@ -198,12 +196,16 @@
                                     class="h-48 rounded shadow"
                                     alt="Current Banner"
                                     class="img-fluid rounded border"
-                                    style="height: 150px;  width: 100%; object-fit: cover"
+                                    style="
+                                        height: 150px;
+                                        width: 100%;
+                                        object-fit: cover;
+                                    "
                                 />
                                 <button
                                     wire:click="deleteBanner"
                                     type="button"
-                                     class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1"
+                                    class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1"
                                     title="Delete Banner"
                                 >
                                     &times;
@@ -211,16 +213,17 @@
                             </div>
                             @endif
                             <div class="flex items-center gap-4">
-   <label
-                                class="block text-sm font-medium text-gray-700"
-                                >Banner Image</label
-                            >
-                            <input
-                                type="file"
-                                wire:model="banner"
-                                accept="image/*"
-                                class="block"
-                            /></div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700"
+                                    >Banner Image</label
+                                >
+                                <input
+                                    type="file"
+                                    wire:model="banner"
+                                    accept="image/*"
+                                    class="block"
+                                />
+                            </div>
                             @error('banner')
                             <span class="text-red-500 text-sm">{{
                                 $message
@@ -230,7 +233,9 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Save Department</button>
+                <button type="submit" class="btn btn-primary">
+                    Save Department
+                </button>
             </form>
         </div>
     </div>
