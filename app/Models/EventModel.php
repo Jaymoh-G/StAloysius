@@ -20,8 +20,12 @@ class EventModel extends Model
 
     public function images()
     {
-        return $this->hasMany(BlogImage::class, 'event_id');
+        return $this->hasMany(BlogImage::class, 'event_model_id');
     }
+public function featuredImage()
+{
+    return $this->hasOne(BlogImage::class)->where('is_featured', 1);
+}
 
     public function category()
     {

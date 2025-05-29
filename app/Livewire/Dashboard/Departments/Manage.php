@@ -94,8 +94,8 @@ foreach ($paragraphs as $index => $para) {
             'slug' => 'required|string|max:255|unique:department_models,slug,' . $this->depId,
             'dep_category_id' => 'required|exists:dep_categories,id',
             'content' => 'required|string',
-           'images.*' => $this->depId ? 'nullable|image|max:2048' : 'required|image|max:2048',
-           'banner' => $this->depId ? 'nullable|image|max:2048' : 'required|image|max:2048',
+        //    'images.*' => $this->depId ? 'nullable|image|max:2048' : 'required|image|max:2048',
+        //    'banner' => $this->depId ? 'nullable|image|max:2048' : 'required|image|max:2048',
             'featured'=>'required',
         ]);
 
@@ -125,7 +125,6 @@ foreach ($this->paragraphs as $index => $para) {
         $data['paragraph' . $index] = $para;
     }
 }
-
 
 
         if ($this->depId) {

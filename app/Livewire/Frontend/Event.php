@@ -11,10 +11,13 @@ class Event extends Component
          public function mount($slug)
     {
          $this->event = EventModel::with('Category')->where('slug', $slug)->firstOrFail();
+         $this->event = EventModel::with(['Category', 'featuredImage'])->where('slug', $slug)->firstOrFail();
+
         $this->eventCats = EventCategory::all();
     }
     public function render()
     {
-        return view('livewire.frontend.event');
+          $events = EventModel::with('Category','images') ->orderBy('updated_at', 'desc')->paginate(10);
+        return view('livewire.frontend.event',compact('events'));
     }
 }

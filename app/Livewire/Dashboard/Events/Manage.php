@@ -49,7 +49,7 @@ class Manage extends Component
                 'location',
                 'organizer_name',
                 'organizer_description',
-                'featuredImageIndex',
+                'featured',
             ]));
 
             $this->existingImages = $event->images;
@@ -57,7 +57,7 @@ class Manage extends Component
             $this->existingOrganizerPhoto = $event->organizer_photo;
 
             foreach ($event->images as $index => $img) {
-                if ($img->featured) {
+                if ($img->is_featured) {
                     $this->featuredImageIndex = 'existing_' . $index;
                     break;
                 }
@@ -95,12 +95,15 @@ class Manage extends Component
             'location' => 'required|string|max:255',
             'organizer_name' => 'required|string|max:255',
             'organizer_description' => 'nullable|string',
-            // 'organizer_photo' => $this->eventId ? 'nullable|image|max:2048' : 'required|image|max:2048',
-            // 'images' => 'required|array|min:1',
-            // 'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // individual file rules
-            // 'banner' => $this->eventId ? 'nullable|image|max:2048' : 'required|image|max:2048',
-            'featured' => 'required|boolean',
+            'organizer_photo' => $this->eventId ? 'nullable|image|max:2048' : 'required|image|max:2048',
+            'images' => 'required|array|min:1',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // individual file rules
+            'banner' => $this->eventId ? 'nullable|image|max:2048' : 'required|image|max:2048',
         ]);
+        if ($this->featuredImageIndex === null) {
+            $this->addError('featuredImageIndex', 'Please select a featured image.');
+            return;
+        }
 
         preg_match_all('/<(p|h[1-6]|div|section|article|blockquote)[^>]*>.*?<\/\1>/is', $this->content, $matches);
         $this->paragraphs = array_slice($matches[0] ?? [], 0, 21);
@@ -116,9 +119,9 @@ class Manage extends Component
             'location' => $this->location,
             'organizer_name' => $this->organizer_name,
             'organizer_description' => $this->organizer_description,
-            'featured' => $this->featured,
+            'featured' => (bool) $this->featured,
         ];
-dd($data);
+
         foreach ($this->paragraphs as $i => $para) {
             $data['paragraph' . ($i + 1)] = $para;
         }
@@ -139,22 +142,30 @@ dd($data);
             $event->update(['organizer_photo' => $this->organizer_photo->store('event_organizers', 'public')]);
         }
 
-        // Handle images
-        if ($this->eventId) {
-            $event->images()->update(['featured' => false]); // reset featured
-        }
+        // Reset featured flags on all images
+        $event->images()->update(['is_featured' => false]);
 
+        // Handle newly uploaded images
         foreach ($this->images as $index => $img) {
             $path = $img->store('event_images', 'public');
-            $event->images()->create([
+            $newImage = $event->images()->create([
                 'path' => $path,
-                'featured' => ((string)$index === (string)$this->featuredImageIndex),
+                'is_featured' => false,
             ]);
+
+            // If this new image index matches featuredImageIndex, mark featured
+            if ((string)$this->featuredImageIndex === (string)$index) {
+                $newImage->update(['is_featured' => true]);
+            }
         }
 
+        // If featured image is from existing images
         if (str_starts_with($this->featuredImageIndex, 'existing_')) {
             $existingIndex = (int) str_replace('existing_', '', $this->featuredImageIndex);
-            $event->images[$existingIndex]?->update(['featured' => true]);
+            $existingImage = $event->images[$existingIndex] ?? null;
+            if ($existingImage) {
+                $existingImage->update(['is_featured' => true]);
+            }
         }
 
         session()->flash('message', $this->eventId ? 'Event updated!' : 'Event created!');

@@ -302,6 +302,15 @@
                                             >Featured</label
                                         >
                                     </div>
+                                    @error('featured')
+                                    <div class="invalid-feedback d-block">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror @error('featuredImageIndex')
+                                    <div class="invalid-feedback d-block">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
                                 </div>
                             </div>
                         </div>

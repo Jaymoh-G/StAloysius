@@ -14,7 +14,6 @@
         </div>
     </div>
     <!-- breadcrumb end -->
-
     <!-- event single area -->
     <div class="event-single-area py-120">
         <div class="container">

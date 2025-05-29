@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
                 $table->foreignId('blog_post_id')->nullable()->constrained()->onDelete('set null');
                 $table->foreignId('department_model_id')->nullable()->constrained()->onDelete('set null');
-                $table->foreignId('event_id')->nullable()->constrained()->onDelete('set null');
+                $table->foreignId('event_model_id')->nullable()->constrained()->onDelete('set null');
 
                  $table->string('path');
                  $table->string('category')->nullable();

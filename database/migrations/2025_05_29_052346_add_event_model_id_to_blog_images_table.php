@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('blog_images', function (Blueprint $table) {
-           $table->unsignedBigInteger('event_id')->nullable()->after('id');
-    $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
+            $table->unsignedBigInteger('event_model_id')->nullable()->after('blog_post_id');
+        $table->foreign('event_model_id')->references('id')->on('event_models')->onDelete('cascade');
         });
     }
 
@@ -23,7 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('blog_images', function (Blueprint $table) {
-            //
+           $table->dropForeign(['event_model_id']);
+        $table->dropColumn('event_model_id');
         });
     }
 };
