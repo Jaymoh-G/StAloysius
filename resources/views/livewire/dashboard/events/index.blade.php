@@ -27,7 +27,7 @@
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $event->name }}</td>
                             <td>{{ $event->location }}</td>
-                            <td>{{ $event->start_date }}</td>
+                            <td>{{formattedDate($event->start_date) }}</td>
                             <td>{{ $event->organizer_name }}</td>
                           <td>
                                 <img

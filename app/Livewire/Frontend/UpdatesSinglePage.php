@@ -8,7 +8,7 @@ use App\Models\Category;
 
 class UpdatesSinglePage extends Component
 {
-      public $slug;
+    public $slug;
     public $blog;
     public $categories;
 
@@ -18,14 +18,12 @@ class UpdatesSinglePage extends Component
     {
         $this->slug = $slug;
         $this->blog = BlogPost::with('images')->where('slug', $slug)->firstOrFail();
-        $this->categories = Category::all();
-         $this->categories = Category::withCount('blogPosts')->get();
-
-
+        $this->categories = Category::withCount('blogPosts')->get();
     }
     public function render()
 
-    { $recentPosts = BlogPost::orderBy('created_at', 'desc')->take(3)->get();
+    {
+        $recentPosts = BlogPost::orderBy('created_at', 'desc')->take(3)->get();
         return view('livewire.frontend.updates-single-page', compact('recentPosts'));
     }
 }

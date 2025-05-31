@@ -4,7 +4,6 @@ use App\Livewire\Frontend\Club;
 use App\Livewire\Frontend\Faqs;
 use App\Livewire\Frontend\Home;
 use App\Livewire\Frontend\Event;
-use App\Livewire\Frontend\Media;
 use App\Livewire\Frontend\Events;
 use App\Livewire\Frontend\JoinUs;
 use App\Livewire\Frontend\AboutUs;
@@ -40,6 +39,7 @@ use App\Livewire\Dashboard\Index as DashboardIndex;
 use App\Livewire\Dashboard\Team\Index as TeamIndex;
 use App\Livewire\Dashboard\Facilities\FacilityIndex;
 use App\Livewire\Dashboard\Blog\Create as BlogCreate;
+use App\Livewire\Dashboard\Blogs\Categories\Index as BlogCat;
 use App\Livewire\Dashboard\Team\Create as TeamCreate;
 use App\Livewire\Frontend\TeamMember as TeamMemberShow;;
 use App\Livewire\Dashboard\AlbumCategories\AlbumCategoryForm;
@@ -54,12 +54,13 @@ use App\Livewire\Dashboard\Events\Manage as EventEdit;
 
 use App\Livewire\Dashboard\Events\Categories\Index as EventCategoryIndex;
 use App\Livewire\Dashboard\Events\Categories\Index as EventCategoryEdit;
-
+use App\Livewire\Frontend\Careers;
+use App\Livewire\Frontend\MediaCentre;
 
 Route::get('/', Home::class);
 Route::get('/contact-us', ContactUs::class)->name('contact');
-Route::get('/updates', Updates::class)->name('updates');
-Route::get('/updates/{slug}', UpdatesSinglePage::class)->name('updates.single');
+Route::get('/news', Updates::class)->name('news');
+Route::get('/news/{slug}', UpdatesSinglePage::class)->name('news.single');
 Route::get('/facilities', OurFacilities::class)->name('our-facilities');
 Route::get('/facility', Facility::class)->name('facility');
 Route::get('/clubs', OurClubs::class)->name('our-clubs');
@@ -70,7 +71,8 @@ Route::get('/events', Events::class)->name('events');
 Route::get('/events/{slug}', Event::class)->name('event');
 Route::get('/our-team', OurTeam::class)->name('our-team');
 Route::get('/our-team/{slug}', TeamMemberShow::class)->name('frontend.team.show');
-Route::get('/media', Media::class)->name('media');
+Route::get('/careers', Careers::class)->name('careers');
+Route::get('/media-centre', MediaCentre::class)->name('media-centre');
 Route::get('/departments', Departments::class)->name('departments');
 Route::get('/departments/{slug}',Department::class)->name('department');
 Route::get('/faqs', Faqs::class)->name('faqs');
@@ -104,6 +106,8 @@ Route::prefix('dashboard/blog')->name('dashboard.blog.')->group(function () {
     Route::get('/', BlogIndex::class)->name('index');       // List all posts
     Route::get('/create', BlogCreate::class)->name('create'); // Create a post
     Route::get('/{postId}/edit', BlogCreate::class)->name('edit'); // Edit a post
+     Route::get('/categories', BlogCat::class)->name('categories.index');
+    Route::get('/categories/{id}/edit', BlogCat::class)->name('categories.edit');
 });
 
 Route::prefix('dashboard/team')->as('dashboard.team.')->group(function () {

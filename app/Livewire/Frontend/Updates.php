@@ -2,12 +2,14 @@
 
 namespace App\Livewire\Frontend;
 
+use App\Models\BlogPost;
 use Livewire\Component;
 
 class Updates extends Component
 {
     public function render()
     {
-        return view('livewire.frontend.updates');
+         $news = BlogPost::orderBy('created_at', 'desc')->paginate(9);
+        return view('livewire.frontend.updates',compact('news'));
     }
 }

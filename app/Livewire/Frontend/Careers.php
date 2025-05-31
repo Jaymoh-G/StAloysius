@@ -4,10 +4,10 @@ namespace App\Livewire\Frontend;
 
 use Livewire\Component;
 
-class Media extends Component
+class Careers extends Component
 {
     public function render()
     {
-        return view('livewire.frontend.media');
+        return view('livewire.frontend.careers');
     }
 }

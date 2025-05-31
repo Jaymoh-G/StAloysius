@@ -316,7 +316,7 @@
                     <li class="nav-item dropdown">
                         <a
                             class="nav-link dropdown-toggle"
-                            href="{{ route('updates') }}"
+                            href="{{ route('media-centre') }}"
                             data-bs-toggle="dropdown"
                             >Media Centre</a
                         >
@@ -324,10 +324,11 @@
                             <li>
                                 <a
                                     class="dropdown-item"
-                                    href="{{ route('updates') }}"
-                                    >News & Updates</a
+                                    href="{{ route('news') }}"
+                                    >News</a
                                 >
                             </li>
+
                             <li>
                                 <a
                                     class="dropdown-item"
@@ -335,11 +336,19 @@
                                     >Events</a
                                 >
                             </li>
+
                             <li>
                                 <a
                                     class="dropdown-item"
                                     href="{{ route('gallery') }}"
                                     >Gallery</a
+                                >
+                            </li>
+                             <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="{{ route('careers') }}"
+                                    >Careers</a
                                 >
                             </li>
 
@@ -348,7 +357,7 @@
                     <li class="nav-item dropdown">
                         <a
                             class="nav-link dropdown-toggle"
-                            href="{{ route('updates') }}"
+                            href="#"
                             data-bs-toggle="dropdown"
                             >School Portals</a
                         >
@@ -398,7 +407,7 @@
                                 <li>
                                     <a
                                         class="dropdown-item"
-                                        href="{{ route('updates') }}"
+                                        href="{{ route('support-us') }}"
                                         >Donate</a
                                     >
                                 </li>

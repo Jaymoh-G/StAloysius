@@ -112,20 +112,21 @@
                     </li>
                     <li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
 							<i class="fas fa-clone"></i>
-							<span class="nav-text">Updates</span>
+							<span class="nav-text">Media Centre</span>
 						</a>
                         <ul aria-expanded="false">
-                              <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Blog</a>
+                              <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">News</a>
                                 <ul aria-expanded="false">
-                                    <li><a href="{{route('dashboard.blog.index')}}">View Blogs</a></li>
-                                    <li><a href="{{route('dashboard.blog.create')}}">Add a Blog</a></li>
+                                    <li><a href="{{route('dashboard.blog.index')}}">News</a></li>
+                                    <li><a href="{{route('dashboard.blog.create')}}">Add News</a></li>
+                                    <li><a href="{{route('dashboard.blog.categories.index')}}">News Categories</a></li>
                                 </ul>
                             </li>
                             <li><a class="has-arrow" href="#" aria-expanded="false">Events</a>
                                 <ul aria-expanded="false">
-                                    <li><a href="{{route('dashboard.events.index')}}">List</a></li>
-                                    <li><a href="{{route('dashboard.events.create')}}">Add</a></li>
-                                    <li><a href="{{route('dashboard.events.categories.index')}}">Categories</a></li>
+                                    <li><a href="{{route('dashboard.events.index')}}">View Events</a></li>
+                                    <li><a href="{{route('dashboard.events.create')}}">Add an Events</a></li>
+                                    <li><a href="{{route('dashboard.events.categories.index')}}">Event Categories</a></li>
                                 </ul>
                             </li>
 							<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Gallery</a>

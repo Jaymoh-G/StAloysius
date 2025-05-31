@@ -6,8 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class EventModel extends Model
 {
+    protected $casts = [
+    'start_date' => 'datetime',
+    'end_date' => 'datetime',
+];
+
     protected $fillable = [
-        'name', 'slug', 'content', 'start_date', 'end_date', 'event_time', 'location',
+        'name', 'slug', 'content', 'start_date', 'end_date', 'start_time', 'end_time', 'location',
         'organizer_name', 'organizer_photo', 'organizer_description', 'event_category_id',
         'featured', 'banner',
         // Paragraphs 1–21

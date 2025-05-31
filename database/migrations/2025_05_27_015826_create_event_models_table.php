@@ -20,7 +20,8 @@ return new class extends Migration
     // Event-specific fields
     $table->date('start_date');
     $table->date('end_date');
-    $table->string('event_time'); // use string if time is not stored in a strict format
+    $table->string('start_time'); // use string if time is not stored in a strict format
+    $table->string('end_time'); // use string if time is not stored in a strict format
     $table->string('location');
 
     // Organizer

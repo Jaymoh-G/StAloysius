@@ -17,7 +17,7 @@ class Manage extends Component
     // Core fields
     public $eventId;
     public $name, $slug, $content, $event_category_id, $featured = false;
-    public $start_date, $end_date, $event_time, $location;
+    public $start_date, $end_date, $start_time, $end_time, $location;
     public $organizer_name, $organizer_description, $organizer_photo, $existingOrganizerPhoto;
 
     // Images & banner
@@ -45,7 +45,8 @@ class Manage extends Component
                 'event_category_id',
                 'start_date',
                 'end_date',
-                'event_time',
+                'start_time',
+                'end_time',
                 'location',
                 'organizer_name',
                 'organizer_description',
@@ -91,7 +92,8 @@ class Manage extends Component
             'content' => 'required|string',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
-            'event_time' => 'required|string|max:255',
+            'start_time' => 'required|string|max:255',
+            'end_time' => 'required|string|max:255',
             'location' => 'required|string|max:255',
             'organizer_name' => 'required|string|max:255',
             'organizer_description' => 'nullable|string',
@@ -115,7 +117,8 @@ class Manage extends Component
             'event_category_id' => $this->event_category_id,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
-            'event_time' => $this->event_time,
+            'start_time' => $this->start_time,
+            'end_time' => $this->end_time,
             'location' => $this->location,
             'organizer_name' => $this->organizer_name,
             'organizer_description' => $this->organizer_description,
@@ -125,6 +128,7 @@ class Manage extends Component
         foreach ($this->paragraphs as $i => $para) {
             $data['paragraph' . ($i + 1)] = $para;
         }
+
         $event = $this->eventId
 
             ? tap(EventModel::findOrFail($this->eventId))->update($data)

@@ -83,21 +83,41 @@
                         @enderror
                     </div>
                     <div class="col-md-3">
-                        <label for="event_time" class="form-label"
-                            >Event Time</label
+                        <label for="start_time" class="form-label"
+                            >Start Time</label
                         >
                         <input
                             type="time"
-                            id="event_time"
-                            wire:model="event_time"
-                            class="form-control @error('event_time') is-invalid @enderror"
+                            id="start_time"
+                            wire:model="start_time"
+                            class="form-control @error('start_time') is-invalid @enderror"
                             required
                         />
-                        @error('event_time')
+                        @error('start_time')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="col-md-3">
+                          <div class="col-md-3">
+                        <label for="end_time" class="form-label"
+                            >End Time</label
+                        >
+                        <input
+                            type="time"
+                            id="end_time"
+                            wire:model="end_time"
+                            class="form-control @error('end_time') is-invalid @enderror"
+                            required
+                        />
+                        @error('end_time')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                </div>
+
+                {{-- Organizer Info --}}
+                <div class="row g-3 mb-3 align-items-start">
+                    <div class="col-md-6">
                         <label for="location" class="form-label"
                             >Location</label
                         >
@@ -112,11 +132,7 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                </div>
-
-                {{-- Organizer Info --}}
-                <div class="row g-3 mb-3 align-items-start">
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <label for="organizer_name" class="form-label"
                             >Organizer</label
                         >
@@ -146,7 +162,7 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <label for="organizer_photo" class="form-label"
                             >Organizer Photo</label
                         >

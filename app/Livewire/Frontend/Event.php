@@ -10,7 +10,6 @@ class Event extends Component
 {public $event,$eventCats;
          public function mount($slug)
     {
-         $this->event = EventModel::with('Category')->where('slug', $slug)->firstOrFail();
          $this->event = EventModel::with(['Category', 'featuredImage'])->where('slug', $slug)->firstOrFail();
 
         $this->eventCats = EventCategory::all();

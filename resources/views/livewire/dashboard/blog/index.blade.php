@@ -1,12 +1,12 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Blog Posts</h4>
+            <h4 class="card-title">News Posts</h4>
             <a
                 href="{{ route('dashboard.blog.create') }}"
                 class="btn btn-success"
             >
-                <i class="bi bi-plus-lg"></i> Add Blog
+                <i class="bi bi-plus-lg"></i> Add News
             </a>
         </div>
         <div class="card-body">
@@ -91,10 +91,10 @@
                             <td style="max-width: 120px">
                                 {{ $post->category->name ?? 'Uncategorized' }}
                             </td>
-                            <td>{{ $post->updated_at->format("j M, Y") }}</td>
+                            <td>{{ ($post->updated_at) }}</td>
                             <td class="text-end">
                                 <a
-                                    href="{{ route('updates.single', $post->slug) }}"
+                                    href="{{ route('news.single', $post->slug) }}"
                                     class="btn btn-success shadow btn-xs sharp me-1"
                                     title="view"
                                     target="_blank"
