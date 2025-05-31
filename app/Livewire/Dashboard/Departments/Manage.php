@@ -24,12 +24,42 @@ class Manage extends Component
     public $existingBanner;
     public $existingImages = [];
     protected $listeners = ['updateContent', 'depCreated' => 'refreshDepartments'];
-
-
+    public $skipCategoryRefresh = false;
 
     public function mount($depId = null)
     {
-        $this->depCategories = DepCategory::all();
+        // Get main categories with their subcategories
+        $this->depCategories = DepCategory::where('is_main', true)
+            ->with('children')
+            ->get()
+            ->map(function ($mainCategory) {
+                $mainCategory->formatted_name = $mainCategory->name;
+                return $mainCategory;
+            });
+
+        // Get standalone categories (for backward compatibility)
+        $standaloneCategories = DepCategory::whereNull('parent_id')
+            ->where('is_main', false)
+            ->get()
+            ->map(function ($category) {
+                $category->formatted_name = $category->name;
+                return $category;
+            });
+
+        // Merge all categories
+        $this->depCategories = $this->depCategories->concat($standaloneCategories);
+
+        // Get subcategories and format their names
+        $subcategories = DepCategory::whereNotNull('parent_id')
+            ->with('parent')
+            ->get()
+            ->map(function ($subcategory) {
+                $subcategory->formatted_name = "{$subcategory->parent->name} » {$subcategory->name}";
+                return $subcategory;
+            });
+
+        // Add subcategories to the collection
+        $this->depCategories = $this->depCategories->concat($subcategories);
 
         if ($depId) {
             $this->depId = $depId;
@@ -50,31 +80,72 @@ class Manage extends Component
                 }
             }
             // Assign paragraphs
-$this->paragraphs = [];
-for ($i = 1; $i <= 21; $i++) {
-    $this->paragraphs[$i - 1] = $dep->{'paragraph' . $i};
-}
-
+            $this->paragraphs = [];
+            for ($i = 1; $i <= 21; $i++) {
+                $this->paragraphs[$i - 1] = $dep->{'paragraph' . $i};
+            }
         }
     }
 
     public function updateContent($value)
     {
+        // Set flag to skip category refresh
+        $this->skipCategoryRefresh = true;
 
+        // Update content
         $this->content = $value;
-        // Extract paragraphs
-       preg_match_all('/<(p|h[1-6]|div|section|article|blockquote)[^>]*>.*?<\/\1>/is', $value, $matches);
-    $paragraphs = $matches[0]; // Capture entire HTML tags with content
-        // Assign paragraphs to variables (sanitize or decode HTML as needed)
-       $this->paragraphs = [];
-foreach ($paragraphs as $index => $para) {
-    $this->paragraphs[$index] = $para;
-}
 
+        // Reset flag after this update cycle
+        $this->skipCategoryRefresh = false;
+
+        // Extract paragraphs
+        preg_match_all('/<(p|h[1-6]|div|section|article|blockquote)[^>]*>.*?<\/\1>/is', $value, $matches);
+        $paragraphs = $matches[0]; // Capture entire HTML tags with content
+
+        // Assign paragraphs to variables (sanitize or decode HTML as needed)
+        $this->paragraphs = [];
+        foreach ($paragraphs as $index => $para) {
+            $this->paragraphs[$index] = $para;
+        }
+
+        // Preserve the selected category
+        $this->dep_category_id = $this->dep_category_id;
     }
     public function refreshDepartments($newDepId = null)
     {
-        $this->depCategories = DepCategory::all();
+        // Get main categories with their subcategories
+        $this->depCategories = DepCategory::where('is_main', true)
+            ->with('children')
+            ->get()
+            ->map(function ($mainCategory) {
+                $mainCategory->formatted_name = $mainCategory->name;
+                return $mainCategory;
+            });
+
+        // Get standalone categories (for backward compatibility)
+        $standaloneCategories = DepCategory::whereNull('parent_id')
+            ->where('is_main', false)
+            ->get()
+            ->map(function ($category) {
+                $category->formatted_name = $category->name;
+                return $category;
+            });
+
+        // Merge all categories
+        $this->depCategories = $this->depCategories->concat($standaloneCategories);
+
+        // Get subcategories and format their names
+        $subcategories = DepCategory::whereNotNull('parent_id')
+            ->with('parent')
+            ->get()
+            ->map(function ($subcategory) {
+                $subcategory->formatted_name = "{$subcategory->parent->name} » {$subcategory->name}";
+                return $subcategory;
+            });
+
+        // Add subcategories to the collection
+        $this->depCategories = $this->depCategories->concat($subcategories);
+
         if ($newDepId) {
             $this->dep_category_id = $newDepId;
         }
@@ -86,6 +157,24 @@ foreach ($paragraphs as $index => $para) {
     }
 
 
+    protected function rules()
+    {
+        return [
+            'name' => 'required|string|max:255',
+            'content' => 'required',
+            'dep_category_id' => 'required|exists:dep_categories,id',
+            'images.*' => 'nullable|image|max:2048',
+            'banner' => 'nullable|image|max:2048',
+            'featuredImageIndex' => 'required',
+            // Add other rules as needed
+        ];
+    }
+
+    protected $messages = [
+        'featuredImageIndex.required' => 'Please select a featured image.',
+        'dep_category_id.required' => 'Please select a department category.',
+    ];
+
     public function submit()
     {
 
@@ -94,8 +183,8 @@ foreach ($paragraphs as $index => $para) {
             'slug' => 'required|string|max:255|unique:department_models,slug,' . $this->depId,
             'dep_category_id' => 'required|exists:dep_categories,id',
             'content' => 'required|string',
-        //    'images.*' => $this->depId ? 'nullable|image|max:2048' : 'required|image|max:2048',
-        //    'banner' => $this->depId ? 'nullable|image|max:2048' : 'required|image|max:2048',
+         'images.*' => $this->depId ? 'nullable|image|max:2048' : 'required|image|max:2048',
+         'banner' => $this->depId ? 'nullable|image|max:2048' : 'required|image|max:2048',
             'featured'=>'required',
         ]);
 
@@ -103,28 +192,28 @@ foreach ($paragraphs as $index => $para) {
     preg_match_all('/<(p|h[1-6]|div|section|article|blockquote)[^>]*>.*?<\/\1>/is', $this->content, $matches);
     $paragraphs = $matches[0];
 
-    $this->paragraphs = [];
+        $this->paragraphs = [];
 
-    foreach ($paragraphs as $index => $para) {
-        if ($index < 21) {
-            $this->paragraphs[$index + 1] = $para;
+        foreach ($paragraphs as $index => $para) {
+            if ($index < 21) {
+                $this->paragraphs[$index + 1] = $para;
+            }
         }
-    }
 
-// Then build $data
-$data = [
-    'name' => $this->name,
-    'slug' => $this->slug,
-    'content' => $this->content,
-    'dep_category_id' => $this->dep_category_id,
-    'featured' => $this->featured,
-];
+        // Then build $data
+        $data = [
+            'name' => $this->name,
+            'slug' => $this->slug,
+            'content' => $this->content,
+            'dep_category_id' => $this->dep_category_id,
+            'featured' => $this->featured,
+        ];
 
-foreach ($this->paragraphs as $index => $para) {
-    if ($index >= 1 && $index <= 21) {
-        $data['paragraph' . $index] = $para;
-    }
-}
+        foreach ($this->paragraphs as $index => $para) {
+            if ($index >= 1 && $index <= 21) {
+                $data['paragraph' . $index] = $para;
+            }
+        }
 
 
         if ($this->depId) {
@@ -215,8 +304,24 @@ foreach ($this->paragraphs as $index => $para) {
 
     public function render()
     {
-        $depCategories = DepartmentModel::with('depCategory', 'images')->orderBy('updated_at', 'desc')->get();
-        return view('livewire.dashboard.departments.manage', compact('depCategories'))
-            ->layout('components.layouts.dashboard');
+        // Only refresh categories if not skipping refresh
+        if (!$this->skipCategoryRefresh) {
+            $this->refreshDepartments();
+        }
+
+        return view('livewire.dashboard.departments.manage')->layout('components.layouts.dashboard');
+    }
+    public function hydrate()
+    {
+        // If we're updating content, preserve the selected category
+        if ($this->skipCategoryRefresh) {
+            // Store the current value
+            $currentCategoryId = $this->dep_category_id;
+
+            // After hydration completes, restore the value
+            $this->dep_category_id = $currentCategoryId;
+        }
     }
 }
+
+

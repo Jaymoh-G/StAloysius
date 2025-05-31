@@ -48,7 +48,9 @@
                                 >
                             </li>
                             <li>
-                                <a class="dropdown-item" href="http://127.0.0.1:8000/our-team/madam-beatrice-maina"
+                                <a
+                                    class="dropdown-item"
+                                    href="http://127.0.0.1:8000/our-team/madam-beatrice-maina"
                                     >Principal's Message</a
                                 >
                             </li>
@@ -92,9 +94,7 @@
                     <li class="nav-item mega-menu dropdown">
                         <a
                             class="nav-link dropdown-toggle"
-                            href="{{
-                                                            route('departments')
-                                                        }}"
+                            href="{{ route('departments') }}"
                             data-bs-toggle="dropdown"
                             >Departments</a
                         >
@@ -103,168 +103,91 @@
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="col-12 col-sm-4 col-md-3">
-                                            <h5>Academic Department</h5>
-                                            <ul class="mega-menu-item">
-                                                <li>
-                                                    <a
-                                                        class="dropdown-item"
-                                                        href="academic-single.html"
-                                                        >Mathematics Department </a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        class="dropdown-item"
-                                                        href="academic-single.html"
-                                                        >Language Department</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        class="dropdown-item"
-                                                        href="academic-single.html"
-                                                        >Science Department</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        class="dropdown-item"
-                                                        href="academic-single.html"
-                                                        >Humanities Department</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        class="dropdown-item"
-                                                        href="academic-single.html"
-                                                        >Technical Department</a
-                                                    >
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-12 col-sm-4 col-md-3">
-                                            <h5>Non Academic Department</h5>
-                                            <ul class="mega-menu-item">
-                                                <li>
-                                                    <a
-                                                        class="dropdown-item"
-                                                        href="academic-single.html"
-                                                        >Games Department </a
-                                                    >
-                                                </li>
-                                                    <li>
-                                                    <a
-                                                        class="dropdown-item"
-                                                        href="http://127.0.0.1:8000/departments/development-department"
-                                                        >Development Department</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        class="dropdown-item"
-                                                        href="academic-single.html"
-                                                        >ICT Department</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        class="dropdown-item"
-                                                        href="academic-single.html"
-                                                        >Library Department</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        class="dropdown-item"
-                                                        href="academic-single.html"
-                                                        >Psychosocial Department </a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        class="dropdown-item"
-                                                        href="academic-single.html"
-                                                        >Storekeeper Department</a
-                                                    >
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-12 col-sm-12 col-md-3">
-                                            <h5>Our Programs</h5>
-                                            <ul class="mega-menu-item">
-                                                <li>
-                                                    <a
-                                                        class="dropdown-item"
-                                                        href="{{
-                                                            route('departments')
-                                                        }}"
-                                                        >Mentorship Program</a
-                                                    >
-                                                </li>
-
-                                                <li>
-                                                    <a
-                                                        class="dropdown-item"
-                                                        href="faculty.html"
-                                                        >Graduate Program</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        class="dropdown-item"
-                                                        href="faculty-single.html"
-                                                        >Catechism Program</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        class="dropdown-item"
-                                                        href="{{
-                                                            route('contact')
-                                                        }}"
-                                                        >Social Needs Program</a
-                                                    >
-                                                </li>
-                                                    <li>
-                                                    <a
-                                                        class="dropdown-item"
-                                                        href="{{
-                                                            route('contact')
-                                                        }}"
-                                                        >Students Welfare</a
-                                                    >
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-12 col-sm-4 col-md-3">
-                                            <h5>Our Clubs</h5>
                                             <div class="menu-about">
                                                 <a
                                                     href="#"
                                                     class="menu-about-logo"
                                                     ><img
-                                                        src="assets/img/logo/logo-light.png"
+                                                        src="{{ asset('assets/img/logo/Students.jpg') }}"
                                                         alt=""
                                                 /></a>
+                                            </div>
+                                        </div>
 
-                                                <ul class="mega-menu-item">
+                                        @php
+                                            // Get main categories with their departments and subcategories
+                                            $mainCategories = App\Models\DepCategory::where('is_main', true)
+                                                ->with(['children.departments', 'departments'])
+                                                ->get();
+
+                                            // Get standalone categories (for backward compatibility)
+                                            $standaloneCategories = App\Models\DepCategory::whereNull('parent_id')
+                                                ->where('is_main', false)
+                                                ->with('departments')
+                                                ->get();
+                                        @endphp
+
+                                        @foreach($mainCategories as $mainCategory)
+                                        <div class="col-12 col-sm-4 col-md-3">
+                                            <h5>{{ $mainCategory->name }}</h5>
+                                            <ul class="mega-menu-item">
+                                                <!-- Direct departments under main category -->
+                                                @foreach($mainCategory->departments as $department)
+                                                <li>
+                                                    <a class="dropdown-item" href="{{ route('department', $department->slug) }}">
+                                                        {{ $department->name }}
+                                                    </a>
+                                                </li>
+                                                @endforeach
+
+                                                <!-- Subcategories with their departments -->
+                                                @foreach($mainCategory->children as $subCategory)
+                                                <li class="dropdown-submenu">
+                                                    <a class="dropdown-item dropdown-toggle" href="{{ route('departments') }}?category={{ $subCategory->slug }}">
+                                                        {{ $subCategory->name }}
+                                                    </a>
+                                                    <ul class="dropdown-menu">
+                                                        @forelse($subCategory->departments as $department)
+                                                        <li>
+                                                            <a class="dropdown-item" href="{{ route('department', $department->slug) }}">
+                                                                {{ $department->name }}
+                                                            </a>
+                                                        </li>
+                                                        @empty
+                                                        <li>
+                                                            <a class="dropdown-item disabled">No departments available</a>
+                                                        </li>
+                                                        @endforelse
+                                                    </ul>
+                                                </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                        @endforeach
+
+                                        @if($standaloneCategories->count() > 0)
+                                        <div class="col-12 col-sm-4 col-md-3">
+                                            <h5>Other Departments</h5>
+                                            <ul class="mega-menu-item">
+                                                @foreach($standaloneCategories as $category)
+                                                    @foreach($category->departments as $department)
                                                     <li>
-                                                        <a
-                                                            class="dropdown-item"
-                                                            href="academic-single.html"
-                                                            >First Aid Club</a
-                                                        >
+                                                        <a class="dropdown-item" href="{{ route('department', $department->slug) }}">
+                                                            {{ $department->name }}
+                                                        </a>
                                                     </li>
+                                                    @endforeach
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                        @endif
 
-                                                    <li>
-                                                        <a
-                                                            class="dropdown-item"
-                                                            href="academic-single.html"
-                                                            >Agriculture Club</a
-                                                        >
-                                                    </li>
-
-                                                </ul>
+                                        <div class="col-12 col-sm-4 col-md-3">
+                                            <div class="menu-about">
+                                                <h5>Our Clubs</h5>
+                                                <a href="#" class="menu-about-logo">
+                                                    <img src="{{ asset('assets/img/logo/Students.jpg') }}" alt="" />
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -344,14 +267,13 @@
                                     >Gallery</a
                                 >
                             </li>
-                             <li>
+                            <li>
                                 <a
                                     class="dropdown-item"
                                     href="{{ route('careers') }}"
                                     >Careers</a
                                 >
                             </li>
-
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -440,3 +362,13 @@
         </div>
     </nav>
 </div>
+
+
+
+
+
+
+
+
+
+

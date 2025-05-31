@@ -9,17 +9,20 @@ class ManageDepCategoryModal extends Component
 {
     public $name;
     public $depCategoryId = null;
+    public $parentId = null;
+    public $isMain = false;
     protected $listeners = [
         'editDepCategory' => 'loadDepCategory',
-        'deleteDepCategory' => 'loadDepCategoryForDelete',  // new method for delete load
+        'deleteDepCategory' => 'loadDepCategoryForDelete',
         'resetForm' => 'resetForm',
-
     ];
 
     public function rules()
     {
         return [
             'name' => 'required|string|max:255|unique:dep_categories,name,' . $this->depCategoryId,
+            'parentId' => 'nullable|exists:dep_categories,id',
+            'isMain' => 'boolean',
         ];
     }
 
@@ -29,14 +32,23 @@ class ManageDepCategoryModal extends Component
 
         if ($this->depCategoryId) {
             $depCategory = DepCategory::find($this->depCategoryId);
-            $depCategory->update(['name' => $this->name]);
-            session()->flash('message', ' Department Category updated successfully!');
+            $depCategory->update([
+                'name' => $this->name,
+                'parent_id' => $this->isMain ? null : $this->parentId, // If it's a main category, no parent
+                'is_main' => $this->isMain,
+            ]);
+            $message = 'Department Category updated successfully!';
         } else {
-            $depCategory = DepCategory::create(['name' => $this->name]);
-            session()->flash('message', 'Department Category created successfully!');
+            $depCategory = DepCategory::create([
+                'name' => $this->name,
+                'parent_id' => $this->isMain ? null : $this->parentId, // If it's a main category, no parent
+                'is_main' => $this->isMain,
+            ]);
+            $message = 'Department Category created successfully!';
         }
 
-        $this->dispatch('categorySaved', $depCategory->id);
+        // Dispatch event with the message
+        $this->dispatch('categorySaved', $depCategory->id, $message);
         $this->dispatch('closeModal');
 
         $this->reset();
@@ -46,6 +58,8 @@ class ManageDepCategoryModal extends Component
         $depCategory = DepCategory::findOrFail($id);
         $this->depCategoryId = $depCategory->id;
         $this->name = $depCategory->name;
+        $this->parentId = $depCategory->parent_id;
+        $this->isMain = $depCategory->is_main;
     }
 
     public function loadDepCategoryForDelete($id)
@@ -61,8 +75,8 @@ class ManageDepCategoryModal extends Component
     {
         if ($this->depCategoryId) {
             DepCategory::find($this->depCategoryId)?->delete();
-            session()->flash('message', 'Department Category deleted successfully!');
-            $this->dispatch('depCategoryDeleted');
+            $message = 'Department Category deleted successfully!';
+            $this->dispatch('categoryDeleted', $message);
             $this->dispatch('closeModal');
             $this->reset();
         }
@@ -79,3 +93,10 @@ class ManageDepCategoryModal extends Component
         return view('livewire.dashboard.departments.dep-categories.manage-dep-category-modal');
     }
 }
+
+
+
+
+
+
+
