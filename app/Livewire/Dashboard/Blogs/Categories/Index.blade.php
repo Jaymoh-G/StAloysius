@@ -13,14 +13,6 @@
             </button>
         </div>
         <div class="card-body">
-            @if (session()->has('message'))
-                <div class="alert alert-success">{{ session('message') }}</div>
-            @endif
-
-            @if (session()->has('error'))
-                <div class="alert alert-danger">{{ session('error') }}</div>
-            @endif
-
             <div class="table-responsive">
                 <table
                     class="table table-hover table-responsive-sm align-middle"
@@ -88,26 +80,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.addEventListener("livewire:initialized", () => {
-        // Handle modal closing
-        Livewire.on("closeModal", () => {
-            const modal = bootstrap.Modal.getInstance(
-                document.getElementById("manageUpdatesCategoryModal")
-            );
-            if (modal) {
-                modal.hide();
-            }
-        });
-
-        // Reset form when modal is closed manually
-        const modalElement = document.getElementById('manageUpdatesCategoryModal');
-        if (modalElement) {
-            modalElement.addEventListener('hidden.bs.modal', function () {
-                Livewire.dispatch('resetForm');
-            });
-        }
-    });
-</script>
-

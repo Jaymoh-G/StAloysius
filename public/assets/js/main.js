@@ -7,7 +7,7 @@ Version         : 1.0
 
 
 (function ($) {
-    
+
     "use strict";
 
     // multi level dropdown menu
@@ -25,7 +25,7 @@ Version         : 1.0
     });
 
 
-    // data-background    
+    // data-background
     $(document).on('ready', function () {
         $("[data-background]").each(function () {
             $(this).css("background-image", "url(" + $(this).attr("data-background") + ")");
@@ -280,7 +280,7 @@ Version         : 1.0
             Self.appear(function () {
             var progressValue = Self.data('value');
             Self.find('.progress-bar').animate({
-                width:progressValue+'%'           
+                width:progressValue+'%'
             }, 1000);
             });
         })
@@ -303,12 +303,26 @@ Version         : 1.0
 
 })(jQuery);
 
+// Fix for dropdown navigation links - using event capturing
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all dropdown toggles with href attributes
+    const dropdownLinks = document.querySelectorAll('.navbar .dropdown-toggle[href]:not([href="#"]):not([href="javascript:void(0)"])');
 
+    // Add click listeners with capture phase
+    dropdownLinks.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            // Get the href attribute
+            const href = this.getAttribute('href');
 
+            // If it's a valid URL and the click was directly on the link (not a child)
+            if (href && e.target === this) {
+                // Prevent default and stop propagation
+                e.preventDefault();
+                e.stopPropagation();
 
-
-
-
-
-
-
+                // Navigate to the href
+                window.location.href = href;
+            }
+        }, true); // true enables capture phase
+    });
+});

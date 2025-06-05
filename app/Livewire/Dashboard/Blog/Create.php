@@ -13,7 +13,10 @@ use Livewire\WithFileUploads;
 class Create extends Component
 {
     use WithFileUploads;
-    public $title, $slug, $content, $paragraph1, $paragraph2, $paragraph3, $paragraph4, $paragraph5, $paragraph6, $paragraph7, $category_id;
+    public $title, $slug, $content, $category_id;
+    public $paragraph1, $paragraph2, $paragraph3, $paragraph4, $paragraph5, $paragraph6, $paragraph7;
+    public $paragraph8, $paragraph9, $paragraph10, $paragraph11, $paragraph12, $paragraph13, $paragraph14;
+    public $paragraph15, $paragraph16, $paragraph17, $paragraph18, $paragraph19, $paragraph20, $paragraph21;
     public $postId;
     public $images = [];
     public $categories = [];
@@ -22,12 +25,14 @@ class Create extends Component
     public $banner;
     public $existingBanner;
     public $existingImages = [];
+    public $validationErrors = [];
     protected $listeners = ['updateContent', 'categoryCreated' => 'refreshCategories'];
 
 
     public function mount($postId = null)
     {
-
+        // Load categories immediately in mount
+        $this->refreshCategories();
 
         if ($postId) {
             $this->postId = $postId;
@@ -48,7 +53,7 @@ class Create extends Component
                 }
             }
             // Assign paragraphs
-            for ($i = 1; $i <= 7; $i++) {
+            for ($i = 1; $i <= 21; $i++) {
                 $this->{'paragraph' . $i} = $post->{'paragraph' . $i};
             }
         }
@@ -56,21 +61,21 @@ class Create extends Component
 
     public function updateContent($value)
     {
-
         $this->content = $value;
-        // Extract paragraphs
-        preg_match_all('/<p[^>]*>(.*?)<\/p>/i', $value, $matches);
-        $paragraphs = $matches[1];
 
-        // Assign paragraphs to variables (sanitize or decode HTML as needed)
-        for ($i = 0; $i < 7; $i++) {
+        // Extract paragraphs using a more robust pattern that matches HTML tags
+        preg_match_all('/<(p|h[1-6]|div|section|article|blockquote)[^>]*>.*?<\/\1>/is', $value, $matches);
+        $paragraphs = $matches[0]; // Capture entire HTML tags with content
+
+        // Assign paragraphs to variables (up to 21)
+        for ($i = 0; $i < 21; $i++) {
             $this->{'paragraph' . ($i + 1)} = $paragraphs[$i] ?? null;
         }
     }
 
     public function refreshCategories($newCategoryId = null)
     {
-        $this->categories = Category::all();
+        $this->categories = Category::orderBy('name')->get();
         if ($newCategoryId) {
             $this->category_id = $newCategoryId;
         }
@@ -82,12 +87,43 @@ class Create extends Component
 
     public function submit($content)
     {
-        $this->validate([
+        $this->content = $content;
+
+        // Define validation rules
+        $rules = [
             'title' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:blog_posts,slug,' . $this->postId,
             'category_id' => 'required|exists:categories,id',
-            'images.*' => 'image|max:2048',
-            'banner' => 'image|max:2048',
+            'content' => 'required',
+        ];
+
+        // Add image validation rules only if no existing images and no postId (new post)
+        if (!$this->postId && count($this->existingImages) === 0) {
+            $rules['images'] = 'required|array|min:1';
+            $rules['images.*'] = 'image|max:2048';
+        } else {
+            $rules['images.*'] = 'nullable|image|max:2048';
+        }
+
+        // Add banner validation - required for new posts
+        if (!$this->postId && !$this->existingBanner) {
+            $rules['banner'] = 'required|image|max:2048';
+        } else {
+            $rules['banner'] = 'nullable|image|max:2048';
+        }
+
+        // Add featured image validation
+        if (!$this->postId && !$this->featuredImageIndex && count($this->existingImages) === 0 && count($this->images) > 0) {
+            $rules['featuredImageIndex'] = 'required';
+        }
+
+        // Validate
+        $validatedData = $this->validate($rules, [
+            'content.required' => 'The content field is required.',
+            'images.required' => 'Please upload at least one image.',
+            'featuredImageIndex.required' => 'Please select a featured image.',
+            'category_id.required' => 'Please select a category.',
+            'banner.required' => 'Please upload a banner image.',
         ]);
 
         $data = [
@@ -96,14 +132,12 @@ class Create extends Component
             'content' => $this->content,
             'category_id' => $this->category_id,
             'featured' => $this->featured,
-            'paragraph1' => $this->paragraph1,
-            'paragraph2' => $this->paragraph2,
-            'paragraph3' => $this->paragraph3,
-            'paragraph4' => $this->paragraph4,
-            'paragraph5' => $this->paragraph5,
-            'paragraph6' => $this->paragraph6,
-            'paragraph7' => $this->paragraph7,
         ];
+
+        // Add all paragraphs to the data array
+        for ($i = 1; $i <= 21; $i++) {
+            $data['paragraph' . $i] = $this->{'paragraph' . $i};
+        }
 
         if ($this->postId) {
             $blog = BlogPost::findOrFail($this->postId);
@@ -111,6 +145,7 @@ class Create extends Component
         } else {
             $blog = BlogPost::create($data);
         }
+
         if ($this->banner) {
             // Delete old banner if updating
             if ($this->existingBanner) {
@@ -148,15 +183,17 @@ class Create extends Component
             }
         }
 
-
-
         foreach ($this->images as $index => $image) {
             $path = $image->store('blog_images', 'public');
-            $blog->images()->create(['path' => $path, 'is_featured' => $index == $this->featuredImageIndex,]);
+            $blog->images()->create([
+                'path' => $path,
+                'is_featured' => $index == $this->featuredImageIndex,
+            ]);
         }
+
         session()->flash('message', $this->postId ? 'Blog post updated!' : 'Blog post created!');
         $this->dispatch('resetEditor');
-        return redirect()->route('dashboard.blog.index'); // 👈 Redirect to the listing page
+        return redirect()->route('dashboard.blog.index');
     }
 
     public function deleteImage($imageId)
@@ -194,6 +231,19 @@ class Create extends Component
 
     public function render()
     {
+        // Ensure categories are loaded in render method as well
+        if (empty($this->categories)) {
+            $this->refreshCategories();
+        }
+
         return view('livewire.dashboard.blog.create')->layout('components.layouts.dashboard');
     }
 }
+
+
+
+
+
+
+
+

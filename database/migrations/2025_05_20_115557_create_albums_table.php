@@ -13,12 +13,11 @@ return new class extends Migration
     {
         Schema::create('albums', function (Blueprint $table) {
             $table->id();
-               $table->string('title');
+               $table->string('title')->unique();
+               $table->string('slug')->unique();
                $table->foreignId('album_category_id')->constrained()->onDelete('cascade');
-    $table->string('slug')->unique();
-      $table->json('images')->nullable();
-    $table->text('description')->nullable();
-            $table->timestamps();
+               $table->text('description')->nullable();
+               $table->timestamps();
         });
     }
 

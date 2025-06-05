@@ -69,7 +69,9 @@
                                         <p class="mb-20">
                                             {!! $blog->paragraph3 !!}
                                         </p>
-
+                                        <p class="mb-20">
+                                            {!! $blog->paragraph4 !!}
+                                        </p>
                                         <div class="row">
                                             @if ($blog->images->count() > 1)
                                             <div class="col-md-6 mb-20">
@@ -90,12 +92,17 @@
                                         </div>
 
                                         <p class="mb-20">
-                                            {!! $blog->paragraph4 !!}
-                                        </p>
-                                        <p class="mb-20">
                                             {!! $blog->paragraph5 !!}
                                         </p>
-
+                                        <p class="mb-20">
+                                            {!! $blog->paragraph6 !!}
+                                        </p>
+                                          <p class="mb-20">
+                                            {!! $blog->paragraph7 !!}
+                                        </p>
+                                        <p class="mb-20">
+                                            {!! $blog->paragraph8 !!}
+                                        </p>
                                         <div class="row">
                                             @if ($blog->images->count() > 3)
                                             <div class="col-md-6 mb-20">
@@ -114,12 +121,14 @@
                                             </div>
                                             @endif
                                         </div>
-                                        <p class="mb-20">
-                                            {!! $blog->paragraph6 !!}
-                                        </p>
-                                        <p class="mb-20">
-                                            {!! $blog->paragraph7 !!}
-                                        </p>
+
+                                        @for ($i = 9; $i <= 21; $i++) @php
+                                        $paragraph = $blog->{'paragraph' . $i};
+                                        @endphp @if (!empty($paragraph))
+                                        <div class="mb-4">
+                                            {!! $paragraph !!}
+                                        </div>
+                                        @endif @endfor
                                         <hr />
                                         <div class="blog-details-tags pb-20">
                                             <h5>Tags :</h5>
@@ -347,8 +356,10 @@
                                     <a href="#"
                                         ><i class="far fa-arrow-right"></i>
                                         {{ $category->name
+
                                         }}<span
                                             >({{ $category->blog_posts_count
+
                                             }})</span
                                         ></a
                                     >

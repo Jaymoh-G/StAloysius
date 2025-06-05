@@ -73,7 +73,16 @@
                                 <div class="department-details">
                                     <h3 class="mb-20">{{ $dep->name }}</h3>
                                       <div class="my-4"> <div class="mb-3"> {!! $dep->paragraph1 !!}</div></div> <div class="my-4"> <div class="mb-3"> {!! $dep->paragraph2 !!}</div></div>
-                                    <div class="row">
+
+                                    <p class="mb-20">
+                                        {!! $dep->paragraph3 !!}
+                                    </p>
+                                    <div class="my-4">
+                                        <div class="mb-3">
+                                            <p>{!! $dep->paragraph4 !!}</p>
+                                        </div>
+                                    </div>
+                                     <div class="row">
                                         <div class="col-md-6 mb-20">
                                             <img
                                                 src="{{ isset($dep->images[1]) ? asset('storage/' . $dep->images[1]->path) : '' }}"
@@ -87,15 +96,7 @@
                                             />
                                         </div>
                                     </div>
-                                    <p class="mb-20">
-                                        {!! $dep->paragraph3 !!}
-                                    </p>
-                                    <div class="my-4">
-                                        <div class="mb-3">
-                                            <p>{!! $dep->paragraph4 !!}</p>
-                                        </div>
-                                    </div>
-                                    @for ($i = 1; $i <= 21; $i++) @php
+                                    @for ($i = 5; $i <= 21; $i++) @php
                                     $paragraph = $dep->{'paragraph' . $i};
                                     @endphp @if (!empty($paragraph))
                                     <div class="mb-4">{!! $paragraph !!}</div>

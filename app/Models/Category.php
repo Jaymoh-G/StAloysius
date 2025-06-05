@@ -36,3 +36,5 @@ public function blogPosts()
 }
 
 }
+
+

@@ -2,23 +2,33 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Album extends Model
 {
-    protected $fillable = ['title', 'slug', 'description', 'album_category_id','images'];
+    use HasFactory;
 
-
-public function galleries()
-{
-    return $this->hasMany(Gallery::class);
-}
-
-  protected $casts = [
-        'images' => 'array',
+    protected $fillable = [
+        'title',
+        'slug',
+        'description',
+        'album_category_id',
+        'cover_image',
     ];
-   public function category()
+
+    public function category()
     {
         return $this->belongsTo(AlbumCategory::class, 'album_category_id');
     }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class, 'album_id');
+    }
 }
+
+
+
+
+

@@ -14,7 +14,7 @@
                         type="text"
                         wire:model.defer="title"
                         placeholder="Title"
-                        class="form-control"
+                        class="form-control @error('title') is-invalid @enderror"
                     />
                     @error('title')
                     <span class="text-danger">{{ $message }}</span> @enderror
@@ -28,15 +28,19 @@
                     <div class="d-flex gap-2">
                         <select
                             wire:model.defer="category_id"
-                            class="form-control"
+                            class="form-control @error('category_id') is-invalid @enderror"
                             id="category_id"
                         >
                             <option value="">Select Category</option>
-                            @foreach($categories as $category)
-                            <option value="{{ $category->id }}">
-                                {{ $category->name }}
-                            </option>
-                            @endforeach
+                            @if($categories && count($categories) > 0)
+                                @foreach($categories as $category)
+                                <option value="{{ $category->id }}">
+                                    {{ $category->name }}
+                                </option>
+                                @endforeach
+                            @else
+                                <option disabled>No categories available</option>
+                            @endif
                         </select>
                         <button
                             type="button"
@@ -57,14 +61,14 @@
                         wire:key="editor-{{ now() }}"
                         id="content"
                         placeholder="Enter content"
-                        class="form-control"
+                        class="form-control @error('content') is-invalid @enderror"
                     >
                 {!! $content !!}
-            </textarea
-                    >
+            </textarea>
                     @error('content')
                     <span class="text-danger d-block">{{ $message }}</span>
                     @enderror
+                    <div id="content-error" class="text-danger d-none">The content field is required.</div>
                 </div>
 
                 <div class="mb-4">
@@ -74,14 +78,22 @@
                             type="file"
                             wire:model="images"
                             multiple
-                            class="block"
+                            class="block @error('images') is-invalid @enderror @error('images.*') is-invalid @enderror"
                             id="images"
                         />
+                    </div>
 
                     <div>
+                        @error('images')
+                        <span class="text-danger d-block">{{ $message }}</span>
+                        @enderror
 
                         @error('images.*')
-                        <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger d-block">{{ $message }}</span>
+                        @enderror
+
+                        @error('featuredImageIndex')
+                        <span class="text-danger d-block">{{ $message }}</span>
                         @enderror
 
                         {{-- Preview Area --}}
@@ -171,8 +183,6 @@
                         </div>
                         @endif
                         <div class="mb-4">
-
-
                             @if ($banner)
                             <div class="my-2">
                                 <img
@@ -214,20 +224,16 @@
                             </div>
                             @endif
                             <div class="flex items-center gap-4">
-   <label
-                                class="block text-sm font-medium text-gray-700"
-                                >Banner Image</label
-                            >
-                            <input
-                                type="file"
-                                wire:model="banner"
-                                accept="image/*"
-                                class="block"
-                            /></div>
+                                <label class="block text-sm font-medium text-gray-700">Banner Image</label>
+                                <input
+                                    type="file"
+                                    wire:model="banner"
+                                    accept="image/*"
+                                    class="block @error('banner') is-invalid @enderror"
+                                />
+                            </div>
                             @error('banner')
-                            <span class="text-red-500 text-sm">{{
-                                $message
-                            }}</span>
+                            <span class="text-danger text-sm">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
@@ -245,6 +251,7 @@
         tabindex="-1"
         aria-labelledby="createCategoryModalLabel"
         aria-hidden="true"
+        wire:ignore.self
     >
         <div class="modal-dialog">
             <div class="modal-content">
@@ -258,20 +265,57 @@
 <script src="{{ asset('adminassets/vendor/ckeditor/ckeditor.js') }}"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+        let editor;
+
         ClassicEditor
             .create(document.querySelector('#content'), {
                 ckfinder: {
                     uploadUrl: '{{ route('ckeditor.upload')."?_token=".csrf_token() }}'
                 }
             })
-            .then(editor => {
+            .then(editorInstance => {
+                editor = editorInstance;
+
                 editor.model.document.on("change:data", () => {
-                 @this.call('updateContent', editor.getData());
+                    @this.call('updateContent', editor.getData());
+
+                    // Hide error message when content is added
+                    const contentError = document.getElementById('content-error');
+                    if (contentError) {
+                        if (editor.getData().trim()) {
+                            contentError.classList.add('d-none');
+                        }
+                    }
                 });
+
+                // Add form submission validation
+                const form = document.querySelector('form[wire\\:submit\\.prevent="submit(document.querySelector(\'#content\').value)"]');
+                if (form) {
+                    form.addEventListener('submit', function(e) {
+                        // Check if content is empty
+                        if (!editor.getData().trim()) {
+                            e.preventDefault();
+                            const contentError = document.getElementById('content-error');
+                            if (contentError) {
+                                contentError.classList.remove('d-none');
+                            }
+                            // Scroll to error
+                            document.querySelector('#content').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            return false;
+                        }
+                    });
+                }
             })
             .catch(error => {
                 console.error(error);
             });
+
+        // Reset editor when needed
+        Livewire.on('resetEditor', () => {
+            if (editor) {
+                editor.setData('');
+            }
+        });
     });
 </script>
 
@@ -285,3 +329,9 @@
     });
 </script>
 @endpush
+
+
+
+
+
+

@@ -131,8 +131,9 @@
                             </li>
 							<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Gallery</a>
                                 <ul aria-expanded="false">
-                                    <li><a href="{{route('albums.index')}}">Albums</a></li>
-                                    <li><a href="./page-error-403.html">Add</a></li>
+                                    <li><a href="{{ route('dashboard.gallery.albums') }}">Albums</a></li>
+                                    <li><a href="{{ route('dashboard.gallery.images') }}">Images</a></li>
+                                    <li><a href="{{ route('dashboard.gallery.categories') }}">Album Categories</a></li>
                                 </ul>
                             </li>
                             <li><a href="./page-lock-screen.html">Downloads</a></li>
@@ -230,3 +231,7 @@
         <!--**********************************
             Sidebar end
         ***********************************-->
+
+
+
+

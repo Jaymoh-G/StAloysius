@@ -9,8 +9,16 @@ class Index extends Component
 {
     public $name, $category_id;
     public $updateMode = false;
+    public $categoryToDelete = null;
 
-      protected $rules = [
+    // Add listeners for delete confirmation
+    protected $listeners = [
+        'confirmDelete',
+        'deleteConfirmed',
+        'refreshCategories' => '$refresh'
+    ];
+
+    protected $rules = [
         'name' => 'required|string|max:255|unique:categories,name',
     ];
 
@@ -52,11 +60,41 @@ class Index extends Component
         session()->flash('message', 'Category updated.');
         $this->resetFields();}
 
-         public function delete($id)
+    // Updated delete method with confirmation
+    public function confirmDelete($id)
     {
-        Category::destroy($id);
-        session()->flash('message', 'Category deleted.');
+        $this->categoryToDelete = $id;
+        $this->dispatch('show-delete-confirmation');
     }
 
+    public function deleteConfirmed()
+    {
+        if ($this->categoryToDelete) {
+            try {
+                $category = Category::findOrFail($this->categoryToDelete);
 
+                // Check if category has associated blog posts
+                if ($category->blogPosts()->count() > 0) {
+                    session()->flash('error', 'Cannot delete category. It has associated blog posts.');
+                    $this->categoryToDelete = null;
+                    return;
+                }
+
+                $category->delete();
+                session()->flash('message', 'Category deleted successfully.');
+            } catch (\Exception $e) {
+                session()->flash('error', 'Error deleting category: ' . $e->getMessage());
+            }
+
+            $this->categoryToDelete = null;
+            $this->resetFields();
+        }
+    }
+
+    // Legacy delete method - updated to use confirmation
+    public function delete($id)
+    {
+        $this->confirmDelete($id);
+    }
 }
+

@@ -149,7 +149,7 @@
                     </div>
                     <div class="col-md-6">
                         <label for="organizer_description" class="form-label"
-                            >Organizer Description</label
+                            >Organizer Description <span class="text-danger">*</span></label
                         >
                         <textarea
                             id="organizer_description"
@@ -211,17 +211,18 @@
 
                 {{-- Content --}}
                 <div wire:ignore class="mb-3">
+                    <label for="content" class="form-label">Content <span class="text-danger">*</span></label>
                     <textarea
                         wire:key="editor-{{ now() }}"
                         id="content"
-                        class="form-control"
+                        class="form-control @error('content') is-invalid @enderror"
                         placeholder="Enter content"
                     >
-{!! $content !!}</textarea
-                    >
+{!! $content !!}</textarea>
                     @error('content')
                     <span class="text-danger d-block">{{ $message }}</span>
                     @enderror
+                    <div id="content-error" class="text-danger d-none">The content field is required.</div>
                 </div>
 
                 {{-- Banner Image --}}
@@ -285,91 +286,94 @@
                     />
                     @error('images')
                     <div class="invalid-feedback d-block">{{ $message }}</div>
-                    @enderror @error('images.*')
+                    @enderror
+                    @error('images.*')
                     <div class="invalid-feedback d-block">{{ $message }}</div>
                     @enderror
 
-                    <div class="row row-cols-1 row-cols-md-4 g-3 mt-3">
-                        @foreach ($images as $index => $image)
+                    <div wire:loading wire:target="images" class="mt-2">
+                        <div class="spinner-border spinner-border-sm text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <span class="text-muted">Uploading images...</span>
+                    </div>
 
-                        <div class="col">
-                            <div class="card h-100">
-                                <img
-                                    src="{{ $image->temporaryUrl() }}"
-                                    class="card-img-top"
-                                    style="
-                                        height: 150px;
-                                        width: 100%;
-                                        object-fit: cover;
-                                    "
-                                />
-                                <div class="card-body p-2">
-                                    <div class="form-check">
-                                        <input
-                                            class="form-check-input"
-                                            type="radio"
-                                            wire:model="featuredImageIndex"
-                                            value="{{ $index }}"
-                                            id="featuredNew{{ $index }}"
-                                        />
-                                        <label
-                                            class="form-check-label"
-                                            for="featuredNew{{ $index }}"
-                                            >Featured</label
-                                        >
+                    {{-- Featured Image Selection --}}
+                    <div class="mt-4">
+                        <label class="form-label fw-bold">Featured Image <span class="text-danger">*</span></label>
+                        @error('featuredImageIndex')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+
+                        @if(empty($images) && empty($existingImages))
+                        <div class="alert alert-warning">
+                            Please upload at least one image and select it as featured.
+                        </div>
+                        @endif
+
+                        <div class="row row-cols-1 row-cols-md-4 g-3 mt-2">
+                            {{-- New Images --}}
+                            @foreach($images as $index => $img)
+                            <div class="col">
+                                <div class="card h-100">
+                                    <img
+                                        src="{{ $img->temporaryUrl() }}"
+                                        class="card-img-top"
+                                        style="height: 150px; object-fit: cover;"
+                                    />
+                                    <div class="card-body p-2 d-flex justify-content-between align-items-center">
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                wire:model="featuredImageIndex"
+                                                value="{{ $index }}"
+                                                id="featured{{ $index }}"
+                                            />
+                                            <label class="form-check-label" for="featured{{ $index }}">
+                                                Featured
+                                            </label>
+                                        </div>
                                     </div>
-                                    @error('featured')
-                                    <div class="invalid-feedback d-block">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror @error('featuredImageIndex')
-                                    <div class="invalid-feedback d-block">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
                                 </div>
                             </div>
-                        </div>
+                            @endforeach
 
-                        @endforeach @foreach ($existingImages as $index => $img)
-                        <div class="col">
-                            <div class="card h-100">
-                                <img
-                                    src="{{ asset('storage/' . $img->path) }}"
-                                    class="card-img-top"
-                                    style="
-                                        height: 150px;
-                                        width: auto;
-                                        object-fit: cover;
-                                    "
-                                />
-                                <div
-                                    class="card-body p-2 d-flex justify-content-between align-items-center"
-                                >
-                                    <div class="form-check">
-                                        <input
-                                            class="form-check-input"
-                                            type="radio"
-                                            wire:model="featuredImageIndex"
-                                            value="existing_{{ $index }}"
-                                            id="featuredExisting{{ $index }}"
-                                        />
-                                        <label
-                                            class="form-check-label"
-                                            for="featuredExisting{{ $index }}"
-                                            >Make this Featured Image</label
+                            {{-- Existing Images --}}
+                            @foreach($existingImages as $index => $img)
+                            <div class="col">
+                                <div class="card h-100">
+                                    <img
+                                        src="{{ asset('storage/' . $img->path) }}"
+                                        class="card-img-top"
+                                        style="height: 150px; object-fit: cover;"
+                                    />
+                                    <div class="card-body p-2 d-flex justify-content-between align-items-center">
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                wire:model="featuredImageIndex"
+                                                value="existing_{{ $index }}"
+                                                id="featuredExisting{{ $index }}"
+                                            />
+                                            <label class="form-check-label" for="featuredExisting{{ $index }}">
+                                                Featured
+                                            </label>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            class="btn btn-sm btn-danger"
+                                            wire:click="deleteImage({{ $img->id }})"
+                                            wire:loading.attr="disabled"
                                         >
+                                            <i class="bi bi-trash"></i>
+                                        </button>
                                     </div>
-                                    <button
-                                        wire:click.prevent="deleteImage({{ $img->id }})"
-                                        class="btn btn-link btn-sm text-danger p-0 ms-2"
-                                    >
-                                        Remove
-                                    </button>
                                 </div>
                             </div>
+                            @endforeach
                         </div>
-                        @endforeach
                     </div>
                 </div>
 
@@ -388,20 +392,62 @@
 <script src="{{ asset('adminassets/vendor/ckeditor/ckeditor.js') }}"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+        let editor;
+
         ClassicEditor
             .create(document.querySelector('#content'), {
                 ckfinder: {
                     uploadUrl: '{{ route('ckeditor.upload')."?_token=".csrf_token() }}'
                 }
             })
-            .then(editor => {
+            .then(editorInstance => {
+                editor = editorInstance;
+
                 editor.model.document.on("change:data", () => {
-                 @this.call('updateContent', editor.getData());
+                    @this.call('updateContent', editor.getData());
+
+                    // Hide error message when content is added
+                    const contentError = document.getElementById('content-error');
+                    if (contentError) {
+                        if (editor.getData().trim()) {
+                            contentError.classList.add('d-none');
+                        }
+                    }
                 });
+
+                // Add form submission validation
+                const form = document.querySelector('form[wire\\:submit\\.prevent="submit"]');
+                if (form) {
+                    form.addEventListener('submit', function(e) {
+                        // Check if content is empty
+                        if (!editor.getData().trim()) {
+                            e.preventDefault();
+                            const contentError = document.getElementById('content-error');
+                            if (contentError) {
+                                contentError.classList.remove('d-none');
+                            }
+                            // Scroll to error
+                            document.querySelector('#content').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            return false;
+                        }
+                    });
+                }
             })
             .catch(error => {
                 console.error(error);
             });
+
+        // Reset editor when needed
+        Livewire.on('resetEditor', () => {
+            if (editor) {
+                editor.setData('');
+            }
+        });
     });
 </script>
 @endpush
+
+
+
+
+

@@ -18,15 +18,30 @@ class BlogPost extends Model
         'paragraph5',
         'paragraph6',
         'paragraph7',
+        'paragraph8',
+        'paragraph9',
+        'paragraph10',
+        'paragraph11',
+        'paragraph12',
+        'paragraph13',
+        'paragraph14',
+        'paragraph15',
+        'paragraph16',
+        'paragraph17',
+        'paragraph18',
+        'paragraph19',
+        'paragraph20',
+        'paragraph21'
     ];
 
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
+
     public function images()
     {
-        return $this->hasMany(BlogImage::class);
+        return $this->hasMany(BlogImage::class, 'blog_post_id');
     }
     // BlogPost.php
     public function featuredImage()
@@ -34,3 +49,4 @@ class BlogPost extends Model
         return $this->hasOne(BlogImage::class)->where('is_featured', true);
     }
 }
+

@@ -38,13 +38,12 @@ class Manage extends Component
             $this->eventId = $eventId;
             $event = EventModel::with('images')->findOrFail($eventId);
 
+            // Fill basic fields
             $this->fill($event->only([
                 'name',
                 'slug',
                 'content',
                 'event_category_id',
-                'start_date',
-                'end_date',
                 'start_time',
                 'end_time',
                 'location',
@@ -53,10 +52,16 @@ class Manage extends Component
                 'featured',
             ]));
 
+            // Format dates for HTML date inputs (YYYY-MM-DD)
+            $this->start_date = $event->start_date->format('Y-m-d');
+            $this->end_date = $event->end_date->format('Y-m-d');
+
+            // Fill media fields
             $this->existingImages = $event->images;
             $this->existingBanner = $event->banner;
             $this->existingOrganizerPhoto = $event->organizer_photo;
 
+            // Set featured image
             foreach ($event->images as $index => $img) {
                 if ($img->is_featured) {
                     $this->featuredImageIndex = 'existing_' . $index;
@@ -64,6 +69,7 @@ class Manage extends Component
                 }
             }
 
+            // Fill paragraphs
             for ($i = 1; $i <= 21; $i++) {
                 $this->paragraphs[$i - 1] = $event->{'paragraph' . $i};
             }
@@ -84,8 +90,8 @@ class Manage extends Component
 
     public function submit()
     {
-
-        $this->validate([
+        // Prepare validation rules
+        $rules = [
             'name' => 'required|string|max:255|unique:event_models,name,' . $this->eventId,
             'slug' => 'required|string|max:255|unique:event_models,slug,' . $this->eventId,
             'event_category_id' => 'required|exists:event_categories,id',
@@ -96,17 +102,32 @@ class Manage extends Component
             'end_time' => 'required|string|max:255',
             'location' => 'required|string|max:255',
             'organizer_name' => 'required|string|max:255',
-            'organizer_description' => 'nullable|string',
+            'organizer_description' => 'required|string',
             'organizer_photo' => $this->eventId ? 'nullable|image|max:2048' : 'required|image|max:2048',
-            'images' => 'required|array|min:1',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // individual file rules
             'banner' => $this->eventId ? 'nullable|image|max:2048' : 'required|image|max:2048',
-        ]);
-        if ($this->featuredImageIndex === null) {
-            $this->addError('featuredImageIndex', 'Please select a featured image.');
-            return;
+        ];
+
+        // Only require gallery images if there are no existing images
+        if (!$this->eventId || ($this->eventId && count($this->existingImages) === 0)) {
+            $rules['images'] = 'required|array|min:1';
+            $rules['images.*'] = 'image|mimes:jpeg,png,jpg,gif|max:2048';
+        } else if (count($this->images) > 0) {
+            // If uploading new images, validate them
+            $rules['images.*'] = 'image|mimes:jpeg,png,jpg,gif|max:2048';
         }
 
+        // Run validation
+        $this->validate($rules);
+
+        // Check for featured image only if we have images (new or existing)
+        if (($this->images && count($this->images) > 0) || count($this->existingImages) > 0) {
+            if ($this->featuredImageIndex === null) {
+                $this->addError('featuredImageIndex', 'Please select a featured image.');
+                return;
+            }
+        }
+
+        // Extract paragraphs from content
         preg_match_all('/<(p|h[1-6]|div|section|article|blockquote)[^>]*>.*?<\/\1>/is', $this->content, $matches);
         $this->paragraphs = array_slice($matches[0] ?? [], 0, 21);
 
@@ -130,7 +151,6 @@ class Manage extends Component
         }
 
         $event = $this->eventId
-
             ? tap(EventModel::findOrFail($this->eventId))->update($data)
             : EventModel::create($data);
 
@@ -150,23 +170,25 @@ class Manage extends Component
         $event->images()->update(['is_featured' => false]);
 
         // Handle newly uploaded images
-        foreach ($this->images as $index => $img) {
-            $path = $img->store('event_images', 'public');
-            $newImage = $event->images()->create([
-                'path' => $path,
-                'is_featured' => false,
-            ]);
+        if ($this->images && count($this->images) > 0) {
+            foreach ($this->images as $index => $img) {
+                $path = $img->store('event_images', 'public');
+                $newImage = $event->images()->create([
+                    'path' => $path,
+                    'is_featured' => false,
+                ]);
 
-            // If this new image index matches featuredImageIndex, mark featured
-            if ((string)$this->featuredImageIndex === (string)$index) {
-                $newImage->update(['is_featured' => true]);
+                // If this new image index matches featuredImageIndex, mark featured
+                if ((string)$this->featuredImageIndex === (string)$index) {
+                    $newImage->update(['is_featured' => true]);
+                }
             }
         }
 
         // If featured image is from existing images
         if (str_starts_with($this->featuredImageIndex, 'existing_')) {
             $existingIndex = (int) str_replace('existing_', '', $this->featuredImageIndex);
-            $existingImage = $event->images[$existingIndex] ?? null;
+            $existingImage = $this->existingImages[$existingIndex] ?? null;
             if ($existingImage) {
                 $existingImage->update(['is_featured' => true]);
             }
@@ -211,3 +233,7 @@ class Manage extends Component
             ->layout('components.layouts.dashboard');
     }
 }
+
+
+
+

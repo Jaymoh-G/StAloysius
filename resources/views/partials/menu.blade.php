@@ -252,20 +252,33 @@
                                 >
                             </li>
 
-                            <li>
+                            <li class="nav-item dropdown-submenu">
                                 <a
-                                    class="dropdown-item"
+                                    class="dropdown-item dropdown-toggle"
                                     href="{{ route('events') }}"
                                     >Events</a
                                 >
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a
+                                            class="dropdown-item"
+                                            href="{{ route('upcoming-events') }}"
+                                            >Upcoming Events</a
+                                        >
+                                    </li>
+                                    <li>
+                                        <a
+                                            class="dropdown-item"
+                                            href="{{ route('past-events') }}"
+                                            >Past Events</a
+                                        >
+                                    </li>
+                                </ul>
                             </li>
-
                             <li>
                                 <a
                                     class="dropdown-item"
-                                    href="{{ route('gallery') }}"
-                                    >Gallery</a
-                                >
+                                    href="{{ route('gallery') }}" >Gallery</a >
                             </li>
                             <li>
                                 <a
@@ -362,6 +375,9 @@
         </div>
     </nav>
 </div>
+
+
+
 
 
 

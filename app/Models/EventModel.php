@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class EventModel extends Model
 {
     protected $casts = [
-    'start_date' => 'datetime',
-    'end_date' => 'datetime',
-];
+        'start_date' => 'date',
+        'end_date' => 'date',
+        'featured' => 'boolean',
+    ];
 
     protected $fillable = [
         'name', 'slug', 'content', 'start_date', 'end_date', 'start_time', 'end_time', 'location',
@@ -37,3 +38,4 @@ public function featuredImage()
         return $this->belongsTo(EventCategory::class, 'event_category_id');
     }
 }
+
