@@ -146,7 +146,7 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    {{ $album->images ? $album->images->count() : 0 }}
+                                                    {{ $album->images ? $album->images->count() : 0 }} images
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-sm btn-info me-1" wire:click="edit({{ $album->id }})">
@@ -169,7 +169,7 @@
                             </div>
 
                             <div class="mt-3">
-                                {{ $albums->links() }}
+                                {{ $albums->links('vendor.pagination.bootstrap-4') }}
                             </div>
                         </div>
                     </div>
@@ -192,4 +192,5 @@
     });
 </script>
 @endpush
+
 

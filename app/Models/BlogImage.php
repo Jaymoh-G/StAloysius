@@ -24,3 +24,5 @@ class BlogImage extends Model
     }
 }
 
+
+

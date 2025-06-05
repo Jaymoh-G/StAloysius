@@ -151,16 +151,79 @@ Route::prefix('dashboard/gallery')->name('dashboard.gallery.')->group(function (
     Route::get('/images', \App\Livewire\Dashboard\Gallery\Images\ImageIndex::class)->name('images');
 });
 
+Route::get('/gallery/album/{slug}', \App\Livewire\Frontend\AlbumView::class)->name('gallery.album');
 
+// Diagnostic route for album images
+Route::get('/debug-album-images', function() {
+    // Get all albums with image counts
+    $albums = \App\Models\Album::withCount('images')->get();
 
+    // Get total count of images with album_id
+    $totalImagesWithAlbumId = \App\Models\BlogImage::whereNotNull('album_id')->count();
 
+    // Check if album_id column exists in blog_images table
+    $hasAlbumIdColumn = \Illuminate\Support\Facades\Schema::hasColumn('blog_images', 'album_id');
+
+    // Get sample of blog images
+    $sampleImages = \App\Models\BlogImage::take(5)->get(['id', 'album_id', 'path', 'caption']);
+
+    return [
+        'albums_count' => $albums->count(),
+        'albums' => $albums->map(function($album) {
+            return [
+                'id' => $album->id,
+                'title' => $album->title,
+                'images_count' => $album->images_count
+            ];
+        }),
+        'has_album_id_column' => $hasAlbumIdColumn,
+        'total_images_with_album_id' => $totalImagesWithAlbumId,
+        'sample_images' => $sampleImages
+    ];
+});
 
 Route::post('/ckeditor/upload', [CkeditorUploadController::class, 'upload'])->name('ckeditor.upload');
 
+// Temporary debug route - remove after debugging
+Route::get('/debug-images', function() {
+    $images = \App\Models\BlogImage::whereNotNull('album_id')->get();
+    $albums = \App\Models\Album::with('images')->get();
 
+    return [
+        'total_images' => \App\Models\BlogImage::count(),
+        'images_with_album_id' => $images->count(),
+        'albums' => $albums->map(function($album) {
+            return [
+                'id' => $album->id,
+                'title' => $album->title,
+                'images_count' => $album->images->count()
+            ];
+        })
+    ];
+});
 
+// Diagnostic route for specific album images
+Route::get('/debug-album/{id}', function($id) {
+    $album = \App\Models\Album::findOrFail($id);
+    $images = \App\Models\BlogImage::where('album_id', $id)->get();
 
-
+    return [
+        'album' => [
+            'id' => $album->id,
+            'title' => $album->title,
+            'slug' => $album->slug
+        ],
+        'images_count' => $images->count(),
+        'images' => $images->map(function($image) {
+            return [
+                'id' => $image->id,
+                'path' => $image->path,
+                'caption' => $image->caption,
+                'exists' => \Illuminate\Support\Facades\Storage::disk('public')->exists($image->path)
+            ];
+        })
+    ];
+});
 
 
 

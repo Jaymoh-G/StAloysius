@@ -5,36 +5,31 @@ namespace App\Livewire\Dashboard\Gallery\Albums;
 use Livewire\Component;
 use App\Models\Album;
 use App\Models\AlbumCategory;
-use Livewire\WithPagination;
+use App\Models\BlogImage;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
 class AlbumIndex extends Component
 {
-    use WithPagination, WithFileUploads;
-
-    protected $paginationTheme = 'bootstrap';
+    use WithFileUploads;
 
     public $title;
     public $description;
     public $album_category_id;
-    public $cover_image;
     public $temp_cover_image;
+    public $cover_image;
     public $albumId;
     public $isEditing = false;
     public $searchTerm = '';
     public $categoryFilter = '';
 
-    protected function rules()
-    {
-        return [
-            'title' => 'required|string|max:255|unique:albums,title,' . $this->albumId,
-            'description' => 'nullable|string',
-            'album_category_id' => 'required|exists:album_categories,id',
-            'temp_cover_image' => $this->isEditing ? 'nullable|image|max:2048' : 'required|image|max:2048',
-        ];
-    }
+    protected $rules = [
+        'title' => 'required|min:3|max:255',
+        'description' => 'nullable|max:1000',
+        'album_category_id' => 'nullable|exists:album_categories,id',
+        'temp_cover_image' => 'nullable|image|max:2048',
+    ];
 
     public function create()
     {
@@ -161,10 +156,7 @@ class AlbumIndex extends Component
     {
         $query = Album::query()
             ->with(['category', 'images'])
-            ->where(function($q) {
-                $q->where('title', 'like', '%' . $this->searchTerm . '%')
-                  ->orWhere('description', 'like', '%' . $this->searchTerm . '%');
-            });
+            ->where('title', 'like', '%' . $this->searchTerm . '%');
 
         if ($this->categoryFilter) {
             $query->where('album_category_id', $this->categoryFilter);
@@ -179,6 +171,7 @@ class AlbumIndex extends Component
         ])->layout('components.layouts.dashboard');
     }
 }
+
 
 
 
