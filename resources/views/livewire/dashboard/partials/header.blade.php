@@ -129,15 +129,21 @@
                                     <li><a href="{{route('dashboard.events.categories.index')}}">Event Categories</a></li>
                                 </ul>
                             </li>
-							<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Gallery</a>
+                            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Gallery</a>
                                 <ul aria-expanded="false">
-                                    <li><a href="{{ route('dashboard.gallery.albums') }}">Albums</a></li>
+                                    <li><a href="{{ route('dashboard.gallery.categories') }}">Gallery Categories</a></li>
                                     <li><a href="{{ route('dashboard.gallery.images') }}">Images</a></li>
-                                    <li><a href="{{ route('dashboard.gallery.categories') }}">Album Categories</a></li>
+                                    <li><a href="{{ route('dashboard.gallery.albums') }}">Albums</a></li>
+                                    <li><a href="{{ route('dashboard.youtube.index') }}">Youtube Videos</a></li>
                                 </ul>
                             </li>
-                            <li><a href="./page-lock-screen.html">Downloads</a></li>
-                            <li><a href="./empty-page.html">Empty Page</a></li>
+                            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Careers</a>
+                                <ul aria-expanded="false">
+                                    <li><a href="{{ route('dashboard.careers.index') }}">Job Vacancies</a></li>
+                                    <li><a href="{{ route('dashboard.careers.create') }}">Add Job Vacancy</a></li>
+                                    <li><a href="{{ route('dashboard.careers.categories') }}">Job Categories</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
 					     <li>
@@ -231,6 +237,7 @@
         <!--**********************************
             Sidebar end
         ***********************************-->
+
 
 
 

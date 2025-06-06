@@ -36,6 +36,9 @@ use App\Livewire\Dashboard\Albums\AlbumForm;
 use App\Livewire\Frontend\FeePayingStudents;
 use App\Livewire\Frontend\UpdatesSinglePage;
 use App\Livewire\Dashboard\Albums\AlbumIndex;
+use App\Livewire\Dashboard\Gallery\ImageIndex;
+use App\Livewire\Dashboard\Youtube\VideoIndex;
+use App\Livewire\Dashboard\Gallery\CategoryIndex;
 use App\Livewire\Frontend\ChristianLifeCommunity;
 use App\Http\Controllers\CkeditorUploadController;
 use App\Livewire\Dashboard\Blog\Index as BlogIndex;
@@ -48,23 +51,21 @@ use App\Livewire\Dashboard\Team\Create as TeamCreate;
 use App\Livewire\Dashboard\Events\Index as EventIndex;
 use App\Livewire\Dashboard\Events\Manage as EventEdit;
 use App\Livewire\Dashboard\Events\Manage as EventCreate;
+
 use App\Livewire\Frontend\TeamMember as TeamMemberShow;;
 use App\Livewire\Dashboard\Departments\DepCategories\Index;
 use App\Livewire\Dashboard\AlbumCategories\AlbumCategoryForm;
-
 use App\Livewire\Dashboard\Blogs\Categories\Index as BlogCat;
-use App\Livewire\Dashboard\Categories\Index as MainCategoryIndex;
+
+
 use App\Livewire\Dashboard\Departments\Index as DepartmentIndex;
+use App\Livewire\Dashboard\Categories\Index as MainCategoryIndex;
 use App\Livewire\Dashboard\Departments\Manage as DepartmentManage;
-
-
 use App\Livewire\Dashboard\AlbumCategories\Index as AlbumCategoryIndex;
 use App\Livewire\Dashboard\Events\Categories\Index as EventCategoryEdit;
 use App\Livewire\Dashboard\Events\Categories\Index as EventCategoryIndex;
-use App\Livewire\Dashboard\Gallery\CategoryIndex;
-use App\Livewire\Dashboard\Gallery\ImageIndex;
 
-Route::get('/', Home::class);
+Route::get('/', Home::class)->name('home');
 Route::get('/contact-us', ContactUs::class)->name('contact');
 Route::get('/news', Updates::class)->name('news');
 Route::get('/news/{slug}', UpdatesSinglePage::class)->name('news.single');
@@ -95,6 +96,16 @@ Route::get('/success-stories', SuccessStories::class)->name('success-stories');
 Route::get('/admission', Admission::class)->name('admission');
 Route::get('/programs', OurPrograms::class)->name('our-programs');
 Route::get('/program', Program::class)->name('program');
+// Make sure these routes are placed BEFORE any wildcard routes that might capture /videos
+// Photo Gallery Routes
+Route::get('gallery/photos', \App\Livewire\Frontend\PhotoGallery::class)->name('photos');
+Route::get('gallery/photos/category/{category?}', \App\Livewire\Frontend\PhotoGallery::class)->name('photos.categories');
+
+// Video Gallery Routes
+Route::get('gallery/videos', \App\Livewire\Frontend\YoutubeGallery::class)->name('videos');
+Route::get('gallery/videos/category/{category?}', \App\Livewire\Frontend\YoutubeGallery::class)->name('videos.categories');
+
+// Keep the existing gallery route for backward compatibility
 Route::get('/gallery/{category?}', \App\Livewire\Frontend\Gallery::class)->name('gallery');
 Route::get('/admission-policy', AdmissionPolicy::class)->name('admission-policy');
 Route::get('/scholarships', Scholarships::class)->name('scholarships');
@@ -155,45 +166,23 @@ Route::get('/gallery/album/{slug}', \App\Livewire\Frontend\AlbumView::class)->na
 
 Route::post('/ckeditor/upload', [CkeditorUploadController::class, 'upload'])->name('ckeditor.upload');
 
-// Temporary debug route - remove after debugging
-Route::get('/debug-images', function() {
-    $images = \App\Models\BlogImage::whereNotNull('album_id')->get();
-    $albums = \App\Models\Album::with('images')->get();
 
-    return [
-        'total_images' => \App\Models\BlogImage::count(),
-        'images_with_album_id' => $images->count(),
-        'albums' => $albums->map(function($album) {
-            return [
-                'id' => $album->id,
-                'title' => $album->title,
-                'images_count' => $album->images->count()
-            ];
-        })
-    ];
+
+
+Route::prefix('dashboard/gallery/youtube')->name('dashboard.youtube.')->group(function () {
+    Route::get('/', VideoIndex::class)->name('index');
 });
 
-// Diagnostic route for specific album images
-Route::get('/debug-album/{id}', function($id) {
-    $album = \App\Models\Album::findOrFail($id);
-    $images = \App\Models\BlogImage::where('album_id', $id)->get();
+// Career routes
+Route::get('/careers', App\Livewire\Frontend\Careers::class)->name('careers');
+Route::get('/careers/{slug}', App\Livewire\Frontend\CareerDetail::class)->name('careers.show');
 
-    return [
-        'album' => [
-            'id' => $album->id,
-            'title' => $album->title,
-            'slug' => $album->slug
-        ],
-        'images_count' => $images->count(),
-        'images' => $images->map(function($image) {
-            return [
-                'id' => $image->id,
-                'path' => $image->path,
-                'caption' => $image->caption,
-                'exists' => \Illuminate\Support\Facades\Storage::disk('public')->exists($image->path)
-            ];
-        })
-    ];
+// Dashboard career routes - without auth middleware for now
+Route::prefix('dashboard')->name('dashboard.')->group(function () {
+    Route::get('/careers', App\Livewire\Dashboard\Careers\JobVacancyIndex::class)->name('careers.index');
+    Route::get('/careers/create', App\Livewire\Dashboard\Careers\JobVacancyForm::class)->name('careers.create');
+    Route::get('/careers/{id}/edit', App\Livewire\Dashboard\Careers\JobVacancyForm::class)->name('careers.edit');
+    Route::get('/careers/categories', App\Livewire\Dashboard\Careers\JobCategoryIndex::class)->name('careers.categories');
 });
 
 

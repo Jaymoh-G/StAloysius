@@ -5,12 +5,14 @@ namespace App\Livewire\Frontend;
 use Livewire\Component;
 use App\Models\EventModel;
 use App\Models\BlogPost;
+use App\Models\JobVacancy;
 use Illuminate\Support\Carbon;
 
 class MediaCentre extends Component
 {
     public $upcomingEvents;
     public $latestNews;
+    public $latestJobs;
 
     public function mount()
     {
@@ -25,6 +27,13 @@ class MediaCentre extends Component
         $this->latestNews = BlogPost::orderBy('created_at', 'desc')
             ->take(3)
             ->get();
+
+        // Get 2 latest job vacancies
+        $this->latestJobs = JobVacancy::where('is_active', true)
+            ->where('deadline', '>=', now())
+            ->latest()
+            ->take(2)
+            ->get();
     }
 
     public function render()
@@ -32,4 +41,5 @@ class MediaCentre extends Component
         return view('livewire.frontend.media-centre');
     }
 }
+
 

@@ -63,7 +63,14 @@ class AlbumCategory extends Model
     {
         return $this->hasMany(Album::class, 'album_category_id');
     }
+
+    // Add the videos relationship
+    public function videos()
+    {
+        return $this->hasMany(YoutubeVideo::class, 'album_category_id');
+    }
 }
+
 
 
 

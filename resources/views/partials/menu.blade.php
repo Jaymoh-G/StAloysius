@@ -275,10 +275,29 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li>
+                            <li class="nav-item dropdown-submenu">
                                 <a
-                                    class="dropdown-item"
-                                    href="{{ route('gallery') }}" >Gallery</a >
+                                    class="dropdown-item dropdown-toggle"
+                                    href="{{ route('gallery') }}"
+                                    >Gallery</a
+                                >
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a
+                                            class="dropdown-item"
+                                            href="{{ route('photos') }}"
+                                            >Photo Gallery</a
+                                        >
+                                    </li>
+                                    <li>
+                                        <a
+                                            class="dropdown-item"
+                                            href="{{ route('videos') }}"
+                                            >Video Gallery</a
+                                        >
+                                    </li>
+                                  
+                                </ul>
                             </li>
                             <li>
                                 <a
@@ -375,6 +394,7 @@
         </div>
     </nav>
 </div>
+
 
 
 

@@ -135,7 +135,7 @@
         <!-- News section end -->
 
         <!-- Gallery section -->
-        <div class="gallery-area bg-light py-120">
+        <div class="gallery-area py-120">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 mx-auto">
@@ -146,26 +146,217 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-4 col-lg-3">
+
+                @php
+                    // Get random albums with cover images
+                    $randomAlbums = \App\Models\Album::whereNotNull('cover_image')
+                        ->inRandomOrder()
+                        ->take(8)
+                        ->get();
+                @endphp
+
+                <div class="gallery-slider owl-carousel owl-theme">
+                    @forelse($randomAlbums as $album)
                         <div class="gallery-item">
-                            <img src="assets/img/gallery/01.jpg" alt="Gallery Image">
-                            <div class="gallery-item-content">
-                                <div class="gallery-item-icon">
-                                    <a href="assets/img/gallery/01.jpg" class="popup-img">
-                                        <i class="far fa-plus"></i>
-                                    </a>
+                            <div class="gallery-img" style="height: 250px;">
+                                <img src="{{ asset('storage/' . $album->cover_image) }}" alt="{{ $album->title }}"
+                                     style="width: 100%; height: 100%; object-fit: cover;">
+                                <div class="gallery-info">
+                                    <h5 class="album-title">{{ Str::limit($album->title, 20) }}</h5>
+                                    <p class="album-count"><i class="far fa-images me-1"></i>{{ $album->images_count ?? $album->images()->count() }} Photos</p>
+                                </div>
+                                <div class="gallery-content">
+                                    <div class="gallery-action-buttons">
+                                        <a class="popup-img gallery-link" href="{{ asset('storage/' . $album->cover_image) }}">
+                                            <i class="far fa-plus"></i>
+                                        </a>
+                                        <a class="gallery-link view-album-link" href="{{ route('gallery.album', $album->slug) }}">
+                                            <i class="far fa-eye"></i>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- More gallery items -->
-                    <div class="col-12 text-center mt-5">
-                        <a href="{{ route('gallery') }}" class="theme-btn">View Full Gallery<i class="fas fa-arrow-right-long"></i></a>
-                    </div>
+                    @empty
+                        <div class="gallery-item">
+                            <div class="gallery-img" style="height: 250px;">
+                                <img src="assets/img/gallery/01.jpg" alt="Gallery Image"
+                                     style="width: 100%; height: 100%; object-fit: cover;">
+                                <div class="gallery-info">
+                                    <h5 class="album-title">Sample Gallery</h5>
+                                    <p class="album-count"><i class="far fa-images me-1"></i>0 Photos</p>
+                                </div>
+                                <div class="gallery-content">
+                                    <div class="gallery-action-buttons">
+                                        <a class="popup-img gallery-link" href="assets/img/gallery/01.jpg">
+                                            <i class="far fa-plus"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforelse
+                </div>
+
+                <div class="text-center mt-5">
+                    <a href="{{ route('gallery') }}" class="theme-btn">
+                        View Full Gallery <i class="fas fa-arrow-right-long"></i>
+                    </a>
                 </div>
             </div>
         </div>
+
+        <style>
+            .gallery-item {
+                position: relative;
+                margin-bottom: 20px;
+                overflow: hidden;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+            }
+
+            .gallery-item:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            }
+
+            .gallery-img {
+                position: relative;
+                overflow: hidden;
+            }
+
+            .gallery-img img {
+                transition: transform 0.5s ease;
+            }
+
+            .gallery-item:hover .gallery-img img {
+                transform: scale(1.05);
+            }
+
+            .gallery-content {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(0, 0, 0, 0.4);
+                opacity: 0;
+                transition: all 0.3s ease;
+            }
+
+            .gallery-item:hover .gallery-content {
+                opacity: 1;
+            }
+
+            .gallery-action-buttons {
+                display: flex;
+                gap: 10px;
+            }
+
+            .gallery-link {
+                width: 40px;
+                height: 40px;
+                background: var(--theme-color);
+                color: #fff;
+                border-radius: 10%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 16px;
+                transform: scale(0);
+                transition: all 0.3s ease;
+            }
+
+            .gallery-item:hover .gallery-link {
+                transform: scale(1);
+            }
+
+            .view-album-link {
+                background: var(--theme-color2);
+            }
+
+            .gallery-info {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+                color: #fff;
+                padding: 15px;
+                opacity: 1;
+                transition: all 0.3s ease;
+                z-index: 5;
+            }
+
+            .gallery-item:hover .gallery-info {
+                padding-bottom: 20px;
+            }
+
+            .album-title {
+                font-size: 16px;
+                font-weight: 600;
+                margin-bottom: 5px;
+                color: #fff;
+            }
+
+            .album-count {
+                font-size: 13px;
+                color: rgba(255, 255, 255, 0.8);
+                margin: 0;
+            }
+        </style>
+
+        @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Check if jQuery and Owl Carousel are available
+                if (typeof jQuery === 'undefined') {
+                    console.error('jQuery is not loaded');
+                    return;
+                }
+
+                if (typeof jQuery.fn.owlCarousel === 'undefined') {
+                    console.error('Owl Carousel is not loaded');
+                    return;
+                }
+
+                // Initialize the carousel
+                jQuery(function($) {
+                    $('.gallery-slider').owlCarousel({
+                        loop: true,
+                        margin: 20,
+                        nav: true,
+                        dots: true,
+                        autoplay: true,
+                        autoplayTimeout: 5000,
+                        navText: [
+                            "<i class='far fa-angle-left'></i>",
+                            "<i class='far fa-angle-right'></i>"
+                        ],
+                        responsive: {
+                            0: {
+                                items: 1
+                            },
+                            576: {
+                                items: 2
+                            },
+                            768: {
+                                items: 3
+                            },
+                            992: {
+                                items: 4
+                            }
+                        }
+                    });
+
+                    console.log('Gallery carousel initialized');
+                });
+            });
+        </script>
+        @endpush
         <!-- Gallery section end -->
 
         <!-- Careers section -->
@@ -181,25 +372,36 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-6">
-                        <div class="career-item">
-                            <div class="career-content">
-                                <h4><a href="{{ route('careers') }}">Mathematics Teacher</a></h4>
-                                <p>We're looking for an experienced Mathematics teacher to join our secondary school faculty.</p>
-                                <div class="career-meta">
-                                    <span><i class="far fa-map-marker-alt"></i> On-site</span>
-                                    <span><i class="far fa-clock"></i> Full-time</span>
+                    @if($latestJobs->isEmpty())
+                        <div class="col-12 text-center">
+                            <p>No job vacancies available at the moment. Please check back later.</p>
+                        </div>
+                    @else
+                        @foreach($latestJobs as $job)
+                        <div class="col-md-6 col-lg-6">
+                            <div class="blog-item wow fadeInUp" data-wow-delay=".25s">
+                                <div class="blog-date">
+                                    <i class="fal fa-calendar-alt"></i> Deadline: {{ $job->deadline->format('M d, Y') }}
+                                </div>
+                                <div class="blog-item-info">
+                                    <div class="blog-item-meta">
+                                        <ul>
+                                            <li><a href="#"><i class="far fa-tag"></i> {{ $job->category->name }}</a></li>
+                                        </ul>
+                                    </div>
+                                    <h4 class="blog-title">
+                                        <a href="{{ route('careers.show', $job->slug) }}">{{ $job->title }}</a>
+                                    </h4>
+                                    <p>{{ Str::limit(strip_tags($job->description), 100) }}</p>
+                                    <a class="theme-btn" href="{{ route('careers.show', $job->slug) }}">View Details<i class="fas fa-arrow-right-long"></i></a>
                                 </div>
                             </div>
-                            <div class="career-link">
-                                <a href="{{ route('careers') }}"><i class="far fa-arrow-right"></i></a>
-                            </div>
                         </div>
-                    </div>
-                    <!-- More career items -->
-                    <div class="col-12 text-center mt-5">
-                        <a href="{{ route('careers') }}" class="theme-btn">View All Opportunities<i class="fas fa-arrow-right-long"></i></a>
-                    </div>
+                        @endforeach
+                    @endif
+                </div>
+                <div class="col-12 text-center mt-5">
+                    <a href="{{ route('careers') }}" class="theme-btn">View All Opportunities<i class="fas fa-arrow-right-long"></i></a>
                 </div>
             </div>
         </div>
@@ -208,6 +410,21 @@
        </main>
     @endsection
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

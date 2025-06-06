@@ -3,12 +3,11 @@
 namespace App\Livewire\Frontend;
 
 use App\Models\Album;
-use App\Models\YoutubeVideo;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\AlbumCategory;
 
-class Gallery extends Component
+class PhotoGallery extends Component
 {
     use WithPagination;
 
@@ -28,7 +27,7 @@ class Gallery extends Component
         $this->resetPage();
 
         // Update URL without full page reload
-        $url = route('gallery', ['category' => $categorySlug]);
+        $url = route('photos', ['category' => $categorySlug]);
         $this->dispatch('urlChanged', ['url' => $url]);
     }
 
@@ -38,13 +37,14 @@ class Gallery extends Component
         $this->resetPage();
 
         // Update URL without full page reload
-        $url = route('gallery');
+        $url = route('photos');
         $this->dispatch('urlChanged', ['url' => $url]);
     }
 
     public function render()
     {
-        $categories = AlbumCategory::orderBy('name')->get();
+        // Get categories that have albums
+        $categories = AlbumCategory::whereHas('albums')->orderBy('name')->get();
 
         // Get albums with image counts
         $query = Album::select('albums.*')
@@ -61,61 +61,12 @@ class Gallery extends Component
 
         $query->orderBy('created_at', 'desc');
 
-        // Paginate albums - 6 per page (2 rows of 3 columns)
-        $albums = $query->paginate(6);
+        // Paginate albums - 9 per page (3 rows of 3 columns)
+        $albums = $query->paginate(9);
 
-        // Get featured videos for the video section
-        $featuredVideos = YoutubeVideo::where('is_featured', true)
-            ->orderBy('order')
-            ->take(3)
-            ->get();
-
-        // If we don't have enough featured videos, get the most recent ones
-        if ($featuredVideos->count() < 3) {
-            $additionalVideos = YoutubeVideo::where('is_featured', false)
-                ->orderBy('created_at', 'desc')
-                ->take(3 - $featuredVideos->count())
-                ->get();
-            $featuredVideos = $featuredVideos->concat($additionalVideos);
-        }
-
-        return view('livewire.frontend.gallery', [
+        return view('livewire.frontend.photo-gallery', [
             'categories' => $categories,
             'albums' => $albums,
-            'featuredVideos' => $featuredVideos,
         ]);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
