@@ -95,7 +95,7 @@ Route::get('/success-stories', SuccessStories::class)->name('success-stories');
 Route::get('/admission', Admission::class)->name('admission');
 Route::get('/programs', OurPrograms::class)->name('our-programs');
 Route::get('/program', Program::class)->name('program');
-Route::get('/gallery', Gallery::class)->name('gallery');
+Route::get('/gallery/{category?}', \App\Livewire\Frontend\Gallery::class)->name('gallery');
 Route::get('/admission-policy', AdmissionPolicy::class)->name('admission-policy');
 Route::get('/scholarships', Scholarships::class)->name('scholarships');
 Route::get('/how-to-apply', HowToApply::class)->name('how-to-apply');
@@ -153,35 +153,6 @@ Route::prefix('dashboard/gallery')->name('dashboard.gallery.')->group(function (
 
 Route::get('/gallery/album/{slug}', \App\Livewire\Frontend\AlbumView::class)->name('gallery.album');
 
-// Diagnostic route for album images
-Route::get('/debug-album-images', function() {
-    // Get all albums with image counts
-    $albums = \App\Models\Album::withCount('images')->get();
-
-    // Get total count of images with album_id
-    $totalImagesWithAlbumId = \App\Models\BlogImage::whereNotNull('album_id')->count();
-
-    // Check if album_id column exists in blog_images table
-    $hasAlbumIdColumn = \Illuminate\Support\Facades\Schema::hasColumn('blog_images', 'album_id');
-
-    // Get sample of blog images
-    $sampleImages = \App\Models\BlogImage::take(5)->get(['id', 'album_id', 'path', 'caption']);
-
-    return [
-        'albums_count' => $albums->count(),
-        'albums' => $albums->map(function($album) {
-            return [
-                'id' => $album->id,
-                'title' => $album->title,
-                'images_count' => $album->images_count
-            ];
-        }),
-        'has_album_id_column' => $hasAlbumIdColumn,
-        'total_images_with_album_id' => $totalImagesWithAlbumId,
-        'sample_images' => $sampleImages
-    ];
-});
-
 Route::post('/ckeditor/upload', [CkeditorUploadController::class, 'upload'])->name('ckeditor.upload');
 
 // Temporary debug route - remove after debugging
@@ -224,6 +195,11 @@ Route::get('/debug-album/{id}', function($id) {
         })
     ];
 });
+
+
+
+
+
 
 
 

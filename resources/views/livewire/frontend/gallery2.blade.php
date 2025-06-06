@@ -58,6 +58,9 @@
                                     <p class="album-count d-inline-block"><i class="far fa-images me-1"></i>{{ $album->images ? $album->images->count() : 0 }} Photosc</p>
 
                                 </div>
+                                <a href="{{ route('gallery.album', $album->slug) }}">
+                                        <button class="theme-btn btn-sm">View Album</button>
+                                    </a>
                             </div>
                         @endforeach
                     </div>
@@ -85,6 +88,9 @@
                                     <h5 class="album-title d-inline-block me-3">{{ $album->title }}</h5>
                                     <p class="album-count d-inline-block"><i class="far fa-images me-1"></i>{{ $album->images ? $album->images->count() : 0 }} Photos</p>
                                 </div>
+                                <a href="{{ route('gallery.album', $album->slug) }}">
+                                        <button class="theme-btn btn-sm">View Album</button>
+                                    </a>
                             </div>
                         @endforeach
                     </div>
@@ -112,6 +118,9 @@
                                     <h5 class="album-title d-inline-block me-3">{{ $album->title }}</h5>
                                     <p class="album-count d-inline-block"><i class="far fa-images me-1"></i>{{ $album->images ? $album->images->count() : 0 }} Photos</p>
                                 </div>
+                                <a href="{{ route('gallery.album', $album->slug) }}">
+                                        <button class="theme-btn btn-sm">View Album</button>
+                                    </a>
                             </div>
                         @endforeach
                     </div>
@@ -121,6 +130,18 @@
                     </div>
                 @endif
             </div>
+              <!-- Pagination -->
+            @if($albums->hasPages())
+            <div class="pagination-area mt-5">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="pagination-wrapper">
+                            {{ $albums->links('vendor.pagination.bootstrap-4') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
         </div>
     </div>
     @endsection

@@ -434,11 +434,11 @@ label {
 }
 
 .py-120 {
-  padding: 120px 0;
+  padding: 60px 0;
 }
 
 .pt-120 {
-  padding-top: 120px;
+  padding-top: 80px;
 }
 
 .pb-120 {
@@ -4624,8 +4624,8 @@ label {
   background-position: center !important;
   background-size: cover !important;
   position: relative;
-  padding-top: 170px;
-  padding-bottom: 150px;
+  padding-top: 80px;
+  padding-bottom: 80px;
   z-index: 1;
 }
 
