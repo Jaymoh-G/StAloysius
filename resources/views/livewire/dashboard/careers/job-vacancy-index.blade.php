@@ -46,9 +46,14 @@
                                             @endif
                                         </td>
                                         <td>
+                                             <a href="{{ route('careers.show', $job->slug) }}" class="btn btn-sm btn-success me-1" target="_blank">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
                                             <a href="{{ route('dashboard.careers.edit', $job->id) }}" class="btn btn-sm btn-info me-1">
                                                 <i class="fa fa-edit"></i>
                                             </a>
+
+
                                             <button class="btn btn-sm btn-danger"
                                                 wire:click="delete({{ $job->id }})"
                                                 wire:confirm="Are you sure you want to delete this job vacancy?">

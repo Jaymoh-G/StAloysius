@@ -6,7 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class BlogImage extends Model
 {
-     protected $fillable = ['blog_post_id', 'album_id', 'path', 'category', 'caption', 'is_featured', 'sort_order'];
+    protected $fillable = [
+        'blog_post_id',
+        'event_model_id',
+        'static_page_id',
+        'album_id',
+        'path',
+        'caption',
+        'category',
+        'is_featured',
+        'sort_order'
+    ];
 
     public function blogPost()
     {
@@ -18,11 +28,19 @@ class BlogImage extends Model
         return $this->belongsTo(Album::class);
     }
 
+    public function staticPage()
+    {
+        return $this->belongsTo(StaticPage::class);
+    }
+
     public function event()
     {
         return $this->belongsTo(EventModel::class, 'event_id');
     }
 }
+
+
+
 
 
 

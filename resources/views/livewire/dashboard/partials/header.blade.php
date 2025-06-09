@@ -77,8 +77,10 @@
 							<span class="nav-text">Pages</span>
 						</a>
                         <ul aria-expanded="false">
+                            <li><a href="{{ route('dashboard.static-pages.index') }}">Static Pages</a></li>
+                            <li><a href="{{ route('dashboard.static-pages.create') }}">Add New Page</a></li>
                             <li><a href="./app-profile.html">Profile</a></li>
-							<li><a href="./post-details.html">Post Details</a></li>
+                            <li><a href="./post-details.html">Post Details</a></li>
                             <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Email</a>
                                 <ul aria-expanded="false">
                                     <li><a href="./email-compose.html">Compose</a></li>
@@ -87,7 +89,7 @@
                                 </ul>
                             </li>
                             <li><a href="./app-calender.html">Calendar</a></li>
-							<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Shop</a>
+                            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Shop</a>
                                 <ul aria-expanded="false">
                                     <li><a href="./ecom-product-grid.html">Product Grid</a></li>
 									<li><a href="./ecom-product-list.html">Product List</a></li>
@@ -237,6 +239,7 @@
         <!--**********************************
             Sidebar end
         ***********************************-->
+
 
 
 

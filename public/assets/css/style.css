@@ -718,7 +718,7 @@ label {
   color: var(--color-white);
   padding: 14px 20px;
   transition: var(--transition);
-  text-transform: uppercase;
+  text-transform: capitalize;
   position: relative;
   border-radius: 50px 50px 50px 0;
   font-weight: 600;

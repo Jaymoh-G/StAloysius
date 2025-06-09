@@ -208,367 +208,93 @@
             </div>
         </div>
     </div>
-    <style>
-        /* Inline style override to ensure our styles are applied */
-        .gallery-content {
-            background-color: transparent !important;
-            background: none !important;
-        }
-        .gallery-item:hover .gallery-content {
-            background-color: transparent !important;
-            background: none !important;
-        }
-        .gallery-content::before {
-            display: none !important;
-        }
-
-        /* Category filter styling */
-        .gallery-filter .theme-btn {
-            transition: all 0.3s ease;
-            border-radius: 30px;
-            font-size: 14px;
-            padding: 8px 20px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .gallery-filter .theme-btn:not(.active) {
-            background-color: #fff;
-            color: var(--body-text-color);
-            border: 1px solid #eee;
-        }
-
-        .gallery-filter .theme-btn:not(.active):hover {
-            background-color: var(--theme-color-light);
-            color: #ffffff;
-            transform: translateY(-2px);
-        }
-
-        .gallery-filter .theme-btn.active {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Section title enhancement */
-        .section-title .subtitle {
-            color: var(--theme-color);
-            font-weight: 500;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-
-        .section-title h2 {
-            font-weight: 700;
-            margin-bottom: 15px;
-            position: relative;
-        }
-
-        .section-title h2:after {
-            content: "";
-            display: block;
-            width: 70px;
-            height: 3px;
-            background: var(--theme-color);
-            margin: 15px auto 0;
-        }
-        .pagination-area .pagination-wrapper {
-            margin-top: -1px;
-        }
-        .pagination-area p.text-muted {
-            margin-bottom: -10px;
-            padding-bottom: 0;
-        }
-        .pagination-wrapper ul.pagination {
-            margin-top: 0;
-        }
-
-        /* Gallery item styling */
-        .gallery-item {
+ 
+   <style>
+        /* Video item styling */
+        .video-item {
             position: relative;
             margin-bottom: 30px;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
+            background: white;
         }
 
-        .gallery-item:hover {
+        .video-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
         }
 
-        .gallery-img {
+        .video-content {
             position: relative;
+            height: 220px;
+            background-size: cover;
+            background-position: center;
             overflow: hidden;
-            border-radius: 8px;
         }
 
-        .gallery-img img {
-            transition: transform 0.5s ease;
-        }
-
-        .gallery-item:hover .gallery-img img {
-            transform: scale(1.05);
-        }
-
-        /* Gallery content with plus icon */
-        .gallery-content {
+        .video-wrapper {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            background: rgba(0,0,0,0.3);
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: rgba(0, 0, 0, 0.2);
-            opacity: 0;
             transition: all 0.3s ease;
-            z-index: 5;
-            pointer-events: auto;
         }
 
-        .gallery-img:hover .gallery-content {
-            opacity: 1;
-            background-color: rgba(0, 0, 0, 0.4);
+        .video-item:hover .video-wrapper {
+            background: rgba(0,0,0,0.5);
         }
 
-        .gallery-link {
-            width: 45px;
-            height: 45px;
-            background: var(--theme-color);
-            color: #fff;
+        .play-btn {
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
+            background: rgba(255,255,255,0.2);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
-            transform: scale(0);
             transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            z-index: 10;
         }
 
-        .gallery-item:hover .gallery-link {
-            transform: scale(1);
+        .play-btn i {
+            color: white;
+            font-size: 24px;
         }
 
-        .gallery-link:hover {
-            background: var(--theme-color2);
-            color: #fff;
+        .video-item:hover .play-btn {
+            transform: scale(1.1);
+            background: var(--theme-color);
         }
 
-        /* Gallery info overlay */
-        .gallery-info {
+        .video-info {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            color: #fff;
             padding: 15px;
-            opacity: 1;
-            transition: all 0.3s ease;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
         }
 
-        .gallery-item:hover .gallery-info {
-            padding-bottom: 20px;
-        }
-
-        .album-title {
+        .video-title {
+            margin-bottom: 5px;
             font-size: 16px;
             font-weight: 600;
-            color: #fff;
-            transition: all 0.3s ease;
-            margin: 0;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
         }
 
-        .gallery-item:hover .album-title {
-            color: var(--theme-color2);
-        }
-
-        .album-count {
+        .video-description {
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.9);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            margin: 0;
-            white-space: nowrap;
-        }
-
-        .album-count i {
-            font-size: 12px;
-            opacity: 0.8;
-        }
-
-        .btn-view-album {
-            background-color: var(--theme-color);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            padding: 5px 15px;
-            font-size: 12px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-view-album:hover {
-            background-color: var(--theme-color2);
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        /* Gallery filter buttons */
-        .gallery-filter {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
-        }
-
-        .gallery-filter .theme-btn {
-            transition: all 0.3s ease;
-            border-radius: 30px;
-            font-size: 14px;
-            padding: 8px 20px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            margin: 5px;
-        }
-
-        .gallery-filter .theme-btn:not(.active) {
-            background-color: #fff;
-            color: var(--body-text-color);
-            border: 1px solid #eee;
-        }
-
-        .gallery-filter .theme-btn.active {
-            background-color: var(--theme-color);
-            color: #fff;
-        }
-
-        .gallery-filter .theme-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .gallery-info {
-                padding: 10px;
-            }
-
-            .album-title {
-                font-size: 14px;
-            }
-
-            .album-count {
-                font-size: 12px;
-            }
-
-            .btn-view-album {
-                padding: 3px 10px;
-                font-size: 10px;
-            }
-
-            .gallery-filter .theme-btn {
-                font-size: 12px;
-                padding: 6px 15px;
-            }
-            /* Video item styling */
-            .video-item {
-                position: relative;
-                margin-bottom: 30px;
-                border-radius: 8px;
-                overflow: hidden;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-                transition: all 0.3s ease;
-                background: white;
-            }
-
-            .video-item:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-            }
-
-            .video-content {
-                position: relative;
-                height: 220px;
-                background-size: cover;
-                background-position: center;
-                overflow: hidden;
-            }
-
-            .video-wrapper {
-                position: absolute !important;
-                top: 0 !important;
-                left: 0 !important;
-                width: 100%; !important;
-                height: 100%; !important;
-                background: rgba(0, 0, 0, 0.3);     !important;
-                display: flex; !important;
-                align-items: center;    !important;
-                justify-content: center; !important;
-                transition: all 0.3s ease; !important;
-            }
-
-            .video-item:hover .video-wrapper {
-                background: rgba(0, 0, 0, 0.5);
-            }
-
-            .play-btn {
-                width: 60px;
-                height: 60px;
-                border-radius: 50%;
-                background: rgba(255, 255, 255, 0.2);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: all 0.3s ease;
-            }
-
-            .play-btn i {
-                color: white;
-                font-size: 24px;
-            }
-
-            .video-item:hover .play-btn {
-                transform: scale(1.1);
-                background: var(--theme-color);
-            }
-
-            .video-info {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                padding: 15px;
-                background: linear-gradient(
-                    to top,
-                    rgba(0, 0, 0, 0.8),
-                    transparent
-                );
-                color: white;
-            }
-
-            .video-title {
-                margin-bottom: 5px;
-                font-size: 16px;
-                font-weight: 600;
-                text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-            }
-
-            .video-description {
-                font-size: 14px;
-                color: #666;
-                background-color: #f8f9fa;
-            }
+            color: #666;
+            background-color: #f8f9fa;
         }
     </style>
-
     @endsection
 </div>
 <script>

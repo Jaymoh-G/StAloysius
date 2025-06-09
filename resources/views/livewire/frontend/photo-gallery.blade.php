@@ -225,7 +225,7 @@
             padding: 5px 15px;
             font-size: 12px;
             font-weight: 500;
-            text-transform: uppercase;
+            text-transform: capitalize;
             letter-spacing: 0.5px;
             transition: all 0.3s ease;
             text-decoration: none;
