@@ -30,6 +30,14 @@ return new class extends Migration
             $table->longText('section_5_content')->nullable();
             $table->string('section_6_title')->nullable();
             $table->longText('section_6_content')->nullable();
+            $table->string('section_7_title')->nullable();
+            $table->longText('section_7_content')->nullable();
+            $table->string('section_8_title')->nullable();
+            $table->longText('section_8_content')->nullable();
+            $table->string('section_9_title')->nullable();
+            $table->longText('section_9_content')->nullable();
+            $table->string('section_10_title')->nullable();
+            $table->longText('section_10_content')->nullable();
 
             $table->unsignedBigInteger('last_updated_by')->nullable();
             $table->timestamps();
@@ -43,3 +51,4 @@ return new class extends Migration
         Schema::dropIfExists('static_pages');
     }
 };
+

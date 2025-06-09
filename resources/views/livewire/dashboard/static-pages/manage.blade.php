@@ -17,260 +17,436 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link {{ $activeTab == 'general' ? 'active' : '' }}" 
-                                   wire:click.prevent="$set('activeTab', 'general')" href="#">
-                                    General
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ $activeTab == 'section1' ? 'active' : '' }}" 
-                                   wire:click.prevent="$set('activeTab', 'section1')" href="#">
-                                    Section 1
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ $activeTab == 'section2' ? 'active' : '' }}" 
-                                   wire:click.prevent="$set('activeTab', 'section2')" href="#">
-                                    Section 2
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ $activeTab == 'section3' ? 'active' : '' }}" 
-                                   wire:click.prevent="$set('activeTab', 'section3')" href="#">
-                                    Section 3
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ $activeTab == 'section4' ? 'active' : '' }}" 
-                                   wire:click.prevent="$set('activeTab', 'section4')" href="#">
-                                    Section 4
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ $activeTab == 'section5' ? 'active' : '' }}" 
-                                   wire:click.prevent="$set('activeTab', 'section5')" href="#">
-                                    Section 5
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ $activeTab == 'section6' ? 'active' : '' }}" 
-                                   wire:click.prevent="$set('activeTab', 'section6')" href="#">
-                                    Section 6
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ $activeTab == 'seo' ? 'active' : '' }}" 
-                                   wire:click.prevent="$set('activeTab', 'seo')" href="#">
-                                    SEO
-                                </a>
-                            </li>
-                        </ul>
+                        @if(session()->has('message'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ session('message') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @endif
 
-                        <div class="tab-content p-3">
-                            <!-- General Tab -->
-                            <div class="tab-pane {{ $activeTab == 'general' ? 'active' : '' }}">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Title</label>
-                                            <input type="text" class="form-control" wire:model="title">
-                                            @error('title') <span class="text-danger">{{ $message }}</span> @enderror
+                        <form wire:submit.prevent="save" id="pageForm">
+                            <ul class="nav nav-tabs mb-3" id="pageTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link {{ $activeTab == 'general' ? 'active' : '' }}"
+                                            wire:click.prevent="$set('activeTab', 'general')"
+                                            type="button">
+                                        General
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link {{ $activeTab == 'sections' ? 'active' : '' }}"
+                                            wire:click.prevent="$set('activeTab', 'sections')"
+                                            type="button">
+                                        Sections
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link {{ $activeTab == 'seo' ? 'active' : '' }}"
+                                            wire:click.prevent="$set('activeTab', 'seo')"
+                                            type="button">
+                                        SEO
+                                    </button>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <!-- General Tab -->
+                                <div class="tab-pane fade {{ $activeTab == 'general' ? 'show active' : '' }}">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="mb-3">
+                                                <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control @error('title') is-invalid @enderror"
+                                                       id="title" wire:model.blur="title">
+                                                @error('title') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="slug" class="form-label">Slug <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control @error('slug') is-invalid @enderror"
+                                                       id="slug" wire:model.blur="slug">
+                                                @error('slug') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                            </div>
+
+                                            <div wire:ignore class="mb-3">
+                                                <label for="content" class="form-label">Content <span class="text-danger">*</span></label>
+                                                <textarea
+                                                    wire:key="editor-{{ now() }}"
+                                                    id="content"
+                                                    placeholder="Enter content"
+                                                    class="form-control @error('content') is-invalid @enderror"
+                                                >
+                                                    {!! $content !!}
+                                                </textarea>
+                                                @error('content')
+                                                <span class="text-danger d-block mt-2">{{ $message }}</span>
+                                                @enderror
+
+                                                <!-- Hidden input to trigger HTML5 validation -->
+                                                <input
+                                                    type="hidden"
+                                                    id="content-validator"
+                                                    required
+                                                    value="{{ !empty(strip_tags($content)) ? 'valid' : '' }}"
+                                                    oninvalid="this.setCustomValidity('Content is required')"
+                                                    oninput="this.setCustomValidity('')"
+                                                >
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="mb-4">
+                                                <div class="flex items-center gap-4">
+                                                    <label for="images">Upload Images <span class="text-danger">*</span></label>
+                                                    <input
+                                                        type="file"
+                                                        wire:model="images"
+                                                        multiple
+                                                        class="block form-control @error('images.*') is-invalid @enderror"
+                                                        id="images"
+                                                    />
+
+                                                    @error('images.*')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+
+                                                <!-- Featured Image Selection Section -->
+                                                <div class="mt-3">
+
+
+
+
+                                                    @if(empty($images) && empty($existingImages))
+                                                    <div class="alert alert-warning">
+                                                        Please upload at least one image
+                                                    </div>
+                                                    @endif
+
+                                                    <!-- Preview Area for new images -->
+                                                    <div class="mt-3 d-flex flex-wrap gap-3">
+                                                        @foreach ($images as $index => $image)
+                                                        @if(is_object($image))
+                                                        <div class="position-relative">
+                                                            <img
+                                                                src="{{ $image->temporaryUrl() }}"
+                                                                alt="Preview"
+                                                                class="rounded border"
+                                                                style="
+                                                                    height: 100px;
+                                                                    width: auto;
+                                                                    object-fit: cover;
+                                                                "
+                                                            />
+
+
+                                                        </div>
+                                                        @endif
+                                                        @endforeach
+                                                    </div>
+
+                                                    <!-- Existing Images Section -->
+                                                    @if ($existingImages && count($existingImages))
+                                                    <label class="mt-3">Existing Images</label>
+                                                    <div class="mt-2 d-flex flex-wrap gap-3">
+                                                        @foreach ($existingImages as $eIndex => $image)
+                                                        <div
+                                                            class="text-center position-relative"
+                                                            style="width: 120px"
+                                                        >
+                                                            <img
+                                                                src="{{ asset('storage/' . $image->path) }}"
+                                                                alt="Existing Image"
+                                                                class="rounded border"
+                                                                style="
+                                                                    height: 100px;
+                                                                    width: 100%;
+                                                                    object-fit: cover;
+                                                                "
+                                                            />
+                                                            <button
+                                                                type="button"
+                                                                wire:click.prevent="deleteImage({{ $image->id }})"
+                                                                class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1"
+                                                            >
+                                                                &times;
+                                                            </button>
+
+                                                        </div>
+                                                        @endforeach
+                                                    </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-4">
+                                                <label class="form-label">Banner Image</label>
+                                                @if ($banner_image)
+                                                <div class="position-relative my-2">
+                                                    <img
+                                                        src="{{ $banner_image->temporaryUrl() }}"
+                                                        alt="Banner Preview"
+                                                        class="img-fluid rounded border"
+                                                        style="
+                                                            height: 100px;
+                                                            width: 100%;
+                                                            object-fit: cover;
+                                                        "
+                                                    />
+                                                    <button
+                                                        wire:click="$set('banner_image', null)"
+                                                        type="button"
+                                                        class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1"
+                                                        title="remove banner"
+                                                    >
+                                                        &times;
+                                                    </button>
+                                                </div>
+                                                @elseif ($existingBanner)
+                                                <div class="position-relative my-2">
+                                                    <img
+                                                        src="{{ Storage::url($existingBanner) }}"
+                                                        alt="Current Banner"
+                                                        class="img-fluid rounded border"
+                                                        style="
+                                                            height: 150px;
+                                                            width: 100%;
+                                                            object-fit: cover;
+                                                        "
+                                                    />
+                                                    <button
+                                                        wire:click="deleteBanner"
+                                                        type="button"
+                                                        class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1"
+                                                        title="Delete Banner"
+                                                    >
+                                                        &times;
+                                                    </button>
+                                                </div>
+                                                @endif
+                                                <div class="mt-2">
+                                                    <input
+                                                        type="file"
+                                                        wire:model="banner_image"
+                                                        accept="image/*"
+                                                        class="form-control @error('banner_image') is-invalid @enderror"
+                                                    />
+                                                    @error('banner_image')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Slug</label>
-                                            <input type="text" class="form-control" wire:model="slug">
-                                            @error('slug') <span class="text-danger">{{ $message }}</span> @enderror
+                                </div>
+
+                                <!-- Sections Tab -->
+                                <div class="tab-pane fade {{ $activeTab == 'sections' ? 'show active' : '' }}">
+                                    <div class="mb-3">
+                                        <button type="button" class="btn btn-sm btn-success" wire:click="addSection">
+                                            <i class="fas fa-plus-circle"></i> Add Section
+                                        </button>
+                                    </div>
+
+                                    @foreach($sections as $index => $section)
+                                        <div class="card mb-3">
+                                            <div class="card-header d-flex justify-content-between align-items-center">
+                                                <h5 class="mb-0">Section {{ $index + 1 }}</h5>
+                                                <button type="button" class="btn btn-sm btn-danger"
+                                                        wire:click="removeSection({{ $index }})">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Section Title</label>
+                                                    <input type="text" class="form-control"
+                                                           wire:model.blur="sections.{{ $index }}.title">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Section Content</label>
+                                                    <textarea class="form-control" id="section_content_{{ $index }}"
+                                                              wire:model.blur="sections.{{ $index }}.content" rows="4"></textarea>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Section Images</label>
+                                                    <input type="file" class="form-control"
+                                                           wire:model="sections.{{ $index }}.images" multiple accept="image/*">
+
+                                                    <!-- Preview of uploaded section images -->
+                                                    @if(isset($sections[$index]['images']) && count($sections[$index]['images']) > 0)
+                                                        <div class="mt-2">
+                                                            <h6>New Images:</h6>
+                                                            <div class="d-flex flex-wrap gap-2">
+                                                                @foreach($sections[$index]['images'] as $imgIndex => $image)
+                                                                    <div class="position-relative">
+                                                                        <img src="{{ $image->temporaryUrl() }}" class="img-thumbnail"
+                                                                             style="height: 80px; width: auto;">
+                                                                        <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0"
+                                                                                wire:click="removeSectionImage({{ $index }}, {{ $imgIndex }})"
+                                                                                style="font-size: 0.6rem; padding: 0.1rem 0.3rem;">
+                                                                            &times;
+                                                                        </button>
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
+                                                        </div>
+                                                    @endif
+
+                                                    <!-- Display existing section images -->
+                                                    @if(isset($sections[$index]['existingImages']) && count($sections[$index]['existingImages']) > 0)
+                                                        <div class="mt-3">
+                                                            <h6>Existing Images:</h6>
+                                                            <div class="d-flex flex-wrap gap-2">
+                                                                @foreach($sections[$index]['existingImages'] as $image)
+                                                                    <div class="position-relative">
+                                                                        <img src="{{ asset('storage/' . $image->path) }}" class="img-thumbnail"
+                                                                             style="height: 80px; width: auto;">
+                                                                        <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0"
+                                                                                wire:click="deleteImage({{ $image->id }})"
+                                                                                style="font-size: 0.6rem; padding: 0.1rem 0.3rem;">
+                                                                            &times;
+                                                                        </button>
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+
+                                <!-- SEO Tab -->
+                                <div class="tab-pane fade {{ $activeTab == 'seo' ? 'show active' : '' }}">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="meta_title" class="form-label">Meta Title</label>
+                                                <input type="text" class="form-control @error('meta_title') is-invalid @enderror"
+                                                       id="meta_title" wire:model.blur="meta_title">
+                                                <small class="text-muted">Recommended: 50-60 characters</small>
+                                                @error('meta_title') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="meta_description" class="form-label">Meta Description</label>
+                                                <textarea class="form-control @error('meta_description') is-invalid @enderror"
+                                                          id="meta_description" wire:model.blur="meta_description" rows="3"></textarea>
+                                                <small class="text-muted">Recommended: 150-160 characters</small>
+                                                @error('meta_description') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Banner Image</label>
-                                    <input type="file" class="form-control" wire:model="banner_image">
-                                    @error('banner_image') <span class="text-danger">{{ $message }}</span> @enderror
-                                    
-                                    @if($existingBanner)
-                                        <div class="mt-2">
-                                            <img src="{{ Storage::url($existingBanner) }}" alt="Banner" class="img-thumbnail" style="max-height: 200px">
-                                        </div>
-                                    @endif
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Content</label>
-                                    <div wire:ignore>
-                                        <textarea id="content" wire:model="content"></textarea>
-                                    </div>
-                                    @error('content') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Images</label>
-                                    <input type="file" class="form-control" wire:model="images" multiple>
-                                    @error('images.*') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
-
-                                @if(count($existingImages) > 0)
-                                    <div class="row">
-                                        @foreach($existingImages as $image)
-                                            <div class="col-md-3 mb-3">
-                                                <div class="card">
-                                                    <img src="{{ Storage::url($image->path) }}" class="card-img-top" alt="Image">
-                                                    <div class="card-body">
-                                                        <button type="button" class="btn btn-sm btn-danger" wire:click="deleteImage({{ $image->id }})">
-                                                            <i class="fas fa-trash"></i> Delete
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                @endif
                             </div>
 
-                            <!-- Section 1 Tab -->
-                            <div class="tab-pane {{ $activeTab == 'section1' ? 'active' : '' }}">
-                                <div class="mb-3">
-                                    <label class="form-label">Section 1 Title</label>
-                                    <input type="text" class="form-control" wire:model="section_1_title">
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Section 1 Content</label>
-                                    <div wire:ignore>
-                                        <textarea id="section_1_content" wire:model="section_1_content"></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Section 1 Images</label>
-                                    <input type="file" class="form-control" wire:model="section_1_images" multiple>
-                                    @error('section_1_images.*') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
-
-                                @if(count($existingSection1Images) > 0)
-                                    <div class="row">
-                                        @foreach($existingSection1Images as $image)
-                                            <div class="col-md-3 mb-3">
-                                                <div class="card">
-                                                    <img src="{{ Storage::url($image->path) }}" class="card-img-top" alt="Image">
-                                                    <div class="card-body">
-                                                        <button type="button" class="btn btn-sm btn-danger" wire:click="deleteImage({{ $image->id }})">
-                                                            <i class="fas fa-trash"></i> Delete
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                @endif
+                            <div class="mt-4">
+                                <button type="submit" class="btn btn-primary">
+                                    Save Page
+                                </button>
                             </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                            <!-- Section 2 Tab -->
-                            <div class="tab-pane {{ $activeTab == 'section2' ? 'active' : '' }}">
-                                <div class="mb-3">
-                                    <label class="form-label">Section 2 Title</label>
-                                    <input type="text" class="form-control" wire:model="section_2_title">
-                                </div>
+@push('scripts')
+<script src="{{ asset('adminassets/vendor/ckeditor/ckeditor.js') }}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let editor;
+        let isInitialLoad = true;
+        let debounceTimer;
 
-                                <div class="mb-3">
-                                    <label class="form-label">Section 2 Content</label>
-                                    <div wire:ignore>
-                                        <textarea id="section_2_content" wire:model="section_2_content"></textarea>
-                                    </div>
-                                </div>
+        function strip_tags(html) {
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            return doc.body.textContent || '';
+        }
 
-                                <div class="mb-3">
-                                    <label class="form-label">Section 2 Images</label>
-                                    <input type="file" class="form-control" wire:model="section_2_images" multiple>
-                                    @error('section_2_images.*') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
+        ClassicEditor
+            .create(document.querySelector('#content'), {
+                ckfinder: {
+                    uploadUrl: '{{ route('ckeditor.upload')."?_token=".csrf_token() }}'
+                }
+            })
+            .then(editorInstance => {
+                editor = editorInstance;
 
-                                @if(count($existingSection2Images) > 0)
-                                    <div class="row">
-                                        @foreach($existingSection2Images as $image)
-                                            <div class="col-md-3 mb-3">
-                                                <div class="card">
-                                                    <img src="{{ Storage::url($image->path) }}" class="card-img-top" alt="Image">
-                                                    <div class="card-body">
-                                                        <button type="button" class="btn btn-sm btn-danger" wire:click="deleteImage({{ $image->id }})">
-                                                            <i class="fas fa-trash"></i> Delete
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                @endif
-                            </div>
+                // Set initial content
+                editor.setData('{!! addslashes($content) !!}');
+                isInitialLoad = false;
 
-                            <!-- Section 3 Tab -->
-                            <div class="tab-pane {{ $activeTab == 'section3' ? 'active' : '' }}">
-                                <!-- Similar structure as Section 1 and 2 -->
-                                <div class="mb-3">
-                                    <label class="form-label">Section 3 Title</label>
-                                    <input type="text" class="form-control" wire:model="section_3_title">
-                                </div>
+                // Update content in Livewire when it changes
+                editor.model.document.on("change:data", () => {
+                    if (isInitialLoad) return;
 
-                                <div class="mb-3">
-                                    <label class="form-label">Section 3 Content</label>
-                                    <div wire:ignore>
-                                        <textarea id="section_3_content" wire:model="section_3_content"></textarea>
-                                    </div>
-                                </div>
+                    const data = editor.getData();
 
-                                <div class="mb-3">
-                                    <label class="form-label">Section 3 Images</label>
-                                    <input type="file" class="form-control" wire:model="section_3_images" multiple>
-                                </div>
+                    clearTimeout(debounceTimer);
+                    debounceTimer = setTimeout(() => {
+                        console.log('Setting content in Livewire component');
+                        window.Livewire.find('<?php echo e($_instance->getId()); ?>').set('content', data);
+                    }, 500);
+                });
 
-                                @if(count($existingSection3Images) > 0)
-                                    <div class="row">
-                                        @foreach($existingSection3Images as $image)
-                                            <div class="col-md-3 mb-3">
-                                                <div class="card">
-                                                    <img src="{{ Storage::url($image->path) }}" class="card-img-top" alt="Image">
-                                                    <div class="card-body">
-                                                        <button type="button" class="btn btn-sm btn-danger" wire:click="deleteImage({{ $image->id }})">
-                                                            <i class="fas fa-trash"></i> Delete
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                @endif
-                            </div>
+                // Override the submit button to ensure content is set before submission
+                const submitBtn = document.querySelector('button[type="submit"]');
+                if (submitBtn) {
+                    submitBtn.addEventListener('click', function(e) {
+                        e.preventDefault(); // Prevent default button behavior
 
-                            <!-- Section 4 Tab -->
-                            <div class="tab-pane {{ $activeTab == 'section4' ? 'active' : '' }}">
-                                <!-- Similar structure as previous sections -->
-                                <div class="mb-3">
-                                    <label class="form-label">Section 4 Title</label>
-                                    <input type="text" class="form-control" wire:model="section_4_title">
-                                </div>
+                        const content = editor.getData();
+                        const hasContent = content && strip_tags(content).trim().length > 0;
 
-                                <div class="mb-3">
-                                    <label class="form-label">Section 4 Content</label>
-                                    <div wire:ignore>
-                                        <textarea id="section_4_content" wire:model="section_4_content"></textarea>
-                                    </div>
-                                </div>
+                        console.log('Submit clicked, content valid:', hasContent);
 
-                                <div class="mb-3">
-                                    <label class="form-label">Section 4 Images</label>
-                                    <input type="file" class="form-control" wire:model="section_4_images" multiple>
-                                </div>
+                        // Set content in Livewire component
+                        window.Livewire.find('<?php echo e($_instance->getId()); ?>').set('content', content);
 
-                                @if(count($existingSection4Images) > 0)
-                                    <div class="row">
-                                        @foreach($existingSection4Images as $image)
-                                            <div class="col-md-3 mb-3">
-                                                <div class="card">
-                                                    <img src="{{ Storage::url($image->path) }}" class="card-img-top" alt="Image">
-                                                    <div class="card-body">
-                                                        <button type="button" class="btn btn-sm btn-danger
+                        if (!hasContent) {
+                            // Show error message
+                            let errorMsg = document.querySelector('#content-error-msg');
+                            if (!errorMsg) {
+                                errorMsg = document.createElement('div');
+                                errorMsg.id = 'content-error-msg';
+                                errorMsg.className = 'text-danger mt-2';
+                                errorMsg.textContent = 'The content field is required.';
+                                document.querySelector('#content').parentNode.appendChild(errorMsg);
+                            }
+                            errorMsg.style.display = 'block';
+                            return;
+                        }
+
+                        // Hide error message if content is valid
+                        const errorMsg = document.querySelector('#content-error-msg');
+                        if (errorMsg) {
+                            errorMsg.style.display = 'none';
+                        }
+
+                        // Submit form
+                        console.log('Calling save method directly');
+                        window.Livewire.find('<?php echo e($_instance->getId()); ?>').call('save');
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('CKEditor initialization error:', error);
+            });
+    });
+</script>
+@endpush
+
+
+
+
+
+
+
+
+

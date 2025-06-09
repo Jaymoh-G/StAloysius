@@ -13,9 +13,9 @@ class StaticPage extends Model
         'title',
         'slug',
         'content',
+        'banner_image',
         'meta_title',
         'meta_description',
-        'banner_image',
         'section_1_title',
         'section_1_content',
         'section_2_title',
@@ -28,6 +28,14 @@ class StaticPage extends Model
         'section_5_content',
         'section_6_title',
         'section_6_content',
+        'section_7_title',
+        'section_7_content',
+        'section_8_title',
+        'section_8_content',
+        'section_9_title',
+        'section_9_content',
+        'section_10_title',
+        'section_10_content',
         'last_updated_by'
     ];
 
@@ -48,5 +56,7 @@ class StaticPage extends Model
         return $this->belongsTo(User::class, 'last_updated_by');
     }
 }
+
+
 
 
