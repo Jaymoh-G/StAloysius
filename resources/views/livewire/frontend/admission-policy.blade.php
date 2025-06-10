@@ -1,12 +1,15 @@
 <div>
     @section('content')
-
     <main class="main">
-
         <!-- breadcrumb -->
-        <div class="site-breadcrumb" style="background: url(assets/img/breadcrumb/01.jpg)">
+        <div
+            class="site-breadcrumb"
+            style="background: url({{ $admissionPolicy && $admissionPolicy->banner_image ? asset('storage/' . $admissionPolicy->banner_image) : asset('assets/img/breadcrumb/01.jpg') }})"
+        >
             <div class="container">
-                <h2 class="breadcrumb-title">Admissions</h2>
+                <h2 class="breadcrumb-title">
+                    {{ $admissionPolicy ? $admissionPolicy->title : 'Admissions' }}
+                </h2>
                 <ul class="breadcrumb-menu">
                     <li><a href="/">Home</a></li>
                     <li class="active">Admissions</li>
@@ -15,35 +18,57 @@
         </div>
         <!-- breadcrumb end -->
 
-
         <!-- health-care -->
         <div class="health-care py-120">
             <div class="container">
                 <div class="health-care-content">
-                    <div class="health-care-img">
-                        <img src="assets/img/health-care/01.jpg" alt="">
-                    </div>
+                    @if($admissionPolicy)
+                    <div class="my-4">{!! $admissionPolicy->content !!}</div>
+
+                    @for($i = 1; $i <= 10; $i++) @php $sectionTitle =
+                    "section_{$i}_title"; $sectionContent =
+                    "section_{$i}_content"; @endphp
+                    @if($admissionPolicy->$sectionTitle ||
+                    $admissionPolicy->$sectionContent)
                     <div class="my-4">
-                        <h3 class="mb-2">Admissions</h3>
-                        <p>Admissions at St. Aloysius Gonzaga Secondary School are guided by the school’s mission to serve academically capable students from vulnerable and low-income backgrounds. The process includes an application, an interview, home visits to assess need, and a review of academic performance, with priority given to orphaned or needy students who demonstrate potential and discipline.</p>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-20">
-                            <img src="assets/img/health-care/02.jpg" alt="">
+                        @if($admissionPolicy->$sectionTitle)
+                        <h3 class="mb-2">
+                            {{ $admissionPolicy->$sectionTitle }}
+                        </h3>
+                        @endif @if($admissionPolicy->$sectionContent)
+                        <div class="section-content">
+                            {!! $admissionPolicy->$sectionContent !!}
                         </div>
-                        <div class="col-md-6 mb-20">
-                            <img src="assets/img/health-care/03.jpg" alt="">
+                        @endif @php $images =
+                        $admissionPolicy->sectionImages($i); @endphp @if($images
+                        && $images->count() > 0)
+                        <div class="row mt-4">
+                            @foreach($images as $image)
+                            <div class="col-md-4 mb-4">
+                                <img
+                                    src="{{ asset('storage/' . $image->path) }}"
+                                    alt="{{ $image->caption }}"
+                                    class="img-fluid rounded"
+                                />
+                                @if($image->caption)
+                                <p class="mt-2 text-muted">
+                                    {{ $image->caption }}
+                                </p>
+                                @endif
+                            </div>
+                            @endforeach
                         </div>
+                        @endif
                     </div>
+                    @endif @endfor @else
                     <div class="my-4">
-                        <h3 class="mb-2">Admission Policy</h3>
-                        <p>Admissions at St. Aloysius Gonzaga Secondary School are guided by the school’s mission to serve academically capable students from vulnerable and low-income backgrounds. The process includes an application, an interview, home visits to assess need, and a review of academic performance, with priority given to orphaned or needy students who demonstrate potential and discipline. </p>
+                        <p>Content not available at the moment.</p>
                     </div>
-                 
+                    @endif
                 </div>
             </div>
         </div>
         <!-- health-care end -->
-
+    </main>
     @endsection
 </div>

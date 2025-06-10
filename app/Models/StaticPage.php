@@ -11,6 +11,7 @@ class StaticPage extends Model
 
     protected $fillable = [
         'title',
+        'page_name',
         'slug',
         'content',
         'banner_image',
@@ -56,7 +57,3 @@ class StaticPage extends Model
         return $this->belongsTo(User::class, 'last_updated_by');
     }
 }
-
-
-
-

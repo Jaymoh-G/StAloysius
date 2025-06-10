@@ -22,6 +22,7 @@ class Manage extends Component
     public $meta_description;
     public $banner_image;
     public $existingBanner;
+    public $page_name;
 
     // For multiple images
     public $images = [];
@@ -45,22 +46,40 @@ class Manage extends Component
         'sections.*.images.*' => 'nullable|image|max:2048',
     ];
 
-    public function mount($id = null)
+    public function rules()
     {
-        if ($id) {
-            $this->pageId = $id;
-            $page = StaticPage::findOrFail($id);
+        return [
+            'page_name' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:static_pages,slug,' . ($this->pageId ?? ''),
+            'content' => 'required|string',
+            'meta_title' => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string|max:500',
+            'images.*' => 'nullable|image|max:2048',
+            'banner_image' => 'nullable|image|max:2048',
+        ];
+    }
+
+    public function generateSlug()
+    {
+        if (!empty($this->title)) {
+            $this->slug = Str::slug($this->title);
+        }
+    }
+
+    public function mount($pageId = null)
+    {
+        if ($pageId) {
+            $page = StaticPage::findOrFail($pageId);
+            $this->pageId = $page->id;
             $this->title = $page->title;
             $this->slug = $page->slug;
             $this->content = $page->content;
             $this->meta_title = $page->meta_title;
             $this->meta_description = $page->meta_description;
             $this->existingBanner = $page->banner_image;
-
-            // Load images
-            $this->existingImages = $page->images()->where('category', 'general')->get();
-
-
+            $this->existingImages = $page->images;
+            $this->page_name = $page->page_name;
 
             // Load sections
             $this->loadSections($page);
@@ -178,11 +197,19 @@ class Manage extends Component
             'content' => 'required|string',
             'meta_title' => 'nullable|max:70',
             'meta_description' => 'nullable|max:160',
+            'page_name' => 'required|string|max:255',
         ], [
             'content.required' => 'The content field is required.',
             'title.required' => 'The title field is required.',
             'slug.required' => 'The slug field is required.',
+            'page_name.required' => 'The page name field is required.',
         ]);
+
+        // Check if content is empty after stripping HTML tags
+        if (empty(strip_tags($this->content))) {
+            $this->addError('content', 'The content field is required.');
+            return;
+        }
 
         $data = [
             'title' => $this->title,
@@ -191,6 +218,7 @@ class Manage extends Component
             'meta_title' => $this->meta_title,
             'meta_description' => $this->meta_description,
             'last_updated_by' => Auth::id(),
+            'page_name' => $this->page_name,
         ];
 
         // Clear all section fields first
@@ -226,8 +254,6 @@ class Manage extends Component
             $page->save();
         }
 
-
-
         // Handle general images
         foreach ($this->images as $index => $image) {
             $path = $image->store('static_page_images', 'public');
@@ -238,7 +264,6 @@ class Manage extends Component
                 'sort_order' => $index + 1,
             ]);
         }
-
 
         // Handle section images
         foreach ($this->sections as $index => $section) {
@@ -260,5 +285,3 @@ class Manage extends Component
         return redirect()->route('dashboard.static-pages.index');
     }
 }
-
-

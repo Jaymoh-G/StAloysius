@@ -40,6 +40,7 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
+                                        <th>Page Name</th>
                                         <th>Title</th>
                                         <th>Slug</th>
                                         <th>Last Updated</th>
@@ -50,6 +51,7 @@
                                     @forelse($pages as $index => $page)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
+                                            <td>{{ $page->page_name }}</td>
                                             <td>{{ $page->title }}</td>
                                             <td>{{ $page->slug }}</td>
                                             <td>{{ $page->updated_at->format('M d, Y') }}</td>

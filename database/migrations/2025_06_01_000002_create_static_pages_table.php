@@ -6,11 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up(): void
+   public function up(): void
     {
         Schema::create('static_pages', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('page_name');
             $table->string('slug')->unique();
             $table->longText('content')->nullable();
             $table->string('meta_title')->nullable();
@@ -51,4 +52,3 @@ return new class extends Migration
         Schema::dropIfExists('static_pages');
     }
 };
-
