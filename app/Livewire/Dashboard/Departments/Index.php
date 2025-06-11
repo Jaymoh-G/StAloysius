@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Livewire\Dashboard\Departments;
+
 use Livewire\Component;
 use App\Models\DepartmentModel;
 
@@ -8,29 +9,26 @@ class Index extends Component
 {
     public $depIdToDelete;
     protected $listeners = ['deleteDep'];
-    
+
     public function deleteDep($depId)
-{
-    $this->depIdToDelete = $depId;
-    $this->dispatch('show-delete-modal');
-}
-
-public function deletePostConfirmed()
-{
-    if ($this->depIdToDelete) {
-        DepartmentModel::find($this->depIdToDelete)?->delete();
-        session()->flash('message', 'Blog post deleted successfully!');
-        $this->depIdToDelete = null;
-
-        // Optionally refresh posts if you have caching or pagination
-        // $this->loadPosts();
+    {
+        $this->dispatch('confirmDelete', id: $depId);
     }
-}
+
+    public function deleteConfirmed($id)
+    {
+        if ($id) {
+            DepartmentModel::find($id)?->delete();
+            session()->flash('message', 'Department deleted successfully!');
+        }
+    }
 
     public function render()
     {
-        $deps = DepartmentModel::with('depCategory','images') ->orderBy('updated_at', 'desc')->paginate(10);
+        $deps = DepartmentModel::with(['depCategory', 'images' => function ($query) {
+            $query->orderBy('is_featured', 'desc');
+        }])->orderBy('updated_at', 'desc')->paginate(10);
 
-        return view('livewire.dashboard.departments.index',compact('deps'))->layout('components.layouts.dashboard');
+        return view('livewire.dashboard.departments.index', compact('deps'))->layout('components.layouts.dashboard');
     }
 }

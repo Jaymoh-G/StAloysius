@@ -61,15 +61,17 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    @if ($member->skills)
-                                                        @php$skills = is_array($member->skills)
-                                                                                                                                                                                                                                                                                                                                                                            ? $member->skills
-                                                                                                                                                                                                                                                                                                                                                                            : json_decode($member->skills, true);
-                                                                                                                                                                                                                                                                                                                                                @endphp ?> ?> ?> ?> ?> @if ($skills)
+                                                    @if ($member->professional_skills)
+                                                        @php
+                                                            $skills = is_array($member->professional_skills)
+                                                                ? $member->professional_skills
+                                                                : json_decode($member->professional_skills, true);
+                                                        @endphp
+                                                        @if ($skills)
                                                             @foreach ($skills as $skill => $percent)
-                                                                <span class="badge bg-primary me-1">{{ $skill }}
+                                                              {{ $skill }}
                                                                     ({{ $percent }}%)
-                                                                </span>
+                                                               
                                                             @endforeach
                                                         @else
                                                             <span class="text-muted">No skills added</span>
@@ -115,13 +117,14 @@
                                                             class="btn btn-primary btn-sm" title="Edit">
                                                             <i class="fas fa-pencil-alt"></i>
                                                         </a>
-                                                        <button wire:click="deleteMember({{ $member->id }})"
+
+                                                        <button wire:click="confirmDelete({{ $member->id }})"
                                                             class="btn btn-danger btn-sm" title="Delete">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
-                                                        <!-- link to view the member in the frontend -->
+                                                        <!-- link to view the member in the frontend open in new tab-->
                                                         <a href="{{ route('frontend.team.show', $member->slug) }}"
-                                                            class="btn btn-info btn-sm" title="View">
+                                                            target="_blank" class="btn btn-info btn-sm" title="View">
                                                             <i class="fas fa-eye"></i>
                                                         </a>
                                                     </div>
@@ -153,3 +156,30 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        document.addEventListener('livewire:initialized', () => {
+            Livewire.on('confirmDelete', (data) => {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        @this.deleteMember(data.id);
+                        Swal.fire(
+                            'Deleted!',
+                            'Team member has been deleted.',
+                            'success'
+                        );
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

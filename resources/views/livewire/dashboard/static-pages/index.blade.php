@@ -21,22 +21,24 @@
                         <!-- Search Box -->
                         <div class="mb-4">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search pages..." wire:model.live="search">
+                                <input type="text" class="form-control" placeholder="Search pages..."
+                                    wire:model.live="search">
                                 <button class="btn btn-primary" type="button">
                                     <i class="fas fa-search"></i>
                                 </button>
                             </div>
                         </div>
 
-                        @if(session()->has('message'))
+                        @if (session()->has('message'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 {{ session('message') }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
                             </div>
                         @endif
 
                         <div class="table-responsive">
-                            <table class="table table-hover table-centered mb-0">
+                            <table class="table-hover table-centered mb-0 table">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -56,10 +58,12 @@
                                             <td>{{ $page->slug }}</td>
                                             <td>{{ $page->updated_at->format('M d, Y') }}</td>
                                             <td>
-                                                <a href="{{ route('dashboard.static-pages.edit', $page->id) }}" class="btn btn-sm btn-primary">
+                                                <a href="{{ route('dashboard.static-pages.edit', $page->id) }}"
+                                                    class="btn btn-sm btn-primary">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <button class="btn btn-sm btn-danger" wire:click="deletePage({{ $page->id }})"
+                                                <button class="btn btn-sm btn-danger"
+                                                    wire:click="deletePage({{ $page->id }})"
                                                     onclick="return confirm('Are you sure you want to delete this page?')">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
@@ -83,4 +87,3 @@
         </div>
     </div>
 </div>
-

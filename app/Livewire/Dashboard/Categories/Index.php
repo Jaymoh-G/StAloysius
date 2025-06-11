@@ -28,7 +28,7 @@ class Index extends Component
             'categories' => Category::latest()->get(),
         ])->layout('components.layouts.dashboard');
     }
-        public function resetFields()
+    public function resetFields()
     {
         $this->name = '';
         $this->category_id = null;
@@ -42,7 +42,7 @@ class Index extends Component
         session()->flash('message', 'Category added successfully.');
         $this->resetFields();
     }
-     public function edit($id)
+    public function edit($id)
     {
         $category = Category::findOrFail($id);
         $this->category_id = $id;
@@ -55,10 +55,11 @@ class Index extends Component
         $this->validate([
             'name' => 'required|string|max:255|unique:categories,name,' . $this->category_id,
         ]);
-         $category = Category::findOrFail($this->category_id);
+        $category = Category::findOrFail($this->category_id);
         $category->update(['name' => $this->name]);
         session()->flash('message', 'Category updated.');
-        $this->resetFields();}
+        $this->resetFields();
+    }
 
     // Updated delete method with confirmation
     public function confirmDelete($id)
@@ -67,16 +68,15 @@ class Index extends Component
         $this->dispatch('show-delete-confirmation');
     }
 
-    public function deleteConfirmed()
+    public function deleteConfirmed($id)
     {
-        if ($this->categoryToDelete) {
+        if ($id) {
             try {
-                $category = Category::findOrFail($this->categoryToDelete);
+                $category = Category::findOrFail($id);
 
                 // Check if category has associated blog posts
                 if ($category->blogPosts()->count() > 0) {
                     session()->flash('error', 'Cannot delete category. It has associated blog posts.');
-                    $this->categoryToDelete = null;
                     return;
                 }
 
@@ -85,16 +85,12 @@ class Index extends Component
             } catch (\Exception $e) {
                 session()->flash('error', 'Error deleting category: ' . $e->getMessage());
             }
-
-            $this->categoryToDelete = null;
-            $this->resetFields();
         }
     }
 
     // Legacy delete method - updated to use confirmation
     public function delete($id)
     {
-        $this->confirmDelete($id);
+        $this->dispatch('confirmDelete', id: $id);
     }
 }
-

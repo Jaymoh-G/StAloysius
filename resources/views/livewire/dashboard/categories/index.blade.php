@@ -1,5 +1,5 @@
 <div>
-    <div class="p-6 bg-white rounded shadow">
+    <div class="rounded bg-white p-6 shadow">
         @if (session()->has('message'))
             <div class="alert alert-success mb-4">{{ session('message') }}</div>
         @endif
@@ -21,7 +21,9 @@
             <div class="col-lg-12">
                 <form wire:submit.prevent="{{ $updateMode ? 'update' : 'store' }}" class="input-group mb-3">
                     <input type="text" wire:model="name" class="form-control" placeholder="Category name">
-                    @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                    @error('name')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
 
                     <button class="btn btn-primary">
                         {{ $updateMode ? 'Update' : 'Add' }}
@@ -33,11 +35,11 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-sm mb-0">
+                            <table class="table-sm mb-0 table">
                                 <thead>
                                     <tr>
                                         <th class="align-middle" style="min-width: 12.5rem;">Category Name</th>
-                                        <th class="align-middle text-end">Action</th>
+                                        <th class="text-end align-middle">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody id="orders">
@@ -46,12 +48,16 @@
                                             <td class="py-2">{{ $cat->name }}</td>
                                             <td class="text-end">
                                                 <span>
-                                                    <a href="javascript:void(0);" class="me-4 btn btn-xs btn-primary me-4" data-bs-toggle="tooltip" data-placement="top" title="Edit">
-                                                        <i wire:click="edit({{ $cat->id }})" class="fas fa-pencil-alt color-muted text-end"></i>
+                                                    <a href="javascript:void(0);"
+                                                        class="btn btn-xs btn-primary me-4 me-4"
+                                                        data-bs-toggle="tooltip" data-placement="top" title="Edit">
+                                                        <i wire:click="edit({{ $cat->id }})"
+                                                            class="fas fa-pencil-alt color-muted text-end"></i>
                                                     </a>
-                                                    <a href="javascript:void(0);" data-bs-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-xs btn-danger">
-                                                        <i wire:click="confirmDelete({{ $cat->id }})" class="fas fa-trash color-danger"></i>
-                                                    </a>
+                                                    <button class="btn btn-danger btn-sm"
+                                                        wire:click.prevent="delete({{ $cat->id }})">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
                                                 </span>
                                             </td>
                                         </tr>
@@ -85,14 +91,27 @@
     </div>
 
     <script>
-        document.addEventListener('livewire:initialized', function () {
-            Livewire.on('show-delete-confirmation', function () {
-                var modal = new bootstrap.Modal(document.getElementById('deleteConfirmationModal'));
-                modal.show();
+        document.addEventListener('livewire:initialized', () => {
+            Livewire.on('confirmDelete', (data) => {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        @this.deleteConfirmed(data.id);
+                        Swal.fire(
+                            'Deleted!',
+                            'Category has been deleted.',
+                            'success'
+                        );
+                    }
+                });
             });
         });
     </script>
 </div>
-
-
-

@@ -13,12 +13,13 @@
 
                     <div class="row mb-4">
                         <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder="Search jobs..." wire:model.live="search">
+                            <input type="text" class="form-control" placeholder="Search jobs..."
+                                wire:model.live="search">
                         </div>
                     </div>
 
                     <div class="table-responsive">
-                        <table class="table table-hover table-bordered">
+                        <table class="table-hover table-bordered table">
                             <thead>
                                 <tr>
                                     <th>Title</th>
@@ -35,8 +36,8 @@
                                         <td>{{ $job->category->name ?? 'N/A' }}</td>
                                         <td>{{ $job->deadline->format('M d, Y') }}</td>
                                         <td>
-                                            @if($job->is_active)
-                                                @if($job->deadline->isPast())
+                                            @if ($job->is_active)
+                                                @if ($job->deadline->isPast())
                                                     <span class="badge bg-warning">Expired</span>
                                                 @else
                                                     <span class="badge bg-success">Active</span>
@@ -46,18 +47,20 @@
                                             @endif
                                         </td>
                                         <td>
-                                             <a href="{{ route('careers.show', $job->slug) }}" class="btn btn-sm btn-success me-1" target="_blank">
+                                            <a href="{{ route('careers.show', $job->slug) }}"
+                                                class="btn btn-sm btn-success me-1" target="_blank">
                                                 <i class="fa fa-eye"></i>
                                             </a>
-                                            <a href="{{ route('dashboard.careers.edit', $job->id) }}" class="btn btn-sm btn-info me-1">
+                                            <a href="{{ route('dashboard.careers.edit', $job->id) }}"
+                                                class="btn btn-sm btn-info me-1">
                                                 <i class="fa fa-edit"></i>
                                             </a>
 
 
                                             <button class="btn btn-sm btn-danger"
-                                                wire:click="delete({{ $job->id }})"
-                                                wire:confirm="Are you sure you want to delete this job vacancy?">
-                                                <i class="fa fa-trash"></i>
+                                                wire:click.prevent="delete({{ $job->id }})"
+                                                class="text-red-600 hover:text-red-900">
+                                                <i class="fas fa-trash"></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -77,3 +80,30 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        document.addEventListener('livewire:initialized', () => {
+            Livewire.on('confirmDelete', (data) => {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        @this.deleteConfirmed(data.id)
+                        Swal.fire(
+                            'Deleted!',
+                            'Job vacancy has been deleted.',
+                            'success'
+                        )
+                    }
+                })
+            });
+        });
+    </script>
+@endpush

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -23,7 +24,10 @@
 
     <!-- Custom CSS -->
     <link href="{{ asset('adminassets/css/style.css') }}" rel="stylesheet" />
+    <!-- SweetAlert2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
 </head>
+
 <body>
     <!-- Main Wrapper -->
     <div id="main-wrapper">
@@ -67,30 +71,45 @@
                 paginationSpeed: 3000,
                 dots: false,
                 responsive: {
-                    0: { items: 1 },
-                    576: { items: 2 },
-                    800: { items: 2 },
-                    991: { items: 2 },
-                    1200: { items: 3 },
-                    1600: { items: 4 }
+                    0: {
+                        items: 1
+                    },
+                    576: {
+                        items: 2
+                    },
+                    800: {
+                        items: 2
+                    },
+                    991: {
+                        items: 2
+                    },
+                    1200: {
+                        items: 3
+                    },
+                    1600: {
+                        items: 4
+                    }
                 }
             });
         }
 
-        jQuery(window).on("load", function () {
+        jQuery(window).on("load", function() {
             setTimeout(cardsCenter, 1000);
         });
     </script>
 
     @livewireScripts
     @stack('scripts')
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         console.log("Livewire:", window.Livewire);
     </script>
-      <style>
-    .form-control {
-        border: 1px solid #dbd9d6 !important;
-    }
-</style>
+    <style>
+        .form-control {
+            border: 1px solid #dbd9d6 !important;
+        }
+    </style>
 </body>
+
 </html>

@@ -8,133 +8,179 @@ use App\Models\TeamMember;
 use App\Models\DepartmentModel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class Create extends Component
 {
     use WithFileUploads;
 
-    public $name, $position, $description, $experience, $image, $teamMemberId, $slug, $department_id;
-    public $skills = [];
-    public $newSkill, $newPercent;
-    public $socials = [];
-    public $newSocial, $newSocialLink;
+    public $teamMemberId;
+    public $name;
+    public $position;
+    public $description;
+    public $experience;
+    public $image;
     public $imageTemp;
+    public $department_id;
+    public $departments;
+    public $professional_skills = [];
+    public $socials = [];
+    public $newSkill = '';
+    public $newPercent = '';
+    public $newSocial = '';
+    public $newSocialLink = '';
 
     protected $rules = [
-        'name' => 'required|string',
-        'position' => 'required|string',
-        'description' => 'required|string',
-        'experience' => 'required|string',
-        'imageTemp' => 'nullable|image|max:2048',
-        'newSocialLink' => 'nullable|url',
-        'slug' => 'required|string|unique:team_members,slug',
-        'department_id' => 'required|exists:department_models,id',
+        'name' => 'required|string|max:255',
+        'position' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'experience' => 'nullable|string',
+        'imageTemp' => 'nullable|image|max:1024',
+      'department_id' => 'required|exists:department_models,id',
+
+        'professional_skills' => 'array',
+        'socials' => 'array'
     ];
 
     protected $messages = [
         'newSocialLink.url' => 'Please enter a valid URL',
-        'slug.unique' => 'This name is already taken. Please try a different name.',
         'department_id.required' => 'Please select a department',
         'department_id.exists' => 'The selected department is invalid',
     ];
 
-    public function mount($id = null)
+    public function mount($teamMemberId = null)
     {
-        if ($id) {
-            $this->teamMemberId = $id;
-            $member = TeamMember::findOrFail($id);
-            $this->name = $member->name;
-            $this->position = $member->position;
-            $this->description = $member->description;
-            $this->experience = $member->experience;
-            $this->skills = $member->professional_skills ?? [];
-            $this->socials = $member->socials ?? [];
-            $this->image = $member->image;
-            $this->slug = $member->slug;
-            $this->department_id = $member->department_id;
+        $this->departments = DepartmentModel::orderBy('name')->get();
+        $this->teamMemberId = $teamMemberId;
+
+        if ($teamMemberId) {
+            $teamMember = TeamMember::findOrFail($teamMemberId);
+            $this->name = $teamMember->name;
+            $this->position = $teamMember->position;
+            $this->description = $teamMember->description;
+            $this->experience = $teamMember->experience;
+            $this->image = $teamMember->image;
+            $this->department_id = $teamMember->department_id;
+            $this->professional_skills = $teamMember->professional_skills ?? [];
+            $this->socials = $teamMember->socials ?? [];
         }
     }
-
-    public function updatedName()
-    {
-        $this->slug = Str::slug($this->name);
-    }
-
-    public function save()
-    {
-        $this->validate();
-
-        $imagePath = $this->image;
-
-        if ($this->imageTemp) {
-            if ($this->image && Storage::disk('public')->exists($this->image)) {
-                Storage::disk('public')->delete($this->image);
-            }
-            $imagePath = $this->imageTemp->store('team', 'public');
-        }
-        $data = [
-            'name' => $this->name,
-            'position' => $this->position,
-            'description' => $this->description,
-            'experience' => $this->experience,
-            'professional_skills' => $this->skills,
-            'socials' => $this->socials,
-            'image' => $imagePath,
-            'slug' => $this->slug,
-            'department_id' => $this->department_id,
-        ];
-
-        if ($this->teamMemberId) {
-            TeamMember::findOrFail($this->teamMemberId)->update($data);
-            session()->flash('message', 'Team member updated successfully!');
-        } else {
-            TeamMember::create($data);
-            session()->flash('message', 'Team member created successfully!');
-        }
-
-        return redirect()->route('dashboard.team.index');
-    }
-
 
     public function addSkill()
     {
-        if ($this->newSkill && $this->newPercent !== null) {
-            $this->skills[$this->newSkill] = (int) $this->newPercent;
-            $this->newSkill = $this->newPercent = '';
+        $this->validate([
+            'newSkill' => 'required|string|max:255',
+            'newPercent' => 'required|numeric|min:0|max:100'
+        ]);
+
+        $skills = $this->professional_skills;
+        if (!is_array($skills)) {
+            $skills = [];
         }
+
+        $skills[$this->newSkill] = (int)$this->newPercent;
+        $this->professional_skills = $skills;
+        $this->newSkill = '';
+        $this->newPercent = '';
+
+        // Debug the skills array after adding
+        \Log::info('Skills after adding:', ['skills' => $this->professional_skills]);
     }
 
-    public function removeSkill($key)
+    public function removeSkill($skill)
     {
-        unset($this->skills[$key]);
+        $skills = $this->professional_skills;
+        if (isset($skills[$skill])) {
+            unset($skills[$skill]);
+         $this->professional_skills = $skills;
+
+        }
     }
 
     public function addSocial()
     {
         $this->validate([
-            'newSocial' => 'required',
-            'newSocialLink' => 'required|url',
-        ], [
-            'newSocial.required' => 'Please select a social platform',
-            'newSocialLink.required' => 'Please enter a URL',
-            'newSocialLink.url' => 'Please enter a valid URL',
+            'newSocial' => 'required|string|in:facebook,twitter,linkedin,instagram,youtube,website',
+            'newSocialLink' => 'required|url'
         ]);
 
-        if ($this->newSocial && $this->newSocialLink) {
-            // Ensure URL has http/https prefix
-            $url = $this->newSocialLink;
-            if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
-                $url = "https://" . $url;
-            }
+        $socials = $this->socials;
+        if (!is_array($socials)) {
+            $socials = [];
+        }
 
-            $this->socials[$this->newSocial] = $url;
-            $this->newSocial = $this->newSocialLink = '';
+        $url = $this->newSocialLink;
+        if (!str_starts_with($url, 'http://') && !str_starts_with($url, 'https://')) {
+            $url = 'https://' . $url;
+        }
+
+        $socials[$this->newSocial] = $url;
+        $this->socials = $socials;
+        $this->newSocial = '';
+        $this->newSocialLink = '';
+
+        // Debug the socials array after adding
+        \Log::info('Socials after adding:', ['socials' => $this->socials]);
+    }
+
+    public function removeSocial($platform)
+    {
+        $socials = $this->socials;
+        if (isset($socials[$platform])) {
+            unset($socials[$platform]);
+           $this->socials = $socials;
+
         }
     }
 
-    public function removeSocial($key)
+    public function save()
     {
-        unset($this->socials[$key]);
+        try {
+            $this->validate();
+
+            // Debug the data before saving
+            \Log::info('Saving team member with data:', [
+                'name' => $this->name,
+                'position' => $this->position,
+                'description' => $this->description,
+                'experience' => $this->experience,
+                'professional_skills' => $this->professional_skills,
+                'socials' => $this->socials,
+                'department_id' => $this->department_id
+            ]);
+
+            $data = [
+                'name' => $this->name,
+                'position' => $this->position,
+                'description' => $this->description,
+                'experience' => $this->experience,
+                'professional_skills' => $this->professional_skills,
+                'socials' => $this->socials,
+                'department_id' => $this->department_id,
+                'slug' => Str::slug($this->name)
+            ];
+
+            if ($this->imageTemp) {
+                $data['image'] = $this->imageTemp->store('team', 'public');
+            }
+
+            if ($this->teamMemberId) {
+                $teamMember = TeamMember::findOrFail($this->teamMemberId);
+                $teamMember->update($data);
+                session()->flash('success', 'Team member updated successfully.');
+            } else {
+                $teamMember = TeamMember::create($data);
+                session()->flash('success', 'Team member created successfully.');
+            }
+
+            // Debug the saved data
+            \Log::info('Saved team member:', ['team_member' => $teamMember->toArray()]);
+
+            return redirect()->route('dashboard.team.index');
+        } catch (\Exception $e) {
+            \Log::error('Error saving team member: ' . $e->getMessage());
+            session()->flash('error', 'Error saving team member: ' . $e->getMessage());
+        }
     }
 
     public function render()

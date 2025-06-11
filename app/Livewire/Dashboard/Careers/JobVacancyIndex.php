@@ -14,15 +14,22 @@ class JobVacancyIndex extends Component
 
     public function delete($id)
     {
-        JobVacancy::findOrFail($id)->delete();
-        session()->flash('message', 'Job vacancy deleted successfully!');
+        $this->dispatch('confirmDelete', id: $id);
+    }
+
+    public function deleteConfirmed($id)
+    {
+        if ($id) {
+            JobVacancy::findOrFail($id)->delete();
+            session()->flash('message', 'Job vacancy deleted successfully!');
+        }
     }
 
     public function render()
     {
-        $jobs = JobVacancy::when($this->search, function($query) {
-                $query->where('title', 'like', '%' . $this->search . '%');
-            })
+        $jobs = JobVacancy::when($this->search, function ($query) {
+            $query->where('title', 'like', '%' . $this->search . '%');
+        })
             ->latest()
             ->paginate(10);
 

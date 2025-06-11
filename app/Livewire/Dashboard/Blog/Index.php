@@ -14,19 +14,14 @@ class Index extends Component
 
     public function deletePost($postId)
     {
-        $this->postIdToDelete = $postId;
-        $this->dispatch('show-delete-modal');
+        $this->dispatch('confirmDelete', id: $postId);
     }
 
-    public function deletePostConfirmed()
+    public function deletePostConfirmed($id)
     {
-        if ($this->postIdToDelete) {
-            BlogPost::find($this->postIdToDelete)?->delete();
+        if ($id) {
+            BlogPost::find($id)?->delete();
             session()->flash('message', 'Blog post deleted successfully!');
-            $this->postIdToDelete = null;
-
-            // Optionally refresh posts if you have caching or pagination
-            // $this->loadPosts();
         }
     }
 

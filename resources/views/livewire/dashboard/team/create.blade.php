@@ -19,6 +19,9 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
+                        @if (session()->has('error'))
+                            <div class="alert alert-danger">{{ session('error') }}</div>
+                        @endif
                         <form wire:submit.prevent="save">
                             <div class="row mb-3">
                                 <div class="col-md-6">
@@ -112,7 +115,7 @@
                                             </h5>
                                         </div>
                                         <div class="card-body">
-                                            @foreach ($skills as $skill => $percent)
+                                            @foreach ($professional_skills as $skill => $percent)
                                                 <div class="row align-items-center mb-2">
                                                     <div class="col-5">
                                                         <input type="text" class="form-control"
@@ -124,7 +127,7 @@
                                                     </div>
                                                     <div class="col-3">
                                                         <button type="button"
-                                                            wire:click="removeSkill('{{ $skill }}')"
+                                                            wire:click.prevent="removeSkill('{{ $skill }}')"
                                                             class="btn btn-danger btn-sm">
                                                             <i class="fas fa-times"></i>
                                                         </button>
@@ -135,15 +138,15 @@
                                             <div class="row mt-3">
                                                 <div class="col-5">
                                                     <input type="text" class="form-control"
-                                                        wire:model.defer="newSkill" placeholder="Skill" />
+                                                        wire:model.live="newSkill" placeholder="Skill" />
                                                 </div>
                                                 <div class="col-4">
                                                     <input type="number" class="form-control"
-                                                        wire:model.defer="newPercent" placeholder="%" min="0"
+                                                        wire:model.live="newPercent" placeholder="%" min="0"
                                                         max="100" />
                                                 </div>
                                                 <div class="col-3">
-                                                    <button type="button" wire:click="addSkill"
+                                                    <button type="button" wire:click.prevent="addSkill"
                                                         class="btn btn-primary btn-sm w-100">
                                                         <i class="fas fa-plus"></i>
                                                         Add
@@ -177,7 +180,7 @@
                                                     </div>
                                                     <div class="col-2">
                                                         <button type="button"
-                                                            wire:click="removeSocial('{{ $platform }}')"
+                                                            wire:click.prevent="removeSocial('{{ $platform }}')"
                                                             class="btn btn-danger btn-sm">
                                                             <i class="fas fa-times"></i>
                                                         </button>
@@ -189,7 +192,7 @@
                                                 <div class="col-5">
                                                     <select
                                                         class="form-select @error('newSocial') is-invalid @enderror"
-                                                        wire:model.defer="newSocial">
+                                                        wire:model.live="newSocial">
                                                         <option value="">
                                                             Select Platform
                                                         </option>
@@ -221,7 +224,7 @@
                                                 <div class="col-5">
                                                     <input type="url"
                                                         class="form-control @error('newSocialLink') is-invalid @enderror"
-                                                        wire:model.defer="newSocialLink" placeholder="Enter Link" />
+                                                        wire:model.live="newSocialLink" placeholder="Enter Link" />
                                                     @error('newSocialLink')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
@@ -229,7 +232,7 @@
                                                     @enderror
                                                 </div>
                                                 <div class="col-2">
-                                                    <button type="button" wire:click="addSocial"
+                                                    <button type="button" wire:click.prevent="addSocial"
                                                         class="btn btn-primary btn-sm w-100">
                                                         <i class="fas fa-plus"></i>
                                                     </button>
@@ -271,31 +274,31 @@
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
                                                     </div>
-                                                    @enderror @if ($imageTemp)
-                                                        <div class="mt-2">
-                                                            <img src="{{ $imageTemp->temporaryUrl() }}"
-                                                                class="img-thumbnail"
-                                                                style="
+                                                @enderror
+                                                @if ($imageTemp)
+                                                    <div class="mt-2">
+                                                        <img src="{{ $imageTemp->temporaryUrl() }}"
+                                                            class="img-thumbnail"
+                                                            style="
                                                             max-height: 150px;
                                                         " />
-                                                        </div>
-                                                    @endif
-                                                </div>
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div class="row">
-                                    <div class="col-12">
-                                        <button type="submit" class="btn btn-primary">
-                                            <i class="fas fa-save me-1"></i>
-                                            {{ $teamMemberId ? 'Update' : 'Save' }}
-                                        </button>
-                                    </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save me-1"></i>
+                                        {{ $teamMemberId ? 'Update' : 'Save' }}
+                                    </button>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

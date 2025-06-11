@@ -49,5 +49,3 @@ class Index extends Component
         session()->flash('message', 'Page deleted successfully.');
     }
 }
-
-

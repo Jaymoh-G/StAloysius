@@ -11,6 +11,7 @@ class Index extends Component
 {
     use WithPagination;
 
+    // confirm before deleting the member
     public function deleteMember($id)
     {
         $member = TeamMember::findOrFail($id);
@@ -23,6 +24,11 @@ class Index extends Component
         $member->delete();
 
         session()->flash('message', 'Team member deleted successfully!');
+    }
+
+    public function confirmDelete($id)
+    {
+        $this->dispatch('confirmDelete', id: $id);
     }
 
     public function render()
