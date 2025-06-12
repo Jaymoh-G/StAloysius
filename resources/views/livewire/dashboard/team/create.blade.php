@@ -19,10 +19,14 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        @if (session()->has('error'))
-                            <div class="alert alert-danger">{{ session('error') }}</div>
-                        @endif
+
                         <form wire:submit.prevent="save">
+                            @if ($errors->has('general'))
+                                <div class="alert alert-danger mb-3">
+                                    {{ $errors->first('general') }}
+                                </div>
+                            @endif
+
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -31,7 +35,7 @@
                                         <input type="text" class="form-control @error('name') is-invalid @enderror"
                                             id="name" wire:model="name" placeholder="Enter name" />
                                         @error('name')
-                                            <div class="invalid-feedback">
+                                            <div class="text-danger mt-1">
                                                 {{ $message }}
                                             </div>
                                         @enderror
@@ -53,7 +57,7 @@
                                             @endforeach
                                         </select>
                                         @error('department_id')
-                                            <div class="invalid-feedback">
+                                            <div class="text-danger mt-1">
                                                 {{ $message }}
                                             </div>
                                         @enderror
@@ -70,7 +74,7 @@
                                             class="form-control @error('position') is-invalid @enderror" id="position"
                                             wire:model="position" placeholder="Enter position" />
                                         @error('position')
-                                            <div class="invalid-feedback">
+                                            <div class="text-danger mt-1">
                                                 {{ $message }}
                                             </div>
                                         @enderror
@@ -83,7 +87,7 @@
                                         <textarea class="form-control @error('description') is-invalid @enderror" id="description" wire:model="description"
                                             rows="3" placeholder="Enter description"></textarea>
                                         @error('description')
-                                            <div class="invalid-feedback">
+                                            <div class="text-danger mt-1">
                                                 {{ $message }}
                                             </div>
                                         @enderror
@@ -98,7 +102,7 @@
                                         <textarea class="form-control @error('experience') is-invalid @enderror" id="experience" wire:model="experience"
                                             rows="3" placeholder="Enter experience"></textarea>
                                         @error('experience')
-                                            <div class="invalid-feedback">
+                                            <div class="text-danger mt-1">
                                                 {{ $message }}
                                             </div>
                                         @enderror
@@ -137,13 +141,25 @@
 
                                             <div class="row mt-3">
                                                 <div class="col-5">
-                                                    <input type="text" class="form-control"
-                                                        wire:model.live="newSkill" placeholder="Skill" />
+                                                    <input type="text"
+                                                        class="form-control @error('newSkill') is-invalid @enderror"
+                                                        wire:model.defer="newSkill" placeholder="Skill" />
+                                                    @error('newSkill')
+                                                        <div class="text-danger mt-1">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
                                                 </div>
                                                 <div class="col-4">
-                                                    <input type="number" class="form-control"
-                                                        wire:model.live="newPercent" placeholder="%" min="0"
+                                                    <input type="number"
+                                                        class="form-control @error('newPercent') is-invalid @enderror"
+                                                        wire:model.defer="newPercent" placeholder="%" min="0"
                                                         max="100" />
+                                                    @error('newPercent')
+                                                        <div class="text-danger mt-1">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
                                                 </div>
                                                 <div class="col-3">
                                                     <button type="button" wire:click.prevent="addSkill"
@@ -192,7 +208,7 @@
                                                 <div class="col-5">
                                                     <select
                                                         class="form-select @error('newSocial') is-invalid @enderror"
-                                                        wire:model.live="newSocial">
+                                                        wire:model.defer="newSocial">
                                                         <option value="">
                                                             Select Platform
                                                         </option>
@@ -216,7 +232,7 @@
                                                         </option>
                                                     </select>
                                                     @error('newSocial')
-                                                        <div class="invalid-feedback">
+                                                        <div class="text-danger mt-1">
                                                             {{ $message }}
                                                         </div>
                                                     @enderror
@@ -224,9 +240,9 @@
                                                 <div class="col-5">
                                                     <input type="url"
                                                         class="form-control @error('newSocialLink') is-invalid @enderror"
-                                                        wire:model.live="newSocialLink" placeholder="Enter Link" />
+                                                        wire:model.defer="newSocialLink" placeholder="Enter Link" />
                                                     @error('newSocialLink')
-                                                        <div class="invalid-feedback">
+                                                        <div class="text-danger mt-1">
                                                             {{ $message }}
                                                         </div>
                                                     @enderror

@@ -30,31 +30,61 @@ class Create extends Component
     public $newSocial = '';
     public $newSocialLink = '';
 
-    protected $rules = [
-        'name' => 'required|string|max:255',
-        'position' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'experience' => 'nullable|string',
-        'imageTemp' => 'nullable|image|max:1024',
-      'department_id' => 'required|exists:department_models,id',
+    protected function rules()
+    {
+        $rules = [
+            'name' => 'required|string|max:255',
+            'position' => 'required|string',
+            'description' => 'required|string',
+            'experience' => 'required|string',
+            'imageTemp' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif,svg',
+            'department_id' => 'required|exists:department_models,id',
+            'professional_skills' => 'array|required',
+            'socials' => 'array'
+        ];
 
-        'professional_skills' => 'array',
-        'socials' => 'array'
-    ];
+        // If we're editing, modify the name validation to ignore the current record
+        if ($this->teamMemberId) {
+            $rules['name'] = 'required|string|max:255|unique:team_members,name,' . $this->teamMemberId;
+        } else {
+            $rules['name'] = 'required|string|max:255|unique:team_members,name';
+        }
+
+        return $rules;
+    }
 
     protected $messages = [
+        'name.required' => 'The name field is required.',
+        'position.required' => 'The position field is required.',
+        'department_id.required' => 'Please select a department.',
+        'department_id.exists' => 'The selected department is invalid.',
         'newSocialLink.url' => 'Please enter a valid URL',
-        'department_id.required' => 'Please select a department',
-        'department_id.exists' => 'The selected department is invalid',
+        'newSkill.required' => 'The skill field is required.',
+        'newPercent.required' => 'The percentage field is required.',
+        'newPercent.numeric' => 'The percentage must be a number.',
+        'newPercent.min' => 'The percentage must be at least 0.',
+        'newPercent.max' => 'The percentage must be at most 100.',
+        'newSocial.required' => 'The social platform field is required.',
+        'description.required' => 'The description field is required.',
+        'experience.required' => 'The experience field is required.',
+        'imageTemp.image' => 'The image must be an image.',
+        'imageTemp.max' => 'The image must be less than 1024 kilobytes.',
+        'imageTemp.mimes' => 'The image must be a file of type: jpeg, png, jpg, gif, svg.',
+        'professional_skills.array' => 'The professional skills must be an array.',
+        'socials.array' => 'The socials must be an array.',
+        'position.required' => 'The position field is required.',
+
     ];
 
-    public function mount($teamMemberId = null)
+    public function mount($id = null)
     {
-        $this->departments = DepartmentModel::orderBy('name')->get();
-        $this->teamMemberId = $teamMemberId;
+        Log::info('Editing team member', ['id' => $id]);
 
-        if ($teamMemberId) {
-            $teamMember = TeamMember::findOrFail($teamMemberId);
+        $this->departments = DepartmentModel::orderBy('name')->get();
+        $this->teamMemberId = $id;
+
+        if ($id) {
+            $teamMember = TeamMember::findOrFail($id);
             $this->name = $teamMember->name;
             $this->position = $teamMember->position;
             $this->description = $teamMember->description;
@@ -71,6 +101,13 @@ class Create extends Component
         $this->validate([
             'newSkill' => 'required|string|max:255',
             'newPercent' => 'required|numeric|min:0|max:100'
+        ], [
+            'newSkill.required' => 'The skill field is required.',
+            'newPercent.required' => 'The percentage field is required.',
+            'newPercent.numeric' => 'The percentage must be a number.',
+            'newPercent.min' => 'The percentage must be at least 0.',
+            'newPercent.max' => 'The percentage must be at most 100.',
+
         ]);
 
         $skills = $this->professional_skills;
@@ -78,13 +115,15 @@ class Create extends Component
             $skills = [];
         }
 
+        if (array_key_exists($this->newSkill, $skills)) {
+            $this->addError('newSkill', 'This skill is already added.');
+            return;
+        }
+
         $skills[$this->newSkill] = (int)$this->newPercent;
         $this->professional_skills = $skills;
         $this->newSkill = '';
         $this->newPercent = '';
-
-        // Debug the skills array after adding
-        \Log::info('Skills after adding:', ['skills' => $this->professional_skills]);
     }
 
     public function removeSkill($skill)
@@ -92,8 +131,7 @@ class Create extends Component
         $skills = $this->professional_skills;
         if (isset($skills[$skill])) {
             unset($skills[$skill]);
-         $this->professional_skills = $skills;
-
+            $this->professional_skills = $skills;
         }
     }
 
@@ -102,11 +140,21 @@ class Create extends Component
         $this->validate([
             'newSocial' => 'required|string|in:facebook,twitter,linkedin,instagram,youtube,website',
             'newSocialLink' => 'required|url'
+        ], [
+            'newSocial.required' => 'The social platform field is required.',
+            'newSocial.in' => 'Please select a valid social platform.',
+            'newSocialLink.required' => 'The social link field is required.',
+            'newSocialLink.url' => 'Please enter a valid URL.'
         ]);
 
         $socials = $this->socials;
         if (!is_array($socials)) {
             $socials = [];
+        }
+
+        if (array_key_exists($this->newSocial, $socials)) {
+            $this->addError('newSocial', ucfirst($this->newSocial) . ' is already added.');
+            return;
         }
 
         $url = $this->newSocialLink;
@@ -118,9 +166,6 @@ class Create extends Component
         $this->socials = $socials;
         $this->newSocial = '';
         $this->newSocialLink = '';
-
-        // Debug the socials array after adding
-        \Log::info('Socials after adding:', ['socials' => $this->socials]);
     }
 
     public function removeSocial($platform)
@@ -128,26 +173,14 @@ class Create extends Component
         $socials = $this->socials;
         if (isset($socials[$platform])) {
             unset($socials[$platform]);
-           $this->socials = $socials;
-
+            $this->socials = $socials;
         }
     }
 
     public function save()
     {
         try {
-            $this->validate();
-
-            // Debug the data before saving
-            \Log::info('Saving team member with data:', [
-                'name' => $this->name,
-                'position' => $this->position,
-                'description' => $this->description,
-                'experience' => $this->experience,
-                'professional_skills' => $this->professional_skills,
-                'socials' => $this->socials,
-                'department_id' => $this->department_id
-            ]);
+            $this->validate($this->rules());
 
             $data = [
                 'name' => $this->name,
@@ -173,20 +206,16 @@ class Create extends Component
                 session()->flash('success', 'Team member created successfully.');
             }
 
-            // Debug the saved data
-            \Log::info('Saved team member:', ['team_member' => $teamMember->toArray()]);
-
             return redirect()->route('dashboard.team.index');
         } catch (\Exception $e) {
-            \Log::error('Error saving team member: ' . $e->getMessage());
-            session()->flash('error', 'Error saving team member: ' . $e->getMessage());
+            $this->addError('general', 'Error saving team member: ' . $e->getMessage());
         }
     }
 
     public function render()
     {
         return view('livewire.dashboard.team.create', [
-            'departments' => DepartmentModel::orderBy('name')->get()
+            'departments' => $this->departments
         ])->layout('components.layouts.dashboard');
     }
 }

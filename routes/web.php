@@ -62,6 +62,7 @@ use App\Livewire\Dashboard\Events\Index as EventIndex;
 use App\Livewire\Dashboard\Events\Manage as EventEdit;
 use App\Livewire\Dashboard\Events\Manage as EventCreate;
 use App\Livewire\Frontend\TeamMember as TeamMemberShow;;
+
 use App\Livewire\Dashboard\Departments\DepCategories\Index;
 use App\Livewire\Dashboard\AlbumCategories\AlbumCategoryForm;
 use App\Livewire\Dashboard\Blogs\Categories\Index as BlogCat;
@@ -99,7 +100,7 @@ Route::get('/careers/{slug}', CareerDetail::class)->name('careers.show');
 Route::get('/careers/{category?}', Careers::class)->name('careers.category');
 Route::get('/media-centre', MediaCentre::class)->name('media-centre');
 Route::get('/departments', Departments::class)->name('departments');
-Route::get('/departments/{slug}',Department::class)->name('department');
+Route::get('/departments/{slug}', Department::class)->name('department');
 Route::get('/faqs', Faqs::class)->name('faqs');
 Route::get('/testimonials', Testimonials::class)->name('testimonials');
 Route::get('/join-us', JoinUs::class)->name('join-us');
@@ -115,7 +116,7 @@ Route::get('gallery/photos/{category?}', PhotoGallery::class)->name('photos.cate
 
 // Video Gallery Routes
 Route::get('gallery/videos', YoutubeGallery::class)->name('videos');
-Route::get('gallery/videos/{category?}',YoutubeGallery::class)->name('videos.categories');
+Route::get('gallery/videos/{category?}', YoutubeGallery::class)->name('videos.categories');
 
 // Keep the existing gallery route for backward compatibility
 Route::get('/gallery/{category?}', Gallery::class)->name('gallery');
@@ -141,7 +142,7 @@ Route::prefix('dashboard/blog')->name('dashboard.blog.')->group(function () {
     Route::get('/', BlogIndex::class)->name('index');       // List all posts
     Route::get('/create', BlogCreate::class)->name('create'); // Create a post
     Route::get('/{postId}/edit', BlogCreate::class)->name('edit'); // Edit a post
-     Route::get('/categories', BlogCat::class)->name('categories.index');
+    Route::get('/categories', BlogCat::class)->name('categories.index');
     Route::get('/categories/{id}/edit', BlogCat::class)->name('categories.edit');
 });
 
@@ -152,9 +153,9 @@ Route::prefix('dashboard/team')->as('dashboard.team.')->group(function () {
 });
 
 Route::prefix('dashboard/facilities')->name('dashboard.facilities.')->group(function () {
-    Route::get('/', FacilityIndex::class)->name('index');         // List of facilities
-    Route::get('/create', FacilityForm::class)->name('create');   // Create new facility
-    Route::get('/{id}/edit', FacilityForm::class)->name('edit');  // Edit facility
+    Route::get('/', App\Livewire\Dashboard\Facilities\Index::class)->name('facilities.index');
+    Route::get('/create', App\Livewire\Dashboard\Facilities\Manage::class)->name('facilities.create');
+    Route::get('/{facilityId}/edit', App\Livewire\Dashboard\Facilities\Manage::class)->name('facilities.edit');
 });
 
 Route::prefix('dashboard/events')->name('dashboard.events.')->group(function () {
@@ -184,7 +185,7 @@ Route::prefix('dashboard/gallery/youtube')->name('dashboard.youtube.')->group(fu
 // Dashboard career routes - without auth middleware for now
 Route::prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('/careers', JobVacancyIndex::class)->name('careers.index');
-    Route::get('/careers/create',JobVacancyForm::class)->name('careers.create');
+    Route::get('/careers/create', JobVacancyForm::class)->name('careers.create');
     Route::get('/careers/{id}/edit', JobVacancyForm::class)->name('careers.edit');
     Route::get('/careers/categories', JobCategoryIndex::class)->name('careers.categories');
 });
@@ -200,9 +201,4 @@ Route::prefix('dashboard/static-pages')->name('dashboard.static-pages.')->group(
 
 
 
-
-
-
-
-
-
+    // ... existing routes ...

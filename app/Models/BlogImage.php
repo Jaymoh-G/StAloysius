@@ -15,7 +15,10 @@ class BlogImage extends Model
         'caption',
         'category',
         'is_featured',
-        'sort_order'
+        'sort_order',
+        'facility_id',
+        'imageable_id',
+        'imageable_type'
     ];
 
     public function blogPost()
@@ -37,10 +40,14 @@ class BlogImage extends Model
     {
         return $this->belongsTo(EventModel::class, 'event_id');
     }
+
+    public function facility()
+    {
+        return $this->belongsTo(Facility::class);
+    }
+
+    public function imageable()
+    {
+        return $this->morphTo();
+    }
 }
-
-
-
-
-
-

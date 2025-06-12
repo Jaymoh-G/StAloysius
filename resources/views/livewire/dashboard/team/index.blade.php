@@ -71,7 +71,7 @@
                                                             @foreach ($skills as $skill => $percent)
                                                               {{ $skill }}
                                                                     ({{ $percent }}%)
-                                                               
+
                                                             @endforeach
                                                         @else
                                                             <span class="text-muted">No skills added</span>
@@ -136,7 +136,10 @@
                             </div>
 
                             <div class="d-flex justify-content-center mt-4">
-                                {{ $teamMembers->links() }}
+                                {{-- pagination with bootstrap --}}
+                                <div class="d-flex justify-content-center"> 
+                                    {{ $teamMembers->links('pagination::bootstrap-4') }}
+                                </div>
                             </div>
                         @else
                             <div class="py-5 text-center">

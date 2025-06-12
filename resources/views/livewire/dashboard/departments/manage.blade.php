@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Create Department</h4>
+            <h4 class="card-title">{{ $depId ? 'Edit Department' : 'Create Department' }}</h4>
         </div>
         <div class="card-body">
             @if (session()->has('message'))
@@ -288,7 +288,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">
-                    Save Department
+                    {{ $depId ? 'Update Department' : 'Create Department' }}
                 </button>
             </form>
         </div>

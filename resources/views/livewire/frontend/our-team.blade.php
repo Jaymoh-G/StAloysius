@@ -1,7 +1,6 @@
 <div>
 
-  @section('content')
-
+    @section('content')
         <!-- breadcrumb -->
         <div class="site-breadcrumb" style="background: url(assets/img/breadcrumb/01.jpg)">
             <div class="container">
@@ -14,207 +13,129 @@
         </div>
         <!-- breadcrumb end -->
 
-    <!-- team-area1-->
+        <!-- team-area1-->
         <div class="team-area py-120">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 mx-auto">
                         <div class="site-heading text-center">
                             <h2 class="site-title">Meet Our <span>Team</span></h2>
-                            <span class="site-title-tagline"><i class="far fa-book-open-reader"></i> Administration</span>
-                            <p>It is a long established fact that a reader will be distracted by the readable content of
-                                a page when looking at its layout.</p>
+                            <span class="site-title-tagline"><i class="far fa-book-open-reader"></i> Academic
+                                Department</span>
+
+                            <p>The academic department is responsible for managing teaching, curriculum development,
+                                research, and ensuring academic quality and contributing to the institution’s educational
+                                goals.</p>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 col-lg-3">
-                        <div class="team-item wow fadeInUp" data-wow-delay=".25s">
-                            <div class="team-img">
-                                <img src="assets/img/team/01.jpg" alt="thumb">
-                            </div>
-                            <div class="team-social">
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-whatsapp"></i></a>
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fab fa-youtube"></i></a>
-                            </div>
-                            <div class="team-content">
-                                <div class="team-bio">
-                                    <h5><a href="#">Angela T. Vigil</a></h5>
-                                    <span>Associate Professor</span>
+                    @forelse ($academicMembers as $member)
+                        <div class="col-md-6 col-lg-3">
+                            <div class="team-item wow fadeInUp" data-wow-delay=".25s">
+                                <div class="team-img">
+                                    @if ($member->image)
+                                        <img src="{{ asset('storage/' . $member->image) }}" alt="{{ $member->name }}">
+                                    @else
+                                        <img src="{{ asset('assets/img/team/default.jpg') }}" alt="{{ $member->name }}">
+                                    @endif
                                 </div>
-                            </div>
-                            <span class="team-social-btn"><i class="far fa-share-nodes"></i></span>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="team-item wow fadeInUp" data-wow-delay=".50s">
-                            <div class="team-img">
-                                <img src="assets/img/team/02.jpg" alt="thumb">
-                            </div>
-                            <div class="team-social">
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-whatsapp"></i></a>
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fab fa-youtube"></i></a>
-                            </div>
-                            <div class="team-content">
-                                <div class="team-bio">
-                                    <h5><a href="#">Frank A. Mitchell</a></h5>
-                                    <span>Associate Professor</span>
+                                <div class="team-social">
+                                    @if (isset($member->socials['facebook']))
+                                        <a href="{{ $member->socials['facebook'] }}" target="_blank"><i
+                                                class="fab fa-facebook-f"></i></a>
+                                    @endif
+                                    @if (isset($member->socials['linkedin']))
+                                        <a href="{{ $member->socials['linkedin'] }}" target="_blank"><i
+                                                class="fab fa-linkedin-in"></i></a>
+                                    @endif
+                                    @if (isset($member->socials['youtube']))
+                                        <a href="{{ $member->socials['youtube'] }}" target="_blank"><i
+                                                class="fab fa-youtube"></i></a>
+                                    @endif
+                                    @if (isset($member->socials['website']))
+                                        <a href="{{ $member->socials['website'] }}" target="_blank"><i
+                                                class="fas fa-globe"></i></a>
+                                    @endif
                                 </div>
-                            </div>
-                            <span class="team-social-btn"><i class="far fa-share-nodes"></i></span>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="team-item wow fadeInUp" data-wow-delay=".75s">
-                            <div class="team-img">
-                                <img src="assets/img/team/03.jpg" alt="thumb">
-                            </div>
-                            <div class="team-social">
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-whatsapp"></i></a>
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fab fa-youtube"></i></a>
-                            </div>
-                            <div class="team-content">
-                                <div class="team-bio">
-                                    <h5><a href="#">Susan D. Lunsford</a></h5>
-                                    <span>CEO & Founder</span>
+                                <div class="team-content">
+                                    <div class="team-bio">
+                                        <h5><a href="#">{{ $member->name }}</a></h5>
+                                        <span>{{ $member->position }}</span>
+                                    </div>
                                 </div>
+                                @if (isset($member->socials) && !empty($member->socials))
+                                    <span class="team-social-btn"><i class="far fa-share-nodes"></i></span>
+                                @endif
                             </div>
-                            <span class="team-social-btn"><i class="far fa-share-nodes"></i></span>
                         </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="team-item wow fadeInUp" data-wow-delay="1s">
-                            <div class="team-img">
-                                <img src="assets/img/team/04.jpg" alt="thumb">
-                            </div>
-                            <div class="team-social">
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-whatsapp"></i></a>
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fab fa-youtube"></i></a>
-                            </div>
-                            <div class="team-content">
-                                <div class="team-bio">
-                                    <h5><a href="#">Dennis A. Pruitt</a></h5>
-                                    <span>Associate Professor</span>
-                                </div>
-                            </div>
-                            <span class="team-social-btn"><i class="far fa-share-nodes"></i></span>
+                    @empty
+                        <div class="col-12 text-center">
+                            <p>No non-academic members found.</p>
                         </div>
-                    </div>
-
-
+                    @endforelse
                 </div>
-        <!-- team-area1end -->
-           <!-- team-area2 -->
 
-
+                <!-- non-academic members -->
                 <div class="row">
                     <div class="col-lg-6 mx-auto">
                         <div class="site-heading text-center">
-                            <span class="site-title-tagline"><i class="far fa-book-open-reader"></i> Teaching Staff</span>
-                            <p>It is a long established fact that a reader will be distracted by the readable content of
-                                a page when looking at its layout.</p>
+                            <span class="site-title-tagline"><i class="far fa-book-open-reader"></i> Non-Academic
+                                Department</span>
+                            <p>The non-academic department supports the overall functioning of the institution by handling administrative, operational, and student support services contributing to a conducive learning environment.</p>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 col-lg-3">
-                        <div class="team-item wow fadeInUp" data-wow-delay=".25s">
-                            <div class="team-img">
-                                <img src="assets/img/team/01.jpg" alt="thumb">
-                            </div>
-                            <div class="team-social">
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-whatsapp"></i></a>
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fab fa-youtube"></i></a>
-                            </div>
-                            <div class="team-content">
-                                <div class="team-bio">
-                                    <h5><a href="#">Angela T. Vigil</a></h5>
-                                    <span>Associate Professor</span>
+                    @forelse ($nonAcademicMembers as $member)
+                        <div class="col-md-6 col-lg-3">
+                            <div class="team-item wow fadeInUp" data-wow-delay=".25s">
+                                <div class="team-img">
+                                    @if ($member->image)
+                                        <img src="{{ asset('storage/' . $member->image) }}" alt="{{ $member->name }}">
+                                    @else
+                                        <img src="{{ asset('assets/img/team/default.jpg') }}" alt="{{ $member->name }}">
+                                    @endif
                                 </div>
-                            </div>
-                            <span class="team-social-btn"><i class="far fa-share-nodes"></i></span>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="team-item wow fadeInUp" data-wow-delay=".50s">
-                            <div class="team-img">
-                                <img src="assets/img/team/02.jpg" alt="thumb">
-                            </div>
-                            <div class="team-social">
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-whatsapp"></i></a>
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fab fa-youtube"></i></a>
-                            </div>
-                            <div class="team-content">
-                                <div class="team-bio">
-                                    <h5><a href="#">Frank A. Mitchell</a></h5>
-                                    <span>Associate Professor</span>
+                                <div class="team-social">
+                                    @if (isset($member->socials['facebook']))
+                                        <a href="{{ $member->socials['facebook'] }}" target="_blank"><i
+                                                class="fab fa-facebook-f"></i></a>
+                                    @endif
+                                    @if (isset($member->socials['linkedin']))
+                                        <a href="{{ $member->socials['linkedin'] }}" target="_blank"><i
+                                                class="fab fa-linkedin-in"></i></a>
+                                    @endif
+                                    @if (isset($member->socials['youtube']))
+                                        <a href="{{ $member->socials['youtube'] }}" target="_blank"><i
+                                                class="fab fa-youtube"></i></a>
+                                    @endif
+                                    @if (isset($member->socials['website']))
+                                        <a href="{{ $member->socials['website'] }}" target="_blank"><i
+                                                class="fas fa-globe"></i></a>
+                                    @endif
                                 </div>
-                            </div>
-                            <span class="team-social-btn"><i class="far fa-share-nodes"></i></span>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="team-item wow fadeInUp" data-wow-delay=".75s">
-                            <div class="team-img">
-                                <img src="assets/img/team/03.jpg" alt="thumb">
-                            </div>
-                            <div class="team-social">
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-whatsapp"></i></a>
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fab fa-youtube"></i></a>
-                            </div>
-                            <div class="team-content">
-                                <div class="team-bio">
-                                    <h5><a href="#">Susan D. Lunsford</a></h5>
-                                    <span>CEO & Founder</span>
+                                <div class="team-content">
+                                    <div class="team-bio">
+                                        <h5><a href="#">{{ $member->name }}</a></h5>
+                                        <span>{{ $member->position }}</span>
+                                    </div>
                                 </div>
+                                @if (isset($member->socials) && !empty($member->socials))
+                                    <span class="team-social-btn"><i class="far fa-share-nodes"></i></span>
+                                @endif
                             </div>
-                            <span class="team-social-btn"><i class="far fa-share-nodes"></i></span>
                         </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="team-item wow fadeInUp" data-wow-delay="1s">
-                            <div class="team-img">
-                                <img src="assets/img/team/04.jpg" alt="thumb">
-                            </div>
-                            <div class="team-social">
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-whatsapp"></i></a>
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fab fa-youtube"></i></a>
-                            </div>
-                            <div class="team-content">
-                                <div class="team-bio">
-                                    <h5><a href="#">Dennis A. Pruitt</a></h5>
-                                    <span>Associate Professor</span>
-                                </div>
-                            </div>
-                            <span class="team-social-btn"><i class="far fa-share-nodes"></i></span>
+                    @empty
+                        <div class="col-12 text-center">
+                                <p>No non-academic members found.</p>
                         </div>
-                    </div>
-
-
+                    @endforelse
                 </div>
-
-
-        <!-- team-area end2 -->
-        <!-- team-area2 -->
-
-
-                <div class="row">
+   {{-- Show this only if there are other members --}}
+                @if (count($otherMembers) > 0)
+                <!-- Support Staff Section -->
+                <div class="row mt-5">
                     <div class="col-lg-6 mx-auto">
                         <div class="site-heading text-center">
                             <span class="site-title-tagline"><i class="far fa-book-open-reader"></i> Support Staff</span>
@@ -223,96 +144,69 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
-                    <div class="col-md-6 col-lg-3">
-                        <div class="team-item wow fadeInUp" data-wow-delay=".25s">
-                            <div class="team-img">
-                                <img src="assets/img/team/01.jpg" alt="thumb">
-                            </div>
-                            <div class="team-social">
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-whatsapp"></i></a>
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fab fa-youtube"></i></a>
-                            </div>
-                            <div class="team-content">
-                                <div class="team-bio">
-                                    <h5><a href="#">Angela T. Vigil</a></h5>
-                                    <span>Associate Professor</span>
+                    @forelse ($otherMembers as $member)
+                        <div class="col-md-6 col-lg-3">
+                            <div class="team-item wow fadeInUp" data-wow-delay=".25s">
+                                <div class="team-img">
+                                    @if ($member->image)
+                                        <img src="{{ asset('storage/' . $member->image) }}" alt="{{ $member->name }}">
+                                    @else
+                                        <img src="{{ asset('assets/img/team/default.jpg') }}" alt="{{ $member->name }}">
+                                    @endif
                                 </div>
-                            </div>
-                            <span class="team-social-btn"><i class="far fa-share-nodes"></i></span>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="team-item wow fadeInUp" data-wow-delay=".50s">
-                            <div class="team-img">
-                                <img src="assets/img/team/02.jpg" alt="thumb">
-                            </div>
-                            <div class="team-social">
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-whatsapp"></i></a>
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fab fa-youtube"></i></a>
-                            </div>
-                            <div class="team-content">
-                                <div class="team-bio">
-                                    <h5><a href="#">Frank A. Mitchell</a></h5>
-                                    <span>Associate Professor</span>
+                                <div class="team-social">
+                                    @if (isset($member->socials['facebook']))
+                                        <a href="{{ $member->socials['facebook'] }}" target="_blank"><i
+                                                class="fab fa-facebook-f"></i></a>
+                                    @endif
+                                    @if (isset($member->socials['linkedin']))
+                                        <a href="{{ $member->socials['linkedin'] }}" target="_blank"><i
+                                                class="fab fa-linkedin-in"></i></a>
+                                    @endif
+                                    @if (isset($member->socials['youtube']))
+                                        <a href="{{ $member->socials['youtube'] }}" target="_blank"><i
+                                                class="fab fa-youtube"></i></a>
+                                    @endif
+                                    @if (isset($member->socials['website']))
+                                        <a href="{{ $member->socials['website'] }}" target="_blank"><i
+                                                class="fas fa-globe"></i></a>
+                                    @endif
                                 </div>
-                            </div>
-                            <span class="team-social-btn"><i class="far fa-share-nodes"></i></span>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="team-item wow fadeInUp" data-wow-delay=".75s">
-                            <div class="team-img">
-                                <img src="assets/img/team/03.jpg" alt="thumb">
-                            </div>
-                            <div class="team-social">
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-whatsapp"></i></a>
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fab fa-youtube"></i></a>
-                            </div>
-                            <div class="team-content">
-                                <div class="team-bio">
-                                    <h5><a href="#">Susan D. Lunsford</a></h5>
-                                    <span>CEO & Founder</span>
+                                <div class="team-content">
+                                    <div class="team-bio">
+                                        <h5><a href="#">{{ $member->name }}</a></h5>
+                                        <span>{{ $member->position }}</span>
+                                    </div>
                                 </div>
+                                @if (isset($member->socials) && !empty($member->socials))
+                                    <span class="team-social-btn"><i class="far fa-share-nodes"></i></span>
+                                @endif
                             </div>
-                            <span class="team-social-btn"><i class="far fa-share-nodes"></i></span>
                         </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="team-item wow fadeInUp" data-wow-delay="1s">
-                            <div class="team-img">
-                                <img src="assets/img/team/04.jpg" alt="thumb">
-                            </div>
-                            <div class="team-social">
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-whatsapp"></i></a>
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fab fa-youtube"></i></a>
-                            </div>
-                            <div class="team-content">
-                                <div class="team-bio">
-                                    <h5><a href="#">Dennis A. Pruitt</a></h5>
-                                    <span>Associate Professor</span>
-                                </div>
-                            </div>
-                            <span class="team-social-btn"><i class="far fa-share-nodes"></i></span>
+                    @empty
+                        <div class="col-12 text-center">
+                            <p>No support staff members found.</p>
                         </div>
-                    </div>
-
-
+                    @endforelse
                 </div>
+                @endif
+            </div>
+        </div>
+        <!-- team-area1end -->
+        <!-- team-area2 -->
+
+
 
 
         <!-- team-area end2 -->
+        <!-- team-area2 -->
 
 
 
-@endsection
+
+        <!-- team-area end2 -->
+    @endsection
 
 </div>
