@@ -3,29 +3,30 @@
 namespace App\Livewire\Dashboard\Facilities;
 
 use Livewire\Component;
-use App\Models\Facility;
+use App\Models\FacilityModel;
 
 class Index extends Component
 {
     public $facilityIdToDelete;
-    protected $listeners = ['deleteFacility'];
+    protected $listeners = ['confirmDelete'];
 
     public function deleteFacility($facilityId)
     {
+        $this->facilityIdToDelete = $facilityId;
         $this->dispatch('confirmDelete', id: $facilityId);
     }
 
     public function deleteConfirmed($id)
     {
         if ($id) {
-            Facility::find($id)?->delete();
+            FacilityModel::find($id)?->delete();
             session()->flash('message', 'Facility deleted successfully!');
         }
     }
 
     public function render()
     {
-        $facilities = Facility::with(['department', 'images' => function ($query) {
+        $facilities = FacilityModel::with(['department', 'images' => function ($query) {
             $query->orderBy('is_featured', 'desc');
         }])->orderBy('updated_at', 'desc')->paginate(10);
 

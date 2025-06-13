@@ -74,8 +74,7 @@
 
                                 <td>{{ $dep->updated_at->format('j M, Y') }}</td>
                                 <td class="text-end">
-                                    <a href="{{ route('department', $dep->slug) }}"
-                                        class="btn btn-success btn-xs sharp me-1 shadow" title="view" target="_blank">
+                                    <a href="{{ route('department', $dep->slug) }}" class="btn btn-success btn-xs sharp me-1 shadow" title="view" target="_blank">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                     <a href="{{ route('departments.edit', $dep->id) }}"

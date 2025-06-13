@@ -2,17 +2,18 @@
 
 namespace App\Livewire\Dashboard\Facilities;
 
-use Illuminate\Support\Facades\Storage;
-use Livewire\Component;
+use Livewire\Component; 
 use App\Models\BlogImage;
-use App\Models\Facility;
-use App\Models\DepartmentModel;
 use Illuminate\Support\Str;
+use Livewire\WithPagination;
+use App\Models\FacilityModel;
 use Livewire\WithFileUploads;
+use App\Models\DepartmentModel;
+use Illuminate\Support\Facades\Storage;
 
 class Manage extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, WithPagination;
     public $paragraphs = [];
     public $name, $slug, $content, $department_id;
     public $facilityId;
@@ -26,6 +27,29 @@ class Manage extends Component
     protected $listeners = ['updateContent', 'facilityCreated' => 'refreshFacilities'];
     public $skipDepartmentRefresh = false;
 
+    protected function rules()
+    {
+        return [
+            'name' => 'required|string|max:255|unique:facility_models,name,' . $this->facilityId,
+            'slug' => 'required|string|max:255|unique:facility_models,slug,' . $this->facilityId,
+            'content' => 'required',
+            'department_id' => 'required|exists:department_models,id',
+            'images.*' => 'nullable|image|max:2048',
+            'banner' => 'nullable|image|max:2048',
+            'featuredImageIndex' => 'required',
+        ];
+    }
+
+    protected $messages = [
+        'featuredImageIndex.required' => 'Please select a featured image.',
+        'department_id.required' => 'Please select a department.',
+    ];
+
+    public function updatedName($value)
+    {
+        $this->slug = Str::slug($value);
+    }
+
     public function mount($facilityId = null)
     {
         $this->departments = DepartmentModel::all();
@@ -33,7 +57,7 @@ class Manage extends Component
 
         if ($facilityId) {
             $this->facilityId = $facilityId;
-            $facility = Facility::with('images')->findOrFail($facilityId);
+            $facility = FacilityModel::with('images')->findOrFail($facilityId);
 
             $this->name = $facility->name;
             $this->slug = Str::slug($this->name);
@@ -87,13 +111,7 @@ class Manage extends Component
 
     public function submit()
     {
-        $this->validate([
-            'name' => 'required|min:3',
-            'department_id' => 'required|exists:department_models,id',
-            'content' => 'required',
-            'banner' => 'nullable|image|max:2048',
-            'images.*' => 'nullable|image|max:2048',
-        ]);
+        $this->validate($this->rules());
 
         // Extract paragraphs from content
         preg_match_all('/<(p|h[1-6]|div|section|article|blockquote)[^>]*>.*?<\/\1>/is', $this->content, $matches);
@@ -123,10 +141,10 @@ class Manage extends Component
         }
 
         if ($this->facilityId) {
-            $facility = Facility::findOrFail($this->facilityId);
+            $facility = FacilityModel::findOrFail($this->facilityId);
             $facility->update($data);
         } else {
-            $facility = Facility::create($data);
+            $facility = FacilityModel::create($data);
         }
 
         if ($this->banner) {
@@ -149,42 +167,72 @@ class Manage extends Component
 
         // Set featured for existing or new image
         if ($this->featuredImageIndex) {
-            if (str_starts_with($this->featuredImageIndex, 'existing_')) {
-                $index = explode('_', $this->featuredImageIndex)[1];
-                $facility->images[$index]->update(['is_featured' => true]);
-            } else {
-                $index = $this->featuredImageIndex;
+            if (is_numeric($this->featuredImageIndex)) {
+                // New uploaded image
+                $index = (int) $this->featuredImageIndex;
                 if (isset($this->images[$index])) {
-                    $path = $this->images[$index]->store('facility_images', 'public');
-                    BlogImage::create([
-                        'imageable_id' => $facility->id,
-                        'imageable_type' => Facility::class,
-                        'path' => $path,
-                        'is_featured' => true
-                    ]);
+                    $image = $facility->images()->latest()->skip(count($this->images) - 1 - $index)->first();
+                    if ($image) {
+                        $image->update(['is_featured' => true]);
+                    }
+                }
+            } elseif (str_starts_with($this->featuredImageIndex, 'existing_')) {
+                $existingIndex = (int) str_replace('existing_', '', $this->featuredImageIndex);
+                if (isset($facility->images[$existingIndex])) {
+                    $facility->images[$existingIndex]->update(['is_featured' => true]);
                 }
             }
         }
 
         // Upload new images
         foreach ($this->images as $index => $image) {
-            if ($index != $this->featuredImageIndex) {
-                $path = $image->store('facility_images', 'public');
-                BlogImage::create([
-                    'imageable_id' => $facility->id,
-                    'imageable_type' => Facility::class,
-                    'path' => $path,
-                    'is_featured' => false
-                ]);
-            }
+            $path = $image->store('facility_images', 'public');
+            $facility->images()->create([
+                'path' => $path,
+                'is_featured' => ((string)$index === (string)$this->featuredImageIndex),
+            ]);
         }
 
-        session()->flash('message', 'Facility saved successfully!');
-        return redirect()->route('facilities.index');
+        session()->flash('message', $this->facilityId ? 'Facility updated!' : 'Facility created!');
+        $this->dispatch('resetEditor');
+        return redirect()->route('dashboard.facilities.index');
+    }
+
+    public function deleteImage($imageId)
+    {
+        $image = BlogImage::find($imageId);
+
+        if ($image) {
+            // Delete the file from storage
+            Storage::disk('public')->delete($image->path);
+
+            // Delete the database record
+            $image->delete();
+
+            // Refresh the existing images list
+            $this->existingImages = $this->facilityId
+                ? FacilityModel::with('images')->find($this->facilityId)->images
+                : [];
+        }
+    }
+
+    public function deleteBanner()
+    {
+        if ($this->existingBanner) {
+            Storage::disk('public')->delete($this->existingBanner);
+            $this->existingBanner = null;
+
+            if ($this->facilityId) {
+                $facility = FacilityModel::find($this->facilityId);
+                $facility->banner = null;
+                $facility->save();
+            }
+        }
     }
 
     public function render()
     {
-        return view('livewire.dashboard.facilities.manage')->layout('components.layouts.dashboard');
+        return view('livewire.dashboard.facilities.manage')
+            ->layout('components.layouts.dashboard');
     }
 }

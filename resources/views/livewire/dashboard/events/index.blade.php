@@ -23,52 +23,52 @@
                     </thead>
                     <tbody>
                         @forelse($events as $index => $event)
-                            <tr>
-                                <td>{{ $index + 1 }}</td>
-                                <td>{{ $event->name }}</td>
-                                <td>{{ $event->location }}</td>
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $event->name }}</td>
+                            <td>{{ $event->location }}</td>
                                 <td>{{ formattedDate($event->start_date) }}</td>
-                                <td>{{ $event->organizer_name }}</td>
-                                <td>
+                            <td>{{ $event->organizer_name }}</td>
+                          <td>
                                     <img src="{{ asset('storage/' . $event->banner) }}" alt="No Custom Banner"
                                         class="img-thumbnail" style="height: 60px; width: auto" />
-                                </td>
-                                <td>
+                            </td>
+ <td>
                                     <div class="d-flex flex-wrap gap-2">
                                         @php
                                             $featured = $event->images->where('is_featured', true)->first();
                                             $others = $event->images->where('is_featured', false)->take(4);
                                         @endphp
                                         @if ($featured)
-                                            <div class="position-relative">
+                                    <div class="position-relative">
                                                 <img src="{{ asset('storage/' . $featured->path) }}"
                                                     alt="Featured Image" class="img-thumbnail"
                                                     style="height: 60px; width: 60px" />
                                                 <span class="position-absolute start-0 top-0 m-1 bg-white"><i
                                                         class="text-success bi bi-check-circle-fill"></i></span>
-                                            </div>
-                                        @endif
+                                    </div>
+                                    @endif
                                         @foreach ($others as $image)
                                             <img src="{{ asset('storage/' . $image->path) }}" alt="Event Image"
                                                 class="img-thumbnail" style="height: 60px; width: 60px" />
                                         @endforeach
-                                    </div>
-                                </td>
-                                <td class="text-end">
+                                </div>
+                            </td>
+                            <td class="text-end">
                                     <a href="{{ route('event', $event->slug) }}"
                                         class="btn btn-success btn-xs sharp me-1 shadow" title="view" target="_blank">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
+                                    <i class="fas fa-eye"></i>
+                                </a>
                                     <a href="{{ route('dashboard.events.edit', $event->id) }}"
                                         class="btn btn-primary btn-xs sharp me-1 shadow">
-                                        <i class="fas fa-pencil-alt"></i>
-                                    </a>
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
                                     <button class="btn btn-danger btn-xs sharp me-1 shadow"
                                         wire:click.prevent="deleteEvent({{ $event->id }})">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
                         @empty
                             <tr>
                                 <td colspan="7" class="text-center">No events found.</td>
@@ -101,7 +101,7 @@
 </div>
 
 @push('scripts')
-    <script>
+<script>
         document.addEventListener('livewire:initialized', () => {
             Livewire.on('confirmDelete', (data) => {
                 Swal.fire({
@@ -123,6 +123,6 @@
                     }
                 });
             });
-        });
-    </script>
+    });
+</script>
 @endpush

@@ -1,133 +1,130 @@
 <div>
     @section('content')
-     <main class="main">
+        <main class="main">
 
-        <!-- breadcrumb -->
-        <div class="site-breadcrumb" style="background: url(assets/img/breadcrumb/01.jpg)">
-            <div class="container">
-                <h2 class="breadcrumb-title">Facility Single</h2>
-                <ul class="breadcrumb-menu">
-                    <li><a href="index.html">Home</a></li>
-                    <li class="active">Facility Single</li>
-                </ul>
-            </div>
-        </div>
-        <!-- breadcrumb end -->
+            <!-- breadcrumb -->
+            @if ($facility->banner)
+                <div class="site-breadcrumb" style="background: url({{ asset('storage/' . $facility->banner) }})">
+                    <div class="container">
+                        <h2 class="breadcrumb-title">{{ $facility->name }}</h2>
+                        <ul class="breadcrumb-menu">
+                            <li><a href="{{ route('home') }}">Home</a></li>
+                            <li><a href="{{ route('our-facilities') }}">Facilities</a></li>
+                            <li class="active">{{ $facility->name }}</li>
+                        </ul>
+                    </div>
+                </div>
+            @endif
+            <!-- breadcrumb end -->
 
 
-        <!-- facility single -->
-        <div class="facility-single-area py-120">
-            <div class="container">
-                <div class="facility-single-wrapper">
-                    <div class="row">
-                        <div class="col-xl-4 col-lg-4">
-                            <div class="facility-sidebar">
-                                <div class="widget category">
-                                    <h4 class="widget-title">All Facilities</h4>
-                                    <div class="category-list">
-                                        <a href="#"><i class="far fa-long-arrow-right"></i>Library Facility</a>
-                                        <a href="#"><i class="far fa-long-arrow-right"></i>Hall Facility</a>
-                                        <a href="#"><i class="far fa-long-arrow-right"></i>Canteen Food Facility</a>
-                                        <a href="#"><i class="far fa-long-arrow-right"></i>Transport Facility</a>
-                                        <a href="#"><i class="far fa-long-arrow-right"></i>Lab Facility</a>
-                                        <a href="#"><i class="far fa-long-arrow-right"></i>Gymnasium Facility</a>
+            <!-- facility single -->
+            <div class="facility-single-area py-120">
+                <div class="container">
+                    <div class="facility-single-wrapper">
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-4">
+                                <div class="facility-sidebar">
+                                    <!-- other facilities -->
+                                    @if ($otherFacilities->count() > 0)
+                                        <div class="widget category">
+                                            <h4 class="widget-title">Other Facilities</h4>
+                                            <div class="category-list">
+                                                @foreach ($otherFacilities as $otherFacility)
+                                                    <a href="{{ route('facility', $otherFacility->slug) }}">
+                                                        <i class="far fa-long-arrow-right"></i>{{ $otherFacility->name }}
+                                                    </a>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    <div class="widget facility-download">
+                                        <h4 class="widget-title">Download</h4>
+                                        <a href="#"><i class="far fa-file-pdf"></i> Download Library eBook</a>
+                                        <a href="#"><i class="far fa-file-alt"></i> Download Application</a>
                                     </div>
-                                </div>
-                                <div class="widget facility-download">
-                                    <h4 class="widget-title">Download</h4>
-                                    <a href="#"><i class="far fa-file-pdf"></i> Download Library eBook</a>
-                                    <a href="#"><i class="far fa-file-alt"></i> Download Application</a>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-xl-8 col-lg-8">
-                            <div class="facility-details">
-                                <div class="facility-details-img mb-30">
-                                    <img src="assets/img/facility/single.jpg" alt="thumb">
-                                </div>
+                            <div class="col-xl-8 col-lg-8">
                                 <div class="facility-details">
-                                    <h3 class="mb-20">Library Facility</h3>
-                                    <p class="mb-20">
-                                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-                                        doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
-                                        veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam
-                                        voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-                                        consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque
-                                        porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci
-                                        velit, sed quia non numquam eius modi tempora incidunt ut labore et.
-                                    </p>
-                                    <p class="mb-20">
-                                        But I must explain to you how all this mistaken idea of denouncing pleasure and
-                                        praising pain was born and I will give you a complete account of the system, and
-                                        expound the actual teachings of the great explorer of the truth, the
-                                        master-builder of human happiness. No one rejects, dislikes, or avoids pleasure
-                                        itself, because it is pleasure, but because those who do not know how to pursue
-                                        pleasure rationally encounter consequences that are extremely painful. Nor again
-                                        is there anyone who loves or pursues or desires to obtain pain of itself,
-                                        because it is pain, but because occasionally circumstances occur in which toil
-                                        and pain can procure him some great pleasure. To take a trivial example
-                                    </p>
-                                    <div class="row">
-                                        <div class="col-md-6 mb-20">
-                                            <img src="assets/img/facility/01.jpg" alt="">
-                                        </div>
-                                        <div class="col-md-6 mb-20">
-                                            <img src="assets/img/facility/02.jpg" alt="">
-                                        </div>
+                                    <div class="facility-details-img mb-30">
+                                        {{-- /featured image --}}
+                                        {{-- if there is a featured image, show it --}}
+
+                                        @if ($facility->images->count() > 0)
+                                            <img src="{{ asset('storage/' . $facility->images->first()->path) }}"
+                                                alt="thumb">
+                                        @endif
                                     </div>
-                                    <p class="mb-20">
-                                        Power of choice is untrammelled and when nothing prevents our being able to do
-                                        what we like best, every pleasure is to be welcomed and every pain avoided. But
-                                        in certain circumstances and owing to the claims of duty or the obligations of
-                                        business it will frequently occur that pleasures have to be repudiated and
-                                        annoyances accepted. The wise man therefore always holds in these matters to
-                                        this principle of selection.
-                                    </p>
-                                    <div class="my-4">
-                                        <div class="mb-3">
-                                            <h3 class="mb-3">Library Features</h3>
-                                            <p>Aliquam facilisis rhoncus nunc, non vestibulum mauris volutpat non.
-                                                Vivamus tincidunt accumsan urna, vel aliquet nunc commodo tristique.
-                                                Nulla facilisi. Phasellus vel ex nulla. Nunc tristique sapien id mauris
-                                                efficitur, porta scelerisque nisl dignissim. Vestibulum ante ipsum
-                                                primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed at
-                                                mollis tellus. Proin consequat, orci nec bibendum viverra, ante orci
-                                                suscipit dolor, et condimentum felis dolor ac lectus.</p>
-                                        </div>
-                                        <ul class="facility-single-list">
-                                            <li><i class="far fa-check"></i>Fusce justo risus placerat in risus eget
-                                                tincidunt consequat elit.</li>
-                                            <li><i class="far fa-check"></i>Nunc fermentum sem sit amet dolor laoreet
-                                                placerat.</li>
-                                            <li><i class="far fa-check"></i>Nullam rhoncus dictum diam quis ultrices.
-                                            </li>
-                                            <li><i class="far fa-check"></i>Integer quis lorem est uspendisse eu augue
-                                                porta ullamcorper dictum.</li>
-                                            <li><i class="far fa-check"></i>Quisque tristique neque arcu ut venenatis
-                                                felis malesuada et.</li>
-                                        </ul>
-                                    </div>
-                                    <div class="my-4">
-                                        <h3 class="mb-3">Library Benefits Of Our Students</h3>
-                                        <p>Quisque a nisl id sem sollicitudin volutpat. Cras et commodo quam, vel congue
-                                            ligula. Orci varius natoque penatibus et magnis dis parturient montes,
-                                            nascetur ridiculus mus. Cras quis venenatis neque. Donec volutpat tellus
-                                            lobortis mi ornare eleifend. Fusce eu nisl ut diam ultricies accumsan.
-                                            Integer lobortis vestibulum nunc id porta. Curabitur aliquam arcu sed ex
-                                            dictum, a facilisis urna porttitor. Fusce et mattis nisl. Sed iaculis libero
-                                            consequat justo auctor iaculis. Vestibulum sed ex et magna tristique
-                                            bibendum. Sed hendrerit neque nec est suscipit, id faucibus dolor convallis.
-                                        </p>
+                                    <div class="facility-details">
+                                     
+
+                                        <h3 class="mb-20">{{ $facility->name }} <span class="mb-20"><a href="{{ route('department', $facility->department->slug) }}">({{ $facility->department->name}})</a></span></h3>
+
+
+
+                                        {{-- show first 3 paragraphs -- --}}
+                                        {{-- eclose the paragrphs with a div class="my-4" --}}
+                                        @for ($i = 1; $i <= 4; $i++)
+                                            @php
+                                                $paragraph = $facility->{'paragraph' . $i};
+                                            @endphp @if (!empty($paragraph))
+                                                <div class="mb-4">{!! $paragraph !!}</div>
+                                            @endif
+                                        @endfor
+
+                                        {{-- show the images --}}
+                                        @if ($facility->images->count() > 0)
+                                            <div class="row">
+                                                <div class="col-md-6 mb-20">
+                                                    @if ($facility->images->get(1))
+                                                        <img src="{{ asset('storage/' . $facility->images->get(1)->path) }}"
+                                                            alt="{{ $facility->images->get(1)->alt ?? 'Image 1 for ' . $facility->name }}" />
+                                                    @endif
+                                                </div>
+                                                <div class="col-md-6 mb-20">
+                                                    @if ($facility->images->get(2))
+                                                        <img src="{{ asset('storage/' . $facility->images->get(2)->path) }}"
+                                                            alt="{{ $facility->images->get(2)->alt ?? 'Image 2 for ' . $facility->name }}" />
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            @for ($i = 5; $i <= 7; $i++)
+                                                @php
+                                                    $paragraph = $facility->{'paragraph' . $i};
+                                                @endphp
+                                                @if (!empty($paragraph))
+                                                    <div class="mb-4">{!! $paragraph !!}</div>
+                                                @endif
+                                            @endfor
+                                        @endif
+                                        {{-- if there are more than 2 images, show the rest --}}
+                                        @if ($facility->images->count() > 2)
+                                            <div class="row">
+                                                <div class="col-md-6 mb-20">
+                                                    @if ($facility->images->get(3))
+                                                        <img src="{{ asset('storage/' . $facility->images->get(3)->path) }}"
+                                                            alt="{{ $facility->images->get(3)->alt ?? 'Image 3 for ' . $facility->name }}" />
+                                                    @endif
+                                                </div>
+                                                <div class="col-md-6 mb-20">
+                                                    @if ($facility->images->get(4))
+                                                        <img src="{{ asset('storage/' . $facility->images->get(4)->path) }}"
+                                                            alt="{{ $facility->images->get(4)->alt ?? 'Image 4 for ' . $facility->name }}" />
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @endif
+
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <!-- facility single end-->
+                <!-- facility single end-->
 
-    </main>
+        </main>
     @endsection
 </div>

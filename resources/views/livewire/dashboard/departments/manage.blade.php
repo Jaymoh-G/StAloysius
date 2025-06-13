@@ -101,7 +101,7 @@
 
                 <div class="mb-4">
                     <div class="flex items-center gap-4">
-                        <label for="images">Upload Images</label>
+                        <label for="images"> Department Images</label>
                         <input
                             type="file"
                             wire:model="images"

@@ -27,6 +27,7 @@ use App\Livewire\Frontend\Departments;
 use App\Livewire\Frontend\MediaCentre;
 use App\Livewire\Frontend\OurPrograms;
 use App\Livewire\Frontend\CareerDetail;
+use App\Livewire\Frontend\FacilityShow;
 use App\Livewire\Frontend\PhotoGallery;
 use App\Livewire\Frontend\Scholarships;
 use App\Livewire\Frontend\SuccessStory;
@@ -51,16 +52,17 @@ use App\Livewire\Dashboard\Index as DashboardIndex;
 use App\Livewire\Dashboard\Team\Index as TeamIndex;
 use App\Livewire\Dashboard\Careers\JobCategoryIndex;
 use App\Livewire\Dashboard\Facilities\FacilityIndex;
-use App\Livewire\Dashboard\Blog\Create as BlogCreate;
 
+use App\Livewire\Dashboard\Blog\Create as BlogCreate;
 use App\Livewire\Dashboard\Gallery\Albums\AlbumIndex;
 use App\Livewire\Dashboard\Gallery\Images\ImageIndex;
 use App\Livewire\Dashboard\Team\Create as TeamCreate;
+
+
 use App\Livewire\Dashboard\Events\Index as EventIndex;
-
-
 use App\Livewire\Dashboard\Events\Manage as EventEdit;
 use App\Livewire\Dashboard\Events\Manage as EventCreate;
+
 use App\Livewire\Frontend\TeamMember as TeamMemberShow;;
 
 use App\Livewire\Dashboard\Departments\DepCategories\Index;
@@ -68,20 +70,20 @@ use App\Livewire\Dashboard\AlbumCategories\AlbumCategoryForm;
 use App\Livewire\Dashboard\Blogs\Categories\Index as BlogCat;
 use App\Livewire\Dashboard\Departments\Index as DepartmentIndex;
 use App\Livewire\Dashboard\Categories\Index as MainCategoryIndex;
+use App\Livewire\Dashboard\StaticPages\Index as StaticPagesIndex;
 use App\Livewire\Dashboard\Departments\Manage as DepartmentManage;
+use App\Livewire\Dashboard\StaticPages\Manage as StaticPagesManage;
+
 use App\Livewire\Dashboard\AlbumCategories\Index as AlbumCategoryIndex;
 use App\Livewire\Dashboard\Events\Categories\Index as EventCategoryEdit;
 use App\Livewire\Dashboard\Events\Categories\Index as EventCategoryIndex;
-
-use App\Livewire\Dashboard\StaticPages\Index as StaticPagesIndex;
-use App\Livewire\Dashboard\StaticPages\Manage as StaticPagesManage;
 
 Route::get('/', Home::class)->name('home');
 Route::get('/contact-us', ContactUs::class)->name('contact');
 Route::get('/news', Updates::class)->name('news');
 Route::get('/news/{slug}', UpdatesSinglePage::class)->name('news.single');
 Route::get('/facilities', OurFacilities::class)->name('our-facilities');
-Route::get('/facility', Facility::class)->name('facility');
+Route::get('/facilities/{slug}', \App\Livewire\Frontend\Facility::class)->name('facility');
 Route::get('/clubs', OurClubs::class)->name('our-clubs');
 Route::get('/about-us', AboutUs::class)->name('about-us');
 Route::get('/club', Club::class)->name('club');
@@ -153,9 +155,9 @@ Route::prefix('dashboard/team')->as('dashboard.team.')->group(function () {
 });
 
 Route::prefix('dashboard/facilities')->name('dashboard.facilities.')->group(function () {
-    Route::get('/', App\Livewire\Dashboard\Facilities\Index::class)->name('facilities.index');
-    Route::get('/create', App\Livewire\Dashboard\Facilities\Manage::class)->name('facilities.create');
-    Route::get('/{facilityId}/edit', App\Livewire\Dashboard\Facilities\Manage::class)->name('facilities.edit');
+    Route::get('/', App\Livewire\Dashboard\Facilities\Index::class)->name('index');
+    Route::get('/create', App\Livewire\Dashboard\Facilities\Manage::class)->name('create');
+    Route::get('/{facilityId}/edit', App\Livewire\Dashboard\Facilities\Manage::class)->name('edit');
 });
 
 Route::prefix('dashboard/events')->name('dashboard.events.')->group(function () {
