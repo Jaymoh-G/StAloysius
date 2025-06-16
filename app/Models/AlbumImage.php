@@ -20,4 +20,8 @@ class AlbumImage extends Model
     {
         return $this->belongsTo(Album::class);
     }
+    public function image()
+    {
+        return $this->hasMany(Image::class);
+    }
 }

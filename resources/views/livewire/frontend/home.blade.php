@@ -292,7 +292,7 @@
         <!-- counter area end -->
 
 
-      
+
 
 
         <!-- video-area -->
@@ -347,86 +347,54 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 col-lg-3">
-                        <div class="team-item wow fadeInUp" data-wow-delay=".25s">
-                            <div class="team-img">
-                                <img src="assets/img/team/01.jpg" alt="thumb">
+                    @forelse ($teamMembers as $member)
+                        <div class="col-md-6 col-lg-3">
+                            <div class="team-item wow fadeInUp" data-wow-delay=".{{ $loop->index * 0.25 }}s">
+                                <div class="team-img">
+                                    @if ($member->image)
+                                        <img src="{{ asset('storage/' . $member->image) }}" alt="thumb">
+                                    @else
+                                        <img src="{{ asset('assets/img/team/default.jpg') }}" alt="thumb">
+                                    @endif
+                                </div>
                             </div>
                             <div class="team-social">
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-whatsapp"></i></a>
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fab fa-youtube"></i></a>
+                                @if (isset($member->socials['facebook']))
+                                    <a href="{{ $member->socials['facebook'] }}" target="_blank"><i
+                                            class="fab fa-facebook-f"></i></a>
+                                @endif
+                                @if (isset($member->socials['linkedin']))
+                                    <a href="{{ $member->socials['linkedin'] }}" target="_blank"><i
+                                            class="fab fa-linkedin-in"></i></a>
+                                @endif
+                                @if (isset($member->socials['youtube']))
+                                    <a href="{{ $member->socials['youtube'] }}" target="_blank"><i
+                                            class="fab fa-youtube"></i></a>
+                                @endif
+                                @if (isset($member->socials['website']))
+                                    <a href="{{ $member->socials['website'] }}" target="_blank"><i
+                                            class="fas fa-globe"></i></a>
+                                @endif
                             </div>
                             <div class="team-content">
                                 <div class="team-bio">
-                                    <h5><a href="teacher-single.html">Angela T. Vigil</a></h5>
-                                    <span>Associate Professor</span>
+                                    <h5><a href="{{ route('frontend.team.show', $member->slug) }}">{{ $member->name }}</a>
+                                    </h5>
+                                    <span>{{ $member->position }}</span>
                                 </div>
                             </div>
-                            <span class="team-social-btn"><i class="far fa-share-nodes"></i></span>
+                            @if (isset($member->socials) && !empty($member->socials))
+                                <span class="team-social-btn"><i class="far fa-share-nodes"></i></span>
+                            @endif
                         </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="team-item wow fadeInUp" data-wow-delay=".50s">
-                            <div class="team-img">
-                                <img src="assets/img/team/02.jpg" alt="thumb">
+                    @empty
+                        <div class="col-md-12">
+                            <div class="text-center">
+                                <p>No team members found.</p>
                             </div>
-                            <div class="team-social">
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-whatsapp"></i></a>
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fab fa-youtube"></i></a>
-                            </div>
-                            <div class="team-content">
-                                <div class="team-bio">
-                                    <h5><a href="teacher-single.html">Frank A. Mitchell</a></h5>
-                                    <span>Associate Professor</span>
-                                </div>
-                            </div>
-                            <span class="team-social-btn"><i class="far fa-share-nodes"></i></span>
                         </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="team-item wow fadeInUp" data-wow-delay=".75s">
-                            <div class="team-img">
-                                <img src="assets/img/team/03.jpg" alt="thumb">
-                            </div>
-                            <div class="team-social">
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-whatsapp"></i></a>
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fab fa-youtube"></i></a>
-                            </div>
-                            <div class="team-content">
-                                <div class="team-bio">
-                                    <h5><a href="teacher-single.html">Susan D. Lunsford</a></h5>
-                                    <span>CEO & Founder</span>
-                                </div>
-                            </div>
-                            <span class="team-social-btn"><i class="far fa-share-nodes"></i></span>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="team-item wow fadeInUp" data-wow-delay="1s">
-                            <div class="team-img">
-                                <img src="assets/img/team/04.jpg" alt="thumb">
-                            </div>
-                            <div class="team-social">
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-whatsapp"></i></a>
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fab fa-youtube"></i></a>
-                            </div>
-                            <div class="team-content">
-                                <div class="team-bio">
-                                    <h5><a href="teacher-single.html">Dennis A. Pruitt</a></h5>
-                                    <span>Associate Professor</span>
-                                </div>
-                            </div>
-                            <span class="team-social-btn"><i class="far fa-share-nodes"></i></span>
-                        </div>
-                    </div>
+                    @endforelse
+
                 </div>
             </div>
         </div>
@@ -512,109 +480,7 @@
         </div>
         <!-- choose-area end -->
 
-
-        <!-- gallery-area -->
-        <div class="gallery-area py-120">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 mx-auto">
-                        <div class="site-heading text-center">
-                            <span class="site-title-tagline"><i class="far fa-book-open-reader"></i> Gallery</span>
-                            <h2 class="site-title">Our Photo <span>Gallery</span></h2>
-                            <p>It is a long established fact that a reader will be distracted by the readable content of
-                                a page when looking at its layout.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row popup-gallery">
-                    <div class="col-md-4 wow fadeInUp" data-wow-delay=".25s">
-                        <div class="gallery-item">
-                            <div class="gallery-img">
-                                <img src="assets/img/gallery/01.jpg" alt="">
-                            </div>
-                            <div class="gallery-content">
-                                <a class="popup-img gallery-link" href="assets/img/gallery/01.jpg"><i
-                                        class="fal fa-plus"></i></a>
-                            </div>
-                        </div>
-                        <div class="gallery-item">
-                            <div class="gallery-img">
-                                <img src="assets/img/gallery/02.jpg" alt="">
-                            </div>
-                            <div class="gallery-content">
-                                <a class="popup-img gallery-link" href="assets/img/gallery/02.jpg"><i
-                                        class="fal fa-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 wow fadeInUp" data-wow-delay=".50s">
-                        <div class="gallery-item">
-                            <div class="gallery-img">
-                                <img src="assets/img/gallery/03.jpg" alt="">
-                            </div>
-                            <div class="gallery-content">
-                                <a class="popup-img gallery-link" href="assets/img/gallery/03.jpg"><i
-                                        class="fal fa-plus"></i></a>
-                            </div>
-                        </div>
-                        <div class="gallery-item">
-                            <div class="gallery-img">
-                                <img src="assets/img/gallery/04.jpg" alt="">
-                            </div>
-                            <div class="gallery-content">
-                                <a class="popup-img gallery-link" href="assets/img/gallery/04.jpg"><i
-                                        class="fal fa-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 wow fadeInUp" data-wow-delay=".75s">
-                        <div class="gallery-item">
-                            <div class="gallery-img">
-                                <img src="assets/img/gallery/05.jpg" alt="">
-                            </div>
-                            <div class="gallery-content">
-                                <a class="popup-img gallery-link" href="assets/img/gallery/05.jpg"><i
-                                        class="fal fa-plus"></i></a>
-                            </div>
-                        </div>
-                        <div class="gallery-item">
-                            <div class="gallery-img">
-                                <img src="assets/img/gallery/06.jpg" alt="">
-                            </div>
-                            <div class="gallery-content">
-                                <a class="popup-img gallery-link" href="assets/img/gallery/06.jpg"><i
-                                        class="fal fa-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- gallery-area end -->
-
-
-        <!-- cta-area -->
-        <div class="cta-area">
-            <div class="container">
-                <div class="cta-wrapper">
-                    <div class="row align-items-center">
-                        <div class="col-lg-5 ms-lg-auto">
-                            <div class="cta-content">
-                                <h1>Our 20% Offer Running - Join Today For Your Course</h1>
-                                <p>There are many variations of passages available but the majority have suffered
-                                    alteration in some form by injected humour randomised words which don't look even
-                                    slightly believable.</p>
-                                <div class="cta-btn">
-                                    <a href="application-form.html" class="theme-btn">Apply Now<i
-                                            class="fas fa-arrow-right-long"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- cta-area end -->
+      
 
 
         <!-- event area -->
@@ -644,7 +510,8 @@
                                     @elseif($event->banner)
                                         <img src="{{ asset('storage/' . $event->banner) }}" alt="{{ $event->name }}">
                                     @else
-                                        <img src="{{ asset('assets/img/event/default.jpg') }}" alt="{{ $event->name }}">
+                                        <img src="{{ asset('assets/img/event/default.jpg') }}"
+                                            alt="{{ $event->name }}">
                                     @endif
                                 </div>
                                 <div class="event-info">

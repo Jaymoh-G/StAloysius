@@ -296,7 +296,7 @@
                                             >Video Gallery</a
                                         >
                                     </li>
-                                  
+
                                 </ul>
                             </li>
                             <li>
@@ -379,13 +379,7 @@
                                         >Volunteer your Services</a
                                     >
                                 </li>
-                                <li>
-                                    <a
-                                        class="dropdown-item"
-                                        href="{{ route('events') }}"
-                                        >Careers</a
-                                    >
-                                </li>
+                           
                             </ul>
                         </div>
                     </div>

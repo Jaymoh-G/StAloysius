@@ -50,4 +50,8 @@ class BlogImage extends Model
     {
         return $this->morphTo();
     }
+    public function image()
+    {
+        return $this->hasMany(Image::class);
+    }
 }

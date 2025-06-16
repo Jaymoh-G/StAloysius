@@ -117,7 +117,7 @@
                                 </div>
                                 <div class="team-content">
                                     <div class="team-bio">
-                                        <h5><a href="#">{{ $member->name }}</a></h5>
+                                        <h5><a href="{{ route('frontend.team.show', $member->slug) }}">{{ $member->name }}</a></h5>
                                         <span>{{ $member->position }}</span>
                                     </div>
                                 </div>
