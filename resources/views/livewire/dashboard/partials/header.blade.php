@@ -197,8 +197,8 @@
                             <span class="nav-text">Testimonials</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="table-bootstrap-basic.html">List</a></li>
-                            <li><a href="table-datatable-basic.html">Add</a></li>
+                            <li><a href="{{ route('dashboard.testimonials.index') }}">List</a></li>
+                            <li><a href="{{ route('dashboard.testimonials.create') }}">Add</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">

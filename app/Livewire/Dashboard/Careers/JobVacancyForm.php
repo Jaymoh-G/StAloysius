@@ -34,6 +34,9 @@ class JobVacancyForm extends Component
             $this->jobId = $id;
             $job = JobVacancy::findOrFail($id);
             $this->fill($job->toArray());
+               $this->deadline = optional($job->deadline)->format('Y-m-d');
+               
+
         }
     }
 

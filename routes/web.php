@@ -77,10 +77,15 @@ use App\Livewire\Dashboard\StaticPages\Manage as StaticPagesManage;
 use App\Livewire\Dashboard\AlbumCategories\Index as AlbumCategoryIndex;
 use App\Livewire\Dashboard\Events\Categories\Index as EventCategoryEdit;
 use App\Livewire\Dashboard\Events\Categories\Index as EventCategoryIndex;
+use App\Livewire\Dashboard\Testimonials\Manage as TestimonialManage;
+use App\Livewire\Dashboard\Testimonials\Index as TestimonialsIndex;
+use App\Livewire\Dashboard\Testimonials\Edit as TestimonialEdit;
+use App\Livewire\Frontend\Testimonial;
 
 Route::get('/', Home::class)->name('home');
 Route::get('/contact-us', ContactUs::class)->name('contact');
 Route::get('/news', Updates::class)->name('news');
+Route::get('/news/category/{category?}', Updates::class)->name('news.category');
 Route::get('/news/{slug}', UpdatesSinglePage::class)->name('news.single');
 Route::get('/facilities', OurFacilities::class)->name('our-facilities');
 Route::get('/facilities/{slug}', \App\Livewire\Frontend\Facility::class)->name('facility');
@@ -99,15 +104,13 @@ Route::get('/our-team', OurTeam::class)->name('our-team');
 Route::get('/our-team/{slug}', TeamMemberShow::class)->name('frontend.team.show');
 Route::get('/careers', Careers::class)->name('careers');
 Route::get('/careers/{slug}', CareerDetail::class)->name('careers.show');
-Route::get('/careers/{category?}', Careers::class)->name('careers.category');
+Route::get('/careers/category/{category?}', Careers::class)->name('careers.category');
 Route::get('/media-centre', MediaCentre::class)->name('media-centre');
 Route::get('/departments', Departments::class)->name('departments');
 Route::get('/departments/{slug}', Department::class)->name('department');
 Route::get('/faqs', Faqs::class)->name('faqs');
 Route::get('/testimonials', Testimonials::class)->name('testimonials');
 Route::get('/join-us', JoinUs::class)->name('join-us');
-Route::get('/success-story', SuccessStory::class)->name('success-story');
-Route::get('/success-stories', SuccessStories::class)->name('success-stories');
 Route::get('/admission', Admission::class)->name('admission');
 Route::get('/programs', OurPrograms::class)->name('our-programs');
 Route::get('/program', Program::class)->name('program');
@@ -195,12 +198,14 @@ Route::prefix('dashboard')->name('dashboard.')->group(function () {
 Route::prefix('dashboard/static-pages')->name('dashboard.static-pages.')->group(function () {
     Route::get('/', StaticPagesIndex::class)->name('index');
     Route::get('/create', StaticPagesManage::class)->name('create');
-    Route::get('/{id}/edit', StaticPagesManage::class)->name('edit');
+    Route::get('/{pageId}/edit', StaticPagesManage::class)->name('edit');
 });
 
 
+Route::prefix('dashboard')->name('dashboard.testimonials.')->group(function () {
+    Route::get('/testimonials', TestimonialsIndex::class)->name('index');
+    Route::get('/testimonials/create', TestimonialManage::class)->name('create');
+    Route::get('/testimonials/{testimonialId}/edit', TestimonialManage::class)->name('edit');
+});
 
-
-
-
-    // ... existing routes ...
+Route::get('/testimonials/{slug}', Testimonial::class)->name('testimonials.show');

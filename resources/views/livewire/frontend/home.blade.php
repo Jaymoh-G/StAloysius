@@ -3,151 +3,85 @@
         <!-- hero slider -->
         <div class="hero-section">
             <div class="hero-slider owl-carousel owl-theme">
-                <div class="hero-single" style="background: url(assets/img/slider/s3.jpg)">
-                    <div class="container">
-                        <div class="row align-items-center">
-                            <div class="col-md-12 col-lg-7">
-                                <div class="hero-content">
-                                    <h6 class="hero-sub-title" data-animation="fadeInDown" data-delay=".25s">
-                                        <i class="far fa-book-open-reader"></i>Welcome To St. Aloysius Gonzaga Sch
-                                    </h6>
-                                    <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s">
-                                        Start Your Beautiful And <span>Bright</span> Future
-                                    </h1>
-                                    <p data-animation="fadeInLeft" data-delay=".75s">
-                                        There are many variations of passages orem psum available but the majority have
-                                        suffered alteration in some repeat predefined chunks form
-                                        injected humour.
-                                    </p>
-                                    <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
-                                        <a href="about.html" class="theme-btn">About More<i
-                                                class="fas fa-arrow-right-long"></i></a>
-                                        <a href="contact.html" class="theme-btn theme-btn2">Learn More<i
-                                                class="fas fa-arrow-right-long"></i></a>
+                @if ($sliderContent)
+                    @for ($i = 1; $i <= 10; $i++)
+                        @php
+                            $titleField = "section_{$i}_title";
+                            $contentField = "section_{$i}_content";
+                            $title = $sliderContent->$titleField;
+                            $content = $sliderContent->$contentField;
+                        @endphp
+
+                        @if ($title || $content)
+                            <div class="hero-single"
+                                style="background: url({{ $sliderContent->banner_image ? asset('storage/' . $sliderContent->banner_image) : asset('assets/img/slider/s' . $i . '.jpg') }})">
+                                <div class="container">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-12 col-lg-7">
+                                            <div class="hero-content">
+                                                @if ($title)
+                                                    <h6 class="hero-sub-title" data-animation="fadeInDown" data-delay=".25s">
+                                                        <i class="far fa-book-open-reader"></i>
+                                                        St. Aloysius Gonzaga Sch
+                                                    </h6>
+                                                @endif
+                                                <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s">
+
+                                                </h1>
+                                                <p data-animation="fadeInLeft" data-delay=".75s"> {!! $content !!}
+                                                </p>
+                                                <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
+                                                    <a href="about.html" class="theme-btn">About More<i
+                                                            class="fas fa-arrow-right-long"></i></a>
+                                                    <a href="contact.html" class="theme-btn theme-btn2">Learn More<i
+                                                            class="fas fa-arrow-right-long"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hero-single" style="background: url(assets/img/slider/s1.jpg)">
-                    <div class="container">
-                        <div class="row align-items-center">
-                            <div class="col-md-12 col-lg-7">
-                                <div class="hero-content">
-                                    <h6 class="hero-sub-title" data-animation="fadeInDown" data-delay=".25s">
-                                        <i class="far fa-book-open-reader"></i>Welcome To St Aloysius
-                                    </h6>
-                                    <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s">
-                                        Start Your Beautiful And <span>Bright</span> Future
-                                    </h1>
-                                    <p data-animation="fadeInLeft" data-delay=".75s">
-                                        There are many variations of passages orem psum available but the majority have
-                                        suffered alteration in some repeat predefined chunks form
-                                        injected humour.
-                                    </p>
-                                    <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
-                                        <a href="about.html" class="theme-btn">About More<i
-                                                class="fas fa-arrow-right-long"></i></a>
-                                        <a href="contact.html" class="theme-btn theme-btn2">Learn More<i
-                                                class="fas fa-arrow-right-long"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hero-single" style="background: url(assets/img/slider/s4.jpg)">
-                    <div class="container">
-                        <div class="row align-items-center">
-                            <div class="col-md-12 col-lg-7">
-                                <div class="hero-content">
-                                    <h6 class="hero-sub-title" data-animation="fadeInDown" data-delay=".25s">
-                                        <i class="far fa-book-open-reader"></i>Welcome
-                                    </h6>
-                                    <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s">
-                                        Start Your Beautiful And <span>Bright</span> Future
-                                    </h1>
-                                    <p data-animation="fadeInLeft" data-delay=".75s">
-                                        There are many variations of passages orem psum available but the majority have
-                                        suffered alteration in some repeat predefined chunks form
-                                        injected humour.
-                                    </p>
-                                    <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
-                                        <a href="about.html" class="theme-btn">About More<i
-                                                class="fas fa-arrow-right-long"></i></a>
-                                        <a href="contact.html" class="theme-btn theme-btn2">Learn More<i
-                                                class="fas fa-arrow-right-long"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        @endif
+                    @endfor
+                @endif
+
+
             </div>
         </div>
         <!-- hero slider end -->
 
+        <!-- Homepage Content from Static Pages -->
+        @if ($homeContent)
+            @for ($i = 1; $i <= 10; $i++)
+                @php
+                    $titleField = "section_{$i}_title";
+                    $contentField = "section_{$i}_content";
+                    $title = $homeContent->$titleField;
+                    $content = $homeContent->$contentField;
+                @endphp
 
-        <!-- feature area -->
-        <div class="feature-area fa-negative">
-            <div class="col-xl-9 ms-auto">
-                <div class="feature-wrapper">
-                    <div class="row g-4">
-                        <div class="col-md-6 col-lg-3">
-                            <div class="feature-item">
-                                <span class="count">01</span>
-                                <div class="feature-icon">
-                                    <img src="assets/img/icon/scholarship.svg" alt="">
-                                </div>
-                                <div class="feature-content">
-                                    <h4 class="feature-title">Scholarship Facility</h4>
-                                    <p>It is a long established fact that a reader will be distracted.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-3">
-                            <div class="feature-item">
-                                <span class="count">02</span>
-                                <div class="feature-icon">
-                                    <img src="assets/img/icon/teacher.svg" alt="">
-                                </div>
-                                <div class="feature-content">
-                                    <h4 class="feature-title">Skilled Lecturers</h4>
-                                    <p>It is a long established fact that a reader will be distracted.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-3">
-                            <div class="feature-item">
-                                <span class="count">03</span>
-                                <div class="feature-icon">
-                                    <img src="assets/img/icon/library.svg" alt="">
-                                </div>
-                                <div class="feature-content">
-                                    <h4 class="feature-title">Book Library Facility</h4>
-                                    <p>It is a long established fact that a reader will be distracted.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-3">
-                            <div class="feature-item">
-                                <span class="count">04</span>
-                                <div class="feature-icon">
-                                    <img src="assets/img/icon/money.svg" alt="">
-                                </div>
-                                <div class="feature-content">
-                                    <h4 class="feature-title">Affordable Price</h4>
-                                    <p>It is a long established fact that a reader will be distracted.</p>
+                @if ($title || $content)
+                    <div class="homepage-section py-120">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    @if ($title)
+                                        <div class="site-heading mb-5 text-center">
+                                            <h2 class="site-title">{{ $title }}</h2>
+                                        </div>
+                                    @endif
+                                    @if ($content)
+                                        <div class="homepage-content">
+                                            {!! $content !!}
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <!-- feature area end -->
-
+                @endif
+            @endfor
+        @endif
 
         <!-- about area -->
         <div class="about-area py-120">
@@ -238,58 +172,7 @@
         <!-- about area end -->
 
 
-        <!-- counter area -->
-        <div class="counter-area pb-60 pt-60">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="counter-box">
-                            <div class="icon">
-                                <img src="assets/img/icon/course.svg" alt="">
-                            </div>
-                            <div>
-                                <span class="counter" data-count="+" data-to="500" data-speed="3000">500</span>
-                                <h6 class="title">+ Total Cources </h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="counter-box">
-                            <div class="icon">
-                                <img src="assets/img/icon/graduation.svg" alt="">
-                            </div>
-                            <div>
-                                <span class="counter" data-count="+" data-to="1900" data-speed="3000">1900</span>
-                                <h6 class="title">+ Our Students</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="counter-box">
-                            <div class="icon">
-                                <img src="assets/img/icon/teacher-2.svg" alt="">
-                            </div>
-                            <div>
-                                <span class="counter" data-count="+" data-to="750" data-speed="3000">750</span>
-                                <h6 class="title">+ Skilled Lecturers</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="counter-box">
-                            <div class="icon">
-                                <img src="assets/img/icon/award.svg" alt="">
-                            </div>
-                            <div>
-                                <span class="counter" data-count="+" data-to="30" data-speed="3000">30</span>
-                                <h6 class="title">+ Win Awards</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- counter area end -->
+
 
 
 
@@ -301,31 +184,47 @@
                 <div class="row g-4">
                     <div class="col-lg-4 wow fadeInLeft" data-wow-delay=".25s">
                         <div class="site-heading mb-3">
-                            <span class="site-title-tagline"><i class="far fa-book-open-reader"></i> Latest Video</span>
+                            <span class="site-title-tagline"><i class="far fa-book-open-reader"></i> Latest Videos</span>
                             <h2 class="site-title">
-                                Let's Check Our <span>Latest</span> Video
+                                {{ $featuredVideos->title }}
                             </h2>
                         </div>
                         <p class="about-text">
-                            There are many variations of passages available but the majority have suffered
-                            alteration in some form by injected humour look even slightly believable.
+                            {{ Str::limit($featuredVideos->description, 150) }}
                         </p>
-                        <a href="about.html" class="theme-btn mt-30">Learn More<i
+                        <a href="{{ route('videos') }}" class="theme-btn mt-30">View All Videos<i
                                 class="fas fa-arrow-right-long"></i></a>
                     </div>
                     <div class="col-lg-8 wow fadeInRight" data-wow-delay=".25s">
-                        <div class="video-content" style="background-image: url(assets/img/video/01.jpg);">
-                            <div class="row align-items-center">
-                                <div class="col-lg-12">
-                                    <div class="video-wrapper">
-                                        <a class="play-btn popup-youtube"
-                                            href="https://www.youtube.com/watch?v=ckHzmP1evNU">
-                                            <i class="fas fa-play"></i>
-                                        </a>
+                        @if ($featuredVideos)
+                            <div class="video-content"
+                                style="background-image: url({{ $featuredVideos->thumbnail ? asset('storage/' . $featuredVideos->thumbnail) : 'https://img.youtube.com/vi/' . $featuredVideos->video_id . '/mqdefault.jpg' }});">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-12">
+                                        <div class="video-wrapper">
+                                            <a class="play-btn popup-youtube"
+                                                href="https://www.youtube.com/watch?v={{ $featuredVideos->video_id }}">
+                                                <i class="fas fa-play"></i>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @else
+                            <div class="video-content"
+                                style="background-image: url({{ asset('assets/img/video/01.jpg') }});">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-12">
+                                        <div class="video-wrapper">
+                                            <a class="play-btn popup-youtube"
+                                                href="https://www.youtube.com/watch?v=ckHzmP1evNU">
+                                                <i class="fas fa-play"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -333,72 +232,46 @@
         <!-- video-area end -->
 
 
-        <!-- team-area -->
-        <div class="team-area py-120">
+        <!-- department area -->
+        <div class="department-area bg py-120">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 mx-auto">
                         <div class="site-heading text-center">
-                            <span class="site-title-tagline"><i class="far fa-book-open-reader"></i> Our Teachers</span>
-                            <h2 class="site-title">Meet With Our <span>Teachers</span></h2>
-                            <p>It is a long established fact that a reader will be distracted by the readable content of
-                                a page when looking at its layout.</p>
+                            <span class="site-title-tagline"><i class="far fa-book-open-reader"></i> Department</span>
+                            <h2 class="site-title">Browse Our <span>Department</span></h2>
+                            <p>Explore our academic and non-academic departments dedicated to excellence in education and
+                                research.</p>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    @forelse ($teamMembers as $member)
-                        <div class="col-md-6 col-lg-3">
-                            <div class="team-item wow fadeInUp" data-wow-delay=".{{ $loop->index * 0.25 }}s">
-                                <div class="team-img">
-                                    @if ($member->image)
-                                        <img src="{{ asset('storage/' . $member->image) }}" alt="thumb">
-                                    @else
-                                        <img src="{{ asset('assets/img/team/default.jpg') }}" alt="thumb">
-                                    @endif
+                <div class="department-slider owl-carousel owl-theme">
+                    @foreach ($departments as $department)
+                        <div class="department-item">
+                            <div class="department-icon">
+                                <img src="{{ asset('storage/' . $department->banner) }}" alt="{{ $department->name }}">
+                            </div>
+                            <div class="department-info">
+                                <h4 class="department-title"><a
+                                        href="{{ route('department', $department->slug) }}">{{ $department->name }}</a>
+                                </h4>
+                                <p class="department-description"
+                                    style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">
+                                    {!! $department->content ?? 'Department information coming soon.' !!}</p>
+                                <div class="department-btn">
+                                    <a href="{{ route('department', $department->slug) }}">Read More<i
+                                            class="fas fa-arrow-right-long"></i></a>
                                 </div>
                             </div>
-                            <div class="team-social">
-                                @if (isset($member->socials['facebook']))
-                                    <a href="{{ $member->socials['facebook'] }}" target="_blank"><i
-                                            class="fab fa-facebook-f"></i></a>
-                                @endif
-                                @if (isset($member->socials['linkedin']))
-                                    <a href="{{ $member->socials['linkedin'] }}" target="_blank"><i
-                                            class="fab fa-linkedin-in"></i></a>
-                                @endif
-                                @if (isset($member->socials['youtube']))
-                                    <a href="{{ $member->socials['youtube'] }}" target="_blank"><i
-                                            class="fab fa-youtube"></i></a>
-                                @endif
-                                @if (isset($member->socials['website']))
-                                    <a href="{{ $member->socials['website'] }}" target="_blank"><i
-                                            class="fas fa-globe"></i></a>
-                                @endif
-                            </div>
-                            <div class="team-content">
-                                <div class="team-bio">
-                                    <h5><a href="{{ route('frontend.team.show', $member->slug) }}">{{ $member->name }}</a>
-                                    </h5>
-                                    <span>{{ $member->position }}</span>
-                                </div>
-                            </div>
-                            @if (isset($member->socials) && !empty($member->socials))
-                                <span class="team-social-btn"><i class="far fa-share-nodes"></i></span>
-                            @endif
                         </div>
-                    @empty
-                        <div class="col-md-12">
-                            <div class="text-center">
-                                <p>No team members found.</p>
-                            </div>
-                        </div>
-                    @endforelse
-
+                    @endforeach
                 </div>
             </div>
         </div>
-        <!-- team-area end -->
+        <!-- department area end -->
+
+
+
 
 
         <!-- choose-area -->
@@ -480,7 +353,7 @@
         </div>
         <!-- choose-area end -->
 
-      
+
 
 
         <!-- event area -->
@@ -633,43 +506,73 @@
         <!-- enroll area end -->
 
 
-        <!-- department area -->
-        <div class="department-area bg py-120">
+        <!-- team-area -->
+        <div class="team-area py-120">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 mx-auto">
                         <div class="site-heading text-center">
-                            <span class="site-title-tagline"><i class="far fa-book-open-reader"></i> Department</span>
-                            <h2 class="site-title">Browse Our <span>Department</span></h2>
-                            <p>Explore our academic and non-academic departments dedicated to excellence in education and
-                                research.</p>
+                            <span class="site-title-tagline"><i class="far fa-book-open-reader"></i> Our Teachers</span>
+                            <h2 class="site-title">Meet With Our <span>Teachers</span></h2>
+                            <p>It is a long established fact that a reader will be distracted by the readable content of
+                                a page when looking at its layout.</p>
                         </div>
                     </div>
                 </div>
-                <div class="department-slider owl-carousel owl-theme">
-                    @foreach ($departments as $department)
-                        <div class="department-item">
-                            <div class="department-icon">
-                                <img src="{{ asset('storage/' . $department->banner) }}" alt="{{ $department->name }}">
-                            </div>
-                            <div class="department-info">
-                                <h4 class="department-title"><a
-                                        href="{{ route('department', $department->slug) }}">{{ $department->name }}</a>
-                                </h4>
-                                <p class="department-description"
-                                    style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">
-                                    {!! $department->content ?? 'Department information coming soon.' !!}</p>
-                                <div class="department-btn">
-                                    <a href="{{ route('department', $department->slug) }}">Read More<i
-                                            class="fas fa-arrow-right-long"></i></a>
+                <div class="row">
+                    @forelse ($teamMembers as $member)
+                        <div class="col-md-6 col-lg-3">
+                            <div class="team-item wow fadeInUp" data-wow-delay=".{{ $loop->index * 0.25 }}s">
+                                <div class="team-img">
+                                    @if ($member->image)
+                                        <img src="{{ asset('storage/' . $member->image) }}" alt="thumb">
+                                    @else
+                                        <img src="{{ asset('assets/img/team/default.jpg') }}" alt="thumb">
+                                    @endif
                                 </div>
                             </div>
+                            <div class="team-social">
+                                @if (isset($member->socials['facebook']))
+                                    <a href="{{ $member->socials['facebook'] }}" target="_blank"><i
+                                            class="fab fa-facebook-f"></i></a>
+                                @endif
+                                @if (isset($member->socials['linkedin']))
+                                    <a href="{{ $member->socials['linkedin'] }}" target="_blank"><i
+                                            class="fab fa-linkedin-in"></i></a>
+                                @endif
+                                @if (isset($member->socials['youtube']))
+                                    <a href="{{ $member->socials['youtube'] }}" target="_blank"><i
+                                            class="fab fa-youtube"></i></a>
+                                @endif
+                                @if (isset($member->socials['website']))
+                                    <a href="{{ $member->socials['website'] }}" target="_blank"><i
+                                            class="fas fa-globe"></i></a>
+                                @endif
+                            </div>
+                            <div class="team-content">
+                                <div class="team-bio">
+                                    <h5><a
+                                            href="{{ route('frontend.team.show', $member->slug) }}">{{ $member->name }}</a>
+                                    </h5>
+                                    <span>{{ $member->position }}</span>
+                                </div>
+                            </div>
+                            @if (isset($member->socials) && !empty($member->socials))
+                                <span class="team-social-btn"><i class="far fa-share-nodes"></i></span>
+                            @endif
                         </div>
-                    @endforeach
+                    @empty
+                        <div class="col-md-12">
+                            <div class="text-center">
+                                <p>No team members found.</p>
+                            </div>
+                        </div>
+                    @endforelse
+
                 </div>
             </div>
         </div>
-        <!-- department area end -->
+        <!-- team-area end -->
 
 
         <!-- testimonial area -->
@@ -679,7 +582,7 @@
                     <div class="col-lg-6 mx-auto">
                         <div class="site-heading text-center">
                             <span class="site-title-tagline"><i class="far fa-book-open-reader"></i> Testimonials</span>
-                            <h2 class="site-title text-white">What Our Students <span>Say's</span></h2>
+                            <h2 class="site-title text-white">What Our Students & Parents <span>Say</span></h2>
                             <p class="text-white">It is a long established fact that a reader will be distracted by the
                                 readable content of
                                 a page when looking at its layout.</p>
@@ -687,131 +590,61 @@
                     </div>
                 </div>
                 <div class="testimonial-slider owl-carousel owl-theme">
-                    <div class="testimonial-item">
-                        <div class="testimonial-rate">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="testimonial-quote">
-                            <p>
-                                There are many variations of tend to repeat chunks some all form necessary injected for the
-                                going are humour words.
-                            </p>
-                        </div>
-                        <div class="testimonial-content">
-                            <div class="testimonial-author-img">
-                                <img src="assets/img/testimonial/01.jpg" alt="">
+                    @forelse($testimonials as $testimonial)
+                        <div class="testimonial-item">
+                            <div class="testimonial-rate">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <i class="fas fa-star{{ $i <= $testimonial->rating ? '' : '-o' }}"></i>
+                                @endfor
                             </div>
-                            <div class="testimonial-author-info">
-                                <h4>Anthony Nicoll</h4>
-                                <p>Student</p>
+                            <div class="testimonial-quote">
+                                <p>{{ Str::limit($testimonial->testimony, 150) }}</p>
                             </div>
-                        </div>
-                        <span class="testimonial-quote-icon"><i class="far fa-quote-right"></i></span>
-                    </div>
-                    <div class="testimonial-item">
-                        <div class="testimonial-rate">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="testimonial-quote">
-                            <p>
-                                There are many variations of tend to repeat chunks some all form necessary injected for the
-                                going are humour words.
-                            </p>
-                        </div>
-                        <div class="testimonial-content">
-                            <div class="testimonial-author-img">
-                                <img src="assets/img/testimonial/02.jpg" alt="">
+                            <div class="testimonial-content">
+                                <div class="testimonial-author-img">
+                                    @if ($testimonial->image)
+                                        <img src="{{ asset('storage/' . $testimonial->image) }}"
+                                            alt="{{ $testimonial->name }}">
+                                    @else
+                                        <img src="{{ asset('assets/img/testimonial/default.jpg') }}"
+                                            alt="{{ $testimonial->name }}">
+                                    @endif
+                                </div>
+                                <div class="testimonial-author-info">
+                                    <h4>{{ $testimonial->name }}</h4>
+                                    <p>{{ $testimonial->type }}</p>
+                                </div>
                             </div>
-                            <div class="testimonial-author-info">
-                                <h4>Richard Lock</h4>
-                                <p>Student</p>
+                            <span class="testimonial-quote-icon"><i class="far fa-quote-right"></i></span>
+                        </div>
+                    @empty
+                        <div class="testimonial-item">
+                            <div class="testimonial-rate">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
                             </div>
-                        </div>
-                        <span class="testimonial-quote-icon"><i class="far fa-quote-right"></i></span>
-                    </div>
-                    <div class="testimonial-item">
-                        <div class="testimonial-rate">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="testimonial-quote">
-                            <p>
-                                There are many variations of tend to repeat chunks some all form necessary injected for the
-                                going are humour words.
-                            </p>
-                        </div>
-                        <div class="testimonial-content">
-                            <div class="testimonial-author-img">
-                                <img src="assets/img/testimonial/03.jpg" alt="">
+                            <div class="testimonial-quote">
+                                <p>
+                                    There are many variations of tend to repeat chunks some all form necessary injected for
+                                    the
+                                    going are humour words.
+                                </p>
                             </div>
-                            <div class="testimonial-author-info">
-                                <h4>Randal Grand</h4>
-                                <p>Student</p>
+                            <div class="testimonial-content">
+                                <div class="testimonial-author-img">
+                                    <img src="{{ asset('assets/img/testimonial/01.jpg') }}" alt="">
+                                </div>
+                                <div class="testimonial-author-info">
+                                    <h4>Anthony Nicoll</h4>
+                                    <p>Student</p>
+                                </div>
                             </div>
+                            <span class="testimonial-quote-icon"><i class="far fa-quote-right"></i></span>
                         </div>
-                        <span class="testimonial-quote-icon"><i class="far fa-quote-right"></i></span>
-                    </div>
-                    <div class="testimonial-item">
-                        <div class="testimonial-rate">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="testimonial-quote">
-                            <p>
-                                There are many variations of tend to repeat chunks some all form necessary injected for the
-                                going are humour words.
-                            </p>
-                        </div>
-                        <div class="testimonial-content">
-                            <div class="testimonial-author-img">
-                                <img src="assets/img/testimonial/04.jpg" alt="">
-                            </div>
-                            <div class="testimonial-author-info">
-                                <h4>Edward Miles</h4>
-                                <p>Student</p>
-                            </div>
-                        </div>
-                        <span class="testimonial-quote-icon"><i class="far fa-quote-right"></i></span>
-                    </div>
-                    <div class="testimonial-item">
-                        <div class="testimonial-rate">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="testimonial-quote">
-                            <p>
-                                There are many variations of tend to repeat chunks some all form necessary injected for the
-                                going are humour words.
-                            </p>
-                        </div>
-                        <div class="testimonial-content">
-                            <div class="testimonial-author-img">
-                                <img src="assets/img/testimonial/05.jpg" alt="">
-                            </div>
-                            <div class="testimonial-author-info">
-                                <h4>Ninal Gordon</h4>
-                                <p>Student</p>
-                            </div>
-                        </div>
-                        <span class="testimonial-quote-icon"><i class="far fa-quote-right"></i></span>
-                    </div>
+                    @endforelse
                 </div>
             </div>
         </div>

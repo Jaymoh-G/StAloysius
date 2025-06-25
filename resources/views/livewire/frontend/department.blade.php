@@ -26,11 +26,13 @@
                                             Our Departments
                                         </h4>
                                         <div class="category-list">
-                                            @forelse($depCats as $depCat)
-                                                <a href="#"><i
-                                                        class="far fa-long-arrow-right"></i>{{ $depCat->name }}</a>
+                                            @forelse($departments as $department)
+                                                <a href="{{ route('department', $department->slug) }}"
+                                                    class="{{ $dep->id === $department->id ? 'active' : '' }}">
+                                                    <i class="far fa-long-arrow-right"></i>{{ $department->name }}
+                                                </a>
                                             @empty
-                                                <p>No categories</p>
+                                                <p>No departments</p>
                                             @endforelse
                                         </div>
                                     </div>
@@ -93,66 +95,69 @@
                             </div>
                         </div>
                     </div>
-                    @if($teamMembers->count() > 0)
-                    <!-- team-area -->
-                    <div class="team-area2 py-120">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-6 mx-auto">
-                                    <div class="site-heading text-center">
-                                        <span class="site-title-tagline"><i class="far fa-book-open-reader"></i> {{ $dep->name }} Team</span>
+                    @if ($teamMembers->count() > 0)
+                        <!-- team-area -->
+                        <div class="team-area2 py-120">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-6 mx-auto">
+                                        <div class="site-heading text-center">
+                                            <span class="site-title-tagline"><i class="far fa-book-open-reader"></i>
+                                                {{ $dep->name }} Team</span>
 
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                @forelse($teamMembers as $member)
-                                    <div class="col-md-6 col-lg-3">
-                                        <div class="team-item wow fadeInUp" data-wow-delay=".25s">
-                                            <div class="team-img">
-                                                <img src="{{ $member->image ? asset('storage/' . $member->image) : asset('assets/img/team/default.jpg') }}"
-                                                    alt="{{ $member->name }}">
-                                            </div>
-                                            @if (isset($member->socials) && !empty($member->socials))
-                                                <div class="team-social">
-                                                    @if (isset($member->socials['facebook']))
-                                                        <a href="{{ $member->socials['facebook'] }}" target="_blank"><i
-                                                                class="fab fa-facebook-f"></i></a>
-                                                    @endif
-                                                    @if (isset($member->socials['whatsapp']))
-                                                        <a href="{{ $member->socials['whatsapp'] }}" target="_blank"><i
-                                                                class="fab fa-whatsapp"></i></a>
-                                                    @endif
-                                                    @if (isset($member->socials['linkedin']))
-                                                        <a href="{{ $member->socials['linkedin'] }}" target="_blank"><i
-                                                                class="fab fa-linkedin-in"></i></a>
-                                                    @endif
-                                                    @if (isset($member->socials['youtube']))
-                                                        <a href="{{ $member->socials['youtube'] }}" target="_blank"><i
-                                                                class="fab fa-youtube"></i></a>
-                                                    @endif
-                                                </div>
-                                            @endif
-                                            <div class="team-content">
-                                                <div class="team-bio">
-                                                    <h5><a href="{{ route('frontend.team.show', $member->slug) }}">{{ $member->name }}</a></h5>
-                                                    <span>{{ $member->position }}</span>
-                                                </div>
-                                            </div>
-                                            @if (isset($member->socials) && !empty($member->socials))
-                                                <span class="team-social-btn"><i class="far fa-share-nodes"></i></span>
-                                            @endif
                                         </div>
                                     </div>
-                                @empty
-                                    <div class="col-12 text-center">
-                                        <p>No staff members found for this department.</p>
-                                    </div>
-                                @endforelse
+                                </div>
+                                <div class="row">
+                                    @forelse($teamMembers as $member)
+                                        <div class="col-md-6 col-lg-3">
+                                            <div class="team-item wow fadeInUp" data-wow-delay=".25s">
+                                                <div class="team-img">
+                                                    <img src="{{ $member->image ? asset('storage/' . $member->image) : asset('assets/img/team/default.jpg') }}"
+                                                        alt="{{ $member->name }}">
+                                                </div>
+                                                @if (isset($member->socials) && !empty($member->socials))
+                                                    <div class="team-social">
+                                                        @if (isset($member->socials['facebook']))
+                                                            <a href="{{ $member->socials['facebook'] }}" target="_blank"><i
+                                                                    class="fab fa-facebook-f"></i></a>
+                                                        @endif
+                                                        @if (isset($member->socials['whatsapp']))
+                                                            <a href="{{ $member->socials['whatsapp'] }}" target="_blank"><i
+                                                                    class="fab fa-whatsapp"></i></a>
+                                                        @endif
+                                                        @if (isset($member->socials['linkedin']))
+                                                            <a href="{{ $member->socials['linkedin'] }}" target="_blank"><i
+                                                                    class="fab fa-linkedin-in"></i></a>
+                                                        @endif
+                                                        @if (isset($member->socials['youtube']))
+                                                            <a href="{{ $member->socials['youtube'] }}" target="_blank"><i
+                                                                    class="fab fa-youtube"></i></a>
+                                                        @endif
+                                                    </div>
+                                                @endif
+                                                <div class="team-content">
+                                                    <div class="team-bio">
+                                                        <h5><a
+                                                                href="{{ route('frontend.team.show', $member->slug) }}">{{ $member->name }}</a>
+                                                        </h5>
+                                                        <span>{{ $member->position }}</span>
+                                                    </div>
+                                                </div>
+                                                @if (isset($member->socials) && !empty($member->socials))
+                                                    <span class="team-social-btn"><i class="far fa-share-nodes"></i></span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @empty
+                                        <div class="col-12 text-center">
+                                            <p>No staff members found for this department.</p>
+                                        </div>
+                                    @endforelse
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- team-area end -->
+                        <!-- team-area end -->
                     @endif
                 </div>
             </div>

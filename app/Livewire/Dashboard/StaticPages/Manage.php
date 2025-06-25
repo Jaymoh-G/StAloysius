@@ -39,11 +39,12 @@ class Manage extends Component
         'content' => 'nullable',
         'meta_title' => 'nullable|max:70',
         'meta_description' => 'nullable|max:160',
-        'banner_image' => 'nullable|image|max:2048',
-        'images.*' => 'nullable|image|max:2048',
+        // image png
+        'banner_image' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
+        'images.*' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
         'sections.*.title' => 'nullable',
         'sections.*.content' => 'nullable',
-        'sections.*.images.*' => 'nullable|image|max:2048',
+        'sections.*.images.*' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
     ];
 
     public function rules()
@@ -55,8 +56,8 @@ class Manage extends Component
             'content' => 'required|string',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
-            'images.*' => 'nullable|image|max:2048',
-            'banner_image' => 'nullable|image|max:2048',
+            'images.*' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
+            'banner_image' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
         ];
     }
 
@@ -132,6 +133,14 @@ class Manage extends Component
         }
 
         $this->dispatch('sectionsUpdated');
+    }
+
+    public function removeSectionImage($sectionIndex, $imageIndex)
+    {
+        if (isset($this->sections[$sectionIndex]['images'][$imageIndex])) {
+            unset($this->sections[$sectionIndex]['images'][$imageIndex]);
+            $this->sections[$sectionIndex]['images'] = array_values($this->sections[$sectionIndex]['images']);
+        }
     }
 
     public function updatedTitle()

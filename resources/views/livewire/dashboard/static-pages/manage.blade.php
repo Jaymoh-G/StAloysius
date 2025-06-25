@@ -30,15 +30,13 @@
                         <form wire:submit.prevent="save" id="pageForm">
                             <ul class="nav nav-tabs mb-3" id="pageTabs" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <button
-                                        class="nav-link {{ $activeTab == 'general' ? 'active' : '' }}"
+                                    <button class="nav-link {{ $activeTab == 'general' ? 'active' : '' }}"
                                         wire:click.prevent="$set('activeTab', 'general')" type="button">
                                         General
                                     </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button
-                                        class="nav-link {{ $activeTab == 'sections' ? 'active' : '' }}"
+                                    <button class="nav-link {{ $activeTab == 'sections' ? 'active' : '' }}"
                                         wire:click.prevent="$set('activeTab', 'sections')" type="button">
                                         Sections
                                     </button>
@@ -53,8 +51,7 @@
 
                             <div class="tab-content">
                                 <!-- General Tab -->
-                                <div
-                                    class="tab-pane fade {{ $activeTab == 'general' ? 'show active' : '' }}">
+                                <div class="tab-pane fade {{ $activeTab == 'general' ? 'show active' : '' }}">
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="mb-3">
@@ -102,8 +99,7 @@
                                         <div class="col-md-4">
                                             <div class="mb-4">
                                                 <div class="flex items-center gap-4">
-                                                    <label for="images">Upload Images
-                                                        <span class="text-danger">*</span></label>
+                                                    <label for="images">Upload Images</label>
                                                     <input type="file" wire:model="images" multiple
                                                         class="form-control @error('images.*') is-invalid @enderror block"
                                                         id="images" />
@@ -112,92 +108,100 @@
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
                                                 </div>
-                                                <!-- Featured Image Selection Section -->
 
-                                                <div class="mt-3">
-                                                    <!-- Preview Area for new images -->
-                                                    <div class="d-flex mt-3 flex-wrap gap-3">
-                                                        <?php if(isset($images) && count($images)): ?>
-                                                        <?php foreach($images as $index =>
-                                                        $image): ?>
-                                                        <?php if(is_object($image)): ?>
-                                                        <div class="position-relative">
-                                                            <img src="{{ $image->temporaryUrl() }}" alt="Preview"
-                                                                class="rounded border"
-                                                                style="
-                                                                    height: 100px;
-                                                                    width: auto;
-                                                                    object-fit: cover;
-                                                                " />
-                                                        </div>
-                                                        <?php endif; ?>
-                                                        <?php endforeach; ?>
-                                                        <?php endif; ?>
-                                                    </div>
-
-                                                    <!-- Existing Images Section -->
-                                                    @if ($existingImages && count($existingImages))
-                                                        <label class="mt-3">Existing Images</label>
+                                                <!-- Preview Area for new images -->
+                                                @if ($images && count($images) > 0)
+                                                    <div class="mt-3">
+                                                        <h6 class="text-primary">New Images Preview:</h6>
                                                         <div class="d-flex mt-2 flex-wrap gap-3">
-                                                            <?php foreach($existingImages as $eIndex =>
-                                                        $image): ?>
-                                                            <div class="position-relative text-center"
-                                                                style="width: 120px">
-                                                                <img src="{{ asset('storage/' . $image->path) }}"
-                                                                    alt="Existing Image" class="rounded border"
-                                                                    style="
-                                                                    height: 100px;
-                                                                    width: 100%;
-                                                                    object-fit: cover;
-                                                                " />
-                                                                <button type="button"
-                                                                    wire:click.prevent="deleteImage({{ $image->id }})"
-                                                                    class="btn btn-sm btn-danger position-absolute end-0 top-0 m-1">
-                                                                    &times;
-                                                                </button>
-                                                            </div>
-                                                            <?php endforeach; ?>
+                                                            @foreach ($images as $index => $image)
+                                                                @if (is_object($image))
+                                                                    <div class="position-relative">
+                                                                        <img src="{{ $image->temporaryUrl() }}"
+                                                                            alt="Preview" class="rounded border"
+                                                                            style="height: 100px; width: auto; object-fit: cover;" />
+                                                                        <button type="button"
+                                                                            wire:click="$set('images.{{ $index }}', null)"
+                                                                            class="btn btn-sm btn-danger position-absolute end-0 top-0 m-1">
+                                                                            &times;
+                                                                        </button>
+                                                                    </div>
+                                                                @endif
+                                                            @endforeach
                                                         </div>
-                                                    @endif
-                                                </div>
-                                                <!-- end of problem -->
-                                            </div>
-                                            <div class="mb-4">
-                                                <label class="form-label">Banner Image</label>
-                                                @if ($banner_image)
-                                                    <div class="position-relative my-2">
-                                                        <img src="{{ $banner_image->temporaryUrl() }}"
-                                                            alt="Banner Preview" class="img-fluid rounded border"
-                                                            style="
-                                                            height: 100px;
-                                                            width: 100%;
-                                                            object-fit: cover;
-                                                        " />
-                                                        <button wire:click="$set('banner_image', null)" type="button"
-                                                            class="btn btn-sm btn-danger position-absolute end-0 top-0 m-1"
-                                                            title="remove banner">
-                                                            &times;
-                                                        </button>
-                                                    </div>
-                                                @elseif ($existingBanner)
-                                                    <div class="position-relative my-2">
-                                                        <img src="{{ Storage::url($existingBanner) }}"
-                                                            alt="Current Banner" class="img-fluid rounded border"
-                                                            style="
-                                                            height: 150px;
-                                                            width: 100%;
-                                                            object-fit: cover;
-                                                        " />
-                                                        <button wire:click="deleteBanner" type="button"
-                                                            class="btn btn-sm btn-danger position-absolute end-0 top-0 m-1"
-                                                            title="Delete Banner">
-                                                            &times;
-                                                        </button>
                                                     </div>
                                                 @endif
-                                                <div class="mt-2">
+
+                                                <!-- Existing Images Section -->
+                                                @if ($existingImages && count($existingImages) > 0)
+                                                    <div class="mt-4">
+                                                        <h6 class="text-success">Existing Images:</h6>
+                                                        <div class="d-flex mt-2 flex-wrap gap-3">
+                                                            @foreach ($existingImages as $image)
+                                                                <div class="position-relative text-center"
+                                                                    style="width: 120px">
+                                                                    <img src="{{ asset('storage/' . $image->path) }}"
+                                                                        alt="Existing Image" class="rounded border"
+                                                                        style="height: 100px; width: 100%; object-fit: cover;" />
+                                                                    <button type="button"
+                                                                        wire:click.prevent="deleteImage({{ $image->id }})"
+                                                                        class="btn btn-sm btn-danger position-absolute end-0 top-0 m-1"
+                                                                        title="Delete Image">
+                                                                        &times;
+                                                                    </button>
+                                                                    <small
+                                                                        class="d-block text-muted mt-1">{{ $image->caption ?: 'No caption' }}</small>
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            </div>
+
+                                            <div class="mb-4">
+                                                <label class="form-label">Banner Image</label>
+
+                                                <!-- New Banner Preview -->
+                                                @if ($banner_image)
+                                                    <div class="mt-2">
+                                                        <h6 class="text-primary">New Banner Preview:</h6>
+                                                        <div class="position-relative my-2">
+                                                            <img src="{{ $banner_image->temporaryUrl() }}"
+                                                                alt="Banner Preview" class="img-fluid rounded border"
+                                                                style="height: 150px; width: 100%; object-fit: cover;" />
+                                                            <button wire:click="$set('banner_image', null)"
+                                                                type="button"
+                                                                class="btn btn-sm btn-danger position-absolute end-0 top-0 m-1"
+                                                                title="Remove new banner">
+                                                                &times;
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                <!-- Existing Banner Preview -->
+                                                @if ($existingBanner)
+                                                    <div class="mt-2">
+                                                        <h6 class="text-success">Current Banner:</h6>
+                                                        <div class="position-relative my-2">
+                                                            <img src="{{ asset('storage/' . $existingBanner) }}"
+                                                                alt="Current Banner" class="img-fluid rounded border"
+                                                                style="height: 150px; width: 100%; object-fit: cover;" />
+                                                            <button wire:click="deleteBanner" type="button"
+                                                                class="btn btn-sm btn-danger position-absolute end-0 top-0 m-1"
+                                                                title="Delete Current Banner">
+                                                                &times;
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                <!-- Upload New Banner -->
+                                                <div class="mt-3">
                                                     <input type="file" wire:model="banner_image" accept="image/*"
                                                         class="form-control @error('banner_image') is-invalid @enderror" />
+                                                    <small class="text-muted">Upload a new banner image (PNG, JPG,
+                                                        JPEG, WEBP, max 2MB)</small>
                                                     @error('banner_image')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
@@ -208,8 +212,7 @@
                                 </div>
 
                                 <!-- Sections Tab -->
-                                <div
-                                    class="tab-pane fade {{ $activeTab == 'sections' ? 'show active' : '' }}">
+                                <div class="tab-pane fade {{ $activeTab == 'sections' ? 'show active' : '' }}">
                                     <div class="mb-3">
                                         <button type="button" class="btn btn-sm btn-success"
                                             wire:click="addSection">
@@ -247,28 +250,24 @@
                                                         <input type="file" class="form-control"
                                                             wire:model="sections.{{ $index }}.images" multiple
                                                             accept="image/*" />
+                                                        <small class="text-muted">Upload images for this section (PNG,
+                                                            JPG, JPEG, WEBP, max 2MB each)</small>
 
                                                         <!-- Preview of uploaded section images -->
                                                         @if (isset($sections[$index]['images']) && count($sections[$index]['images']) > 0)
-                                                            <div class="mt-2">
-                                                                <h6>New Images:</h6>
+                                                            <div class="mt-3">
+                                                                <h6 class="text-primary">New Section Images:</h6>
                                                                 <div class="d-flex flex-wrap gap-2">
                                                                     @foreach ($sections[$index]['images'] as $imgIndex => $image)
                                                                         <div class="position-relative">
                                                                             <img src="{{ $image->temporaryUrl() }}"
                                                                                 class="img-thumbnail"
-                                                                                style="
-                                                                    height: 80px;
-                                                                    width: auto;
-                                                                " />
+                                                                                style="height: 80px; width: auto;" />
                                                                             <button type="button"
                                                                                 class="btn btn-sm btn-danger position-absolute end-0 top-0"
                                                                                 wire:click="removeSectionImage({{ $index }}, {{ $imgIndex }})"
-                                                                                style="
-                                                                    font-size: 0.6rem;
-                                                                    padding: 0.1rem
-                                                                        0.3rem;
-                                                                ">
+                                                                                style="font-size: 0.6rem; padding: 0.1rem 0.3rem;"
+                                                                                title="Remove Image">
                                                                                 &times;
                                                                             </button>
                                                                         </div>
@@ -280,24 +279,18 @@
                                                         <!-- Display existing section images -->
                                                         @if (isset($sections[$index]['existingImages']) && count($sections[$index]['existingImages']) > 0)
                                                             <div class="mt-3">
-                                                                <h6>Existing Images:</h6>
+                                                                <h6 class="text-success">Existing Section Images:</h6>
                                                                 <div class="d-flex flex-wrap gap-2">
                                                                     @foreach ($sections[$index]['existingImages'] as $image)
                                                                         <div class="position-relative">
                                                                             <img src="{{ asset('storage/' . $image->path) }}"
                                                                                 class="img-thumbnail"
-                                                                                style="
-                                                                    height: 80px;
-                                                                    width: auto;
-                                                                " />
+                                                                                style="height: 80px; width: auto;" />
                                                                             <button type="button"
                                                                                 class="btn btn-sm btn-danger position-absolute end-0 top-0"
                                                                                 wire:click="deleteImage({{ $image->id }})"
-                                                                                style="
-                                                                    font-size: 0.6rem;
-                                                                    padding: 0.1rem
-                                                                        0.3rem;
-                                                                ">
+                                                                                style="font-size: 0.6rem; padding: 0.1rem 0.3rem;"
+                                                                                title="Delete Image">
                                                                                 &times;
                                                                             </button>
                                                                         </div>

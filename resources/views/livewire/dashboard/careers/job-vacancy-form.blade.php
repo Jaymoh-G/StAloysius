@@ -35,7 +35,7 @@
                                 <select class="form-select @error('job_category_id') is-invalid @enderror"
                                     wire:model="job_category_id">
                                     <option value="">Select Category</option>
-                                    @foreach($categories as $category)
+                                    @foreach ($categories as $category)
                                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                                     @endforeach
                                 </select>
@@ -55,7 +55,8 @@
 
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Application Email</label>
-                                <input type="email" class="form-control @error('application_email') is-invalid @enderror"
+                                <input type="email"
+                                    class="form-control @error('application_email') is-invalid @enderror"
                                     wire:model="application_email" placeholder="Enter email for applications">
                                 @error('application_email')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -75,8 +76,8 @@
 
                             <div class="col-md-12 mb-3">
                                 <label class="form-label">Job Description</label>
-                                <textarea class="form-control @error('description') is-invalid @enderror"
-                                    wire:model="description" rows="10" id="description"></textarea>
+                                <textarea class="form-control @error('description') is-invalid @enderror" wire:model="description" rows="10"
+                                    id="description"></textarea>
                                 @error('description')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -85,7 +86,8 @@
                             <div class="col-md-12">
                                 <div class="d-flex justify-content-between">
                                     <a href="{{ route('dashboard.careers.index') }}" class="btn btn-danger">Cancel</a>
-                                    <button type="submit" class="btn btn-primary">{{ $jobId ? 'Update Job' : 'Create Job' }}</button>
+                                    <button type="submit"
+                                        class="btn btn-primary">{{ $jobId ? 'Update Job' : 'Create Job' }}</button>
                                 </div>
                             </div>
                         </div>
@@ -97,7 +99,7 @@
 
     <script>
         // Initialize CKEditor when the component is loaded
-        document.addEventListener('livewire:initialized', function () {
+        document.addEventListener('livewire:initialized', function() {
             if (document.querySelector('#description')) {
                 ClassicEditor
                     .create(document.querySelector('#description'))
