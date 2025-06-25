@@ -67,7 +67,7 @@ class Home extends Component
     // Fetch slider content from static pages
     $this->sliderContent = StaticPage::where('page_name', 'Homepage Sliders')->first();
 
-    // Fetch homepage content from static pages
+    // Fetch homepage content from static pages with images from blog_images table
     $this->homeContent = StaticPage::where('page_name', 'Homepage Sections')->first();
 
     return view('livewire.frontend.home', [

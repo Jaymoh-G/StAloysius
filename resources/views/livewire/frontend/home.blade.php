@@ -59,27 +59,6 @@
                     $title = $homeContent->$titleField;
                     $content = $homeContent->$contentField;
                 @endphp
-
-                @if ($title || $content)
-                    <div class="homepage-section py-120">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    @if ($title)
-                                        <div class="site-heading mb-5 text-center">
-                                            <h2 class="site-title">{{ $title }}</h2>
-                                        </div>
-                                    @endif
-                                    @if ($content)
-                                        <div class="homepage-content">
-                                            {!! $content !!}
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endif
             @endfor
         @endif
 
@@ -92,17 +71,36 @@
                             <div class="about-img">
                                 <div class="row g-4">
                                     <div class="col-md-6">
-                                        <img class="img-1" src="assets/img/about/01.jpg" alt="">
+                                        @if ($homeContent && $homeContent->images()->where('category', 'section_1')->first())
+                                            <img class="img-1"
+                                                src="{{ asset('storage/' . $homeContent->images()->where('category', 'section_1')->first()->path) }}"
+                                                alt="">
+                                        @else
+                                            <img class="img-1" src="{{ asset('assets/img/about/01.jpg') }}" alt="">
+                                        @endif
                                         <div class="about-experience mt-4">
                                             <div class="about-experience-icon">
-                                                <img src="assets/img/icon/exchange-idea.svg" alt="">
+                                                <img src="{{ asset('assets/img/icon/exchange-idea.svg') }}" alt="">
                                             </div>
                                             <b class="text-start">30 Years Of <br> Quality Service</b>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <img class="img-2" src="assets/img/about/02.jpg" alt="">
-                                        <img class="img-3 mt-4" src="assets/img/about/03.jpg" alt="">
+                                        @if ($homeContent && $homeContent->images()->where('category', 'section_1')->skip(3)->first())
+                                            <img class="img-2"
+                                                src="{{ asset('storage/' . $homeContent->images()->where('category', 'section_1')->skip(3)->first()->path) }}"
+                                                alt="">
+                                        @else
+                                            <img class="img-2" src="{{ asset('assets/img/about/02.jpg') }}" alt="">
+                                        @endif
+                                        @if ($homeContent && $homeContent->images()->where('category', 'section_1')->skip(2)->first())
+                                            <img class="img-3 mt-4"
+                                                src="{{ asset('storage/' . $homeContent->images()->where('category', 'section_1')->skip(2)->first()->path) }}"
+                                                alt="">
+                                        @else
+                                            <img class="img-3 mt-4" src="{{ asset('assets/img/about/03.jpg') }}"
+                                                alt="">
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -113,44 +111,42 @@
                             <div class="site-heading mb-3">
                                 <span class="site-title-tagline"><i class="far fa-book-open-reader"></i> About Us</span>
                                 <h2 class="site-title">
-                                    Our Education System <span>Inspires</span> You More.
+                                    {!! $homeContent ? $homeContent->section_1_title : '' !!}
                                 </h2>
                             </div>
                             <p class="about-text">
-                                There are many variations of passages available but the majority have suffered
-                                alteration in some form by injected humour randomised words which don't look even
-                                slightly believable. If you are going to use passage.
+                                {!! $homeContent
+                                    ? $homeContent->section_1_content
+                                    : 'There are many variations of passages available but the majority have suffered alteration in some form by injected humour randomised words which don\'t look even slightly believable. If you are going to use passage.' !!}
                             </p>
                             <div class="about-content">
                                 <div class="row">
                                     <div class="col-md-7">
                                         <div class="about-item">
                                             <div class="about-item-icon">
-                                                <img src="assets/img/icon/open-book.svg" alt="">
+                                                <img src="{{ asset('assets/img/icon/open-book.svg') }}" alt="">
                                             </div>
                                             <div class="about-item-content">
-                                                <h5>Edukation Services</h5>
-                                                <p>It is a long established fact that reader will to using content.</p>
+                                                <h5>{!! $homeContent ? $homeContent->section_2_title : 'Education Services' !!}</h5>
+                                                <p>{!! $homeContent
+                                                    ? $homeContent->section_2_content
+                                                    : 'It is a long established fact that reader will to using content.' !!}</p>
                                             </div>
                                         </div>
                                         <div class="about-item">
                                             <div class="about-item-icon">
-                                                <img src="assets/img/icon/global-education.svg" alt="">
+                                                <img src="{{ asset('assets/img/icon/global-education.svg') }}"
+                                                    alt="">
                                             </div>
                                             <div class="about-item-content">
-                                                <h5>International Hubs</h5>
-                                                <p>It is a long established fact that reader will to using content.</p>
+                                                <h5>{!! $homeContent ? $homeContent->section_3_title : 'International Hubs' !!}</h5>
+                                                <p>{!! $homeContent
+                                                    ? $homeContent->section_3_content
+                                                    : 'It is a long established fact that reader will to using content.' !!}</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-5">
-                                        <div class="about-quote">
-                                            <p>It is a long established fact that a reader will be distracted by the
-                                                content of
-                                                a page when looking at its reader for the long words layout.</p>
-                                            <i class="far fa-quote-right"></i>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
                             <div class="about-bottom">
@@ -284,12 +280,11 @@
                                 <div class="site-heading mb-0">
                                     <span class="site-title-tagline"><i class="far fa-book-open-reader"></i> Why Choose
                                         Us</span>
-                                    <h2 class="site-title mb-10 text-white">We Are Expert & <span>Do Our Best</span> For
-                                        Your Goal</h2>
+                                    <h2 class="site-title mb-10 text-white">
+                                        {!! $homeContent ? $homeContent->section_4_title : '' !!}
+                                    </h2>
                                     <p class="text-white">
-                                        It is a long established fact that a reader will be distracted by the readable
-                                        content of a page when many desktop and web page editors looking at its
-                                        layout.
+                                        {!! $homeContent ? $homeContent->section_4_content : '' !!}
                                     </p>
                                 </div>
                                 <div class="choose-content-wrap">
@@ -300,8 +295,8 @@
                                                     <img src="assets/img/icon/teacher-2.svg" alt="">
                                                 </div>
                                                 <div class="choose-item-info">
-                                                    <h4>Expert Teachers</h4>
-                                                    <p>There are many variation of the suffered.</p>
+                                                    <h4>{!! $homeContent ? $homeContent->section_5_title : '' !!}</h4>
+                                                    <p>{!! $homeContent ? $homeContent->section_5_content : '' !!}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -311,19 +306,19 @@
                                                     <img src="assets/img/icon/course-material.svg" alt="">
                                                 </div>
                                                 <div class="choose-item-info">
-                                                    <h4>Courses Material</h4>
-                                                    <p>There are many variation of the suffered.</p>
+                                                    <h4>{!! $homeContent ? $homeContent->section_6_title : '' !!}</h4>
+                                                    <p>{!! $homeContent ? $homeContent->section_6_content : '' !!}</p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="choose-item">
                                                 <div class="choose-item-icon">
-                                                    <img src="assets/img/icon/online-course.svg" alt="">
+                                                    <img src="{{ asset('assets/img/icon/online-course.svg') }}" alt="">
                                                 </div>
                                                 <div class="choose-item-info">
-                                                    <h4>Online Courses</h4>
-                                                    <p>There are many variation of the suffered.</p>
+                                                    <h4>{!! $homeContent ? $homeContent->section_7_title : '' !!}</h4>
+                                                    <p>{!! $homeContent ? $homeContent->section_7_content : '' !!}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -333,8 +328,8 @@
                                                     <img src="assets/img/icon/money.svg" alt="">
                                                 </div>
                                                 <div class="choose-item-info">
-                                                    <h4>Affordable Price</h4>
-                                                    <p>There are many variation of the suffered.</p>
+                                                    <h4>{!! $homeContent ? $homeContent->section_8_title : '' !!}</h4>
+                                                    <p>{!! $homeContent ? $homeContent->section_8_content : '' !!}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -438,17 +433,7 @@
                                             <input type="email" name="email" class="form-control"
                                                 placeholder="Email Address">
                                         </div>
-                                        <div class="form-group">
-                                            <select class="form-select" name="service">
-                                                <option value="">Choose Course</option>
-                                                <option value="1">Art And Design</option>
-                                                <option value="2">Acting And Drama</option>
-                                                <option value="3">Accounting And Finance</option>
-                                                <option value="4">Biology And Conservation</option>
-                                                <option value="5">Science And Engineering</option>
-                                                <option value="6">Health Administration</option>
-                                            </select>
-                                        </div>
+
                                         <div class="form-group">
                                             <textarea name="message" class="form-control" placeholder="Type Message" rows="4"></textarea>
                                         </div>
@@ -474,26 +459,7 @@
                                         slightly believable. If you are going to use passage you need sure there anything
                                         embarrassing first true generator on the Internet.
                                     </p>
-                                    <div class="skills-section">
-                                        <div class="progress-box">
-                                            <h5>Our Students <span class="pull-right">85%</span></h5>
-                                            <div class="progress" data-value="85">
-                                                <div class="progress-bar" role="progressbar"></div>
-                                            </div>
-                                        </div>
-                                        <div class="progress-box">
-                                            <h5>Our Teachers <span class="pull-right">65%</span></h5>
-                                            <div class="progress" data-value="65">
-                                                <div class="progress-bar" role="progressbar"></div>
-                                            </div>
-                                        </div>
-                                        <div class="progress-box">
-                                            <h5>Our Courses <span class="pull-right">75%</span></h5>
-                                            <div class="progress" data-value="75">
-                                                <div class="progress-bar" role="progressbar"></div>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                     <a href="contact.html" class="theme-btn mt-5">Learn More<i
                                             class="fas fa-arrow-right-long"></i></a>
                                 </div>
