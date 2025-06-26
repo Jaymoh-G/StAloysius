@@ -187,11 +187,15 @@
                             </h2>
                             @endif
                         </div>
+                        @if ($featuredVideos)
                         <p class="about-text">
                             {{ Str::limit($featuredVideos->description, 150) }}
-                        </p>
-                        <a href="{{ route('videos') }}" class="theme-btn mt-30">View All Videos<i
+                            </p>
+                        @endif
+                        @if ($featuredVideos)
+                            <a href="{{ route('videos') }}" class="theme-btn mt-30">View All Videos<i
                                 class="fas fa-arrow-right-long"></i></a>
+                        @endif
                     </div>
                     <div class="col-lg-8 wow fadeInRight" data-wow-delay=".25s">
                         @if ($featuredVideos)
