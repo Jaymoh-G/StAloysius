@@ -86,16 +86,16 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        @if ($homeContent && $homeContent->images()->where('category', 'section_1')->skip(3)->first())
+                                        @if ($homeContent && $homeContent->images()->where('category', 'section_2')->first())
                                             <img class="img-2"
-                                                src="{{ asset('storage/' . $homeContent->images()->where('category', 'section_1')->skip(3)->first()->path) }}"
+                                                src="{{ asset('storage/' . $homeContent->images()->where('category', 'section_2')->first()->path) }}"
                                                 alt="">
                                         @else
                                             <img class="img-2" src="{{ asset('assets/img/about/02.jpg') }}" alt="">
                                         @endif
-                                        @if ($homeContent && $homeContent->images()->where('category', 'section_1')->skip(2)->first())
+                                        @if ($homeContent && $homeContent->images()->where('category', 'section_3')->first())
                                             <img class="img-3 mt-4"
-                                                src="{{ asset('storage/' . $homeContent->images()->where('category', 'section_1')->skip(2)->first()->path) }}"
+                                                src="{{ asset('storage/' . $homeContent->images()->where('category', 'section_3')->first()->path) }}"
                                                 alt="">
                                         @else
                                             <img class="img-3 mt-4" src="{{ asset('assets/img/about/03.jpg') }}"
@@ -314,7 +314,8 @@
                                         <div class="col-md-6">
                                             <div class="choose-item">
                                                 <div class="choose-item-icon">
-                                                    <img src="{{ asset('assets/img/icon/online-course.svg') }}" alt="">
+                                                    <img src="{{ asset('assets/img/icon/online-course.svg') }}"
+                                                        alt="">
                                                 </div>
                                                 <div class="choose-item-info">
                                                     <h4>{!! $homeContent ? $homeContent->section_7_title : '' !!}</h4>
@@ -338,11 +339,13 @@
                             </div>
                         </div>
                     </div>
+                    @if ($homeContent && $homeContent->images()->where('category', 'section_4')->first())
                     <div class="col-lg-6">
                         <div class="choose-img wow fadeInRight" data-wow-delay=".25s">
-                            <img src="assets/img/choose/01.jpg" alt="">
-                        </div>
+                                    <img src="{{ asset('storage/' . $homeContent->images()->where('category', 'section_4')->first()->path) }}" alt="">
+                                </div>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>

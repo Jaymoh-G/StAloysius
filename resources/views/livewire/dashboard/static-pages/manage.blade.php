@@ -97,9 +97,60 @@
                                         </div>
 
                                         <div class="col-md-4">
+
+
                                             <div class="mb-4">
+                                                <label class="form-label">Banner Image</label>
+
+                                                <!-- New Banner Preview -->
+                                                @if ($banner_image)
+                                                    <div class="mt-2">
+                                                        <h6 class="text-primary">New Banner Preview:</h6>
+                                                        <div class="position-relative my-2">
+                                                            <img src="{{ $banner_image->temporaryUrl() }}"
+                                                                alt="Banner Preview" class="img-fluid rounded border"
+                                                                style="height: 150px; width: 100%; object-fit: cover;" />
+                                                            <button wire:click="$set('banner_image', null)"
+                                                                type="button"
+                                                                class="btn btn-sm btn-danger position-absolute end-0 top-0 m-1"
+                                                                title="Remove new banner">
+                                                                &times;
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                <!-- Existing Banner Preview -->
+                                                @if ($existingBanner)
+                                                    <div class="mt-2">
+                                                        <h6 class="text-success">Current Banner:</h6>
+                                                        <div class="position-relative my-2">
+                                                            <img src="{{ asset('storage/' . $existingBanner) }}"
+                                                                alt="Current Banner" class="img-fluid rounded border"
+                                                                style="height: 150px; width: 100%; object-fit: cover;" />
+                                                            <button wire:click="deleteBanner" type="button"
+                                                                class="btn btn-sm btn-danger position-absolute end-0 top-0 m-1"
+                                                                title="Delete Current Banner">
+                                                                &times;
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+                                                <!-- Upload New Banner -->
+                                                <div class="mt-3">
+                                                    <input type="file" wire:model="banner_image" accept="image/*"
+                                                        class="form-control @error('banner_image') is-invalid @enderror" />
+                                                    <small class="text-muted">Upload a new banner image (PNG, JPG,
+                                                        JPEG, WEBP, max 2MB)</small>
+                                                    @error('banner_image')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                             <div class="mb-4">
                                                 <div class="flex items-center gap-4">
-                                                    <label for="images">Upload Images</label>
+                                                    <label for="images">Other Images</label>
                                                     <input type="file" wire:model="images" multiple
                                                         class="form-control @error('images.*') is-invalid @enderror block"
                                                         id="images" />
@@ -156,56 +207,6 @@
                                                         </div>
                                                     </div>
                                                 @endif
-                                            </div>
-
-                                            <div class="mb-4">
-                                                <label class="form-label">Banner Image</label>
-
-                                                <!-- New Banner Preview -->
-                                                @if ($banner_image)
-                                                    <div class="mt-2">
-                                                        <h6 class="text-primary">New Banner Preview:</h6>
-                                                        <div class="position-relative my-2">
-                                                            <img src="{{ $banner_image->temporaryUrl() }}"
-                                                                alt="Banner Preview" class="img-fluid rounded border"
-                                                                style="height: 150px; width: 100%; object-fit: cover;" />
-                                                            <button wire:click="$set('banner_image', null)"
-                                                                type="button"
-                                                                class="btn btn-sm btn-danger position-absolute end-0 top-0 m-1"
-                                                                title="Remove new banner">
-                                                                &times;
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                @endif
-
-                                                <!-- Existing Banner Preview -->
-                                                @if ($existingBanner)
-                                                    <div class="mt-2">
-                                                        <h6 class="text-success">Current Banner:</h6>
-                                                        <div class="position-relative my-2">
-                                                            <img src="{{ asset('storage/' . $existingBanner) }}"
-                                                                alt="Current Banner" class="img-fluid rounded border"
-                                                                style="height: 150px; width: 100%; object-fit: cover;" />
-                                                            <button wire:click="deleteBanner" type="button"
-                                                                class="btn btn-sm btn-danger position-absolute end-0 top-0 m-1"
-                                                                title="Delete Current Banner">
-                                                                &times;
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                @endif
-
-                                                <!-- Upload New Banner -->
-                                                <div class="mt-3">
-                                                    <input type="file" wire:model="banner_image" accept="image/*"
-                                                        class="form-control @error('banner_image') is-invalid @enderror" />
-                                                    <small class="text-muted">Upload a new banner image (PNG, JPG,
-                                                        JPEG, WEBP, max 2MB)</small>
-                                                    @error('banner_image')
-                                                        <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
