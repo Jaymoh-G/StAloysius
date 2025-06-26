@@ -181,9 +181,11 @@
                     <div class="col-lg-4 wow fadeInLeft" data-wow-delay=".25s">
                         <div class="site-heading mb-3">
                             <span class="site-title-tagline"><i class="far fa-book-open-reader"></i> Latest Videos</span>
+                            @if ($featuredVideos)
                             <h2 class="site-title">
                                 {{ $featuredVideos->title }}
                             </h2>
+                            @endif
                         </div>
                         <p class="about-text">
                             {{ Str::limit($featuredVideos->description, 150) }}

@@ -16,7 +16,7 @@ return new class extends Migration
                 $table->foreignId('blog_post_id')->nullable()->constrained()->onDelete('set null');
                 $table->foreignId('department_model_id')->nullable()->constrained()->onDelete('set null');
                 $table->foreignId('event_model_id')->nullable()->constrained()->onDelete('set null');
-
+                  $table->foreignId('facility_id')->nullable()->after('id')->constrained('facilities')->onDelete('cascade');
                  $table->string('path');
                  $table->string('category')->nullable();
                  $table->boolean('is_featured')->default(false);
