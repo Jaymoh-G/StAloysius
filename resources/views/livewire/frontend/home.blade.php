@@ -487,10 +487,9 @@
                 <div class="row">
                     <div class="col-lg-6 mx-auto">
                         <div class="site-heading text-center">
-                            <span class="site-title-tagline"><i class="far fa-book-open-reader"></i> Our Teachers</span>
-                            <h2 class="site-title">Meet With Our <span>Teachers</span></h2>
-                            <p>It is a long established fact that a reader will be distracted by the readable content of
-                                a page when looking at its layout.</p>
+                            <span class="site-title-tagline"><i class="far fa-book-open-reader"></i> Our Team</span>
+                            <h2 class="site-title">Meet Our <span>Team</span></h2>
+                            <p>Our team is dedicated to providing the best possible service to our clients.</p>
                         </div>
                     </div>
                 </div>
