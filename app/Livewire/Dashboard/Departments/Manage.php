@@ -177,20 +177,26 @@ class Manage extends Component
 
     public function submit()
     {
+        // Custom validation for minimum 2 images
+        $totalImages = count($this->images) + count($this->existingImages);
+        if ($totalImages < 2) {
+            $this->addError('images', 'You must upload at least 2 images.');
+            return;
+        }
 
         $this->validate([
             'name' => 'required|string|max:255|unique:department_models,name,' . $this->depId,
             'slug' => 'required|string|max:255|unique:department_models,slug,' . $this->depId,
             'dep_category_id' => 'required|exists:dep_categories,id',
             'content' => 'required|string',
-         'images.*' => $this->depId ? 'nullable|image|max:2048' : 'required|image|max:2048',
-         'banner' => $this->depId ? 'nullable|image|max:2048' : 'required|image|max:2048',
-            'featured'=>'required',
+            'images.*' => $this->depId ? 'nullable|image|max:2048' : 'required|image|max:2048',
+            'banner' => $this->depId ? 'nullable|image|max:2048' : 'required|image|max:2048',
+            'featured' => 'required',
         ]);
 
- // Correct paragraph extraction for HTML
-    preg_match_all('/<(p|h[1-6]|div|section|article|blockquote)[^>]*>.*?<\/\1>/is', $this->content, $matches);
-    $paragraphs = $matches[0];
+        // Correct paragraph extraction for HTML
+        preg_match_all('/<(p|h[1-6]|div|section|article|blockquote)[^>]*>.*?<\/\1>/is', $this->content, $matches);
+        $paragraphs = $matches[0];
 
         $this->paragraphs = [];
 
@@ -323,5 +329,3 @@ class Manage extends Component
         }
     }
 }
-
-
