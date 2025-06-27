@@ -83,7 +83,7 @@
                 <div class="mb-4">
                     <div class="flex items-center gap-4">
                         <label for="images"> Department Images</label>
-                        <input type="file" wire:model="images" multiple class="block" id="images" required />
+                        <input type="file" wire:model="images" multiple class="block" id="images" />
 
                         @error('images.*')
                             <span class="text-danger">{{ $message }}</span>
@@ -107,15 +107,15 @@
 
                         @if (empty($images) && empty($existingImages))
                             <div class="text-muted small mt-1">
-                                Please upload at least 2 images and select one as featured.
+                                Please upload at least 3 images and select one as featured.
                             </div>
                         @else
                             @php
                                 $totalImages = count($images) + count($existingImages);
                             @endphp
-                            @if ($totalImages < 2)
+                            @if ($totalImages < 3)
                                 <div class="alert alert-danger">
-                                    You have uploaded {{ $totalImages }} image(s). Please upload at least 2 images
+                                    You have uploaded {{ $totalImages }} image(s). Please upload at least 3 images
                                     total and select one as featured.
                                 </div>
                             @endif

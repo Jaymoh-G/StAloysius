@@ -177,10 +177,10 @@ class Manage extends Component
 
     public function submit()
     {
-        // Custom validation for minimum 2 images
+        // Custom validation for minimum 3 images
         $totalImages = count($this->images) + count($this->existingImages);
-        if ($totalImages < 2) {
-            $this->addError('images', 'You must upload at least 2 images.');
+        if ($totalImages < 3) {
+            $this->addError('images', 'You must upload at least 3 images.');
             return;
         }
 
@@ -190,7 +190,7 @@ class Manage extends Component
             'dep_category_id' => 'required|exists:dep_categories,id',
             'content' => 'required|string',
             'images.*' => $this->depId ? 'nullable|image|max:2048' : 'required|image|max:2048',
-            'banner' => $this->depId ? 'nullable|image|max:2048' : 'required|image|max:2048',
+            'banner' => 'nullable|image|max:2048',
             'featured' => 'required',
         ]);
 
