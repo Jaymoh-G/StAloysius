@@ -34,24 +34,21 @@ class OurTeam extends Component
     {
         $members = TeamMember::with('department')->latest()->get();
 
-        $nonAcademicMembers = $members->filter(function ($member) {
-            return $member->department && in_array($member->department->name, $this->nonAcademicDepartments);
-        });
+
 
         $academicMembers = $members->filter(function ($member) {
             return $member->department && in_array($member->department->name, $this->academicDepartments);
         });
 
-        $otherMembers = $members->filter(function ($member) {
+        //not in academic departments
+        $nonAcademicMembers = $members->filter(function ($member) {
             return !$member->department ||
-                (!in_array($member->department->name, $this->academicDepartments) &&
-                    !in_array($member->department->name, $this->nonAcademicDepartments));
+                (!in_array($member->department->name, $this->academicDepartments));
         });
 
         return view('livewire.frontend.our-team', [
             'nonAcademicMembers' => $nonAcademicMembers,
             'academicMembers' => $academicMembers,
-            'otherMembers' => $otherMembers
         ]);
     }
 }
