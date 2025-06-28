@@ -22,8 +22,7 @@
                             <div class="site-heading text-center">
                                 <span class="site-title-tagline"><i class="far fa-book-open-reader"></i></span>
                                 <h2 class="site-title">Our <span>Facilities</span></h2>
-                                <p>Explore our state-of-the-art facilities designed to provide the best learning environment
-                                    for our students.</p>
+                                <p>St. Aloysius Gonzaga Secondary School in Nairobi offers a comprehensive range of facilities and programs designed to support the academic, spiritual, and personal development of its students. .</p>
                             </div>
                         </div>
                     </div>

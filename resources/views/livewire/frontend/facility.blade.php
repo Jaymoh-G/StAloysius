@@ -28,7 +28,7 @@
                                     <!-- other facilities -->
                                     @if ($otherFacilities->count() > 0)
                                         <div class="widget category">
-                                            <h4 class="widget-title">Other Facilities</h4>
+                                            <h4 class="widget-title">Facilities</h4>
                                             <div class="category-list">
                                                 @foreach ($otherFacilities as $otherFacility)
                                                     <a href="{{ route('facility', $otherFacility->slug) }}">
@@ -58,7 +58,7 @@
                                         @endif
                                     </div>
                                     <div class="facility-details">
-                                     
+
 
                                         <h3 class="mb-20">{{ $facility->name }} <span class="mb-20"><a href="{{ route('department', $facility->department->slug) }}">({{ $facility->department->name}})</a></span></h3>
 
