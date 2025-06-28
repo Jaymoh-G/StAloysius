@@ -17,6 +17,7 @@ class BlogImage extends Model
         'is_featured',
         'sort_order',
         'facility_id',
+        'facility_model_id',
         'imageable_id',
         'imageable_type'
     ];
@@ -43,7 +44,7 @@ class BlogImage extends Model
 
     public function facility()
     {
-        return $this->belongsTo(Facility::class);
+        return $this->belongsTo(FacilityModel::class, 'facility_model_id');
     }
 
     public function imageable()
