@@ -215,7 +215,7 @@
                                     </div>
                                 @else
                                     <div class="mt-3">
-                                        <p class="text-center">No videos found.</p>
+                                        <p class="text-center">Add videos to get started.</p>
                                     </div>
                                 @endif
                             </div>

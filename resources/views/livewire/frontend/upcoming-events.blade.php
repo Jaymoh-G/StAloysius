@@ -21,7 +21,7 @@
         <!-- event area -->
         <div class="event-area py-120">
             <div class="container">
-               
+
 
                 @if($upcomingEvents->isEmpty())
                 <div class="text-center">

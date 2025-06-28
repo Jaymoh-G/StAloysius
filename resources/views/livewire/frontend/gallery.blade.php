@@ -138,11 +138,17 @@
                             {{ $albums->total() }} albums
                         </p>
                     </div>
+                    @if($albums->count() > 0)
                     <div class="col-12">
                         <div class="pagination-wrapper">
                             {{ $albums->links('vendor.pagination.bootstrap-4') }}
                         </div>
                     </div>
+                    @else
+                    <div class="col-12 text-center">
+                        <p>Add albums to get started.</p>
+                    </div>
+                    @endif
                 </div>
             </div>
             @endif
@@ -208,7 +214,7 @@
             </div>
         </div>
     </div>
- 
+
    <style>
         /* Video item styling */
         .video-item {

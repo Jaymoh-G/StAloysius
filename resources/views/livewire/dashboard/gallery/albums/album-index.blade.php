@@ -167,7 +167,7 @@
                                     </tbody>
                                 </table>
                             </div>
-
+@
                             <div class="mt-3">
                                 {{ $albums->links('vendor.pagination.bootstrap-4') }}
                             </div>

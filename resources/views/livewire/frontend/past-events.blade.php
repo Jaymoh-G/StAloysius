@@ -66,7 +66,7 @@
                 <div class="pagination-area">
                     <div class="row">
                         <div class="col-12">
-                           
+
                             {{ $pastEvents->links('vendor.pagination.bootstrap-4') }}
                         </div>
                     </div>
