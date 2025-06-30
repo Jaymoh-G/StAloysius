@@ -156,7 +156,7 @@
                                     <div class="icon"><i class="fal fa-headset"></i></div>
                                     <div class="number">
                                         <span>Call Now</span>
-                                        <h6><a href="tel:+21236547898">+2 123 654 7898</a></h6>
+                                        <h6><a href="tel:+254 715 409 166">+254 715 409 166</a></h6>
                                     </div>
                                 </div>
                             </div>

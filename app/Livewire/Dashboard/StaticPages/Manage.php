@@ -14,59 +14,15 @@ class Manage extends Component
 {
     use WithFileUploads;
 
-    public $pageId;
-    public $title;
-    public $slug;
-    public $content;
-    public $meta_title;
-    public $meta_description;
-    public $banner_image;
-    public $existingBanner;
-    public $page_name;
-
-    // For multiple images
+    public $pageId, $title, $slug, $content, $meta_title, $meta_description;
+    public $banner_image, $existingBanner, $page_name;
+    public $paragraphs = [];
     public $images = [];
     public $existingImages = [];
-
-    // Dynamic sections
     public $sections = [];
-
     public $activeTab = 'general';
 
-    protected $rules = [
-        'title' => 'required|min:3',
-        'slug' => 'required',
-        'content' => 'nullable',
-        'meta_title' => 'nullable|max:70',
-        'meta_description' => 'nullable|max:160',
-        // image png
-        'banner_image' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
-        'images.*' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
-        'sections.*.title' => 'nullable',
-        'sections.*.content' => 'nullable',
-        'sections.*.images.*' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
-    ];
-
-    public function rules()
-    {
-        return [
-            'page_name' => 'required|string|max:255',
-            'title' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:static_pages,slug,' . ($this->pageId ?? ''),
-            'content' => 'required|string',
-            'meta_title' => 'nullable|string|max:255',
-            'meta_description' => 'nullable|string|max:500',
-            'images.*' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
-            'banner_image' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
-        ];
-    }
-
-    public function generateSlug()
-    {
-        if (!empty($this->title)) {
-            $this->slug = Str::slug($this->title);
-        }
-    }
+    protected $listeners = ['updateContent', 'pageCreated' => 'refreshPages'];
 
     public function mount($pageId = null)
     {
@@ -79,20 +35,45 @@ class Manage extends Component
             $this->meta_title = $page->meta_title;
             $this->meta_description = $page->meta_description;
             $this->existingBanner = $page->banner_image;
-            $this->existingImages = $page->images;
+            $this->existingImages = $page->images()->where('category', 'general')->get();
             $this->page_name = $page->page_name;
 
-            // Load sections
+            // Load paragraphs
+            for ($i = 1; $i <= 21; $i++) {
+                $this->paragraphs[$i - 1] = $page->{'paragraph' . $i};
+            }
+
             $this->loadSections($page);
         } else {
-            // Initialize with one empty section for new pages
             $this->addSection();
+        }
+    }
+
+    public function updatedTitle()
+    {
+        if (!$this->pageId) {
+            $this->slug = Str::slug($this->title);
+        }
+    }
+
+    public function updateContent($value)
+    {
+        $this->content = $value;
+
+        // Extract paragraphs from content
+        preg_match_all('/<(p|h[1-6]|div|section|article|blockquote)[^>]*>.*?<\/\1>/is', $value, $matches);
+        $this->paragraphs = $matches[0] ?? [];
+    }
+
+    public function generateSlug()
+    {
+        if (!empty($this->title)) {
+            $this->slug = Str::slug($this->title);
         }
     }
 
     protected function loadSections($page)
     {
-        // Check for section data
         for ($i = 1; $i <= 10; $i++) {
             $titleField = "section_{$i}_title";
             $contentField = "section_{$i}_content";
@@ -102,12 +83,11 @@ class Manage extends Component
                     'title' => $page->$titleField,
                     'content' => $page->$contentField,
                     'images' => [],
-                    'existingImages' => $page->images()->where('category', "section_{$i}")->get()
+                    'existingImages' => $page->images()->where('category', "section_{$i}")->get(),
                 ];
             }
         }
 
-        // If no sections were found, add an empty one
         if (empty($this->sections)) {
             $this->addSection();
         }
@@ -119,7 +99,7 @@ class Manage extends Component
             'title' => '',
             'content' => '',
             'images' => [],
-            'existingImages' => []
+            'existingImages' => [],
         ];
 
         $this->dispatch('sectionsUpdated');
@@ -129,7 +109,7 @@ class Manage extends Component
     {
         if (isset($this->sections[$index])) {
             unset($this->sections[$index]);
-            $this->sections = array_values($this->sections); // Re-index array
+            $this->sections = array_values($this->sections);
         }
 
         $this->dispatch('sectionsUpdated');
@@ -143,30 +123,17 @@ class Manage extends Component
         }
     }
 
-    public function updatedTitle()
-    {
-        if (!$this->pageId) {
-            $this->slug = Str::slug($this->title);
-        }
-    }
-
     public function deleteImage($imageId)
     {
         $image = BlogImage::find($imageId);
-
         if ($image) {
-            // Delete the file from storage
             Storage::disk('public')->delete($image->path);
-
-            // Delete the database record
             $image->delete();
 
-            // Refresh the existing images lists
             if ($this->pageId) {
-                $page = StaticPage::findOrFail($this->pageId);
+                $page = StaticPage::find($this->pageId);
                 $this->existingImages = $page->images()->where('category', 'general')->get();
 
-                // Refresh section images
                 foreach ($this->sections as $index => $section) {
                     $sectionNumber = $index + 1;
                     if ($sectionNumber <= 10) {
@@ -185,17 +152,12 @@ class Manage extends Component
             Storage::disk('public')->delete($this->existingBanner);
 
             if ($this->pageId) {
-                $page = StaticPage::findOrFail($this->pageId);
+                $page = StaticPage::find($this->pageId);
                 $page->banner_image = null;
                 $page->save();
                 $this->existingBanner = null;
             }
         }
-    }
-
-    public function render()
-    {
-        return view('livewire.dashboard.static-pages.manage')->layout('components.layouts.dashboard');
     }
 
     public function save()
@@ -207,17 +169,12 @@ class Manage extends Component
             'meta_title' => 'nullable|max:70',
             'meta_description' => 'nullable|max:160',
             'page_name' => 'required|string|max:255',
-        ], [
-            'content.required' => 'The content field is required.',
-            'title.required' => 'The title field is required.',
-            'slug.required' => 'The slug field is required.',
-            'page_name.required' => 'The page name field is required.',
         ]);
 
-        // Check if content is empty after stripping HTML tags
-        if (empty(strip_tags($this->content))) {
-            $this->addError('content', 'The content field is required.');
-            return;
+        // Fallback: Extract paragraphs if Livewire updateContent wasn't triggered
+        if (empty($this->paragraphs)) {
+            preg_match_all('/<(p|h[1-6]|div|section|article|blockquote)[^>]*>.*?<\/\1>/is', $this->content, $matches);
+            $this->paragraphs = $matches[0] ?? [];
         }
 
         $data = [
@@ -230,67 +187,67 @@ class Manage extends Component
             'page_name' => $this->page_name,
         ];
 
-        // Clear all section fields first
+        for ($i = 0; $i < 21; $i++) {
+            $data['paragraph' . ($i + 1)] = $this->paragraphs[$i] ?? null;
+        }
+
+        // Reset all section fields
         for ($i = 1; $i <= 10; $i++) {
             $data["section_{$i}_title"] = null;
             $data["section_{$i}_content"] = null;
         }
 
-        // Then set the ones we have
         foreach ($this->sections as $index => $section) {
-            $sectionNumber = $index + 1;
-            if ($sectionNumber <= 10) { // Limit to 10 sections
-                $data["section_{$sectionNumber}_title"] = $section['title'];
-                $data["section_{$sectionNumber}_content"] = $section['content'];
+            $i = $index + 1;
+            if ($i <= 10) {
+                $data["section_{$i}_title"] = $section['title'];
+                $data["section_{$i}_content"] = $section['content'];
             }
         }
 
-        if ($this->pageId) {
-            $page = StaticPage::findOrFail($this->pageId);
-            $page->update($data);
-        } else {
-            $page = StaticPage::create($data);
-        }
+        $page = $this->pageId
+            ? tap(StaticPage::findOrFail($this->pageId))->update($data)
+            : StaticPage::create($data);
 
-        // Handle banner image
         if ($this->banner_image) {
             if ($this->existingBanner) {
                 Storage::disk('public')->delete($this->existingBanner);
             }
 
-            $bannerPath = $this->banner_image->store('static_page_banners', 'public');
-            $page->banner_image = $bannerPath;
+            $page->banner_image = $this->banner_image->store('static_page_banners', 'public');
             $page->save();
         }
 
-        // Handle general images
-        foreach ($this->images as $index => $image) {
+        foreach ($this->images as $i => $image) {
             $path = $image->store('static_page_images', 'public');
             $page->images()->create([
                 'path' => $path,
                 'caption' => '',
                 'category' => 'general',
-                'sort_order' => $index + 1,
+                'sort_order' => $i + 1,
             ]);
         }
 
-        // Handle section images
         foreach ($this->sections as $index => $section) {
             $sectionNumber = $index + 1;
-            if ($sectionNumber <= 10 && isset($section['images']) && count($section['images']) > 0) {
-                foreach ($section['images'] as $imgIndex => $image) {
-                    $path = $image->store('static_page_images', 'public');
-                    $page->images()->create([
-                        'path' => $path,
-                        'caption' => '',
-                        'category' => "section_{$sectionNumber}",
-                        'sort_order' => $imgIndex + 1,
-                    ]);
-                }
+            foreach ($section['images'] ?? [] as $imgIndex => $image) {
+                $path = $image->store('static_page_images', 'public');
+                $page->images()->create([
+                    'path' => $path,
+                    'caption' => '',
+                    'category' => "section_{$sectionNumber}",
+                    'sort_order' => $imgIndex + 1,
+                ]);
             }
         }
 
         session()->flash('message', 'Page saved successfully!');
         return redirect()->route('dashboard.static-pages.index');
+    }
+
+    public function render()
+    {
+        return view('livewire.dashboard.static-pages.manage')
+            ->layout('components.layouts.dashboard');
     }
 }

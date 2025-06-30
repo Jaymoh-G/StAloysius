@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 class AdmissionPolicy extends Component
 {
     public $admissionPolicy;
-    public $debugInfo = [];
+    
 
     // display content from database, from static page table, page_name = Admission Policy
     public function mount()

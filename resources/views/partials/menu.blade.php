@@ -22,7 +22,7 @@
                     </li>
                     <li class="nav-item dropdown"></li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">About Us</a>
+                        <a class="nav-link dropdown-toggle" href="{{ route('about-us') }}" data-bs-toggle="dropdown">About Us</a>
                         <ul class="dropdown-menu fade-down">
                             <li>
                                 <a class="dropdown-item" href="{{ route('our-team') }}">Our Team</a>
@@ -32,9 +32,7 @@
                                     href="http://127.0.0.1:8000/our-team/madam-beatrice-maina">Principal's Message</a>
                             </li>
 
-                            <li>
-                                <a class="dropdown-item" href="{{ route('our-pillars') }}">Our Pillars</a>
-                            </li>
+                           
                             <li>
                                 <a class="dropdown-item" href="{{ route('our-facilities') }}">Facilities</a>
                             </li>

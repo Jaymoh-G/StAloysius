@@ -52,6 +52,19 @@
                             <div class="tab-content">
                                 <!-- General Tab -->
                                 <div class="tab-pane fade {{ $activeTab == 'general' ? 'show active' : '' }}">
+                                    <!-- DEBUG: Temporary debug info -->
+                                    @if (config('app.debug'))
+                                        <div class="alert alert-info mb-3">
+                                            <h6>Debug Info:</h6>
+                                            <p><strong>Content length:</strong> {{ strlen($content) }}</p>
+                                            <p><strong>Paragraphs count:</strong> {{ count($paragraphs ?? []) }}</p>
+                                            @if (isset($paragraphs) && count($paragraphs) > 0)
+                                                <p><strong>First paragraph:</strong>
+                                                    {{ substr($paragraphs[0] ?? '', 0, 100) }}...</p>
+                                            @endif
+                                        </div>
+                                    @endif
+
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="mb-3">
@@ -148,7 +161,7 @@
                                                     @enderror
                                                 </div>
                                             </div>
-                                             <div class="mb-4">
+                                            <div class="mb-4">
                                                 <div class="flex items-center gap-4">
                                                     <label for="images">Other Images</label>
                                                     <input type="file" wire:model="images" multiple
