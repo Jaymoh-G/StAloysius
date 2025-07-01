@@ -29,10 +29,10 @@
                             </li>
                             <li>
                                 <a class="dropdown-item"
-                                    href="http://127.0.0.1:8000/our-team/madam-beatrice-maina">Principal's Message</a>
+                                    href="/news/a-message-from-the-principal">Principal's Message</a>
                             </li>
 
-                           
+
                             <li>
                                 <a class="dropdown-item" href="{{ route('our-facilities') }}">Facilities</a>
                             </li>
