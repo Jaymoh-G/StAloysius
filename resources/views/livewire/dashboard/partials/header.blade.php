@@ -178,9 +178,9 @@
                             <span class="nav-text">Departments</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="{{ route('departments.index') }}">List</a></li>
-                            <li><a href="{{ route('departments.create') }}">Add</a></li>
-                            <li><a href="{{ route('departments.categories.index') }}">Categories</a></li>
+                            <li><a href="{{ route('dashboard.departments.index') }}">List</a></li>
+                            <li><a href="{{ route('dashboard.departments.create') }}">Add</a></li>
+                            <li><a href="{{ route('dashboard.departments.categories.index') }}">Categories</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
@@ -188,8 +188,8 @@
                             <span class="nav-text">Users</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="table-bootstrap-basic.html">List</a></li>
-                            <li><a href="table-datatable-basic.html">Add</a></li>
+                            <li><a href="{{ route('dashboard.users.index') }}">List</a></li>
+                            <li><a href="{{ route('dashboard.users.create') }}">Add</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">

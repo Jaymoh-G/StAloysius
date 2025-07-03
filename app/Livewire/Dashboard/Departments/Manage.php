@@ -274,7 +274,7 @@ class Manage extends Component
         }
         session()->flash('message', $this->depId ? 'Department updated!' : 'Department created!');
         $this->dispatch('resetEditor');
-        return redirect()->route('departments.index'); // 👈 Redirect to the listing page
+        return redirect()->route('dashboard.departments.index'); // 👈 Redirect to the listing page
     }
 
     public function deleteImage($imageId)

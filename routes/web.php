@@ -1,210 +1,151 @@
 <?php
 
-use App\Livewire\Frontend\Club;
-use App\Livewire\Frontend\Faqs;
-use App\Livewire\Frontend\Home;
-use App\Livewire\Frontend\Event;
-use App\Livewire\Frontend\Events;
-use App\Livewire\Frontend\JoinUs;
-use App\Livewire\Frontend\AboutUs;
-use App\Livewire\Frontend\Careers;
-use App\Livewire\Frontend\Gallery;
-use App\Livewire\Frontend\OurTeam;
-use App\Livewire\Frontend\Program;
-use App\Livewire\Frontend\Updates;
-use App\Livewire\Frontend\Facility;
-use App\Livewire\Frontend\OurClubs;
-use App\Livewire\Frontend\Admission;
-use App\Livewire\Frontend\ContactUs;
-use App\Livewire\Frontend\SupportUs;
-use App\Livewire\Frontend\Department;
-use App\Livewire\Frontend\HowToApply;
-use App\Livewire\Frontend\OurPillars;
-use App\Livewire\Frontend\PastEvents;
+use Livewire\Volt\Volt;
 use Illuminate\Support\Facades\Route;
-use  \App\Livewire\Frontend\AlbumView;
-use App\Livewire\Frontend\Departments;
-use App\Livewire\Frontend\MediaCentre;
-use App\Livewire\Frontend\OurPrograms;
-use App\Livewire\Frontend\CareerDetail;
-use App\Livewire\Frontend\FacilityShow;
-use App\Livewire\Frontend\PhotoGallery;
-use App\Livewire\Frontend\Scholarships;
-use App\Livewire\Frontend\SuccessStory;
-use App\Livewire\Frontend\Testimonials;
-use App\Livewire\Frontend\OurFacilities;
-use App\Livewire\Frontend\SuccessStories;
-use App\Livewire\Frontend\UpcomingEvents;
-use App\Livewire\Frontend\YoutubeGallery;
-use App\Livewire\Frontend\AdmissionPolicy;
-use App\Livewire\Dashboard\Albums\AlbumForm;
-use App\Livewire\Frontend\FeePayingStudents;
-use App\Livewire\Frontend\UpdatesSinglePage;
-use App\Livewire\Dashboard\Youtube\VideoIndex;
-use App\Livewire\Dashboard\Gallery\CategoryIndex;
-use App\Livewire\Frontend\ChristianLifeCommunity;
-use App\Http\Controllers\CkeditorUploadController;
-use App\Livewire\Dashboard\Careers\JobVacancyForm;
-use App\Livewire\Dashboard\Blog\Index as BlogIndex;
-use App\Livewire\Dashboard\Careers\JobVacancyIndex;
-use App\Livewire\Dashboard\Facilities\FacilityForm;
-use App\Livewire\Dashboard\Index as DashboardIndex;
-use App\Livewire\Dashboard\Team\Index as TeamIndex;
-use App\Livewire\Dashboard\Careers\JobCategoryIndex;
-use App\Livewire\Dashboard\Facilities\FacilityIndex;
 
-use App\Livewire\Dashboard\Blog\Create as BlogCreate;
+
 use App\Livewire\Dashboard\Gallery\Albums\AlbumIndex;
 use App\Livewire\Dashboard\Gallery\Images\ImageIndex;
-use App\Livewire\Dashboard\Team\Create as TeamCreate;
+use App\Livewire\Dashboard\Gallery\CategoryIndex;
+use App\Livewire\Dashboard\Youtube\VideoIndex;
+
+// Home page
+Route::get('/', \App\Livewire\Frontend\Home::class)->name('home');
+
+// About Us routes
+Route::get('/about-us', \App\Livewire\Frontend\AboutUs::class)->name('about-us');
+Route::get('/our-team', \App\Livewire\Frontend\OurTeam::class)->name('our-team');
+Route::get('/our-facilities', \App\Livewire\Frontend\OurFacilities::class)->name('our-facilities');
+Route::get('/testimonials', \App\Livewire\Frontend\Testimonials::class)->name('testimonials');
+Route::get('/testimonials/{slug}', \App\Livewire\Frontend\Testimonial::class)->name('testimonials.show');
+
+// Department routes
+Route::get('/departments', \App\Livewire\Frontend\Departments::class)->name('departments');
+Route::get('/department/{slug}', \App\Livewire\Frontend\Department::class)->name('department');
+
+// Dashboard Department Management routes are now inside the dashboard group
+
+// Admission routes
+Route::get('/admission', \App\Livewire\Frontend\Admission::class)->name('admission');
+Route::get('/admission-policy', \App\Livewire\Frontend\AdmissionPolicy::class)->name('admission-policy');
+Route::get('/how-to-apply', \App\Livewire\Frontend\HowToApply::class)->name('how-to-apply');
+Route::get('/fee-paying-students', \App\Livewire\Frontend\FeePayingStudents::class)->name('fee-paying-students');
+Route::get('/scholarships', \App\Livewire\Frontend\Scholarships::class)->name('scholarships');
+
+// Event routes
+Route::get('/events', \App\Livewire\Frontend\Events::class)->name('events');
+Route::get('/upcoming-events', \App\Livewire\Frontend\UpcomingEvents::class)->name('upcoming-events');
+Route::get('/past-events', \App\Livewire\Frontend\PastEvents::class)->name('past-events');
+Route::get('/event/{slug}', \App\Livewire\Frontend\Event::class)->name('event');
+
+// Gallery routes
+Route::get('/gallery', \App\Livewire\Frontend\Gallery::class)->name('gallery');
+Route::get('/photos', \App\Livewire\Frontend\PhotoGallery::class)->name('photos');
+Route::get('/videos', \App\Livewire\Frontend\YoutubeGallery::class)->name('videos');
+Route::get('/gallery/album/{slug}', \App\Livewire\Frontend\AlbumView::class)->name('gallery.album');
+
+// Career routes
+Route::get('/careers', \App\Livewire\Frontend\Careers::class)->name('careers');
+Route::get('/career/{slug}', \App\Livewire\Frontend\CareerDetail::class)->name('career.show');
+Route::get('/careers/{slug}', \App\Livewire\Frontend\CareerDetail::class)->name('careers.show');
+
+// Facility routes
+Route::get('/facility/{slug}', \App\Livewire\Frontend\Facility::class)->name('facility');
+
+// Team member routes
+Route::get('/team-member/{slug}', \App\Livewire\Frontend\TeamMember::class)->name('frontend.team.show');
+
+// Updates/Blog routes
+Route::get('/updates', \App\Livewire\Frontend\Updates::class)->name('news');
+Route::get('/updates/{slug}', \App\Livewire\Frontend\UpdatesSinglePage::class)->name('news.single');
+
+// Other pages
+Route::get('/media-centre', \App\Livewire\Frontend\MediaCentre::class)->name('media-centre');
+Route::get('/support-us', \App\Livewire\Frontend\SupportUs::class)->name('support-us');
+Route::get('/contact-us', \App\Livewire\Frontend\ContactUs::class)->name('contact');
+Route::get('/faqs', \App\Livewire\Frontend\Faqs::class)->name('faqs');
+Route::get('/join-us', \App\Livewire\Frontend\JoinUs::class)->name('join-us');
+Route::get('/our-clubs', \App\Livewire\Frontend\OurClubs::class)->name('our-clubs');
+Route::get('/club/{slug}', \App\Livewire\Frontend\Club::class)->name('club.show');
+Route::get('/christian-life-community', \App\Livewire\Frontend\ChristianLifeCommunity::class)->name('clc');
+Route::get('/our-pillars', \App\Livewire\Frontend\OurPillars::class)->name('our-pillars');
+
+// Dashboard routes (protected)
+Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')->group(function () {
+    // Dashboard home
+    Route::get('/', \App\Livewire\Dashboard\Index::class)->name('index');
+
+    // Static Pages
+    Route::get('/static-pages', \App\Livewire\Dashboard\StaticPages\Index::class)->name('static-pages.index');
+    Route::get('/static-pages/create', \App\Livewire\Dashboard\StaticPages\Manage::class)->name('static-pages.create');
+    Route::get('/static-pages/{id}/edit', \App\Livewire\Dashboard\StaticPages\Manage::class)->name('static-pages.edit');
+    Route::get('/static-pages/manage', \App\Livewire\Dashboard\StaticPages\Manage::class)->name('static-pages.manage');
+
+    // Team Management
+    Route::get('/team', \App\Livewire\Dashboard\Team\Index::class)->name('team.index');
+    Route::get('/team/create', \App\Livewire\Dashboard\Team\Create::class)->name('team.create');
+    Route::get('/team/{id}/edit', \App\Livewire\Dashboard\Team\Edit::class)->name('team.edit');
+
+    // Blog/News Management
+    Route::get('/blog', \App\Livewire\Dashboard\Blog\Index::class)->name('blog.index');
+    Route::get('/blog/create', \App\Livewire\Dashboard\Blog\Create::class)->name('blog.create');
+    Route::get('/blog/{id}/edit', \App\Livewire\Dashboard\Blog\Create::class)->name('blog.edit');
+    Route::get('/blog/categories', \App\Livewire\Dashboard\Categories\Index::class)->name('blog.categories.index');
+
+    // Events Management
+    Route::get('/events', \App\Livewire\Dashboard\Events\Index::class)->name('events.index');
+    Route::get('/events/create', \App\Livewire\Dashboard\Events\Manage::class)->name('events.create');
+    Route::get('/events/{id}/edit', \App\Livewire\Dashboard\Events\Manage::class)->name('events.edit');
+    Route::get('/events/manage', \App\Livewire\Dashboard\Events\Manage::class)->name('events.manage');
+    Route::get('/events/categories', \App\Livewire\Dashboard\Categories\Index::class)->name('events.categories.index');
+
+    // Gallery Management
+    Route::get('/gallery/categories', CategoryIndex::class)->name('gallery.categories');
+    Route::get('/gallery/albums', AlbumIndex::class)->name('gallery.albums');
+    Route::get('/gallery/images', ImageIndex::class)->name('gallery.images');
 
 
-use App\Livewire\Dashboard\Events\Index as EventIndex;
-use App\Livewire\Dashboard\Events\Manage as EventEdit;
-use App\Livewire\Dashboard\Events\Manage as EventCreate;
+    // YouTube Management
+    Route::get('/youtube', \App\Livewire\Dashboard\Youtube\Index::class)->name('youtube.index');
 
-use App\Livewire\Frontend\TeamMember as TeamMemberShow;;
+    // Careers Management
+    Route::get('/careers', \App\Livewire\Dashboard\Careers\JobVacancyIndex::class)->name('careers.index');
+    Route::get('/careers/create', \App\Livewire\Dashboard\Careers\JobVacancyForm::class)->name('careers.create');
+    Route::get('/careers/categories', \App\Livewire\Dashboard\Careers\JobCategoryIndex::class)->name('careers.categories');
+    Route::get('/careers/{id}/edit', \App\Livewire\Dashboard\Careers\JobVacancyForm::class)->name('careers.edit');
 
-use App\Livewire\Dashboard\Departments\DepCategories\Index;
-use App\Livewire\Dashboard\AlbumCategories\AlbumCategoryForm;
-use App\Livewire\Dashboard\Blogs\Categories\Index as BlogCat;
-use App\Livewire\Dashboard\Departments\Index as DepartmentIndex;
-use App\Livewire\Dashboard\Categories\Index as MainCategoryIndex;
-use App\Livewire\Dashboard\StaticPages\Index as StaticPagesIndex;
-use App\Livewire\Dashboard\Departments\Manage as DepartmentManage;
-use App\Livewire\Dashboard\StaticPages\Manage as StaticPagesManage;
+    // Users Management
+    Route::get('/users', \App\Livewire\Dashboard\Users\Index::class)->name('users.index');
+    Route::get('/users/create', \App\Livewire\Dashboard\Users\Form::class)->name('users.create');
+    Route::get('/users/{user}/edit', \App\Livewire\Dashboard\Users\Form::class)->name('users.edit');
 
-use App\Livewire\Dashboard\AlbumCategories\Index as AlbumCategoryIndex;
-use App\Livewire\Dashboard\Events\Categories\Index as EventCategoryEdit;
-use App\Livewire\Dashboard\Events\Categories\Index as EventCategoryIndex;
-use App\Livewire\Dashboard\Testimonials\Manage as TestimonialManage;
-use App\Livewire\Dashboard\Testimonials\Index as TestimonialsIndex;
-use App\Livewire\Dashboard\Testimonials\Edit as TestimonialEdit;
-use App\Livewire\Frontend\Testimonial;
+    // Testimonials Management
+    Route::get('/testimonials', \App\Livewire\Dashboard\Testimonials\Index::class)->name('testimonials.index');
+    Route::get('/testimonials/create', \App\Livewire\Dashboard\Testimonials\Manage::class)->name('testimonials.create');
+    Route::get('/testimonials/{id}/edit', \App\Livewire\Dashboard\Testimonials\Manage::class)->name('testimonials.edit');
+    Route::get('/testimonials/manage', \App\Livewire\Dashboard\Testimonials\Manage::class)->name('testimonials.manage');
 
-Route::get('/', Home::class)->name('home');
-Route::get('/contact-us', ContactUs::class)->name('contact');
-Route::get('/news', Updates::class)->name('news');
-Route::get('/news/category/{category?}', Updates::class)->name('news.category');
-Route::get('/news/{slug}', UpdatesSinglePage::class)->name('news.single');
-Route::get('/facilities', OurFacilities::class)->name('our-facilities');
-Route::get('/facilities/{slug}', \App\Livewire\Frontend\Facility::class)->name('facility');
-Route::get('/clubs', OurClubs::class)->name('our-clubs');
-Route::get('/about-us', AboutUs::class)->name('about-us');
-Route::get('/club', Club::class)->name('club');
-Route::get('/support-us', SupportUs::class)->name('support-us');
+    // Facilities Management
+    Route::get('/facilities', \App\Livewire\Dashboard\Facilities\Index::class)->name('facilities.index');
+    Route::get('/facilities/create', \App\Livewire\Dashboard\Facilities\Manage::class)->name('facilities.create');
+    Route::get('/facilities/{id}/edit', \App\Livewire\Dashboard\Facilities\Manage::class)->name('facilities.edit');
+    Route::get('/facilities/manage', \App\Livewire\Dashboard\Facilities\Manage::class)->name('facilities.manage');
 
-Route::get('/events', Events::class)->name('events');
-Route::get('/events/upcoming-events', UpcomingEvents::class)->name('upcoming-events');
-Route::get('/events/past-events', PastEvents::class)->name('past-events');
-Route::get('/events', Events::class)->name('events');
-Route::get('/events/{slug}', Event::class)->name('event');
-
-Route::get('/our-team', OurTeam::class)->name('our-team');
-Route::get('/our-team/{slug}', TeamMemberShow::class)->name('frontend.team.show');
-Route::get('/careers', Careers::class)->name('careers');
-Route::get('/careers/{slug}', CareerDetail::class)->name('careers.show');
-Route::get('/careers/category/{category?}', Careers::class)->name('careers.category');
-Route::get('/media-centre', MediaCentre::class)->name('media-centre');
-Route::get('/departments', Departments::class)->name('departments');
-Route::get('/departments/{slug}', Department::class)->name('department');
-Route::get('/faqs', Faqs::class)->name('faqs');
-Route::get('/testimonials', Testimonials::class)->name('testimonials');
-Route::get('/join-us', JoinUs::class)->name('join-us');
-Route::get('/admission', Admission::class)->name('admission');
-
-// Make sure these routes are placed BEFORE any wildcard routes that might capture /videos
-// Photo Gallery Routes
-Route::get('gallery/photos', PhotoGallery::class)->name('photos');
-Route::get('gallery/photos/{category?}', PhotoGallery::class)->name('photos.categories');
-
-// Video Gallery Routes
-Route::get('gallery/videos', YoutubeGallery::class)->name('videos');
-Route::get('gallery/videos/{category?}', YoutubeGallery::class)->name('videos.categories');
-
-// Keep the existing gallery route for backward compatibility
-Route::get('/gallery/{category?}', Gallery::class)->name('gallery');
-Route::get('/admission-policy', AdmissionPolicy::class)->name('admission-policy');
-Route::get('/scholarships', Scholarships::class)->name('scholarships');
-Route::get('/how-to-apply', HowToApply::class)->name('how-to-apply');
-Route::get('/fee-paying-students', FeePayingStudents::class)->name('fee-paying-students');
-Route::get('/pillars', OurPillars::class)->name('our-pillars');
-Route::get('/christian-life-community', ChristianLifeCommunity::class)->name('clc');
-Route::get('/dashboard', DashboardIndex::class)->name('dashboard.index');
-Route::get('/dashboard/categories', MainCategoryIndex::class)
-    ->name('dashboard.categories');
-
-Route::prefix('dashboard/departments')->name('departments.')->group(function () {
-    Route::get('/', DepartmentIndex::class)->name('index');        // List departments
-    Route::get('/create', DepartmentManage::class)->name('create'); // Create form
-    Route::get('/{depId}/edit', DepartmentManage::class)->name('edit'); // Edit form
-    Route::get('/categories', Index::class)->name('categories.index'); // Edit form
-    Route::get('/categories/{id}/edit', Index::class)->name('categories.edit'); // Edit form
+    // Departments Management
+    Route::get('/departments', \App\Livewire\Dashboard\Departments\Index::class)->name('departments.index');
+    Route::get('/departments/create', \App\Livewire\Dashboard\Departments\Manage::class)->name('departments.create');
+    Route::get('/departments/{id}/edit', \App\Livewire\Dashboard\Departments\Manage::class)->name('departments.edit');
+    Route::get('/departments/manage', \App\Livewire\Dashboard\Departments\Manage::class)->name('departments.manage');
+    Route::get('/departments/categories', \App\Livewire\Dashboard\Departments\DepCategories\Index::class)->name('departments.categories.index');
 });
 
-Route::prefix('dashboard/blog')->name('dashboard.blog.')->group(function () {
-    Route::get('/', BlogIndex::class)->name('index');       // List all posts
-    Route::get('/create', BlogCreate::class)->name('create'); // Create a post
-    Route::get('/{postId}/edit', BlogCreate::class)->name('edit'); // Edit a post
-    Route::get('/categories', BlogCat::class)->name('categories.index');
-    Route::get('/categories/{id}/edit', BlogCat::class)->name('categories.edit');
-});
+// Profile route (protected)
+Route::view('profile', 'profile')
+    ->middleware(['auth'])
+    ->name('profile');
 
-Route::prefix('dashboard/team')->as('dashboard.team.')->group(function () {
-    Route::get('/', TeamIndex::class)->name('index');
-    Route::get('/create', TeamCreate::class)->name('create');
-    Route::get('/{id}/edit', TeamCreate::class)->name('edit');
-});
+// CKEditor upload route
+Route::post('/ckeditor/upload', [\App\Http\Controllers\CkeditorUploadController::class, 'upload'])->name('ckeditor.upload');
 
-Route::prefix('dashboard/facilities')->name('dashboard.facilities.')->group(function () {
-    Route::get('/', App\Livewire\Dashboard\Facilities\Index::class)->name('index');
-    Route::get('/create', App\Livewire\Dashboard\Facilities\Manage::class)->name('create');
-    Route::get('/{facilityId}/edit', App\Livewire\Dashboard\Facilities\Manage::class)->name('edit');
-});
-
-Route::prefix('dashboard/events')->name('dashboard.events.')->group(function () {
-    Route::get('/', EventIndex::class)->name('index');
-    Route::get('/create', EventCreate::class)->name('create');
-    Route::get('/{eventId}/edit', EventEdit::class)->name('edit');
-    Route::get('/categories', EventCategoryIndex::class)->name('categories.index');
-    Route::get('/categories/{eventCategoryId}/edit', EventCategoryEdit::class)->name('categories.edit');
-});
-
-Route::prefix('dashboard/gallery')->name('dashboard.gallery.')->group(function () {
-    Route::get('/categories', CategoryIndex::class)->name('categories');
-    Route::get('/albums', AlbumIndex::class)->name('albums');
-    Route::get('/images', ImageIndex::class)->name('images');
-});
-
-Route::get('/gallery/album/{slug}', AlbumView::class)->name('gallery.album');
-
-Route::post('/ckeditor/upload', [CkeditorUploadController::class, 'upload'])->name('ckeditor.upload');
-
-Route::prefix('dashboard/gallery/youtube')->name('dashboard.youtube.')->group(function () {
-    Route::get('/', VideoIndex::class)->name('index');
-});
-
-
-
-// Dashboard career routes - without auth middleware for now
-Route::prefix('dashboard')->name('dashboard.')->group(function () {
-    Route::get('/careers', JobVacancyIndex::class)->name('careers.index');
-    Route::get('/careers/create', JobVacancyForm::class)->name('careers.create');
-    Route::get('/careers/{id}/edit', JobVacancyForm::class)->name('careers.edit');
-    Route::get('/careers/categories', JobCategoryIndex::class)->name('careers.categories');
-});
-
-Route::prefix('dashboard/static-pages')->name('dashboard.static-pages.')->group(function () {
-    Route::get('/', StaticPagesIndex::class)->name('index');
-    Route::get('/create', StaticPagesManage::class)->name('create');
-    Route::get('/{pageId}/edit', StaticPagesManage::class)->name('edit');
-});
-
-
-Route::prefix('dashboard')->name('dashboard.testimonials.')->group(function () {
-    Route::get('/testimonials', TestimonialsIndex::class)->name('index');
-    Route::get('/testimonials/create', TestimonialManage::class)->name('create');
-    Route::get('/testimonials/{testimonialId}/edit', TestimonialManage::class)->name('edit');
-});
-
-Route::get('/testimonials/{slug}', Testimonial::class)->name('testimonials.show');
+// Include authentication routes
+require __DIR__ . '/auth.php';
