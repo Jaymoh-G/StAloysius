@@ -26,6 +26,7 @@ class VideoIndex extends Component
     public $isEditing = false;
     public $search = '';
     public $categoryFilter = '';
+    public $removeThumbnail = false;
 
     protected function rules()
     {
@@ -51,10 +52,10 @@ class VideoIndex extends Component
     public function render()
     {
         $videos = YoutubeVideo::with('category')
-            ->when($this->search, function($query) {
+            ->when($this->search, function ($query) {
                 $query->where('title', 'like', '%' . $this->search . '%');
             })
-            ->when($this->categoryFilter, function($query) {
+            ->when($this->categoryFilter, function ($query) {
                 $query->where('album_category_id', $this->categoryFilter);
             })
             ->orderBy('order')
@@ -129,7 +130,13 @@ class VideoIndex extends Component
             'order' => $this->order,
         ];
 
-        if ($this->temp_thumbnail) {
+        // Handle thumbnail removal
+        if ($this->removeThumbnail) {
+            if ($video->thumbnail) {
+                Storage::disk('public')->delete($video->thumbnail);
+            }
+            $data['thumbnail'] = null;
+        } elseif ($this->temp_thumbnail) {
             if ($video->thumbnail) {
                 Storage::disk('public')->delete($video->thumbnail);
             }
@@ -138,7 +145,7 @@ class VideoIndex extends Component
 
         $video->update($data);
 
-        $this->reset(['title', 'description', 'video_id', 'album_category_id', 'is_featured', 'order', 'temp_thumbnail']);
+        $this->reset(['title', 'description', 'video_id', 'album_category_id', 'is_featured', 'order', 'temp_thumbnail', 'removeThumbnail']);
         $this->isEditing = false;
         $this->videoId = null;
 
@@ -172,9 +179,23 @@ class VideoIndex extends Component
 
     public function cancel()
     {
-        $this->reset(['title', 'description', 'video_id', 'album_category_id', 'is_featured', 'order', 'temp_thumbnail']);
+        $this->reset(['title', 'description', 'video_id', 'album_category_id', 'is_featured', 'order', 'temp_thumbnail', 'removeThumbnail']);
         $this->isEditing = false;
         $this->videoId = null;
+    }
+
+    public function triggerRemoveThumbnail()
+    {
+        logger('Remove thumbnail triggered');
+
+        $this->removeThumbnail = true;
+        $this->temp_thumbnail = null;
+
+        // Add debugging and feedback
+        $this->dispatch('alert', [
+            'type' => 'info',
+            'message' => 'Thumbnail marked for removal. Click "Update Video" to save changes.'
+        ]);
     }
 
     private function extractVideoId($input)
@@ -202,7 +223,3 @@ class VideoIndex extends Component
         return $input; // Return as is if no pattern matches
     }
 }
-
-
-
-

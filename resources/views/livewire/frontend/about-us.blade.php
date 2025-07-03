@@ -65,8 +65,6 @@
                             />
                             @endif
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -284,8 +282,7 @@
                                 <span
                                     class="site-title-tagline justify-content-start"
                                     ><i class="far fa-book-open-reader"></i>
-                                    </span
-                                >
+                                </span>
                                 <h2>Student Support and Welfare</h2>
                             </div>
                             <p class="mb-3">
@@ -312,7 +309,6 @@
                                 nutritious meals to support students' physical
                                 well-being.
                             </p>
-
                         </div>
                     </div>
                 </div>
