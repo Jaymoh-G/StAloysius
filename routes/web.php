@@ -112,8 +112,7 @@ Route::get('/faqs', Faqs::class)->name('faqs');
 Route::get('/testimonials', Testimonials::class)->name('testimonials');
 Route::get('/join-us', JoinUs::class)->name('join-us');
 Route::get('/admission', Admission::class)->name('admission');
-Route::get('/programs', OurPrograms::class)->name('our-programs');
-Route::get('/program', Program::class)->name('program');
+
 // Make sure these routes are placed BEFORE any wildcard routes that might capture /videos
 // Photo Gallery Routes
 Route::get('gallery/photos', PhotoGallery::class)->name('photos');
@@ -131,7 +130,7 @@ Route::get('/how-to-apply', HowToApply::class)->name('how-to-apply');
 Route::get('/fee-paying-students', FeePayingStudents::class)->name('fee-paying-students');
 Route::get('/pillars', OurPillars::class)->name('our-pillars');
 Route::get('/christian-life-community', ChristianLifeCommunity::class)->name('clc');
-Route::get('/dashboard', DashboardIndex::class)->name('dashboard');
+Route::get('/dashboard', DashboardIndex::class)->name('dashboard.index');
 Route::get('/dashboard/categories', MainCategoryIndex::class)
     ->name('dashboard.categories');
 
