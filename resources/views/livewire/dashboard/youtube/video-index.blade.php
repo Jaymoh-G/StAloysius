@@ -146,7 +146,12 @@
                                             <!-- Display Order -->
                                             <div class="mb-3">
                                                 <label class="form-label"
-                                                    >Display Order</label
+                                                    >Display Order
+                                                    <small class="text-muted"
+                                                        >(Set 1 for home page
+                                                        and 2 for about us
+                                                        page)</small
+                                                    ></label
                                                 >
                                                 <input
                                                     type="number"
@@ -316,6 +321,7 @@
                                                 <th>Video</th>
                                                 <th>Title</th>
                                                 <th>Category</th>
+                                                <th>Order</th>
                                                 <th>Featured</th>
                                                 <th>Actions</th>
                                             </tr>
@@ -366,6 +372,12 @@
                                                     {{ $video->category ? $video->category->name : 'Uncategorized' }}
                                                 </td>
                                                 <td>
+                                                    <span
+                                                        class="badge bg-primary"
+                                                        >{{ $video->order }}</span
+                                                    >
+                                                </td>
+                                                <td>
                                                     @if ($video->is_featured)
                                                     <span
                                                         class="badge bg-success"
@@ -400,7 +412,7 @@
                                             @empty
                                             <tr>
                                                 <td
-                                                    colspan="5"
+                                                    colspan="6"
                                                     class="text-center"
                                                 >
                                                     No videos found.

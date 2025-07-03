@@ -59,10 +59,8 @@ class Home extends Component
     $this->events = EventModel::whereDate('end_date', '>=', $now)
       ->orderBy('start_date', 'desc')->get();
     $this->testimonials = Testimonial::orderBy('created_at', 'desc')->take(5)->get();
-    $this->featuredVideos = YoutubeVideo::where('is_featured', true)
-      ->orderBy('order', 'asc')
-      ->orderBy('published_at', 'desc')
-      ->first();
+
+    $this->featuredVideos = YoutubeVideo::where('order', 1)->first();
 
     // Fetch slider content from static pages
     $this->sliderContent = StaticPage::where('page_name', 'Homepage Sliders')->first();
