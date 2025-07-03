@@ -28,13 +28,7 @@
                 @endif
 
                 <div class="row popup-gallery">
-                    <!-- Debug information -->
-                    <div class="col-12 mb-4">
-                        <div class="alert alert-info">
-                            <p>Album ID: {{ $album->id }}</p>
-                            <p>Images Count: {{ $images->count() }}</p>
-                        </div>
-                    </div>
+              
 
                     @if ($images->count() > 0)
                         @foreach ($images as $image)
