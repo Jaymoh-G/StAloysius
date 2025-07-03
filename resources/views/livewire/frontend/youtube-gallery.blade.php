@@ -52,6 +52,11 @@
                                 @endif
                             </div>
                         </div>
+                        @if($video->title)
+
+                            <h5 class="mb-0 p-3">{{ $video->title }}</h5>
+
+                        @endif
                         @if($video->description)
                         <div class="video-description p-3">
                             <p class="mb-0">{{ Str::limit($video->description, 100) }}</p>
