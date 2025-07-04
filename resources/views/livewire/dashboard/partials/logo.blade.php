@@ -1,10 +1,16 @@
 <div class="nav-header">
-    <a href="/" class="brand-logo">
-    
+    <a target="_blank" href="{{ route('home') }}" class="brand-logo">
+        <div
+            class="brand-title"
+            style="display: flex; align-items: center; "
+        >
+            <img
+                src="{{ asset('assets/img/logo/St_Aloysius_Sch_Logo.png') }}"
+                alt="logo"
+                class="brand-logo-img"
+                style="max-height: 100px; width: auto; display: block align-items: center;"
+            />
 
-        <div class="brand-title">
-            <h2 class="">St Aloysius</h2>
-            <span class="brand-sub-title">Gonzaga Secondary School</span>
         </div>
     </a>
     <div class="nav-control">

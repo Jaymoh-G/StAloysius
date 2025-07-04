@@ -123,6 +123,11 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')
     Route::get('/users/create', \App\Livewire\Dashboard\Users\Form::class)->name('users.create');
     Route::get('/users/{user}/edit', \App\Livewire\Dashboard\Users\Form::class)->name('users.edit');
 
+    // Roles Management
+    Route::get('/roles', \App\Livewire\Dashboard\Roles\Index::class)->name('roles.index');
+    Route::get('/roles/create', \App\Livewire\Dashboard\Roles\Form::class)->name('roles.create');
+    Route::get('/roles/{role}/edit', \App\Livewire\Dashboard\Roles\Form::class)->name('roles.edit');
+
     // Testimonials Management
     Route::get('/testimonials', \App\Livewire\Dashboard\Testimonials\Index::class)->name('testimonials.index');
     Route::get('/testimonials/create', \App\Livewire\Dashboard\Testimonials\Manage::class)->name('testimonials.create');

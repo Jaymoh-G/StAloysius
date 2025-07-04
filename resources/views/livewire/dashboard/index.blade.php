@@ -29,6 +29,7 @@
 
 <div class="container-fluid">
     <div class="row g-4">
+        @canView('blog')
         <div class="col-md-3">
             <a
                 href="{{ route('dashboard.blog.index') }}"
@@ -38,12 +39,13 @@
                     <div class="card-body text-center">
                         <i class="fa fa-blog fa-2x text-primary mb-2"></i>
                         <h6 class="card-title">
-                            Blog Posts <span>({{ $blogCount }})</span>
+                            News Posts <span>({{ $blogCount }})</span>
                         </h6>
                     </div>
                 </div>
             </a>
         </div>
+        @endcanView @canView('events')
         <div class="col-md-3">
             <a
                 href="{{ route('dashboard.events.index') }}"
@@ -80,6 +82,7 @@
                 </div>
             </a>
         </div>
+        @endcanView @canView('youtube')
         <div class="col-md-3">
             <a
                 href="{{ route('dashboard.youtube.index') }}"
@@ -95,6 +98,7 @@
                 </div>
             </a>
         </div>
+        @endcanView @canView('gallery')
         <div class="col-md-3">
             <a
                 href="{{ route('dashboard.gallery.albums') }}"
@@ -110,6 +114,7 @@
                 </div>
             </a>
         </div>
+        @endcanView @canView('careers')
         <div class="col-md-3">
             <a
                 href="{{ route('dashboard.careers.index') }}"
@@ -127,6 +132,7 @@
                 </div>
             </a>
         </div>
+        @endcanView @canView('static_pages')
         <div class="col-md-3">
             <a
                 href="{{ route('dashboard.static-pages.index') }}"
@@ -142,6 +148,7 @@
                 </div>
             </a>
         </div>
+        @endcanView @canView('testimonials')
         <div class="col-md-3">
             <a
                 href="{{ route('dashboard.testimonials.index') }}"
@@ -159,12 +166,14 @@
                 </div>
             </a>
         </div>
+        @endcanView
     </div>
 
     <!-- Recent Items Section -->
     <div class="row mt-5">
         <div class="col-12">
             <div class="row">
+                @canView('blog')
                 <div class="col-md-6">
                     <div class="row g-3">
                         <div class="col-md-6">
@@ -175,7 +184,8 @@
                                 <ul class="list-group list-group-flush">
                                     @foreach($recentBlogs as $item)
                                     <li class="list-group-item">
-                                        <a target="_blank"
+                                        <a
+                                            target="_blank"
                                             href="{{ route('news.single', $item->slug) }}"
                                             class="fw-bold"
                                             >{{ $item->title }}</a
@@ -189,6 +199,7 @@
                                 </ul>
                             </div>
                         </div>
+                        @endcanView @canView('events')
                         <div class="col-md-6">
                             <div class="card card-compact h-100">
                                 <div class="card-header bg-success text-white">
@@ -197,7 +208,8 @@
                                 <ul class="list-group list-group-flush">
                                     @foreach($recentEvents as $item)
                                     <li class="list-group-item">
-                                        <a target="_blank"
+                                        <a
+                                            target="_blank"
                                             href="{{ route('event', $item->slug) }}"
                                             class="fw-bold"
                                             >{{ $item->name ?? $item->title }}</a
@@ -211,6 +223,7 @@
                                 </ul>
                             </div>
                         </div>
+                        @endcanView @canView('testimonials')
                         <div class="col-md-6">
                             <div class="card card-compact h-100">
                                 <div class="card-header bg-info text-white">
@@ -219,7 +232,8 @@
                                 <ul class="list-group list-group-flush">
                                     @foreach($recentTestimonials as $item)
                                     <li class="list-group-item">
-                                        <a target="_blank"
+                                        <a
+                                            target="_blank"
                                             href="{{ route('testimonials.show', $item->slug) }}"
                                             class="fw-bold"
                                             >{{ $item->name }}</a
@@ -233,6 +247,7 @@
                                 </ul>
                             </div>
                         </div>
+                        @endcanView @canView('gallery')
                         <div class="col-md-6">
                             <div class="card card-compact h-100">
                                 <div class="card-header bg-danger text-white">
@@ -241,7 +256,8 @@
                                 <ul class="list-group list-group-flush">
                                     @foreach($recentAlbums as $item)
                                     <li class="list-group-item">
-                                        <a target="_blank"
+                                        <a
+                                            target="_blank"
                                             href="{{ route('gallery.album', $item->slug) }}"
                                             class="fw-bold truncate-title"
                                             >{{ $item->title }}</a
@@ -255,8 +271,11 @@
                                 </ul>
                             </div>
                         </div>
+                        @endcanView
                     </div>
                 </div>
+                @endcanView
+
                 <div class="col-md-6">
                     <div class="card card-compact h-100">
                         <div class="card-header bg-light">

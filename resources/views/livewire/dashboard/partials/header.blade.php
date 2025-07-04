@@ -29,7 +29,7 @@
 
                             <li class="nav-item dropdown header-profile">
                                 <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
-                                    
+
                                     <div class="header-info ms-3">
                                         <span class="fs-18 font-w500 mb-2">{{ Auth::user()->name }}</span>
                                         <small class="fs-12 font-w400">{{ Auth::user()->email }}</small>
@@ -177,11 +177,13 @@
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="fas fa-user-shield"></i>
-                            <span class="nav-text">Users</span>
+                            <span class="nav-text">Users & Roles</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="{{ route('dashboard.users.index') }}">List</a></li>
-                            <li><a href="{{ route('dashboard.users.create') }}">Add</a></li>
+                            <li><a href="{{ route('dashboard.users.index') }}">Users</a></li>
+                            <li><a href="{{ route('dashboard.users.create') }}">Add User</a></li>
+                            <li><a href="{{ route('dashboard.roles.index') }}">Roles</a></li>
+                            <li><a href="{{ route('dashboard.roles.create') }}">Add Role</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">

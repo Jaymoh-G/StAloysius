@@ -1,5 +1,3 @@
-
-
 <div class="container mt-4">
     <h2>{{ $userId ? "Edit User" : "Create User" }}</h2>
     @if (session()->has('success'))
@@ -63,31 +61,6 @@
                 @endforeach
             </div>
             @error('roles')
-            <span class="text-danger">{{ $message }}</span> @enderror
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Permissions</label>
-            <div class="row">
-                @foreach($allPermissions as $permission)
-                <div class="col-md-3">
-                    <div class="form-check">
-                        <input
-                            class="form-check-input"
-                            type="checkbox"
-                            value="{{ $permission->name }}"
-                            wire:model="permissions"
-                            id="perm_{{ $permission->id }}"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="perm_{{ $permission->id }}"
-                            >{{ $permission->name }}</label
-                        >
-                    </div>
-                </div>
-                @endforeach
-            </div>
-            @error('permissions')
             <span class="text-danger">{{ $message }}</span> @enderror
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
