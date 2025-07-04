@@ -77,7 +77,7 @@ class RoleSeeder extends Seeder
 
         // Assign permissions to Editor (content management only)
         $editorPermissions = [
-           
+
             'view blog',
             'create blog',
             'edit blog',
@@ -122,7 +122,6 @@ class RoleSeeder extends Seeder
 
         // Assign permissions to User (view only)
         $userPermissions = [
-            'view dashboard',
             'view blog',
             'view events',
             'view gallery',
@@ -133,7 +132,6 @@ class RoleSeeder extends Seeder
             'view youtube',
             'view departments',
             'view facilities',
-            'view academics',
         ];
         $userRole->givePermissionTo($userPermissions);
 

@@ -49,17 +49,37 @@
                                     if (count($parts) === 2) {
                                     $groupedPermissions[$parts[1]][] =
                                     $parts[0]; } } @endphp
-                                    @foreach(array_slice($groupedPermissions, 0,
-                                    3) as $module => $actions)
-                                    <span class="badge bg-secondary me-1 mb-1">
-                                        {{
-                                            ucfirst(
-                                                str_replace("_", " ", $module)
-                                            )
-                                        }}: {{ implode(", ", $actions) }}
-                                    </span>
-                                    @endforeach @if(count($groupedPermissions) >
-                                    3)
+                                    <div class="row">
+                                        @foreach(array_slice($groupedPermissions,
+                                        0, 3) as $module => $actions)
+                                        <div class="col-md-4 mb-3">
+                                            <div class="card h-100">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">
+                                                        {{
+                                                            ucfirst(
+                                                                str_replace(
+                                                                    "_",
+                                                                    " ",
+                                                                    $module
+                                                                )
+                                                            )
+                                                        }}
+                                                    </h5>
+                                                    <p class="card-text">
+                                                        {{
+                                                            implode(
+                                                                ", ",
+                                                                $actions
+                                                            )
+                                                        }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                    @if(count($groupedPermissions) > 3)
                                     <span class="text-muted"
                                         >+{{
                                             count($groupedPermissions) - 3
