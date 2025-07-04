@@ -29,10 +29,10 @@
 
                             <li class="nav-item dropdown header-profile">
                                 <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
-                                    <img src="images/user.jpg" width="20" alt="" />
+                                    
                                     <div class="header-info ms-3">
-                                        <span class="fs-18 font-w500 mb-2">Franklin Jr.</span>
-                                        <small class="fs-12 font-w400">demo@gmail.com</small>
+                                        <span class="fs-18 font-w500 mb-2">{{ Auth::user()->name }}</span>
+                                        <small class="fs-12 font-w400">{{ Auth::user()->email }}</small>
                                     </div>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
@@ -230,7 +230,7 @@
                             <li><a href="table-datatable-basic.html">Datatable</a></li>
                         </ul>
                     </li>
-                   
+
                     <li>
                         <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                             @csrf

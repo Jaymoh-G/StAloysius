@@ -1,35 +1,3 @@
-<?php
-
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Validation\Rule;
-use Livewire\Volt\Component;
-
-new class extends Component
-{
-    public string $name = '';
-    public string $email = '';
-
-    /**
-     * Mount the component.
-     */
-    public function mount(): void
-    {
-        $this->name = Auth::user()->name; $this->email = Auth::user()->email; }
-/** * Update the profile information for the currently authenticated user. */
-public function updateProfileInformation(): void { $user = Auth::user();
-$validated = $this->validate([ 'name' => ['required', 'string', 'max:255'],
-'email' => ['required', 'string', 'lowercase', 'email', 'max:255',
-Rule::unique(User::class)->ignore($user->id)], ]); $user->fill($validated); if
-($user->isDirty('email')) { $user->email_verified_at = null; } $user->save();
-$this->dispatch('profile-updated', name: $user->name); } /** * Send an email
-verification notification to the current user. */ public function
-sendVerification(): void { $user = Auth::user(); if ($user->hasVerifiedEmail())
-{ $this->redirectIntended(default: route('dashboard.index', absolute: false));
-return; } $user->sendEmailVerificationNotification(); Session::flash('status',
-'verification-link-sent'); } }; ?>
-
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900 mb-3">
@@ -38,13 +6,55 @@ return; } $user->sendEmailVerificationNotification(); Session::flash('status',
         <p class="mt-1 text-sm text-gray-600 mb-3">
             {{
                 __(
-                    "Update your account's profile information and email address."
+                    "Update your account's profile information, email address, and profile photo."
                 )
             }}
         </p>
     </header>
 
     <form wire:submit="updateProfileInformation" class="mt-3">
+        <div class="mb-3 text-center">
+            <!-- Current Profile Photo -->
+            <div class="mb-2">
+                @if (auth()->user()->profile_photo_path ?? false)
+                <img
+                    src="{{ asset('storage/' . auth()->user()->profile_photo_path) }}"
+                    alt="Profile Photo"
+                    class="rounded-circle"
+                    width="100"
+                    height="100"
+                />
+                @else
+                <img
+                    src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&size=100"
+                    alt="Profile Photo"
+                    class="rounded-circle"
+                    width="100"
+                    height="100"
+                />
+                @endif
+            </div>
+            <!-- New Photo Preview -->
+            @if ($photo ?? false)
+            <div class="mb-2">
+                <img
+                    src="{{ $photo->temporaryUrl() }}"
+                    class="rounded-circle"
+                    width="100"
+                    height="100"
+                />
+            </div>
+            @endif
+            <div class="mb-2">
+                <input
+                    type="file"
+                    class="form-control"
+                    wire:model="photo"
+                    accept="image/*"
+                />
+                <x-input-error class="mt-2" :messages="$errors->get('photo')" />
+            </div>
+        </div>
         <div class="mb-3">
             <x-input-label for="name" :value="__('Name')" />
             <x-text-input
