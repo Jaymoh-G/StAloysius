@@ -2,6 +2,8 @@
 
 use Livewire\Volt\Volt;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 
 use App\Livewire\Dashboard\Gallery\Albums\AlbumIndex;
@@ -69,6 +71,8 @@ Route::get('/our-clubs', \App\Livewire\Frontend\OurClubs::class)->name('our-club
 Route::get('/club/{slug}', \App\Livewire\Frontend\Club::class)->name('club.show');
 Route::get('/christian-life-community', \App\Livewire\Frontend\ChristianLifeCommunity::class)->name('clc');
 Route::get('/our-pillars', \App\Livewire\Frontend\OurPillars::class)->name('our-pillars');
+
+
 
 // Dashboard routes (protected)
 Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')->group(function () {
@@ -143,6 +147,22 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
+
+// Logout route
+Route::post('/logout', function () {
+    Auth::logout();
+    Session::invalidate();
+    Session::regenerateToken();
+    return redirect('/');
+})->middleware('auth')->name('logout');
+
+// GET logout route for direct access
+Route::get('/logout', function () {
+    Auth::logout();
+    Session::invalidate();
+    Session::regenerateToken();
+    return redirect('/');
+})->middleware('auth');
 
 // CKEditor upload route
 Route::post('/ckeditor/upload', [\App\Http\Controllers\CkeditorUploadController::class, 'upload'])->name('ckeditor.upload');

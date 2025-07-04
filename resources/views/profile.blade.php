@@ -1,29 +1,36 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    <livewire:profile.update-profile-information-form />
+<x-layouts.dashboard>
+    <div class="container-fluid py-4">
+        <div class="row justify-content-center g-4">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 shadow rounded">
+                    <div class="card-header bg-primary text-white fw-bold">
+                        Profile Information
+                    </div>
+                    <div class="card-body p-4">
+                        <livewire:profile.update-profile-information-form />
+                    </div>
                 </div>
             </div>
-
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    <livewire:profile.update-password-form />
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 shadow rounded">
+                    <div class="card-header bg-secondary text-white fw-bold">
+                        Update Password
+                    </div>
+                    <div class="card-body p-4">
+                        <livewire:profile.update-password-form />
+                    </div>
                 </div>
             </div>
-
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    <livewire:profile.delete-user-form />
+            <div class="col-lg-4 col-md-12 mb-4">
+                <div class="card h-100 shadow rounded">
+                    <div class="card-header bg-danger text-white fw-bold">
+                        Delete Account
+                    </div>
+                    <div class="card-body p-4">
+                        <livewire:profile.delete-user-form />
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-layouts.dashboard>
