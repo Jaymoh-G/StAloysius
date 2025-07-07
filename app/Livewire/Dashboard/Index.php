@@ -25,12 +25,12 @@ class Index extends Component
     public function render()
     {
         // Recent items - only show if user has permission to view
-        $recentBlogs = $this->canView('blog') ? BlogPost::latest()->take(2)->get() : collect();
-        $recentEvents = $this->canView('events') ? EventModel::latest()->take(2)->get() : collect();
-        $recentVideos = $this->canView('youtube') ? YoutubeVideo::latest()->take(2)->get() : collect();
-        $recentAlbums = $this->canView('gallery') ? Album::latest()->take(2)->get() : collect();
-        $recentCareers = $this->canView('careers') ? JobVacancy::latest()->take(2)->get() : collect();
-        $recentTestimonials = $this->canView('testimonials') ? Testimonial::latest()->take(2)->get() : collect();
+        $recentBlogs = $this->canView('blog') ? BlogPost::latest()->take(3)->get() : collect();
+        $recentEvents = $this->canView('events') ? EventModel::latest()->take(3)->get() : collect();
+        $recentVideos = $this->canView('youtube') ? YoutubeVideo::latest()->take(3)->get() : collect();
+        $recentAlbums = $this->canView('gallery') ? Album::latest()->take(3)->get() : collect();
+        $recentCareers = $this->canView('careers') ? JobVacancy::latest()->take(3)->get() : collect();
+        $recentTestimonials = $this->canView('testimonials') ? Testimonial::latest()->take(3)->get() : collect();
 
         $today = now()->startOfDay();
         $upcomingEventCount = $this->canView('events') ? EventModel::where('start_date', '>=', $today)->count() : 0;
@@ -82,6 +82,64 @@ class Index extends Component
             $trends['testimonials'] = $this->getMonthlyCounts(Testimonial::class, $months);
         }
 
+        // Build chart datasets array
+        $chartDatasets = [];
+
+        if ($this->canView('blog') && isset($trends['blogs'])) {
+            $chartDatasets[] = [
+                'label' => 'News',
+                'data' => $trends['blogs'],
+                'borderColor' => '#0d6efd',
+                'backgroundColor' => 'rgba(13,110,253,0.1)',
+                'fill' => true,
+                'tension' => 0.4
+            ];
+        }
+
+        if ($this->canView('events') && isset($trends['events'])) {
+            $chartDatasets[] = [
+                'label' => 'Events',
+                'data' => $trends['events'],
+                'borderColor' => '#198754',
+                'backgroundColor' => 'rgba(25,135,84,0.1)',
+                'fill' => true,
+                'tension' => 0.4
+            ];
+        }
+
+        if ($this->canView('youtube') && isset($trends['videos'])) {
+            $chartDatasets[] = [
+                'label' => 'Videos',
+                'data' => $trends['videos'],
+                'borderColor' => '#dc3545',
+                'backgroundColor' => 'rgba(220,53,69,0.1)',
+                'fill' => true,
+                'tension' => 0.4
+            ];
+        }
+
+        if ($this->canView('gallery') && isset($trends['albums'])) {
+            $chartDatasets[] = [
+                'label' => 'Albums',
+                'data' => $trends['albums'],
+                'borderColor' => '#0dcaf0',
+                'backgroundColor' => 'rgba(13,202,240,0.1)',
+                'fill' => true,
+                'tension' => 0.4
+            ];
+        }
+
+        if ($this->canView('testimonials') && isset($trends['testimonials'])) {
+            $chartDatasets[] = [
+                'label' => 'Testimonials',
+                'data' => $trends['testimonials'],
+                'borderColor' => '#adb5bd',
+                'backgroundColor' => 'rgba(173,181,189,0.1)',
+                'fill' => true,
+                'tension' => 0.4
+            ];
+        }
+
         return view('livewire.dashboard.index', [
             'blogCount' => $this->canView('blog') ? BlogPost::count() : 0,
             'eventCount' => $this->canView('events') ? EventModel::count() : 0,
@@ -104,6 +162,7 @@ class Index extends Component
             'recentDepartments' => $recentDepartments,
             'recentTestimonials' => $recentTestimonials,
             'trends' => $trends,
+            'chartDatasets' => $chartDatasets,
             'upcomingEventCount' => $upcomingEventCount,
             'pastEventCount' => $pastEventCount,
         ])->layout('components.layouts.dashboard');

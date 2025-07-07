@@ -14,14 +14,16 @@
             <span class="text-danger">{{ $message }}</span> @enderror
         </div>
 
-        <div class="mb-3">
+        <div class="mb-2">
             <label class="form-label">Permissions</label>
             <div class="row">
                 @foreach($groupedPermissions as $module => $permissions)
-                <div class="col-md-3 mb-3">
+                <div class="col-md-2 mb-2">
                     <div class="card h-100">
                         <div class="card-header bg-light fw-bold">
+                            @if($module === 'blog') News @else
                             {{ ucfirst(str_replace("_", " ", $module)) }}
+                            @endif
                         </div>
                         <div class="card-body">
                             @foreach($permissions as $perm)

@@ -8,7 +8,8 @@ use Illuminate\Support\Str;
 use App\Models\EventModel;
 use App\Models\EventCategory;
 use App\Models\BlogImage;
-use Storage;
+use App\Services\ActivityService;
+use Illuminate\Support\Facades\Storage;
 
 class Manage extends Component
 {
@@ -150,9 +151,14 @@ class Manage extends Component
             $data['paragraph' . ($i + 1)] = $para;
         }
 
-        $event = $this->eventId
-            ? tap(EventModel::findOrFail($this->eventId))->update($data)
-            : EventModel::create($data);
+        if ($this->eventId) {
+            $event = EventModel::findOrFail($this->eventId);
+            $event->update($data);
+            ActivityService::updated($event, 'events', "Updated event: {$event->name}");
+        } else {
+            $event = EventModel::create($data);
+            ActivityService::created($event, 'events', "Created event: {$event->name}");
+        }
 
         // Upload banner
         if ($this->banner) {
@@ -233,7 +239,3 @@ class Manage extends Component
             ->layout('components.layouts.dashboard');
     }
 }
-
-
-
-

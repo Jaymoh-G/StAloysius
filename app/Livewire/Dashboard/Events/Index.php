@@ -4,6 +4,7 @@ namespace App\Livewire\Dashboard\Events;
 
 use Livewire\Component;
 use App\Models\EventModel;
+use App\Services\ActivityService;
 use Livewire\WithPagination;
 
 class Index extends Component
@@ -30,8 +31,13 @@ class Index extends Component
     public function deleteConfirmed($id)
     {
         if ($id) {
-            EventModel::find($id)?->delete();
-            session()->flash('message', 'Event deleted successfully!');
+            $event = EventModel::find($id);
+            if ($event) {
+                $name = $event->name;
+                $event->delete();
+                ActivityService::deleted($event, 'events', "Deleted event: {$name}");
+                session()->flash('message', 'Event deleted successfully!');
+            }
         }
     }
 

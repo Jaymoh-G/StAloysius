@@ -49,8 +49,41 @@ class Form extends Component
                 ];
             }
         }
-        ksort($grouped);
-        $this->groupedPermissions = $grouped;
+
+        // Define the preferred order
+        $preferredOrder = [
+            'blog',
+            'events',
+            'gallery',
+            'youtube',
+            'careers',
+            'testimonials',
+            'departments',
+            'facilities',
+            'team',
+            'static_pages',
+            'permissions',
+            'roles'
+        ];
+
+        // Sort the grouped permissions according to preferred order
+        $sortedGrouped = [];
+
+        // First, add modules in the preferred order
+        foreach ($preferredOrder as $module) {
+            if (isset($grouped[$module])) {
+                $sortedGrouped[$module] = $grouped[$module];
+            }
+        }
+
+        // Then add any remaining modules that weren't in the preferred order
+        foreach ($grouped as $module => $permissions) {
+            if (!in_array($module, $preferredOrder)) {
+                $sortedGrouped[$module] = $permissions;
+            }
+        }
+
+        $this->groupedPermissions = $sortedGrouped;
     }
 
     public function save()

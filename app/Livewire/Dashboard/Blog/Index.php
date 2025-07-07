@@ -4,6 +4,7 @@ namespace App\Livewire\Dashboard\Blog;
 
 use Livewire\Component;
 use App\Models\BlogPost;
+use App\Services\ActivityService;
 
 class Index extends Component
 {
@@ -20,8 +21,13 @@ class Index extends Component
     public function deletePostConfirmed($id)
     {
         if ($id) {
-            BlogPost::find($id)?->delete();
-            session()->flash('message', 'Blog post deleted successfully!');
+            $post = BlogPost::find($id);
+            if ($post) {
+                $title = $post->title;
+                $post->delete();
+                ActivityService::deleted($post, 'blog', "Deleted news post: {$title}");
+                session()->flash('message', 'Blog post deleted successfully!');
+            }
         }
     }
 

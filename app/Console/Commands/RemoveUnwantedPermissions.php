@@ -52,7 +52,15 @@ class RemoveUnwantedPermissions extends Command
             'edit admissions',
             'delete admissions',
             'approve admissions',
-            'view dashboard'
+            'view dashboard',
+            'view academics',
+            'create academics',
+            'edit academics',
+            'delete academics',
+            'view categories',
+            'create categories',
+            'edit categories',
+            'delete categories'
         ];
 
         $removedCount = 0;

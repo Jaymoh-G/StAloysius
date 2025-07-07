@@ -11,33 +11,29 @@
         </thead>
         <tbody>
             @foreach($users as $user)
-                <tr>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>
-                        @foreach($roles as $role)
-                            <div class="form-check">
-                                <input
-                                    class="form-check-input"
-                                    type="checkbox"
-                                    wire:change="$emit('toggleRole', {{ $user->id }}, '{{ $role->name }}')"
-                                    @checked($user->roles->contains('name', $role->name))
-                                >
-                                <label class="form-check-label">
-                                    {{ $role->name }}
-                                </label>
-                            </div>
-                        @endforeach
-                    </td>
-                    <td>
-                        <a
-                            href="{{ route('dashboard.users.edit', $user->id) }}"
-                            class="btn btn-sm btn-primary"
-                        >
-                            Edit
-                        </a>
-                    </td>
-                </tr>
+            <tr>
+                <td>{{ $user->name }}</td>
+                <td>{{ $user->email }}</td>
+                <td>
+                    @if($user->roles->count() > 0)
+                    @foreach($user->roles as $role)
+                    <span
+                        class="badge bg-primary me-1"
+                        >{{ ucfirst($role->name) }}</span
+                    >
+                    @endforeach @else
+                    <span class="text-muted">No roles assigned</span>
+                    @endif
+                </td>
+                <td>
+                    <a
+                        href="{{ route('dashboard.users.edit', $user->id) }}"
+                        class="btn btn-sm btn-primary"
+                    >
+                        Edit
+                    </a>
+                </td>
+            </tr>
             @endforeach
         </tbody>
     </table>

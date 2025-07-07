@@ -76,76 +76,99 @@ Route::get('/our-pillars', \App\Livewire\Frontend\OurPillars::class)->name('our-
 
 // Dashboard routes (protected)
 Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')->group(function () {
-    // Dashboard home
+    // Dashboard home - accessible to all authenticated users
     Route::get('/', \App\Livewire\Dashboard\Index::class)->name('index');
 
-    // Static Pages
-    Route::get('/static-pages', \App\Livewire\Dashboard\StaticPages\Index::class)->name('static-pages.index');
-    Route::get('/static-pages/create', \App\Livewire\Dashboard\StaticPages\Manage::class)->name('static-pages.create');
-    Route::get('/static-pages/{id}/edit', \App\Livewire\Dashboard\StaticPages\Manage::class)->name('static-pages.edit');
-    Route::get('/static-pages/manage', \App\Livewire\Dashboard\StaticPages\Manage::class)->name('static-pages.manage');
+    // Static Pages - require view static_pages permission
+    Route::middleware(['module.permission:view static_pages'])->group(function () {
+        Route::get('/static-pages', \App\Livewire\Dashboard\StaticPages\Index::class)->name('static-pages.index');
+        Route::get('/static-pages/create', \App\Livewire\Dashboard\StaticPages\Manage::class)->name('static-pages.create');
+        Route::get('/static-pages/{id}/edit', \App\Livewire\Dashboard\StaticPages\Manage::class)->name('static-pages.edit');
+        Route::get('/static-pages/manage', \App\Livewire\Dashboard\StaticPages\Manage::class)->name('static-pages.manage');
+    });
 
-    // Team Management
-    Route::get('/team', \App\Livewire\Dashboard\Team\Index::class)->name('team.index');
-    Route::get('/team/create', \App\Livewire\Dashboard\Team\Create::class)->name('team.create');
-    Route::get('/team/{id}/edit', \App\Livewire\Dashboard\Team\Edit::class)->name('team.edit');
+    // Team Management - require view team permission
+    Route::middleware(['module.permission:view team'])->group(function () {
+        Route::get('/team', \App\Livewire\Dashboard\Team\Index::class)->name('team.index');
+        Route::get('/team/create', \App\Livewire\Dashboard\Team\Create::class)->name('team.create');
+        Route::get('/team/{id}/edit', \App\Livewire\Dashboard\Team\Edit::class)->name('team.edit');
+    });
 
-    // Blog/News Management
-    Route::get('/blog', \App\Livewire\Dashboard\Blog\Index::class)->name('blog.index');
-    Route::get('/blog/create', \App\Livewire\Dashboard\Blog\Create::class)->name('blog.create');
-    Route::get('/blog/{id}/edit', \App\Livewire\Dashboard\Blog\Create::class)->name('blog.edit');
-    Route::get('/blog/categories', \App\Livewire\Dashboard\Categories\Index::class)->name('blog.categories.index');
+    // Blog/News Management - require view blog permission
+    Route::middleware(['module.permission:view blog'])->group(function () {
+        Route::get('/blog', \App\Livewire\Dashboard\Blog\Index::class)->name('blog.index');
+        Route::get('/blog/create', \App\Livewire\Dashboard\Blog\Create::class)->name('blog.create');
+        Route::get('/blog/{id}/edit', \App\Livewire\Dashboard\Blog\Create::class)->name('blog.edit');
+        Route::get('/blog/categories', \App\Livewire\Dashboard\Categories\Index::class)->name('blog.categories.index');
+    });
 
-    // Events Management
-    Route::get('/events', \App\Livewire\Dashboard\Events\Index::class)->name('events.index');
-    Route::get('/events/create', \App\Livewire\Dashboard\Events\Manage::class)->name('events.create');
-    Route::get('/events/{id}/edit', \App\Livewire\Dashboard\Events\Manage::class)->name('events.edit');
-    Route::get('/events/manage', \App\Livewire\Dashboard\Events\Manage::class)->name('events.manage');
-    Route::get('/events/categories', \App\Livewire\Dashboard\Categories\Index::class)->name('events.categories.index');
+    // Events Management - require view events permission
+    Route::middleware(['module.permission:view events'])->group(function () {
+        Route::get('/events', \App\Livewire\Dashboard\Events\Index::class)->name('events.index');
+        Route::get('/events/create', \App\Livewire\Dashboard\Events\Manage::class)->name('events.create');
+        Route::get('/events/{id}/edit', \App\Livewire\Dashboard\Events\Manage::class)->name('events.edit');
+        Route::get('/events/manage', \App\Livewire\Dashboard\Events\Manage::class)->name('events.manage');
+        Route::get('/events/categories', \App\Livewire\Dashboard\Categories\Index::class)->name('events.categories.index');
+    });
 
-    // Gallery Management
-    Route::get('/gallery/categories', CategoryIndex::class)->name('gallery.categories');
-    Route::get('/gallery/albums', AlbumIndex::class)->name('gallery.albums');
-    Route::get('/gallery/images', ImageIndex::class)->name('gallery.images');
+    // Gallery Management - require view gallery permission
+    Route::middleware(['module.permission:view gallery'])->group(function () {
+        Route::get('/gallery/categories', CategoryIndex::class)->name('gallery.categories');
+        Route::get('/gallery/albums', AlbumIndex::class)->name('gallery.albums');
+        Route::get('/gallery/images', ImageIndex::class)->name('gallery.images');
+    });
 
+    // YouTube Management - require view youtube permission
+    Route::middleware(['module.permission:view youtube'])->group(function () {
+        Route::get('/youtube', \App\Livewire\Dashboard\Youtube\Index::class)->name('youtube.index');
+    });
 
-    // YouTube Management
-    Route::get('/youtube', \App\Livewire\Dashboard\Youtube\Index::class)->name('youtube.index');
+    // Careers Management - require view careers permission
+    Route::middleware(['module.permission:view careers'])->group(function () {
+        Route::get('/careers', \App\Livewire\Dashboard\Careers\JobVacancyIndex::class)->name('careers.index');
+        Route::get('/careers/create', \App\Livewire\Dashboard\Careers\JobVacancyForm::class)->name('careers.create');
+        Route::get('/careers/categories', \App\Livewire\Dashboard\Careers\JobCategoryIndex::class)->name('careers.categories');
+        Route::get('/careers/{id}/edit', \App\Livewire\Dashboard\Careers\JobVacancyForm::class)->name('careers.edit');
+    });
 
-    // Careers Management
-    Route::get('/careers', \App\Livewire\Dashboard\Careers\JobVacancyIndex::class)->name('careers.index');
-    Route::get('/careers/create', \App\Livewire\Dashboard\Careers\JobVacancyForm::class)->name('careers.create');
-    Route::get('/careers/categories', \App\Livewire\Dashboard\Careers\JobCategoryIndex::class)->name('careers.categories');
-    Route::get('/careers/{id}/edit', \App\Livewire\Dashboard\Careers\JobVacancyForm::class)->name('careers.edit');
+    // Users Management - require view users permission
+    Route::middleware(['module.permission:view users'])->group(function () {
+        Route::get('/users', \App\Livewire\Dashboard\Users\Index::class)->name('users.index');
+        Route::get('/users/create', \App\Livewire\Dashboard\Users\Form::class)->name('users.create');
+        Route::get('/users/{user}/edit', \App\Livewire\Dashboard\Users\Form::class)->name('users.edit');
+    });
 
-    // Users Management
-    Route::get('/users', \App\Livewire\Dashboard\Users\Index::class)->name('users.index');
-    Route::get('/users/create', \App\Livewire\Dashboard\Users\Form::class)->name('users.create');
-    Route::get('/users/{user}/edit', \App\Livewire\Dashboard\Users\Form::class)->name('users.edit');
+    // Roles Management - require view roles permission
+    Route::middleware(['module.permission:view roles'])->group(function () {
+        Route::get('/roles', \App\Livewire\Dashboard\Roles\Index::class)->name('roles.index');
+        Route::get('/roles/create', \App\Livewire\Dashboard\Roles\Form::class)->name('roles.create');
+        Route::get('/roles/{role}/edit', \App\Livewire\Dashboard\Roles\Form::class)->name('roles.edit');
+    });
 
-    // Roles Management
-    Route::get('/roles', \App\Livewire\Dashboard\Roles\Index::class)->name('roles.index');
-    Route::get('/roles/create', \App\Livewire\Dashboard\Roles\Form::class)->name('roles.create');
-    Route::get('/roles/{role}/edit', \App\Livewire\Dashboard\Roles\Form::class)->name('roles.edit');
+    // Testimonials Management - require view testimonials permission
+    Route::middleware(['module.permission:view testimonials'])->group(function () {
+        Route::get('/testimonials', \App\Livewire\Dashboard\Testimonials\Index::class)->name('testimonials.index');
+        Route::get('/testimonials/create', \App\Livewire\Dashboard\Testimonials\Manage::class)->name('testimonials.create');
+        Route::get('/testimonials/{id}/edit', \App\Livewire\Dashboard\Testimonials\Manage::class)->name('testimonials.edit');
+        Route::get('/testimonials/manage', \App\Livewire\Dashboard\Testimonials\Manage::class)->name('testimonials.manage');
+    });
 
-    // Testimonials Management
-    Route::get('/testimonials', \App\Livewire\Dashboard\Testimonials\Index::class)->name('testimonials.index');
-    Route::get('/testimonials/create', \App\Livewire\Dashboard\Testimonials\Manage::class)->name('testimonials.create');
-    Route::get('/testimonials/{id}/edit', \App\Livewire\Dashboard\Testimonials\Manage::class)->name('testimonials.edit');
-    Route::get('/testimonials/manage', \App\Livewire\Dashboard\Testimonials\Manage::class)->name('testimonials.manage');
+    // Facilities Management - require view facilities permission
+    Route::middleware(['module.permission:view facilities'])->group(function () {
+        Route::get('/facilities', \App\Livewire\Dashboard\Facilities\Index::class)->name('facilities.index');
+        Route::get('/facilities/create', \App\Livewire\Dashboard\Facilities\Manage::class)->name('facilities.create');
+        Route::get('/facilities/{id}/edit', \App\Livewire\Dashboard\Facilities\Manage::class)->name('facilities.edit');
+        Route::get('/facilities/manage', \App\Livewire\Dashboard\Facilities\Manage::class)->name('facilities.manage');
+    });
 
-    // Facilities Management
-    Route::get('/facilities', \App\Livewire\Dashboard\Facilities\Index::class)->name('facilities.index');
-    Route::get('/facilities/create', \App\Livewire\Dashboard\Facilities\Manage::class)->name('facilities.create');
-    Route::get('/facilities/{id}/edit', \App\Livewire\Dashboard\Facilities\Manage::class)->name('facilities.edit');
-    Route::get('/facilities/manage', \App\Livewire\Dashboard\Facilities\Manage::class)->name('facilities.manage');
-
-    // Departments Management
-    Route::get('/departments', \App\Livewire\Dashboard\Departments\Index::class)->name('departments.index');
-    Route::get('/departments/create', \App\Livewire\Dashboard\Departments\Manage::class)->name('departments.create');
-    Route::get('/departments/{id}/edit', \App\Livewire\Dashboard\Departments\Manage::class)->name('departments.edit');
-    Route::get('/departments/manage', \App\Livewire\Dashboard\Departments\Manage::class)->name('departments.manage');
-    Route::get('/departments/categories', \App\Livewire\Dashboard\Departments\DepCategories\Index::class)->name('departments.categories.index');
+    // Departments Management - require view departments permission
+    Route::middleware(['module.permission:view departments'])->group(function () {
+        Route::get('/departments', \App\Livewire\Dashboard\Departments\Index::class)->name('departments.index');
+        Route::get('/departments/create', \App\Livewire\Dashboard\Departments\Manage::class)->name('departments.create');
+        Route::get('/departments/{id}/edit', \App\Livewire\Dashboard\Departments\Manage::class)->name('departments.edit');
+        Route::get('/departments/manage', \App\Livewire\Dashboard\Departments\Manage::class)->name('departments.manage');
+        Route::get('/departments/categories', \App\Livewire\Dashboard\Departments\DepCategories\Index::class)->name('departments.categories.index');
+    });
 });
 
 // Profile route (protected)

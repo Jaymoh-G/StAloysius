@@ -148,6 +148,70 @@
                 </div>
             </a>
         </div>
+        @endcanView @canView('team')
+        <div class="col-md-3">
+            <a
+                href="{{ route('dashboard.team.index') }}"
+                class="text-decoration-none"
+            >
+                <div class="card card-compact shadow h-100">
+                    <div class="card-body text-center">
+                        <i class="fa fa-users fa-2x text-info mb-2"></i>
+                        <h6 class="card-title">
+                            Team Members <span>({{ $teamCount }})</span>
+                        </h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+        @endcanView @canView('departments')
+        <div class="col-md-3">
+            <a
+                href="{{ route('dashboard.departments.index') }}"
+                class="text-decoration-none"
+            >
+                <div class="card card-compact shadow h-100">
+                    <div class="card-body text-center">
+                        <i class="fa fa-building fa-2x text-warning mb-2"></i>
+                        <h6 class="card-title">
+                            Departments <span>({{ $departmentCount }})</span>
+                        </h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+        @endcanView @canView('facilities')
+        <div class="col-md-3">
+            <a
+                href="{{ route('dashboard.facilities.index') }}"
+                class="text-decoration-none"
+            >
+                <div class="card card-compact shadow h-100">
+                    <div class="card-body text-center">
+                        <i class="fa fa-cogs fa-2x text-dark mb-2"></i>
+                        <h6 class="card-title">
+                            Facilities <span>({{ $facilityCount }})</span>
+                        </h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+        @endcanView @canView('users')
+        <div class="col-md-3">
+            <a
+                href="{{ route('dashboard.users.index') }}"
+                class="text-decoration-none"
+            >
+                <div class="card card-compact shadow h-100">
+                    <div class="card-body text-center">
+                        <i class="fa fa-user-cog fa-2x text-primary mb-2"></i>
+                        <h6 class="card-title">
+                            Users <span>({{ $userCount }})</span>
+                        </h6>
+                    </div>
+                </div>
+            </a>
+        </div>
         @endcanView @canView('testimonials')
         <div class="col-md-3">
             <a
@@ -169,115 +233,160 @@
         @endcanView
     </div>
 
-    <!-- Recent Items Section -->
+    <!-- Recent Items + Trends Section -->
     <div class="row mt-5">
-        <div class="col-12">
-            <div class="row">
+        <div class="col-md-6">
+            <div class="row g-3">
                 @canView('blog')
                 <div class="col-md-6">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <div class="card card-compact h-100">
-                                <div class="card-header bg-primary text-white">
-                                    Recent News
-                                </div>
-                                <ul class="list-group list-group-flush">
-                                    @foreach($recentBlogs as $item)
-                                    <li class="list-group-item">
-                                        <a
-                                            target="_blank"
-                                            href="{{ route('news.single', $item->slug) }}"
-                                            class="fw-bold"
-                                            >{{ $item->title }}</a
-                                        ><br />
-                                        <small
-                                            class="text-muted"
-                                            >{{ $item->created_at->format('M d, Y') }}</small
-                                        >
-                                    </li>
-                                    @endforeach
-                                </ul>
-                            </div>
+                    <div class="card card-compact h-100">
+                        <div class="card-header bg-primary text-white">
+                            Recent News
                         </div>
-                        @endcanView @canView('events')
-                        <div class="col-md-6">
-                            <div class="card card-compact h-100">
-                                <div class="card-header bg-success text-white">
-                                    Recent Events
-                                </div>
-                                <ul class="list-group list-group-flush">
-                                    @foreach($recentEvents as $item)
-                                    <li class="list-group-item">
-                                        <a
-                                            target="_blank"
-                                            href="{{ route('event', $item->slug) }}"
-                                            class="fw-bold"
-                                            >{{ $item->name ?? $item->title }}</a
-                                        ><br />
-                                        <small
-                                            class="text-muted"
-                                            >{{ $item->start_date ? \Carbon\Carbon::parse($item->start_date)->format('M d, Y') : '' }}</small
-                                        >
-                                    </li>
-                                    @endforeach
-                                </ul>
-                            </div>
+                        <ul class="list-group list-group-flush">
+                            @foreach($recentBlogs as $item)
+                            <li class="list-group-item">
+                                <a
+                                    target="_blank"
+                                    href="{{ route('news.single', $item->slug) }}"
+                                    class="fw-bold"
+                                    >{{ $item->title }}</a
+                                ><br />
+                                <small
+                                    class="text-muted"
+                                    >{{ $item->created_at->format('M d, Y') }}</small
+                                >
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                @endcanView @canView('events')
+                <div class="col-md-6">
+                    <div class="card card-compact h-100">
+                        <div class="card-header bg-success text-white">
+                            Recent Events
                         </div>
-                        @endcanView @canView('testimonials')
-                        <div class="col-md-6">
-                            <div class="card card-compact h-100">
-                                <div class="card-header bg-info text-white">
-                                    Recent Testimonials
-                                </div>
-                                <ul class="list-group list-group-flush">
-                                    @foreach($recentTestimonials as $item)
-                                    <li class="list-group-item">
-                                        <a
-                                            target="_blank"
-                                            href="{{ route('testimonials.show', $item->slug) }}"
-                                            class="fw-bold"
-                                            >{{ $item->name }}</a
-                                        ><br />
-                                        <small
-                                            class="text-muted"
-                                            >{{ $item->created_at->format('M d, Y') }}</small
-                                        >
-                                    </li>
-                                    @endforeach
-                                </ul>
-                            </div>
+                        <ul class="list-group list-group-flush">
+                            @foreach($recentEvents as $item)
+                            <li class="list-group-item">
+                                <a
+                                    target="_blank"
+                                    href="{{ route('event', $item->slug) }}"
+                                    class="fw-bold"
+                                    >{{ $item->name ?? $item->title }}</a
+                                ><br />
+                                <small
+                                    class="text-muted"
+                                    >{{ $item->start_date ? \Carbon\Carbon::parse($item->start_date)->format('M d, Y') : '' }}</small
+                                >
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                @endcanView @canView('testimonials')
+                <div class="col-md-6">
+                    <div class="card card-compact h-100">
+                        <div class="card-header bg-info text-white">
+                            Recent Testimonials
                         </div>
-                        @endcanView @canView('gallery')
-                        <div class="col-md-6">
-                            <div class="card card-compact h-100">
-                                <div class="card-header bg-danger text-white">
-                                    Recent Albums
-                                </div>
-                                <ul class="list-group list-group-flush">
-                                    @foreach($recentAlbums as $item)
-                                    <li class="list-group-item">
-                                        <a
-                                            target="_blank"
-                                            href="{{ route('gallery.album', $item->slug) }}"
-                                            class="fw-bold truncate-title"
-                                            >{{ $item->title }}</a
-                                        ><br />
-                                        <small
-                                            class="text-muted"
-                                            >{{ $item->created_at->format('M d, Y') }}</small
-                                        >
-                                    </li>
-                                    @endforeach
-                                </ul>
-                            </div>
+                        <ul class="list-group list-group-flush">
+                            @foreach($recentTestimonials as $item)
+                            <li class="list-group-item">
+                                <a
+                                    target="_blank"
+                                    href="{{ route('testimonials.show', $item->slug) }}"
+                                    class="fw-bold"
+                                    >{{ $item->name }}</a
+                                ><br />
+                                <small
+                                    class="text-muted"
+                                    >{{ $item->created_at->format('M d, Y') }}</small
+                                >
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                @endcanView @canView('gallery')
+                <div class="col-md-6">
+                    <div class="card card-compact h-100">
+                        <div class="card-header bg-danger text-white">
+                            Recent Albums
                         </div>
-                        @endcanView
+                        <ul class="list-group list-group-flush">
+                            @foreach($recentAlbums as $item)
+                            <li class="list-group-item">
+                                <a
+                                    target="_blank"
+                                    href="{{ route('gallery.album', $item->slug) }}"
+                                    class="fw-bold truncate-title"
+                                    >{{ $item->title }}</a
+                                ><br />
+                                <small
+                                    class="text-muted"
+                                    >{{ $item->created_at->format('M d, Y') }}</small
+                                >
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                @endcanView @canView('youtube')
+                <div class="col-md-6">
+                    <div class="card card-compact h-100">
+                        <div class="card-header bg-danger text-white">
+                            Recent Videos
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            @foreach($recentVideos as $item)
+                            <li class="list-group-item">
+                                <a
+                                    target="_blank"
+                                    href="{{ route('videos') }}"
+                                    class="fw-bold truncate-title"
+                                    >{{ $item->title }}</a
+                                ><br />
+                                <small
+                                    class="text-muted"
+                                    >{{ $item->created_at->format('M d, Y') }}</small
+                                >
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                @endcanView @canView('careers')
+                <div class="col-md-6">
+                    <div class="card card-compact h-100">
+                        <div class="card-header bg-secondary text-white">
+                            Recent Careers
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            @foreach($recentCareers as $item)
+                            <li class="list-group-item">
+                                <a
+                                    target="_blank"
+                                    href="{{ route('careers.show', $item->slug) }}"
+                                    class="fw-bold truncate-title"
+                                    >{{ $item->title }}</a
+                                ><br />
+                                <small
+                                    class="text-muted"
+                                    >{{ $item->created_at->format('M d, Y') }}</small
+                                >
+                            </li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
                 @endcanView
 
-                <div class="col-md-6">
-                    <div class="card card-compact h-100">
+                <!-- 👇 Trends Section placed last here -->
+                @canView('blog')
+                <div class="col-md-12">
+                    <div class="card card-compact h-100 mt-3">
                         <div class="card-header bg-light">
                             Trends (Last 6 Months)
                         </div>
@@ -286,8 +395,12 @@
                         </div>
                     </div>
                 </div>
+                @endcanView
             </div>
         </div>
+        @canView('blog')
+        <div class="col-md-6">@livewire('dashboard.recent-activity')</div>
+        @endcanView
     </div>
 </div>
 
@@ -295,52 +408,12 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const ctxTrends = document.getElementById('dashboardTrendsChart').getContext('2d');
+
     new Chart(ctxTrends, {
         type: 'line',
         data: {
             labels: {!! json_encode($trends['labels']) !!},
-            datasets: [
-                {
-                    label: 'News',
-                    data: {!! json_encode($trends['blogs']) !!},
-                    borderColor: '#0d6efd',
-                    backgroundColor: 'rgba(13,110,253,0.1)',
-                    fill: true,
-                    tension: 0.4
-                },
-                {
-                    label: 'Events',
-                    data: {!! json_encode($trends['events']) !!},
-                    borderColor: '#198754',
-                    backgroundColor: 'rgba(25,135,84,0.1)',
-                    fill: true,
-                    tension: 0.4
-                },
-                {
-                    label: 'Videos',
-                    data: {!! json_encode($trends['videos']) !!},
-                    borderColor: '#dc3545',
-                    backgroundColor: 'rgba(220,53,69,0.1)',
-                    fill: true,
-                    tension: 0.4
-                },
-                {
-                    label: 'Albums',
-                    data: {!! json_encode($trends['albums']) !!},
-                    borderColor: '#0dcaf0',
-                    backgroundColor: 'rgba(13,202,240,0.1)',
-                    fill: true,
-                    tension: 0.4
-                },
-                {
-                    label: 'Testimonials',
-                    data: {!! json_encode($trends['testimonials']) !!},
-                    borderColor: '#adb5bd',
-                    backgroundColor: 'rgba(173,181,189,0.1)',
-                    fill: true,
-                    tension: 0.4
-                }
-            ]
+            datasets: {!! json_encode($chartDatasets) !!}
         },
         options: {
             responsive: true,

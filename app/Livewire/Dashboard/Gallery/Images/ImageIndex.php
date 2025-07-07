@@ -9,6 +9,7 @@ use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use App\Services\ActivityService;
 
 class ImageIndex extends Component
 {
@@ -102,7 +103,6 @@ class ImageIndex extends Component
                 'type' => 'success',
                 'message' => $addedCount . ' existing images added to album successfully!'
             ]);
-
         } catch (\Exception $e) {
             Log::error('Error adding existing images: ' . $e->getMessage());
 
@@ -172,6 +172,13 @@ class ImageIndex extends Component
             Log::info('Upload process completed. Successfully uploaded: ' . $uploadCount . ' images');
 
             if ($uploadCount > 0) {
+                // Log the upload activity
+                ActivityService::uploaded('gallery', "Uploaded {$uploadCount} images to album", [
+                    'album_id' => $this->album_id,
+                    'upload_count' => $uploadCount,
+                    'caption' => $this->caption
+                ]);
+
                 $this->reset(['album_id', 'caption', 'images']);
 
                 session()->flash('message', $uploadCount . ' images uploaded successfully!');
@@ -190,7 +197,6 @@ class ImageIndex extends Component
                     'message' => 'No valid images were uploaded.'
                 ]);
             }
-
         } catch (\Exception $e) {
             // Log the error for debugging
             Log::error('Upload error: ' . $e->getMessage());
@@ -325,13 +331,12 @@ class ImageIndex extends Component
             if ($deletedCount > 0) {
                 $this->alertType = 'success';
                 $this->alertMessage = "$deletedCount images deleted successfully" .
-                                     (count($errors) > 0 ? ". " . count($errors) . " errors occurred." : "!");
+                    (count($errors) > 0 ? ". " . count($errors) . " errors occurred." : "!");
             } else if (count($errors) > 0) {
                 $this->alertType = 'error';
                 $this->alertMessage = "Failed to delete images: " . implode(", ", array_slice($errors, 0, 3)) .
-                                     (count($errors) > 3 ? " and " . (count($errors) - 3) . " more errors" : "");
+                    (count($errors) > 3 ? " and " . (count($errors) - 3) . " more errors" : "");
             }
-
         } catch (\Exception $e) {
             Log::error('Error deleting storage images: ' . $e->getMessage());
             $this->alertType = 'error';
@@ -351,7 +356,7 @@ class ImageIndex extends Component
     {
         $query = BlogImage::query()
             ->with('album')
-            ->where(function($q) {
+            ->where(function ($q) {
                 $q->where('caption', 'like', '%' . $this->searchTerm . '%');
             });
 
@@ -391,7 +396,7 @@ class ImageIndex extends Component
         }
 
         // Sort images - unused first, then by path
-        usort($existingImages, function($a, $b) {
+        usort($existingImages, function ($a, $b) {
             if ($a['isUsed'] !== $b['isUsed']) {
                 return $a['isUsed'] ? 1 : -1; // Unused images first
             }
@@ -405,12 +410,3 @@ class ImageIndex extends Component
         ])->layout('components.layouts.dashboard');
     }
 }
-
-
-
-
-
-
-
-
-

@@ -2,11 +2,12 @@
 
 namespace App\Livewire\Dashboard\Blog;
 
-use Storage;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use App\Models\BlogPost;
 use App\Models\Category;
 use App\Models\BlogImage;
+use App\Services\ActivityService;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 
@@ -142,8 +143,10 @@ class Create extends Component
         if ($this->postId) {
             $blog = BlogPost::findOrFail($this->postId);
             $blog->update($data);
+            ActivityService::updated($blog, 'blog', "Updated news post: {$blog->title}");
         } else {
             $blog = BlogPost::create($data);
+            ActivityService::created($blog, 'blog', "Created news post: {$blog->title}");
         }
 
         if ($this->banner) {
@@ -239,11 +242,3 @@ class Create extends Component
         return view('livewire.dashboard.blog.create')->layout('components.layouts.dashboard');
     }
 }
-
-
-
-
-
-
-
-

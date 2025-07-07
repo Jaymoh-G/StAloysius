@@ -83,155 +83,161 @@
                             <span class="nav-text">Dashboard</span>
                         </a>
                     </li>
-
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="fas fa-file-alt"></i>
-                            <span class="nav-text">Pages</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="{{ route('dashboard.static-pages.index') }}">Static Pages</a></li>
-                            <li><a href="{{ route('dashboard.static-pages.create') }}">Add New Page</a></li>
-                            <li><a href="./app-profile.html">Profile</a></li>
-                            <li><a href="./post-details.html">Post Details</a></li>
-                            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Email</a>
-                                <ul aria-expanded="false">
-                                    <li><a href="./email-compose.html">Compose</a></li>
-                                    <li><a href="./email-inbox.html">Inbox</a></li>
-                                    <li><a href="./email-read.html">Read</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="./app-calender.html">Calendar</a></li>
-                            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Shop</a>
-                                <ul aria-expanded="false">
-                                    <li><a href="./ecom-product-grid.html">Product Grid</a></li>
-                                    <li><a href="./ecom-product-list.html">Product List</a></li>
-                                    <li><a href="./ecom-product-detail.html">Product Details</a></li>
-                                    <li><a href="./ecom-product-order.html">Order</a></li>
-                                    <li><a href="./ecom-checkout.html">Checkout</a></li>
-                                    <li><a href="./ecom-invoice.html">Invoice</a></li>
-                                    <li><a href="./ecom-customers.html">Customers</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="fas fa-users"></i>
-                            <span class="nav-text">Our Team</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="{{ route('dashboard.team.index') }}">View Team</a></li>
-                            <li><a href="{{ route('dashboard.team.create') }}">Add Member </a></li>
-                        </ul>
-                    </li>
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+    <li>
+                        @canView('blog')
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="fas fa-newspaper"></i>
                             <span class="nav-text">Media Centre</span>
                         </a>
+                        @endcanView
                         <ul aria-expanded="false">
+                            @canView('blog')
                             <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">News</a>
                                 <ul aria-expanded="false">
                                     <li><a href="{{ route('dashboard.blog.index') }}">News</a></li>
+                                    @canCreate('blog')
                                     <li><a href="{{ route('dashboard.blog.create') }}">Add News</a></li>
+                                    @endcanCreate
                                     <li><a href="{{ route('dashboard.blog.categories.index') }}">News Categories</a>
                                     </li>
                                 </ul>
                             </li>
+                            @endcanView
+                            @canView('events')
                             <li><a class="has-arrow" href="#" aria-expanded="false">Events</a>
                                 <ul aria-expanded="false">
                                     <li><a href="{{ route('dashboard.events.index') }}">View Events</a></li>
+                                    @canCreate('events')
                                     <li><a href="{{ route('dashboard.events.create') }}">Add an Events</a></li>
+                                    @endcanCreate
                                     <li><a href="{{ route('dashboard.events.categories.index') }}">Event Categories</a>
                                     </li>
                                 </ul>
                             </li>
+                            @endcanView
+                            @canView('gallery')
                             <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Gallery</a>
                                 <ul aria-expanded="false">
                                     <li><a href="{{ route('dashboard.gallery.categories') }}">Gallery Categories</a>
                                     </li>
                                     <li><a href="{{ route('dashboard.gallery.images') }}">Images</a></li>
                                     <li><a href="{{ route('dashboard.gallery.albums') }}">Albums</a></li>
+                                    @canView('youtube')
                                     <li><a href="{{ route('dashboard.youtube.index') }}">Youtube Videos</a></li>
+                                    @endcanView
                                 </ul>
                             </li>
+                            @endcanView
+                            @canView('careers')
                             <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Careers</a>
                                 <ul aria-expanded="false">
                                     <li><a href="{{ route('dashboard.careers.index') }}">Job Vacancies</a></li>
+                                    @canCreate('careers')
                                     <li><a href="{{ route('dashboard.careers.create') }}">Add Job Vacancy</a></li>
+                                    @endcanCreate
                                     <li><a href="{{ route('dashboard.careers.categories') }}">Job Categories</a></li>
                                 </ul>
                             </li>
+                            @endcanView
                         </ul>
                     </li>
+
+
+                    @canView('team')
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="fas fa-users"></i>
+                            <span class="nav-text">Our Team</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="{{ route('dashboard.team.index') }}">View Team</a></li>
+                            @canCreate('team')
+                            <li><a href="{{ route('dashboard.team.create') }}">Add Member </a></li>
+                            @endcanCreate
+                        </ul>
+                    </li>
+                    @endcanView
+
+
                     <li>
 
+                    @canView('departments')
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="fas fa-building"></i>
                             <span class="nav-text">Departments</span>
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="{{ route('dashboard.departments.index') }}">List</a></li>
+                            @canCreate('departments')
                             <li><a href="{{ route('dashboard.departments.create') }}">Add</a></li>
+                            @endcanCreate
                             <li><a href="{{ route('dashboard.departments.categories.index') }}">Categories</a></li>
                         </ul>
                     </li>
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="fas fa-user-shield"></i>
-                            <span class="nav-text">Users & Roles</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="{{ route('dashboard.users.index') }}">Users</a></li>
-                            <li><a href="{{ route('dashboard.users.create') }}">Add User</a></li>
-                            <li><a href="{{ route('dashboard.roles.index') }}">Roles</a></li>
-                            <li><a href="{{ route('dashboard.roles.create') }}">Add Role</a></li>
-                        </ul>
-                    </li>
+                    @endcanView
+
+                         @canView('testimonials')
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="fas fa-comment-dots"></i>
                             <span class="nav-text">Testimonials</span>
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="{{ route('dashboard.testimonials.index') }}">List</a></li>
+                            @canCreate('testimonials')
                             <li><a href="{{ route('dashboard.testimonials.create') }}">Add</a></li>
+                            @endcanCreate
                         </ul>
                     </li>
+                    @endcanView
+                    @canView('facilities')
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="fas fa-school"></i>
                             <span class="nav-text">Facilities</span>
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="{{ route('dashboard.facilities.index') }}">List</a></li>
+                            @canCreate('facilities')
                             <li><a href="{{ route('dashboard.facilities.create') }}">Add</a></li>
+                            @endcanCreate
                         </ul>
                     </li>
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="fas fa-user-graduate"></i>
-                            <span class="nav-text">Admissions</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="table-bootstrap-basic.html">Bootstrap</a></li>
-                            <li><a href="table-datatable-basic.html">Datatable</a></li>
-                        </ul>
-                    </li>
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="fas fa-hands-helping"></i>
-                            <span class="nav-text">Support Us</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="table-bootstrap-basic.html">Bootstrap</a></li>
-                            <li><a href="table-datatable-basic.html">Datatable</a></li>
-                        </ul>
-                    </li>
+                    @endcanView
 
+                    @canView('static_pages')
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="fas fa-door-open"></i>
-                            <span class="nav-text">Portals</span>
+                            <i class="fas fa-file-alt"></i>
+                            <span class="nav-text">Pages</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="table-bootstrap-basic.html">Bootstrap</a></li>
-                            <li><a href="table-datatable-basic.html">Datatable</a></li>
+                            <li><a href="{{ route('dashboard.static-pages.index') }}">Static Pages</a></li>
+                            @canCreate('static_pages')
+                            <li><a href="{{ route('dashboard.static-pages.create') }}">Add New Page</a></li>
+                            @endcanCreate
                         </ul>
                     </li>
+                    @endcanView
+                    @canView('users')
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="fas fa-user-shield"></i>
+                            <span class="nav-text">Users & Roles</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="{{ route('dashboard.users.index') }}">Users</a></li>
+                            @canCreate('users')
+                            <li><a href="{{ route('dashboard.users.create') }}">Add User</a></li>
+                            @endcanCreate
+                            @canView('roles')
+                            <li><a href="{{ route('dashboard.roles.index') }}">Roles</a></li>
+                            @canCreate('roles')
+                            <li><a href="{{ route('dashboard.roles.create') }}">Add Role</a></li>
+                            @endcanCreate
+                            @endcanView
+                        </ul>
+                    </li>
+                    @endcanView
+
+
+
+
 
                     <li>
                         <form method="POST" action="{{ route('logout') }}" style="display: inline;">
