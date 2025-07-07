@@ -1,8 +1,16 @@
 <div>
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Recent Activity Timeline</h4>
-            <div class="card-tools">
+            <div class="d-flex justify-content-between align-items-center">
+                <h4 class="card-title mb-0">Recent Activity Timeline</h4>
+                <a
+                    href="{{ route('dashboard.activities.index') }}"
+                    class="btn btn-sm btn-outline-primary"
+                >
+                    <i class="fas fa-list me-1"></i>View All
+                </a>
+            </div>
+            <div class="card-tools mt-2">
                 <div class="d-flex gap-2">
                     <!-- Time Filter -->
                     <select

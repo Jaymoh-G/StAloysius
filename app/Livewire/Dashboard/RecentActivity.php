@@ -42,7 +42,7 @@ class RecentActivity extends Component
             $query->where('module', $this->moduleFilter);
         }
 
-        $this->activities = $query->limit(9)->get();
+        $this->activities = $query->limit(8)->get();
     }
 
     public function updatedFilter()

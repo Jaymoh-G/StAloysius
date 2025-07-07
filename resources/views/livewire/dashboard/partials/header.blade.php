@@ -235,6 +235,11 @@
                     </li>
                     @endcanView
 
+                    <li><a class="has-arrow" href="{{ route('dashboard.activities.index') }}" aria-expanded="false">
+                            <i class="fas fa-clock"></i>
+                            <span class="nav-text">Activity Logs</span>
+                        </a>
+                    </li>
 
 
 

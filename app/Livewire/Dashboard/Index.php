@@ -25,12 +25,12 @@ class Index extends Component
     public function render()
     {
         // Recent items - only show if user has permission to view
-        $recentBlogs = $this->canView('blog') ? BlogPost::latest()->take(3)->get() : collect();
-        $recentEvents = $this->canView('events') ? EventModel::latest()->take(3)->get() : collect();
-        $recentVideos = $this->canView('youtube') ? YoutubeVideo::latest()->take(3)->get() : collect();
-        $recentAlbums = $this->canView('gallery') ? Album::latest()->take(3)->get() : collect();
-        $recentCareers = $this->canView('careers') ? JobVacancy::latest()->take(3)->get() : collect();
-        $recentTestimonials = $this->canView('testimonials') ? Testimonial::latest()->take(3)->get() : collect();
+        $recentBlogs = $this->canView('blog') ? BlogPost::latest()->take(2)->get() : collect();
+        $recentEvents = $this->canView('events') ? EventModel::latest()->take(2)->get() : collect();
+        $recentVideos = $this->canView('youtube') ? YoutubeVideo::latest()->take(2)->get() : collect();
+        $recentAlbums = $this->canView('gallery') ? Album::latest()->take(2)->get() : collect();
+        $recentCareers = $this->canView('careers') ? JobVacancy::latest()->take(2)->get() : collect();
+        $recentTestimonials = $this->canView('testimonials') ? Testimonial::latest()->take(2)->get() : collect();
 
         $today = now()->startOfDay();
         $upcomingEventCount = $this->canView('events') ? EventModel::where('start_date', '>=', $today)->count() : 0;

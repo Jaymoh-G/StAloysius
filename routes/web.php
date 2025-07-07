@@ -169,6 +169,9 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')
         Route::get('/departments/manage', \App\Livewire\Dashboard\Departments\Manage::class)->name('departments.manage');
         Route::get('/departments/categories', \App\Livewire\Dashboard\Departments\DepCategories\Index::class)->name('departments.categories.index');
     });
+
+    // Activity Log - accessible to all authenticated dashboard users
+    Route::get('/dashboard/activities', \App\Livewire\Dashboard\ActivityIndex::class)->name('activities.index');
 });
 
 // Profile route (protected)
