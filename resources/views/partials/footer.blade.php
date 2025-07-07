@@ -80,10 +80,11 @@
                      </div>
                      <div class="col-md-6 align-self-center">
                          <ul class="footer-social">
-                             <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                             <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                             <li><a href="#"><i class="fab fa-whatsapp"></i></a></li>
-                             <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+                             <li><a href="https://web.facebook.com/www.sagnai.org/"><i class="fab fa-facebook-f"></i></a></li>
+                             <li><a href="https://www.linkedin.com/company/st.-aloysius-gonzaga-secondary-school"><i class="fab fa-linkedin-in"></i></a></li>
+                             <li><a href="https://www.instagram.com/stalskenya/"><i class="fab fa-instagram"></i></a></li>
+                             <li><a href="https://wa.me/254715409166"><i class="fab fa-whatsapp"></i></a></li>
+                             <li><a href="https://www.youtube.com/channel/UC0-000000000000000000000000000000000000000"><i class="fab fa-youtube"></i></a></li>
                          </ul>
                      </div>
                  </div>
