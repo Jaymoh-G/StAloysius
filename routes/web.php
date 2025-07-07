@@ -184,7 +184,7 @@ Route::post('/logout', function () {
     Auth::logout();
     Session::invalidate();
     Session::regenerateToken();
-    return redirect('/');
+    return redirect('/login');
 })->middleware('auth')->name('logout');
 
 // GET logout route for direct access

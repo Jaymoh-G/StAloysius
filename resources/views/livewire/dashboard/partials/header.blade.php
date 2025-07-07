@@ -19,13 +19,7 @@
                             </div>
                         </div>
                         <ul class="navbar-nav header-right">
-                            <li class="nav-item d-flex align-items-center">
-                                <div class="input-group search-area">
-                                    <input type="text" class="form-control" placeholder="Search here...">
-                                    <span class="input-group-text"><a href="javascript:void(0)"><i
-                                                class="flaticon-381-search-2"></i></a></span>
-                                </div>
-                            </li>
+
 
                             <li class="nav-item dropdown header-profile">
                                 <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
@@ -235,7 +229,7 @@
                     </li>
                     @endcanView
 
-                    <li><a class="has-arrow" href="{{ route('dashboard.activities.index') }}" aria-expanded="false">
+                    <li><a class="" href="{{ route('dashboard.activities.index') }}" aria-expanded="false">
                             <i class="fas fa-clock"></i>
                             <span class="nav-text">Activity Logs</span>
                         </a>
@@ -247,7 +241,7 @@
                     <li>
                         <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                             @csrf
-                            <button type="submit" class="has-arrow" style="background: none; border: none; width: 100%; text-align: left; padding: 0.75rem 1.5rem; color: inherit; text-decoration: none; display: flex; align-items: center;">
+                            <button type="submit" class="" style="background: none; border: none; width: 100%; text-align: left; padding: 0.75rem 1.5rem; color: inherit; text-decoration: none; display: flex; align-items: center;">
                                 <i class="fas fa-sign-out-alt"></i>
                                 <span class="nav-text">Logout</span>
                             </button>
