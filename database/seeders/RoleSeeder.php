@@ -46,6 +46,7 @@ class RoleSeeder extends Seeder
             'static_pages' => ['view', 'create', 'edit', 'delete'],
             'team' => ['view', 'create', 'edit', 'delete'],
             'youtube' => ['view', 'create', 'edit', 'delete'],
+            'projects' => ['view', 'create', 'edit', 'delete', 'publish'],
 
         ];
 
@@ -112,6 +113,10 @@ class RoleSeeder extends Seeder
             'view youtube',
             'create youtube',
             'edit youtube',
+            'view projects',
+            'create projects',
+            'edit projects',
+            'publish projects',
 
         ];
         $editorRole->givePermissionTo($editorPermissions);
@@ -128,6 +133,7 @@ class RoleSeeder extends Seeder
             'view youtube',
             'view departments',
             'view facilities',
+            'view projects',
         ];
         $userRole->givePermissionTo($userPermissions);
 

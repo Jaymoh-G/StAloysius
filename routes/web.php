@@ -170,6 +170,13 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')
         Route::get('/departments/categories', \App\Livewire\Dashboard\Departments\DepCategories\Index::class)->name('departments.categories.index');
     });
 
+    // Projects Management - require view projects permission
+    Route::middleware(['module.permission:view projects'])->group(function () {
+        Route::get('/projects', \App\Livewire\Dashboard\Projects\Index::class)->name('projects.index');
+        Route::get('/projects/create', \App\Livewire\Dashboard\Projects\Form::class)->name('projects.create');
+        Route::get('/projects/{project}/edit', \App\Livewire\Dashboard\Projects\Form::class)->name('projects.edit');
+    });
+
     // Activity Log - accessible to all authenticated dashboard users
     Route::get('/dashboard/activities', \App\Livewire\Dashboard\ActivityIndex::class)->name('activities.index');
 });

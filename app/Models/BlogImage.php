@@ -11,6 +11,7 @@ class BlogImage extends Model
         'event_model_id',
         'static_page_id',
         'album_id',
+        'project_id',
         'path',
         'caption',
         'category',
@@ -45,6 +46,11 @@ class BlogImage extends Model
     public function facility()
     {
         return $this->belongsTo(FacilityModel::class, 'facility_model_id');
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
     }
 
     public function imageable()
