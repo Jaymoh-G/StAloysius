@@ -1,18 +1,56 @@
 on: push
-name: 🚀 Deploy website on push
+name: 🚀 Deploy Laravel App on Push
+
 jobs:
   web-deploy:
-    name: 🎉 Deploy
+    name: 🎉 Build & Deploy
     runs-on: ubuntu-latest
+
     steps:
-      - name: 🚚 Get latest code
+      - name: 📥 Checkout latest code
         uses: actions/checkout@v2
 
-      - name: 📂 Sync files
+      - name: 🧰 Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2' # Match your server version
+          extensions: mbstring, bcmath, openssl, curl, tokenizer, xml
+
+      - name: 🔐 Copy .env.example to .env
+        run: cp .env.example .env
+
+      - name: 🧶 Install Composer dependencies
+        run: composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
+
+      - name: ⚙️ Run Laravel optimizations
+        run: |
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
+
+      - name: 🧰 Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # Adjust as needed
+
+      - name: 📦 Install Node dependencies
+        run: npm install
+
+      - name: 🛠️ Build assets
+        run: npm run build  # or `npm run prod` if using Laravel Mix
+
+      - name: 📂 Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
           server: ftp.sagnairobi.org
           username: ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
           server-dir: /public_html/staging.sagnairobi.org/
-
+          exclude: |
+            **/node_modules/**
+            **/tests/**
+            **/.git/**
+            .gitignore
+            .github/**
+            .env
+            storage/**
