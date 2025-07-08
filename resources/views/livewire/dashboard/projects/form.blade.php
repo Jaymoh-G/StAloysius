@@ -32,28 +32,36 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="slug" class="form-label"
-                                                >Slug *</label
+                                            <label
+                                                for="department_id"
+                                                class="form-label"
+                                                >Department</label
                                             >
-                                            <input
-                                                wire:model="slug"
-                                                type="text"
-                                                class="form-control @error('slug') is-invalid @enderror"
-                                                id="slug"
-                                            />
-                                            @error('slug')
+                                            <select
+                                                wire:model="department_id"
+                                                class="form-select @error('department_id') is-invalid @enderror"
+                                                id="department_id"
+                                            >
+                                                <option value="">
+                                                    -- Select Department --
+                                                </option>
+                                                @foreach($departments as $department)
+                                                <option
+                                                    value="{{ $department->id }}"
+                                                >
+                                                    {{ $department->name }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                            @error('department_id')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
                                             @enderror
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="row">
-                                    <!-- Client Name and Location fields removed -->
                                 </div>
 
                                 <div class="row">
@@ -100,41 +108,9 @@
                                 </div>
 
                                 <div class="row">
+
+
                                     <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label
-                                                for="department_id"
-                                                class="form-label"
-                                                >Department</label
-                                            >
-                                            <select
-                                                wire:model="department_id"
-                                                class="form-select @error('department_id') is-invalid @enderror"
-                                                id="department_id"
-                                            >
-                                                <option value="">
-                                                    -- Select Department --
-                                                </option>
-                                                @foreach($departments as
-                                                $department)
-                                                <option
-                                                    value="{{ $department->id }}"
-                                                >
-                                                    {{ $department->name }}
-                                                </option>
-                                                @endforeach
-                                            </select>
-                                            @error('department_id')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <!-- Technologies Used field removed -->
-                                    </div>
-                                    <div class="col-md-4">
                                         <div class="mb-3">
                                             <label
                                                 for="status"
@@ -169,9 +145,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label
@@ -193,26 +167,6 @@
                                             @enderror
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label
-                                        for="short_description"
-                                        class="form-label"
-                                        >Short Description</label
-                                    >
-                                    <textarea
-                                        wire:model="short_description"
-                                        class="form-control @error('short_description') is-invalid @enderror"
-                                        id="short_description"
-                                        rows="3"
-                                        maxlength="500"
-                                    ></textarea>
-                                    @error('short_description')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
                                 </div>
 
                                 <div class="mb-3">
@@ -316,8 +270,7 @@
                                                 >Preview</label
                                             >
                                             <div class="row">
-                                                @foreach($images as $index =>
-                                                $image)
+                                                @foreach($images as $index => $image)
                                                 <div class="col-6 mb-2">
                                                     <img
                                                         src="{{ $image->temporaryUrl() }}"
@@ -341,15 +294,7 @@
                         <div class="row mt-3">
                             <div class="col-12">
                                 <div class="d-flex justify-content-between">
-                                    <a
-                                        href="{{
-                                            route('dashboard.projects.index')
-                                        }}"
-                                        class="btn btn-secondary"
-                                    >
-                                        <i class="fas fa-arrow-left"></i> Back
-                                        to Projects
-                                    </a>
+                                    
                                     <button
                                         type="submit"
                                         class="btn btn-primary"

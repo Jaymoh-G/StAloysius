@@ -195,6 +195,20 @@
                         </ul>
                     </li>
                     @endcanView
+                    @canView('projects')
+                         <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="fas fa-school"></i>
+                            <span class="nav-text">Projects</span>
+                        </a>
+
+                        <ul aria-expanded="false">
+                            <li><a href="{{ route('dashboard.projects.index') }}">List</a></li>
+                            @canCreate('projects')
+                            <li><a href="{{ route('dashboard.projects.create') }}">Add</a></li>
+                            @endcanCreate
+                        </ul>
+                    </li>
+                    @endcanView
 
                     @canView('static_pages')
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">

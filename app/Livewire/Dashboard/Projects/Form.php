@@ -15,9 +15,7 @@ class Form extends Component
 
     public $projectId;
     public $title;
-    public $slug;
     public $description;
-    public $short_description;
     public $start_date;
     public $end_date;
     public $status = 'planning';
@@ -34,9 +32,7 @@ class Form extends Component
 
     protected $rules = [
         'title' => 'required|string|max:255',
-        'slug' => 'required|string|max:255|unique:projects,slug',
         'description' => 'required|string',
-        'short_description' => 'nullable|string|max:500',
         'start_date' => 'nullable|date',
         'end_date' => 'nullable|date|after_or_equal:start_date',
         'status' => 'required|in:planning,in_progress,completed,on_hold,cancelled',
@@ -55,7 +51,6 @@ class Form extends Component
             $project = Project::with('images')->findOrFail($project);
             $this->projectId = $project->id;
             $this->title = $project->title;
-            $this->slug = $project->slug;
             // Join paragraphs for editing
             $paragraphs = [];
             for ($i = 1; $i <= 21; $i++) {
@@ -63,7 +58,6 @@ class Form extends Component
                 if ($p) $paragraphs[] = $p;
             }
             $this->description = implode("\n\n", $paragraphs) ?: $project->description;
-            $this->short_description = $project->short_description;
             $this->start_date = $project->start_date ? $project->start_date->format('Y-m-d') : null;
             $this->end_date = $project->end_date ? $project->end_date->format('Y-m-d') : null;
             $this->status = $project->status;
@@ -76,20 +70,13 @@ class Form extends Component
         }
     }
 
-    public function updatedTitle()
-    {
-        $this->slug = Str::slug($this->title);
-    }
-
     public function save()
     {
         $this->validate();
 
         $data = [
             'title' => $this->title,
-            'slug' => $this->slug,
             'description' => $this->description,
-            'short_description' => $this->short_description,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'status' => $this->status,
