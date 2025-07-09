@@ -59,7 +59,7 @@ jobs:
       - name: 📤 Upload deploy.zip via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-          server: ftp.sagnairobi.org
+          server: 102.218.215.23
           username: ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
           server-dir: /public_html/staging.sagnairobi.org/
