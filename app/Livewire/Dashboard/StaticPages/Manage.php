@@ -24,10 +24,10 @@ class Manage extends Component
 
     protected $listeners = ['updateContent', 'pageCreated' => 'refreshPages'];
 
-    public function mount($pageId = null)
+    public function mount($id = null)
     {
-        if ($pageId) {
-            $page = StaticPage::findOrFail($pageId);
+        if ($id) {
+            $page = StaticPage::findOrFail($id);
             $this->pageId = $page->id;
             $this->title = $page->title;
             $this->slug = $page->slug;
@@ -78,6 +78,7 @@ class Manage extends Component
             $titleField = "section_{$i}_title";
             $contentField = "section_{$i}_content";
 
+            // Only load sections that have content (title or content)
             if (!empty($page->$titleField) || !empty($page->$contentField)) {
                 $this->sections[] = [
                     'title' => $page->$titleField,
@@ -247,7 +248,6 @@ class Manage extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.static-pages.manage')
-            ->layout('components.layouts.dashboard');
+        return view('livewire.dashboard.static-pages.manage')->layout('components.layouts.dashboard');
     }
 }

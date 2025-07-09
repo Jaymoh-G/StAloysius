@@ -26,7 +26,7 @@ class Manage extends Component
     protected $listeners = ['updateContent', 'depCreated' => 'refreshDepartments'];
     public $skipCategoryRefresh = false;
 
-    public function mount($depId = null)
+    public function mount($id = null)
     {
         // Get main categories with their subcategories
         $this->depCategories = DepCategory::where('is_main', true)
@@ -61,9 +61,9 @@ class Manage extends Component
         // Add subcategories to the collection
         $this->depCategories = $this->depCategories->concat($subcategories);
 
-        if ($depId) {
-            $this->depId = $depId;
-            $dep = DepartmentModel::with('images')->findOrFail($depId);
+        if ($id) {
+            $this->depId = $id;
+            $dep = DepartmentModel::with('images')->findOrFail($id);
 
             $this->name = $dep->name;
             $this->slug = Str::slug($this->name);

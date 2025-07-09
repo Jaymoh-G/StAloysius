@@ -195,6 +195,9 @@ class Create extends Component
 
             if ($this->imageTemp) {
                 $data['image'] = $this->imageTemp->store('team', 'public');
+            } elseif ($this->teamMemberId && $this->image) {
+                // Preserve existing image when editing and no new image is uploaded
+                $data['image'] = $this->image;
             }
 
             if ($this->teamMemberId) {

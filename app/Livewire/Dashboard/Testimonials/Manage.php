@@ -28,11 +28,11 @@ class Manage extends Component
         ];
     }
 
-    public function mount($testimonialId = null)
+    public function mount($id = null)
     {
-        if ($testimonialId) {
-            $this->testimonialId = $testimonialId;
-            $testimonial = Testimonial::findOrFail($testimonialId);
+        if ($id) {
+            $this->testimonialId = $id;
+                $testimonial = Testimonial::findOrFail($id);
 
             $this->name = $testimonial->name;
             $this->type = $testimonial->type;

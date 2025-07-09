@@ -124,10 +124,10 @@ class AlbumIndex extends Component
 
     public function delete($id)
     {
-        $album = Album::findOrFail($id);
+        $album = Album::with('images')->findOrFail($id);
 
         // Check if album has images
-        if ($album->images->count() > 0) {
+        if ($album->images && $album->images->count() > 0) {
             $this->dispatch('alert', [
                 'type' => 'error',
                 'message' => 'Cannot delete album with images. Remove images first.'
@@ -171,7 +171,3 @@ class AlbumIndex extends Component
         ])->layout('components.layouts.dashboard');
     }
 }
-
-
-
-

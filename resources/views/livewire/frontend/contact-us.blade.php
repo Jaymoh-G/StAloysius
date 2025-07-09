@@ -1,19 +1,24 @@
 <div>
- @section('content')
-  <main class="main">
-
+    @section('content')
+    <main class="main">
         <!-- breadcrumb -->
-        <div class="site-breadcrumb" style="background: url(assets/img/breadcrumb/01.jpg)">
+        <div
+            class="site-breadcrumb"
+            style="background: url(assets/img/breadcrumb/01.jpg)"
+        >
             <div class="container">
-                <h2 class="breadcrumb-title">Contact Us</h2>
+                <h2 class="breadcrumb-title">
+                    {{ $pageData->title ?? 'Contact Us' }}
+                </h2>
                 <ul class="breadcrumb-menu">
-                    <li><a href="index.html">Home</a></li>
-                    <li class="active">Contact Us</li>
+                    <li><a href="{{ route('home') }}">Home</a></li>
+                    <li class="active">
+                        {{ $pageData->title ?? 'Contact Us' }}
+                    </li>
                 </ul>
             </div>
         </div>
         <!-- breadcrumb end -->
-
 
         <!-- contact area -->
         <div class="contact-area py-120">
@@ -26,8 +31,13 @@
                                     <i class="fal fa-map-location-dot"></i>
                                 </div>
                                 <div class="contact-info-content">
-                                    <h5>Office Address</h5>
-                                    <p>25/B Milford, New York, USA</p>
+                                    <h5>
+                                        {{ $pageData->section_1_title ?? 'Office Address' }}
+                                    </h5>
+                                    <p>
+                                        {!! $pageData->section_1_content ??
+                                        '25/B Milford, New York, USA' !!}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -37,8 +47,13 @@
                                     <i class="fal fa-phone-volume"></i>
                                 </div>
                                 <div class="contact-info-content">
-                                    <h5>Call Us</h5>
-                                    <p>+2 123 4565 789</p>
+                                    <h5>
+                                        {{ $pageData->section_2_title ?? 'Call Us' }}
+                                    </h5>
+                                    <p>
+                                        {!! $pageData->section_2_content ?? '+2
+                                        123 4565 789' !!}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -48,8 +63,13 @@
                                     <i class="fal fa-envelopes"></i>
                                 </div>
                                 <div class="contact-info-content">
-                                    <h5>Email Us</h5>
-                                    <p>info@example.com</p>
+                                    <h5>
+                                        {{ $pageData->section_3_title ?? 'Email Us' }}
+                                    </h5>
+                                    <p>
+                                        {!! $pageData->section_3_content ??
+                                        'info@example.com' !!}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -59,8 +79,13 @@
                                     <i class="fal fa-alarm-clock"></i>
                                 </div>
                                 <div class="contact-info-content">
-                                    <h5>Open Time</h5>
-                                    <p>Mon - Sat (10.00AM - 05.30PM)</p>
+                                    <h5>
+                                        {{ $pageData->section_4_title ?? 'Open Time' }}
+                                    </h5>
+                                    <p>
+                                        {!! $pageData->section_4_content ?? 'Mon
+                                        - Sat (10.00AM - 05.30PM)' !!}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -70,43 +95,86 @@
                     <div class="row">
                         <div class="col-lg-5">
                             <div class="contact-img">
-                                <img src="assets/img/contact/01.jpg" alt="">
+                                @if($pageData && $pageData->banner_image)
+                                <img
+                                    src="{{ asset('storage/' . $pageData->banner_image) }}"
+                                    alt="{{ $pageData->title }}"
+                                />
+                                @else
+                                <img src="assets/img/contact/01.jpg" alt="" />
+                                @endif
                             </div>
                         </div>
                         <div class="col-lg-7 align-self-center">
                             <div class="contact-form">
                                 <div class="contact-form-header">
-                                    <h2>Get In Touch</h2>
-                                    <p>It is a long established fact that a reader will be distracted by the readable
-                                        content of a page randomised words which don't look even slightly when looking at its layout. </p>
+                                    <h2>
+                                        {{ $pageData->section_5_title ?? 'Get In Touch' }}
+                                    </h2>
+                                    <p>
+                                        {!! $pageData->section_5_content ?? 'It
+                                        is a long established fact that a reader
+                                        will be distracted by the readable
+                                        content of a page randomised words which
+                                        don\'t look even slightly when looking
+                                        at its layout.' !!}
+                                    </p>
                                 </div>
-                                <form method="post" action="/eduka/assets/php/contact.php" id="contact-form">
+                                <form
+                                    method="post"
+                                    action="/eduka/assets/php/contact.php"
+                                    id="contact-form"
+                                >
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="name"
-                                                    placeholder="Your Name" required>
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    name="name"
+                                                    placeholder="Your Name"
+                                                    required
+                                                />
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="email" class="form-control" name="email"
-                                                    placeholder="Your Email" required>
+                                                <input
+                                                    type="email"
+                                                    class="form-control"
+                                                    name="email"
+                                                    placeholder="Your Email"
+                                                    required
+                                                />
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="subject"
-                                            placeholder="Your Subject" required>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            name="subject"
+                                            placeholder="Your Subject"
+                                            required
+                                        />
                                     </div>
                                     <div class="form-group">
-                                        <textarea name="message" cols="30" rows="5" class="form-control"
-                                            placeholder="Write Your Message"></textarea>
+                                        <textarea
+                                            name="message"
+                                            cols="30"
+                                            rows="5"
+                                            class="form-control"
+                                            placeholder="Write Your Message"
+                                        ></textarea>
                                     </div>
-                                    <button type="submit" class="theme-btn">Send
-                                        Message <i class="far fa-paper-plane"></i></button>
+                                    <button type="submit" class="theme-btn">
+                                        Send Message
+                                        <i class="far fa-paper-plane"></i>
+                                    </button>
                                     <div class="col-md-12 mt-3">
-                                        <div class="form-messege text-success"></div>
+                                        <div
+                                            class="form-messege text-success"
+                                        ></div>
                                     </div>
                                 </form>
                             </div>
@@ -119,11 +187,17 @@
 
         <!-- map -->
         <div class="contact-map">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d96708.34194156103!2d-74.03927096447748!3d40.759040329405195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x4a01c8df6fb3cb8!2sSolomon%20R.%20Guggenheim%20Museum!5e0!3m2!1sen!2sbd!4v1619410634508!5m2!1sen!2s"
-                style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            @if($pageData && $pageData->section_6_content) {!!
+            $pageData->section_6_content !!} @else
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d96708.34194156103!2d-74.03927096447748!3d40.759040329405195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x4a01c8df6fb3cb8!2sSolomon%20R.%20Guggenheim%20Museum!5e0!3m2!1sen!2sbd!4v1619410634508!5m2!1sen!2s"
+                style="border: 0"
+                allowfullscreen=""
+                loading="lazy"
+            ></iframe>
+            @endif
         </div>
-
     </main>
 
- @endsection
+    @endsection
 </div>

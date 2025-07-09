@@ -30,14 +30,14 @@ class Create extends Component
     protected $listeners = ['updateContent', 'categoryCreated' => 'refreshCategories'];
 
 
-    public function mount($postId = null)
+    public function mount($id = null)
     {
         // Load categories immediately in mount
         $this->refreshCategories();
 
-        if ($postId) {
-            $this->postId = $postId;
-            $post = BlogPost::with('images')->findOrFail($postId);
+        if ($id) {
+            $this->postId = $id;
+            $post = BlogPost::with('images')->findOrFail($id);
 
             $this->title = $post->title;
             $this->slug = Str::slug($this->title);

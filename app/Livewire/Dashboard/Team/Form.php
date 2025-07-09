@@ -13,10 +13,11 @@ class Form extends Component
     public $skills = []; // ['HTML' => 90, ...]
     public $socials = []; // ['linkedin' => '...', ...]
 
-        public $newSkill, $newPercent;
-public $newSocial, $newSocialLink;
+    public $newSkill, $newPercent;
+    public $newSocial, $newSocialLink;
 
     public $imageTemp;
+    public $existingImage; // Add this to track existing image
 
     protected $rules = [
         'name' => 'required|string',
@@ -28,11 +29,28 @@ public $newSocial, $newSocialLink;
         'imageTemp' => 'nullable|image|max:2048',
     ];
 
+    public function mount($id = null)
+    {
+        if ($id) {
+            $this->team_member_id = $id;
+            $teamMember = TeamMember::findOrFail($id);
+
+            // Load existing data
+            $this->name = $teamMember->name;
+            $this->position = $teamMember->position;
+            $this->description = $teamMember->description;
+            $this->experience = $teamMember->experience;
+            $this->skills = $teamMember->professional_skills ?? [];
+            $this->socials = $teamMember->socials ?? [];
+            $this->existingImage = $teamMember->image;
+        }
+    }
+
     public function save()
     {
         $this->validate();
 
-        $imagePath = null;
+        $imagePath = $this->existingImage; // Keep existing image by default
         if ($this->imageTemp) {
             $imagePath = $this->imageTemp->store('team', 'public');
         }
@@ -56,34 +74,32 @@ public $newSocial, $newSocialLink;
 
     public function render()
     {
-        return view('livewire.dashboard.team.form');
+        return view('livewire.dashboard.team.form')->layout('components.layouts.dashboard');
     }
 
-
-public function addSkill()
-{
-    if ($this->newSkill && $this->newPercent !== null) {
-        $this->skills[$this->newSkill] = (int) $this->newPercent;
-        $this->newSkill = $this->newPercent = '';
+    public function addSkill()
+    {
+        if ($this->newSkill && $this->newPercent !== null) {
+            $this->skills[$this->newSkill] = (int) $this->newPercent;
+            $this->newSkill = $this->newPercent = '';
+        }
     }
-}
 
-public function removeSkill($key)
-{
-    unset($this->skills[$key]);
-}
-
-public function addSocial()
-{
-    if ($this->newSocial && $this->newSocialLink) {
-        $this->socials[$this->newSocial] = $this->newSocialLink;
-        $this->newSocial = $this->newSocialLink = '';
+    public function removeSkill($key)
+    {
+        unset($this->skills[$key]);
     }
-}
 
-public function removeSocial($key)
-{
-    unset($this->socials[$key]);
-}
+    public function addSocial()
+    {
+        if ($this->newSocial && $this->newSocialLink) {
+            $this->socials[$this->newSocial] = $this->newSocialLink;
+            $this->newSocial = $this->newSocialLink = '';
+        }
+    }
 
+    public function removeSocial($key)
+    {
+        unset($this->socials[$key]);
+    }
 }

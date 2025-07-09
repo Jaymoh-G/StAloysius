@@ -57,8 +57,15 @@ Route::get('/facility/{slug}', \App\Livewire\Frontend\Facility::class)->name('fa
 // Team member routes
 Route::get('/team-member/{slug}', \App\Livewire\Frontend\TeamMember::class)->name('frontend.team.show');
 
+// Project details (frontend)
+Route::get('/project/{slug}', \App\Livewire\Frontend\ProjectDetail::class)->name('project');
+
+// Projects listing (frontend)
+Route::get('/projects', \App\Livewire\Frontend\Projects::class)->name('projects');
+
 // Updates/Blog routes
 Route::get('/updates', \App\Livewire\Frontend\Updates::class)->name('news');
+Route::get('/updates/category/{category}', \App\Livewire\Frontend\NewsCategory::class)->name('news.category');
 Route::get('/updates/{slug}', \App\Livewire\Frontend\UpdatesSinglePage::class)->name('news.single');
 
 // Other pages
@@ -91,7 +98,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')
     Route::middleware(['module.permission:view team'])->group(function () {
         Route::get('/team', \App\Livewire\Dashboard\Team\Index::class)->name('team.index');
         Route::get('/team/create', \App\Livewire\Dashboard\Team\Create::class)->name('team.create');
-        Route::get('/team/{id}/edit', \App\Livewire\Dashboard\Team\Edit::class)->name('team.edit');
+        Route::get('/team/{id}/edit', \App\Livewire\Dashboard\Team\Create::class)->name('team.edit');
     });
 
     // Blog/News Management - require view blog permission
@@ -99,7 +106,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')
         Route::get('/blog', \App\Livewire\Dashboard\Blog\Index::class)->name('blog.index');
         Route::get('/blog/create', \App\Livewire\Dashboard\Blog\Create::class)->name('blog.create');
         Route::get('/blog/{id}/edit', \App\Livewire\Dashboard\Blog\Create::class)->name('blog.edit');
-        Route::get('/blog/categories', \App\Livewire\Dashboard\Categories\Index::class)->name('blog.categories.index');
+        Route::get('/blog/categories', \App\Livewire\Dashboard\Blogs\Categories\Index::class)->name('blog.categories.index');
     });
 
     // Events Management - require view events permission
@@ -108,7 +115,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')
         Route::get('/events/create', \App\Livewire\Dashboard\Events\Manage::class)->name('events.create');
         Route::get('/events/{id}/edit', \App\Livewire\Dashboard\Events\Manage::class)->name('events.edit');
         Route::get('/events/manage', \App\Livewire\Dashboard\Events\Manage::class)->name('events.manage');
-        Route::get('/events/categories', \App\Livewire\Dashboard\Categories\Index::class)->name('events.categories.index');
+        Route::get('/events/categories', \App\Livewire\Dashboard\Events\Categories\Index::class)->name('events.categories.index');
     });
 
     // Gallery Management - require view gallery permission

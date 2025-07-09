@@ -1,47 +1,46 @@
 on: push
-name: 🚀 Deploy Laravel App on Push
+name: 🚀 Deploy Laravel as ZIP
 
 jobs:
-  web-deploy:
-    name: 🎉 Build & Deploy
+  build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: 📥 Checkout latest code
+      - name: 📥 Checkout code
         uses: actions/checkout@v2
 
       - name: 🧰 Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2' # Match your server version
-          extensions: mbstring, bcmath, openssl, curl, tokenizer, xml
+          php-version: '8.2'
 
       - name: 🔐 Copy .env.example to .env
         run: cp .env.example .env
 
-      - name: 🧶 Install Composer dependencies
-        run: composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
+      - name: 🧶 Composer install
+        run: composer install --no-dev --prefer-dist --optimize-autoloader
 
-      - name: 🧰 Set up Node.js
+      - name: 🧰 Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: '18'  # Adjust as needed
+          node-version: '18'
 
-      - name: ⚙️ Run Laravel optimizations
+      - name: 📦 NPM install
+        run: npm install
+
+      - name: 🛠️ Build assets
+        run: npm run build
+
+      - name: ⚙️ Laravel optimization
         run: |
           php artisan config:cache
           php artisan route:cache
           php artisan view:cache
 
+      - name: 🗜️ Zip deployment package
+        run: |
+          zip -r deploy.zip . -x "node_modules/*" "tests/*" ".git/*" ".github/*" ".env" "storage/*"
 
-
-      - name: 📦 Install Node dependencies
-        run: npm install
-
-      - name: 🛠️ Build assets
-        run: npm run build  # or `npm run prod` if using Laravel Mix
-
-      - name: 📂 Deploy via FTP
+      - name: 📤 Upload via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
           server: ftp.sagnairobi.org
@@ -49,11 +48,6 @@ jobs:
           password: ${{ secrets.ftp_password }}
           server-dir: /public_html/staging.sagnairobi.org/
           exclude: |
-            **/node_modules/**
-            **/tests/**
-            **/.git/**
-            .gitignore
-            .github/**
-            .env
-            storage/**
-            .ftpignore
+            *
+          include: |
+            deploy.zip

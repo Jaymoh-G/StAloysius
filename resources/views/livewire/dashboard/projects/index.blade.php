@@ -78,6 +78,7 @@
                                     <th>Image</th>
                                     <th>Title</th>
                                     <th>Status</th>
+                                    <th>Department</th>
                                     <th>Duration</th>
                                     <th>Featured</th>
                                     <th>Published</th>
@@ -120,6 +121,7 @@
                                             {{ ucfirst(str_replace('_', ' ', $project->status)) }}
                                         </span>
                                     </td>
+                                    <td>{{ $project->department->name }}</td>
                                     <td>{{ $project->duration }}</td>
                                     <td>
                                         <button

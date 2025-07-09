@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Dashboard\Facilities;
 
-use Livewire\Component; 
+use Livewire\Component;
 use App\Models\BlogImage;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
@@ -50,14 +50,14 @@ class Manage extends Component
         $this->slug = Str::slug($value);
     }
 
-    public function mount($facilityId = null)
+        public function mount($id = null)
     {
         $this->departments = DepartmentModel::all();
         $this->existingImages = collect([]);
 
-        if ($facilityId) {
-            $this->facilityId = $facilityId;
-            $facility = FacilityModel::with('images')->findOrFail($facilityId);
+        if ($id) {
+            $this->facilityId = $id;
+            $facility = FacilityModel::with('images')->findOrFail($id);
 
             $this->name = $facility->name;
             $this->slug = Str::slug($this->name);

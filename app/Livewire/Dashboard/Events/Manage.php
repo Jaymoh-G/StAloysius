@@ -31,13 +31,13 @@ class Manage extends Component
 
     protected $listeners = ['updateContent'];
 
-    public function mount($eventId = null)
+    public function mount($id = null)
     {
         $this->eventCategories = EventCategory::all();
 
-        if ($eventId) {
-            $this->eventId = $eventId;
-            $event = EventModel::with('images')->findOrFail($eventId);
+        if ($id) {
+            $this->eventId = $id;
+            $event = EventModel::with('images')->findOrFail($id);
 
             // Fill basic fields
             $this->fill($event->only([
