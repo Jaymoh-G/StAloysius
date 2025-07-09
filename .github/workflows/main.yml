@@ -67,7 +67,7 @@ jobs:
             deploy.zip
 
       - name: 💾 Upload deploy.zip to GitHub (as artifact)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: deploy-package
           path: deploy.zip
