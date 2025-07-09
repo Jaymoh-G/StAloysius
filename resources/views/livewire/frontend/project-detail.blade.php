@@ -18,9 +18,9 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="card shadow-sm mb-4">
-                        @if ($project->banner)
+                        @if ($project->featured_image)
                         <img
-                            src="{{ asset('storage/' . $project->banner) }}"
+                            src="{{ asset('storage/' . $project->featured_image) }}"
                             class="card-img-top"
                             alt="{{ $project->title }}"
                         />

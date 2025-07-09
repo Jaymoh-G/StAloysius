@@ -28,9 +28,9 @@
                     @forelse ($projects as $project)
                     <div class="col-md-6 col-lg-4 mb-4">
                         <div class="card h-100 shadow-sm">
-                            @if ($project->banner)
+                            @if ($project->featured_image)
                             <img
-                                src="{{ asset('storage/' . $project->banner) }}"
+                                src="{{ asset('storage/' . $project->featured_image) }}"
                                 class="card-img-top"
                                 alt="{{ $project->title }}"
                             />
