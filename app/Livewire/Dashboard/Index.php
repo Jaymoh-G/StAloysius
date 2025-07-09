@@ -12,6 +12,7 @@ use App\Models\Testimonial;
 use App\Models\JobVacancy;
 use App\Models\Project;
 use App\Models\VolunteerApplication;
+use App\Models\Donation;
 use App\Models\DepartmentModel;
 use App\Models\FacilityModel;
 use App\Models\User;
@@ -33,6 +34,7 @@ class Index extends Component
         $recentAlbums = $this->canView('gallery') ? Album::latest()->take(2)->get() : collect();
         $recentProjects = $this->canView('projects') ? Project::latest()->take(2)->get() : collect();
         $recentVolunteers = $this->canView('volunteer_applications') ? VolunteerApplication::latest()->take(2)->get() : collect();
+        $recentDonations = $this->canView('donations') ? Donation::latest()->take(2)->get() : collect();
         $recentTestimonials = $this->canView('testimonials') ? Testimonial::latest()->take(2)->get() : collect();
 
         $today = now()->startOfDay();
@@ -86,6 +88,9 @@ class Index extends Component
         }
         if ($this->canView('volunteer_applications')) {
             $trends['volunteers'] = $this->getMonthlyCounts(VolunteerApplication::class, $months);
+        }
+        if ($this->canView('donations')) {
+            $trends['donations'] = $this->getMonthlyCounts(Donation::class, $months);
         }
 
         // Build chart datasets array
@@ -155,6 +160,8 @@ class Index extends Component
             'testimonialCount' => $this->canView('testimonials') ? Testimonial::count() : 0,
             'projectCount' => $this->canView('projects') ? Project::count() : 0,
             'volunteerCount' => $this->canView('volunteer_applications') ? VolunteerApplication::count() : 0,
+            'donationCount' => $this->canView('donations') ? Donation::count() : 0,
+            'totalDonationAmount' => $this->canView('donations') ? Donation::sum('amount') : 0,
             'departmentCount' => $this->canView('departments') ? DepartmentModel::count() : 0,
             'facilityCount' => $this->canView('facilities') ? FacilityModel::count() : 0,
             'userCount' => $this->canView('users') ? User::count() : 0,
@@ -167,6 +174,7 @@ class Index extends Component
             'recentAlbums' => $recentAlbums,
             'recentProjects' => $recentProjects,
             'recentVolunteers' => $recentVolunteers,
+            'recentDonations' => $recentDonations,
             'recentDepartments' => $recentDepartments,
             'recentTestimonials' => $recentTestimonials,
             'trends' => $trends,

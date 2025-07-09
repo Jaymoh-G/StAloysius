@@ -50,6 +50,12 @@ jobs:
                "deploy.zip"
           ls -lh deploy.zip
 
+      - name: 💾 Upload deploy.zip to GitHub (as artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: deploy-package
+          path: deploy.zip
+
       - name: 📤 Upload deploy.zip via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
@@ -57,13 +63,22 @@ jobs:
           username: ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
           server-dir: /public_html/staging.sagnairobi.org/
-          local-dir: ./   # MUST end with /
+          local-dir: ./   # Must be where deploy.zip is
           exclude: |
             **/*
-            !deploy.zip     # ✅ Only upload deploy.zip
+            !deploy.zip
 
-      - name: 💾 Upload deploy.zip to GitHub (as artifact)
-        uses: actions/upload-artifact@v4
+      - name: 🧪 Upload test.txt via FTP
+        run: echo "This is a test file" > test.txt
+
+      - name: 📤 Upload test.txt via FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-          name: deploy-package
-          path: deploy.zip
+          server: ftp.sagnairobi.org
+          username: ${{ secrets.ftp_username }}
+          password: ${{ secrets.ftp_password }}
+          server-dir: /public_html/staging.sagnairobi.org/
+          local-dir: ./
+          exclude: |
+            **/*
+            !test.txt

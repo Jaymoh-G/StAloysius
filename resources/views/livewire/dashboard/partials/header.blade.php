@@ -220,6 +220,17 @@
                     </li>
                     @endcanView
 
+                    @canView('donations')
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="fas fa-hand-holding-heart"></i>
+                            <span class="nav-text">Donations</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="{{ route('dashboard.donations.index') }}">Manage Donations</a></li>
+                        </ul>
+                    </li>
+                    @endcanView
+
                     @canView('static_pages')
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="fas fa-file-alt"></i>

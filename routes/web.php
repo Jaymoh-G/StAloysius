@@ -79,6 +79,7 @@ Route::get('/club/{slug}', \App\Livewire\Frontend\Club::class)->name('club.show'
 Route::get('/christian-life-community', \App\Livewire\Frontend\ChristianLifeCommunity::class)->name('clc');
 Route::get('/our-pillars', \App\Livewire\Frontend\OurPillars::class)->name('our-pillars');
 Route::get('/volunteer', \App\Livewire\Frontend\VolunteerService::class)->name('volunteer');
+Route::get('/donations', \App\Livewire\Frontend\Donations::class)->name('donations');
 
 
 
@@ -188,6 +189,11 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')
     // Volunteer Applications Management - require view volunteer_applications permission
     Route::middleware(['module.permission:view volunteer_applications'])->group(function () {
         Route::get('/volunteer-applications', \App\Livewire\Dashboard\VolunteerApplications\Index::class)->name('volunteer-applications.index');
+    });
+
+    // Donations Management - require view donations permission
+    Route::middleware(['module.permission:view donations'])->group(function () {
+        Route::get('/donations', \App\Livewire\Dashboard\Donations\Index::class)->name('donations.index');
     });
 
     // Activity Log - accessible to all authenticated dashboard users

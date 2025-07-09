@@ -48,6 +48,7 @@ class RoleSeeder extends Seeder
             'youtube' => ['view', 'create', 'edit', 'delete'],
             'projects' => ['view', 'create', 'edit', 'delete', 'publish'],
             'volunteer_applications' => ['view', 'create', 'edit', 'delete', 'approve'],
+            'donations' => ['view', 'create', 'edit', 'delete', 'approve'],
 
         ];
 
@@ -122,6 +123,10 @@ class RoleSeeder extends Seeder
             'create volunteer_applications',
             'edit volunteer_applications',
             'approve volunteer_applications',
+            'view donations',
+            'create donations',
+            'edit donations',
+            'approve donations',
 
         ];
         $editorRole->givePermissionTo($editorPermissions);
@@ -140,6 +145,7 @@ class RoleSeeder extends Seeder
             'view facilities',
             'view projects',
             'view volunteer_applications',
+            'view donations',
         ];
         $userRole->givePermissionTo($userPermissions);
 

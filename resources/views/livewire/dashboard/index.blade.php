@@ -196,6 +196,30 @@
                 </div>
             </a>
         </div>
+        @endcanView @canView('donations')
+        <div class="col-md-3">
+            <a
+                href="{{ route('dashboard.donations.index') }}"
+                class="text-decoration-none"
+            >
+                <div class="card card-compact shadow h-100">
+                    <div class="card-body text-center">
+                        <i
+                            class="fa fa-hand-holding-heart fa-2x text-success mb-2"
+                        ></i>
+                        <h6 class="card-title">
+                            Donations <span>({{ $donationCount ?? 0 }})</span>
+                        </h6>
+                        <small class="text-muted"
+                            >KES
+                            {{
+                                number_format($totalDonationAmount ?? 0, 2)
+                            }}</small
+                        >
+                    </div>
+                </div>
+            </a>
+        </div>
         @endcanView @canView('users')
         <div class="col-md-3">
             <a
@@ -397,6 +421,36 @@
                                 >
                             </li>
                             @endforeach
+                        </ul>
+                    </div>
+                </div>
+                @endcanView @canView('donations')
+                <div class="col-md-6">
+                    <div class="card card-compact h-100">
+                        <div class="card-header bg-success text-white">
+                            Recent Donations
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            @forelse($recentDonations ?? [] as $item)
+                            <li class="list-group-item">
+                                <a
+                                    href="{{
+                                        route('dashboard.donations.index')
+                                    }}"
+                                    class="fw-bold truncate-title"
+                                    >{{ $item->name }}</a
+                                ><br />
+                                <small class="text-muted"
+                                    >{{ $item->created_at->format('M d, Y') }} -
+                                    KES {{ number_format($item->amount, 2) }} -
+                                    {{ ucfirst($item->status) }}</small
+                                >
+                            </li>
+                            @empty
+                            <li class="list-group-item text-muted">
+                                No recent donations
+                            </li>
+                            @endforelse
                         </ul>
                     </div>
                 </div>
