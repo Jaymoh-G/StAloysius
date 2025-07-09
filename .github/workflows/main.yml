@@ -39,19 +39,14 @@ jobs:
 
       - name: 🗜️ Zip deployment package
         run: |
-          echo "Zipping deployment files..."
+          echo "Zipping project into deploy.zip"
           zip -r deploy.zip . \
             -x "node_modules/*" \
-               "node_modules/**" \
                "tests/*" \
-               "tests/**" \
                ".git/*" \
-               ".git/**" \
                ".github/*" \
-               ".github/**" \
                ".env" \
                "storage/*" \
-               "storage/**" \
                "deploy.zip"
           ls -lh deploy.zip
 
@@ -62,9 +57,10 @@ jobs:
           username: ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
           server-dir: /public_html/staging.sagnairobi.org/
-          local-dir: .
-          include: |
-            deploy.zip
+          local-dir: ./   # MUST end with /
+          exclude: |
+            **/*
+            !deploy.zip     # ✅ Only upload deploy.zip
 
       - name: 💾 Upload deploy.zip to GitHub (as artifact)
         uses: actions/upload-artifact@v4
