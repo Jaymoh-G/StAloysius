@@ -4,6 +4,7 @@ name: 🚀 Deploy Laravel as ZIP
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v2
@@ -38,15 +39,14 @@ jobs:
 
       - name: 🗜️ Zip deployment package
         run: |
-          mkdir deploy
-          shopt -s extglob
-          cp -r !(deploy|.git|node_modules|tests|.github) deploy/
-          cd deploy
+          mkdir build
+          rsync -a --exclude=node_modules --exclude=tests --exclude=.git --exclude=.github --exclude=build ./ ./build
+          cd build
           zip -r ../deploy.zip .
           cd ..
           ls -lh deploy.zip
 
-      - name: 📤 Upload via FTP
+      - name: 📤 Upload via FTP (ZIP only)
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
           server: ftp.sagnairobi.org
@@ -55,3 +55,5 @@ jobs:
           server-dir: /public_html/staging.sagnairobi.org/
           include: |
             deploy.zip
+          exclude: |
+            **

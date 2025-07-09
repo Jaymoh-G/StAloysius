@@ -5,6 +5,7 @@ namespace App\Livewire\Frontend;
 use Livewire\Component;
 use App\Models\VolunteerApplication;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class VolunteerService extends Component
 {
@@ -22,6 +23,12 @@ class VolunteerService extends Component
         'additional_information' => 'nullable|string|max:2000',
     ];
 
+    // Real-time validation
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+
     protected $messages = [
         'name.required' => 'Please enter your full name.',
         'tel.required' => 'Please enter your telephone number.',
@@ -32,25 +39,43 @@ class VolunteerService extends Component
 
     public function submitApplication()
     {
+        // Debug: Check if method is called
+        Log::info('Volunteer form submitted', [
+            'name' => $this->name,
+            'email' => $this->email,
+            'tel' => $this->tel
+        ]);
+
+        // Validate the form
         $this->validate();
 
         try {
-            VolunteerApplication::create([
-                'name' => $this->name,
-                'tel' => $this->tel,
-                'email' => $this->email,
-                'skills' => $this->skills,
-                'additional_information' => $this->additional_information,
+            // Create the volunteer application
+            $application = VolunteerApplication::create([
+                'name' => trim($this->name),
+                'tel' => trim($this->tel),
+                'email' => trim($this->email),
+                'skills' => trim($this->skills),
+                'additional_information' => trim($this->additional_information),
                 'status' => 'pending',
             ]);
 
             // Reset form
             $this->reset(['name', 'tel', 'email', 'skills', 'additional_information']);
 
+            // Flash success message
             session()->flash('message', '🎉 Thank you for your volunteer application! We have received your submission and will contact you within 2-3 business days.');
         } catch (\Exception $e) {
+            // Log the error for debugging
+            Log::error('Volunteer application error: ' . $e->getMessage());
+
             session()->flash('error', '❌ Sorry, there was an error submitting your application. Please check your information and try again. If the problem persists, please contact us directly.');
         }
+    }
+
+    public function testMethod()
+    {
+        session()->flash('message', 'Test method called successfully!');
     }
 
     public function render()

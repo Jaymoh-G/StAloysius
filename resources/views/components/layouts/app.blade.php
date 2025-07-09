@@ -28,7 +28,6 @@
             href="{{ asset('assets/css/owl.carousel.min.css') }}"
         />
         <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
-<link rel="stylesheet" href="{{ asset('assets/css/owl.theme.default.min.css') }}">
 
         @livewireStyles
     </head>
@@ -98,6 +97,6 @@
         <script src="{{ asset('assets/js/wow.min.js') }}"></script>
         <script src="{{ asset('assets/js/main.js') }}"></script>
         <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
-        @stack('scripts') 
+        @livewireScripts @stack('scripts')
     </body>
 </html>

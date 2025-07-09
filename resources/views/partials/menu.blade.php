@@ -189,7 +189,7 @@
                             <ul class="dropdown-menu fade-down">
                                 <li><a class="dropdown-item" href="{{ route('support-us') }}">Donate</a></li>
                                 <li><a class="dropdown-item" href="{{ route('projects') }}">Projects</a></li>
-                                <li><a class="dropdown-item" href="{{ route('events') }}">Volunteer your Services</a></li>
+                                <li><a class="dropdown-item" href="{{ route('volunteer') }}">Volunteer your Services</a></li>
                             </ul>
                         </div>
                     </div>

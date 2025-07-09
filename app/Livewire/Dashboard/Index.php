@@ -11,6 +11,7 @@ use App\Models\TeamMember;
 use App\Models\Testimonial;
 use App\Models\JobVacancy;
 use App\Models\Project;
+use App\Models\VolunteerApplication;
 use App\Models\DepartmentModel;
 use App\Models\FacilityModel;
 use App\Models\User;
@@ -31,6 +32,7 @@ class Index extends Component
         $recentVideos = $this->canView('youtube') ? YoutubeVideo::latest()->take(2)->get() : collect();
         $recentAlbums = $this->canView('gallery') ? Album::latest()->take(2)->get() : collect();
         $recentProjects = $this->canView('projects') ? Project::latest()->take(2)->get() : collect();
+        $recentVolunteers = $this->canView('volunteer_applications') ? VolunteerApplication::latest()->take(2)->get() : collect();
         $recentTestimonials = $this->canView('testimonials') ? Testimonial::latest()->take(2)->get() : collect();
 
         $today = now()->startOfDay();
@@ -81,6 +83,9 @@ class Index extends Component
         }
         if ($this->canView('testimonials')) {
             $trends['testimonials'] = $this->getMonthlyCounts(Testimonial::class, $months);
+        }
+        if ($this->canView('volunteer_applications')) {
+            $trends['volunteers'] = $this->getMonthlyCounts(VolunteerApplication::class, $months);
         }
 
         // Build chart datasets array
@@ -149,6 +154,7 @@ class Index extends Component
             'teamCount' => $this->canView('team') ? TeamMember::count() : 0,
             'testimonialCount' => $this->canView('testimonials') ? Testimonial::count() : 0,
             'projectCount' => $this->canView('projects') ? Project::count() : 0,
+            'volunteerCount' => $this->canView('volunteer_applications') ? VolunteerApplication::count() : 0,
             'departmentCount' => $this->canView('departments') ? DepartmentModel::count() : 0,
             'facilityCount' => $this->canView('facilities') ? FacilityModel::count() : 0,
             'userCount' => $this->canView('users') ? User::count() : 0,
@@ -160,6 +166,7 @@ class Index extends Component
             'recentVideos' => $recentVideos,
             'recentAlbums' => $recentAlbums,
             'recentProjects' => $recentProjects,
+            'recentVolunteers' => $recentVolunteers,
             'recentDepartments' => $recentDepartments,
             'recentTestimonials' => $recentTestimonials,
             'trends' => $trends,

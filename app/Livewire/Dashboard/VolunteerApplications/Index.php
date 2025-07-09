@@ -81,6 +81,6 @@ class Index extends Component
 
         return view('livewire.dashboard.volunteer-applications.index', [
             'applications' => $applications
-        ]);
+        ])->layout('components.layouts.dashboard');
     }
 }

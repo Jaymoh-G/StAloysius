@@ -212,6 +212,22 @@
                 </div>
             </a>
         </div>
+        @endcanView @canView('volunteer_applications')
+        <div class="col-md-3">
+            <a
+                href="{{ route('dashboard.volunteer-applications.index') }}"
+                class="text-decoration-none"
+            >
+                <div class="card card-compact shadow h-100">
+                    <div class="card-body text-center">
+                        <i class="fa fa-heart fa-2x text-danger mb-2"></i>
+                        <h6 class="card-title">
+                            Volunteers <span>({{ $volunteerCount ?? 0 }})</span>
+                        </h6>
+                    </div>
+                </div>
+            </a>
+        </div>
         @endcanView @canView('testimonials')
         <div class="col-md-3">
             <a
@@ -351,6 +367,33 @@
                                 <small
                                     class="text-muted"
                                     >{{ $item->created_at->format('M d, Y') }}</small
+                                >
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                @endcanView @canView('volunteer_applications')
+                <div class="col-md-6">
+                    <div class="card card-compact h-100">
+                        <div class="card-header bg-danger text-white">
+                            Recent Volunteers
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            @foreach($recentVolunteers as $item)
+                            <li class="list-group-item">
+                                <a
+                                    href="{{
+                                        route(
+                                            'dashboard.volunteer-applications.index'
+                                        )
+                                    }}"
+                                    class="fw-bold truncate-title"
+                                    >{{ $item->name }}</a
+                                ><br />
+                                <small class="text-muted"
+                                    >{{ $item->created_at->format('M d, Y') }} -
+                                    {{ ucfirst($item->status) }}</small
                                 >
                             </li>
                             @endforeach

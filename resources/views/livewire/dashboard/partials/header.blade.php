@@ -209,6 +209,16 @@
                         </ul>
                     </li>
                     @endcanView
+                    @canView('volunteer_applications')
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="fas fa-heart"></i>
+                            <span class="nav-text">Volunteers</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="{{ route('dashboard.volunteer-applications.index') }}">Applications</a></li>
+                        </ul>
+                    </li>
+                    @endcanView
 
                     @canView('static_pages')
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
