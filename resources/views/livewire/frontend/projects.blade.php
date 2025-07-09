@@ -1,6 +1,7 @@
 <div>
     @section('content')
     <main class="main">
+        <!-- breadcrumb -->
         <div
             class="site-breadcrumb"
             style="background: url({{ asset('assets/img/breadcrumb/01.jpg') }})"
@@ -13,6 +14,9 @@
                 </ul>
             </div>
         </div>
+        <!-- breadcrumb end -->
+
+        <!-- blog area -->
         <div class="blog-area py-120">
             <div class="container">
                 <div class="col-lg-6 mx-auto">
@@ -21,32 +25,78 @@
                             ><i class="far fa-folder-open"></i
                         ></span>
                         <h2 class="site-title">Our <span>Projects</span></h2>
-                        <p>Explore our latest projects and initiatives.</p>
+                        <p>
+                            Explore our latest projects and initiatives that
+                            showcase our commitment to excellence and
+                            innovation.
+                        </p>
                     </div>
                 </div>
                 <div class="row">
                     @forelse ($projects as $project)
-                    <div class="col-md-6 col-lg-4 mb-4">
-                        <div class="card h-100 shadow-sm">
-                            @if ($project->featured_image)
-                            <img
-                                src="{{ asset('storage/' . $project->featured_image) }}"
-                                class="card-img-top"
-                                alt="{{ $project->title }}"
-                            />
-                            @endif
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">
-                                    {{ $project->title }}
-                                </h5>
-                                <p class="card-text">
-                                    {{ Str::limit(strip_tags($project->description), 100) }}
-                                </p>
+                    <div class="col-md-6 col-lg-4">
+                        <div
+                            class="blog-item wow fadeInUp"
+                            data-wow-delay=".25s"
+                        >
+                            <div class="blog-date">
+                                <i class="fal fa-calendar-alt"></i>
+                                {{ $project->created_at->format('M d, Y') }}
+                            </div>
+                            <div class="blog-item-img">
+                                @if ($project->featured_image)
+                                <img
+                                    src="{{ asset('storage/' . $project->featured_image) }}"
+                                    alt="{{ $project->title }}"
+                                />
+                                @else
+                                <img
+                                    src="{{ asset('assets/img/blog/01.jpg') }}"
+                                    alt="{{ $project->title }}"
+                                />
+                                @endif
+                            </div>
+                            <div class="blog-item-info">
+                                <div class="blog-item-meta">
+                                    <ul>
+                                        <li>
+                                            <a href="#"
+                                                ><i
+                                                    class="far fa-user-circle"
+                                                ></i>
+                                                By Admin</a
+                                            >
+                                        </li>
+                                        <li>
+                                            @if ($project->department)
+                                            <a
+                                                href="{{ route('department', $project->department->slug) }}"
+                                            >
+                                                <i class="far fa-tag"></i>
+                                                {{ $project->department->name }}
+                                            </a>
+                                            @else
+                                            <a href="#"
+                                                ><i class="far fa-tag"></i>
+                                                General</a
+                                            >
+                                            @endif
+                                        </li>
+                                    </ul>
+                                </div>
+                                <h4 class="{{ $project->title }}">
+                                    <a
+                                        href="{{ route('project', $project->slug) }}"
+                                        >{{ Str::limit(strip_tags($project->description), 60) }}</a
+                                    >
+                                </h4>
                                 <a
+                                    class="theme-btn"
                                     href="{{ route('project', $project->slug) }}"
-                                    class="btn btn-primary mt-auto"
-                                    >View Details</a
-                                >
+                                    >View Details<i
+                                        class="fas fa-arrow-right-long"
+                                    ></i
+                                ></a>
                             </div>
                         </div>
                     </div>
@@ -57,11 +107,11 @@
                     </div>
                     @endforelse
                 </div>
-                <div class="d-flex justify-content-center mt-4">
-                    {{ $projects->links('vendor.pagination.bootstrap-4') }}
-                </div>
+
+                {{ $projects->links('vendor.pagination.bootstrap-4') }}
             </div>
         </div>
+        <!-- blog area end -->
     </main>
     @endsection
 </div>

@@ -16,7 +16,7 @@ jobs:
       - name: 🔐 Copy .env.example to .env
         run: cp .env.example .env
 
-      - name: 🧶 Composer install
+      - name: 🧶 Install Composer dependencies
         run: composer install --no-dev --prefer-dist --optimize-autoloader
 
       - name: 🧰 Set up Node
@@ -38,7 +38,13 @@ jobs:
 
       - name: 🗜️ Zip deployment package
         run: |
-          zip -r deploy.zip . -x "node_modules/*" "tests/*" ".git/*" ".github/*" ".env" "storage/*"
+          mkdir deploy
+          shopt -s extglob
+          cp -r !(deploy|.git|node_modules|tests|.github) deploy/
+          cd deploy
+          zip -r ../deploy.zip .
+          cd ..
+          ls -lh deploy.zip
 
       - name: 📤 Upload via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
@@ -47,7 +53,5 @@ jobs:
           username: ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
           server-dir: /public_html/staging.sagnairobi.org/
-          exclude: |
-            *
           include: |
             deploy.zip

@@ -114,19 +114,19 @@
                 </div>
             </a>
         </div>
-        @endcanView @canView('careers')
+        @endcanView @canView('projects')
         <div class="col-md-3">
             <a
-                href="{{ route('dashboard.careers.index') }}"
+                href="{{ route('dashboard.projects.index') }}"
                 class="text-decoration-none"
             >
                 <div class="card card-compact shadow h-100">
                     <div class="card-body text-center">
                         <i
-                            class="fa fa-briefcase fa-2x text-secondary mb-2"
+                            class="fa fa-project-diagram fa-2x text-warning mb-2"
                         ></i>
                         <h6 class="card-title">
-                            Careers <span>({{ $careerCount }})</span>
+                            Projects <span>({{ $projectCount ?? 0 }})</span>
                         </h6>
                     </div>
                 </div>
@@ -357,18 +357,18 @@
                         </ul>
                     </div>
                 </div>
-                @endcanView @canView('careers')
+                @endcanView @canView('projects')
                 <div class="col-md-6">
                     <div class="card card-compact h-100">
-                        <div class="card-header bg-secondary text-white">
-                            Recent Careers
+                        <div class="card-header bg-warning text-white">
+                            Recent Projects
                         </div>
                         <ul class="list-group list-group-flush">
-                            @foreach($recentCareers as $item)
+                            @foreach($recentProjects as $item)
                             <li class="list-group-item">
                                 <a
                                     target="_blank"
-                                    href="{{ route('careers.show', $item->slug) }}"
+                                    href="{{ route('project', $item->slug) }}"
                                     class="fw-bold truncate-title"
                                     >{{ $item->title }}</a
                                 ><br />

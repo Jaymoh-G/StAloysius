@@ -10,6 +10,7 @@ use App\Models\Album;
 use App\Models\TeamMember;
 use App\Models\Testimonial;
 use App\Models\JobVacancy;
+use App\Models\Project;
 use App\Models\DepartmentModel;
 use App\Models\FacilityModel;
 use App\Models\User;
@@ -29,7 +30,7 @@ class Index extends Component
         $recentEvents = $this->canView('events') ? EventModel::latest()->take(2)->get() : collect();
         $recentVideos = $this->canView('youtube') ? YoutubeVideo::latest()->take(2)->get() : collect();
         $recentAlbums = $this->canView('gallery') ? Album::latest()->take(2)->get() : collect();
-        $recentCareers = $this->canView('careers') ? JobVacancy::latest()->take(2)->get() : collect();
+        $recentProjects = $this->canView('projects') ? Project::latest()->take(2)->get() : collect();
         $recentTestimonials = $this->canView('testimonials') ? Testimonial::latest()->take(2)->get() : collect();
 
         $today = now()->startOfDay();
@@ -63,8 +64,8 @@ class Index extends Component
         if ($this->canView('gallery')) {
             $trends['albums'] = $this->getMonthlyCounts(Album::class, $months);
         }
-        if ($this->canView('careers')) {
-            $trends['careers'] = $this->getMonthlyCounts(JobVacancy::class, $months);
+        if ($this->canView('projects')) {
+            $trends['projects'] = $this->getMonthlyCounts(Project::class, $months);
         }
         if ($this->canView('departments')) {
             $trends['departments'] = $this->getMonthlyCounts(DepartmentModel::class, $months);
@@ -147,7 +148,7 @@ class Index extends Component
             'albumCount' => $this->canView('gallery') ? Album::count() : 0,
             'teamCount' => $this->canView('team') ? TeamMember::count() : 0,
             'testimonialCount' => $this->canView('testimonials') ? Testimonial::count() : 0,
-            'careerCount' => $this->canView('careers') ? JobVacancy::count() : 0,
+            'projectCount' => $this->canView('projects') ? Project::count() : 0,
             'departmentCount' => $this->canView('departments') ? DepartmentModel::count() : 0,
             'facilityCount' => $this->canView('facilities') ? FacilityModel::count() : 0,
             'userCount' => $this->canView('users') ? User::count() : 0,
@@ -158,7 +159,7 @@ class Index extends Component
             'recentPastEvents' => $recentPastEvents,
             'recentVideos' => $recentVideos,
             'recentAlbums' => $recentAlbums,
-            'recentCareers' => $recentCareers,
+            'recentProjects' => $recentProjects,
             'recentDepartments' => $recentDepartments,
             'recentTestimonials' => $recentTestimonials,
             'trends' => $trends,
