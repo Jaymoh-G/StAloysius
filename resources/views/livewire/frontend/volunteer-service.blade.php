@@ -76,17 +76,6 @@
                         </div>
                         @endif
 
-                        <!-- Debug Info (remove in production) -->
-                        @if(app()->environment('local'))
-                        <div class="alert alert-info mb-3">
-                            <strong>Debug Info:</strong><br />
-                            Name: {{ $name }}<br />
-                            Email: {{ $email }}<br />
-                            Tel: {{ $tel }}<br />
-                            Skills: {{ Str::limit($skills, 50) }}
-                        </div>
-                        @endif
-
                         <div class="card shadow">
                             <div class="card-body p-5">
                                 <form
@@ -201,17 +190,6 @@
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <!-- Test button (remove in production) -->
-                                            @if(app()->environment('local'))
-                                            <button
-                                                type="button"
-                                                class="btn btn-secondary mb-3"
-                                                wire:click="testMethod"
-                                            >
-                                                Test Livewire Connection
-                                            </button>
-                                            @endif
-
                                             <button
                                                 type="submit"
                                                 class="theme-btn"
@@ -249,42 +227,5 @@
         <!-- volunteer area end -->
     </main>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const form = document.getElementById("volunteer-form");
-            if (form) {
-                form.addEventListener("submit", function (e) {
-                    console.log("Form submitted via JavaScript");
-                    console.log("Event target:", e.target);
-                    console.log("Form action:", e.target.action);
-                    console.log("Form method:", e.target.method);
-
-                    // Check if Livewire is handling this
-                    if (e.target.hasAttribute("wire:submit.prevent")) {
-                        console.log("Livewire submit.prevent found");
-                    } else {
-                        console.log("No wire:submit.prevent found");
-                    }
-                });
-            }
-
-            // Check if Livewire is loaded
-            if (typeof Livewire !== "undefined") {
-                console.log("Livewire is loaded");
-
-                // Listen for Livewire events
-                Livewire.on("volunteer-submitted", () => {
-                    console.log("Volunteer form submitted via Livewire");
-                });
-
-                Livewire.on("test-message", (data) => {
-                    console.log("Test message received:", data.message);
-                    alert("Test method called successfully!");
-                });
-            } else {
-                console.log("Livewire is NOT loaded");
-            }
-        });
-    </script>
     @endsection
 </div>

@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\Log;
 
 class VolunteerService extends Component
 {
-    protected $layout = 'components.layouts.app';
-
     public $name = '';
     public $tel = '';
     public $email = '';
@@ -78,11 +76,7 @@ class VolunteerService extends Component
         }
     }
 
-    public function testMethod()
-    {
-        $this->dispatch('test-message', ['message' => 'Test method called successfully!']);
-        session()->flash('message', 'Test method called successfully!');
-    }
+
 
     public function render()
     {
