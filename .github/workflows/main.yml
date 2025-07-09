@@ -37,9 +37,9 @@ jobs:
           php artisan route:cache
           php artisan view:cache
 
-      - name: 🗜️ Zip deployment package (no rsync)
+      - name: 🗜️ Zip deployment package
         run: |
-          echo "Zipping selected files..."
+          echo "Zipping deployment files..."
           zip -r deploy.zip . \
             -x "node_modules/*" \
                "node_modules/**" \
@@ -49,21 +49,25 @@ jobs:
                ".git/**" \
                ".github/*" \
                ".github/**" \
+               ".env" \
                "storage/*" \
                "storage/**" \
-               ".env" \
                "deploy.zip"
-          echo "Zip complete:"
           ls -lh deploy.zip
 
       - name: 📤 Upload deploy.zip via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-          server: 102.218.215.23
+          server: ftp.sagnairobi.org
           username: ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
           server-dir: /public_html/staging.sagnairobi.org/
+          local-dir: .
           include: |
             deploy.zip
-          exclude: |
-            **
+
+      - name: 💾 Upload deploy.zip to GitHub (as artifact)
+        uses: actions/upload-artifact@v3
+        with:
+          name: deploy-package
+          path: deploy.zip
