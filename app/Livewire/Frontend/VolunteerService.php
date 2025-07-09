@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Log;
 
 class VolunteerService extends Component
 {
+    protected $layout = 'components.layouts.app';
+
     public $name = '';
     public $tel = '';
     public $email = '';
@@ -65,6 +67,9 @@ class VolunteerService extends Component
 
             // Flash success message
             session()->flash('message', '🎉 Thank you for your volunteer application! We have received your submission and will contact you within 2-3 business days.');
+
+            // Dispatch Livewire event for debugging
+            $this->dispatch('volunteer-submitted');
         } catch (\Exception $e) {
             // Log the error for debugging
             Log::error('Volunteer application error: ' . $e->getMessage());
@@ -75,6 +80,7 @@ class VolunteerService extends Component
 
     public function testMethod()
     {
+        $this->dispatch('test-message', ['message' => 'Test method called successfully!']);
         session()->flash('message', 'Test method called successfully!');
     }
 

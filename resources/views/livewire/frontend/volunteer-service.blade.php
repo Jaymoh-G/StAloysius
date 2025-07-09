@@ -89,7 +89,10 @@
 
                         <div class="card shadow">
                             <div class="card-body p-5">
-                                <form wire:submit.prevent="submitApplication">
+                                <form
+                                    wire:submit.prevent="submitApplication"
+                                    id="volunteer-form"
+                                >
                                     <div class="row">
                                         <div class="col-md-6 mb-4">
                                             <div class="form-group">
@@ -245,5 +248,43 @@
         </div>
         <!-- volunteer area end -->
     </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("volunteer-form");
+            if (form) {
+                form.addEventListener("submit", function (e) {
+                    console.log("Form submitted via JavaScript");
+                    console.log("Event target:", e.target);
+                    console.log("Form action:", e.target.action);
+                    console.log("Form method:", e.target.method);
+
+                    // Check if Livewire is handling this
+                    if (e.target.hasAttribute("wire:submit.prevent")) {
+                        console.log("Livewire submit.prevent found");
+                    } else {
+                        console.log("No wire:submit.prevent found");
+                    }
+                });
+            }
+
+            // Check if Livewire is loaded
+            if (typeof Livewire !== "undefined") {
+                console.log("Livewire is loaded");
+
+                // Listen for Livewire events
+                Livewire.on("volunteer-submitted", () => {
+                    console.log("Volunteer form submitted via Livewire");
+                });
+
+                Livewire.on("test-message", (data) => {
+                    console.log("Test message received:", data.message);
+                    alert("Test method called successfully!");
+                });
+            } else {
+                console.log("Livewire is NOT loaded");
+            }
+        });
+    </script>
     @endsection
 </div>
