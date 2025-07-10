@@ -31,6 +31,15 @@ jobs:
       - name: 🛠️ Build frontend assets
         run: npm run build
 
+      - name: 🛠️ Ensure Laravel storage dirs exist
+        run: |
+          mkdir -p storage/framework/views
+          mkdir -p storage/framework/cache
+          mkdir -p storage/framework/sessions
+          mkdir -p storage/logs
+          chmod -R 775 storage
+          chmod -R 775 bootstrap/cache
+
       - name: ⚙️ Laravel optimization
         run: |
           php artisan config:cache
@@ -63,12 +72,12 @@ jobs:
           username: ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
           server-dir: /staloysius.breezetech.co.ke/
-          local-dir: ./   # Must be where deploy.zip is
+          local-dir: ./   # This is where deploy.zip is located
           exclude: |
             **/*
             !deploy.zip
 
-      - name: 🧪 Upload test.txt via FTP
+      - name: 🧪 Create test.txt
         run: echo "This is a test file" > test.txt
 
       - name: 📤 Upload test.txt via FTP
@@ -77,8 +86,8 @@ jobs:
           server: 70.32.23.41
           username: ${{ secrets.ftp_username1 }}
           password: ${{ secrets.ftp_password1 }}
-          server-dir:  /staloysius.breezetech.co.ke/
-          local-dir: ./
+          server-dir: /staloysius.breezetech.co.ke/
+          local-dir: ./   # location of test.txt
           exclude: |
             **/*
             !test.txt
