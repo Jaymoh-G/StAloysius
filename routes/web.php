@@ -48,8 +48,8 @@ Route::get('/gallery/album/{slug}', \App\Livewire\Frontend\AlbumView::class)->na
 
 // Career routes
 Route::get('/careers', \App\Livewire\Frontend\Careers::class)->name('careers');
-Route::get('/career/{slug}', \App\Livewire\Frontend\CareerDetail::class)->name('career.show');
-Route::get('/careers/{slug}', \App\Livewire\Frontend\CareerDetail::class)->name('careers.show');
+Route::get('/careers/category/{category}', \App\Livewire\Frontend\Careers::class)->name('careers.category');
+Route::get('/careers/{slug}', \App\Livewire\Frontend\CareerDetail::class)->name('career.show');
 
 // Facility routes
 Route::get('/facility/{slug}', \App\Livewire\Frontend\Facility::class)->name('facility');
@@ -72,6 +72,8 @@ Route::get('/updates/{slug}', \App\Livewire\Frontend\UpdatesSinglePage::class)->
 Route::get('/media-centre', \App\Livewire\Frontend\MediaCentre::class)->name('media-centre');
 Route::get('/support-us', \App\Livewire\Frontend\SupportUs::class)->name('support-us');
 Route::get('/contact-us', \App\Livewire\Frontend\ContactUs::class)->name('contact');
+Route::post('/contact-submit', [App\Http\Controllers\ContactController::class, 'submit'])->name('contact.submit');
+Route::post('/volunteer-submit', [App\Http\Controllers\VolunteerController::class, 'submit'])->name('volunteer.submit');
 Route::get('/faqs', \App\Livewire\Frontend\Faqs::class)->name('faqs');
 Route::get('/join-us', \App\Livewire\Frontend\JoinUs::class)->name('join-us');
 Route::get('/our-clubs', \App\Livewire\Frontend\OurClubs::class)->name('our-clubs');
@@ -194,6 +196,11 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')
     // Donations Management - require view donations permission
     Route::middleware(['module.permission:view donations'])->group(function () {
         Route::get('/donations', \App\Livewire\Dashboard\Donations\Index::class)->name('donations.index');
+    });
+
+    // Settings Management - require view settings permission
+    Route::middleware(['module.permission:view settings'])->group(function () {
+        Route::get('dashboard/settings', \App\Livewire\Dashboard\Settings\Index::class)->name('settings.index');
     });
 
     // Activity Log - accessible to all authenticated dashboard users

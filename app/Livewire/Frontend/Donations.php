@@ -13,6 +13,7 @@ class Donations extends Component
     public $email = '';
     public $phone = '';
     public $message = '';
+    public $showPaymentDetails = false;
 
     protected $rules = [
         'donationType' => 'required|in:external,direct',
@@ -38,6 +39,11 @@ class Donations extends Component
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
+
+        // Show payment details when direct payment is selected
+        if ($propertyName === 'donationType') {
+            $this->showPaymentDetails = ($this->donationType === 'direct');
+        }
     }
 
     public function submitDonation()
@@ -59,7 +65,8 @@ class Donations extends Component
 
             if ($this->donationType === 'external') {
                 // Redirect to external donation link
-                return redirect()->away('https://your-external-donation-link.com');
+                $externalLink = setting('donation_external_link', 'https://your-external-donation-link.com');
+                return redirect()->away($externalLink);
             } else {
                 // For direct donation, show payment details
                 session()->flash('donation_success', 'Thank you for your donation! Please use the payment details below to complete your donation.');
@@ -70,9 +77,12 @@ class Donations extends Component
                     'phone' => $this->phone,
                     'message' => $this->message,
                 ]);
+
+                // Keep the payment details visible
+                $this->showPaymentDetails = true;
             }
 
-            // Reset form
+            // Reset form but keep donation type
             $this->reset(['amount', 'name', 'email', 'phone', 'message']);
         } catch (\Exception $e) {
             session()->flash('donation_error', 'Sorry, there was an error processing your donation. Please try again.');

@@ -27,17 +27,7 @@
                                 <option value="on_hold">On Hold</option>
                                 <option value="cancelled">Cancelled</option>
                             </select>
-                            <select
-                                wire:model.live="priorityFilter"
-                                class="form-select"
-                                style="width: 150px"
-                            >
-                                <option value="">All Priority</option>
-                                <option value="low">Low</option>
-                                <option value="medium">Medium</option>
-                                <option value="high">High</option>
-                                <option value="urgent">Urgent</option>
-                            </select>
+
                             <select
                                 wire:model.live="featuredFilter"
                                 class="form-select"
@@ -81,7 +71,6 @@
                                     <th>Department</th>
                                     <th>Duration</th>
                                     <th>Featured</th>
-                                    <th>Published</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -113,6 +102,12 @@
                                     </td>
                                     <td>
                                         <strong>{{ $project->title }}</strong>
+                                        <br />
+                                        <small class="text-muted">
+                                            <i class="fas fa-clock"></i>
+                                            Updated:
+                                            {{ $project->updated_at->diffForHumans() }}
+                                        </small>
                                     </td>
                                     <td>
                                         <span
@@ -133,18 +128,15 @@
                                             ></i>
                                         </button>
                                     </td>
-                                    <td>
-                                        <button
-                                            wire:click="togglePublished({{ $project->id }})"
-                                            class="btn btn-sm {{ $project->is_published ? 'btn-info' : 'btn-outline-info' }}"
-                                        >
-                                            <i
-                                                class="fas {{ $project->is_published ? 'fa-eye' : 'fa-eye-slash' }}"
-                                            ></i>
-                                        </button>
-                                    </td>
+
                                     <td>
                                         <div class="btn-group" role="group">
+                                            <a
+                                                href="{{ route('project', $project->slug) }}"
+                                                class="btn btn-sm btn-info"
+                                            >
+                                                <i class="fas fa-eye"></i>
+                                            </a>
                                             <a
                                                 href="{{ route('dashboard.projects.edit', $project->id) }}"
                                                 class="btn btn-sm btn-primary"
@@ -163,7 +155,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="10" class="text-center">
+                                    <td colspan="9" class="text-center">
                                         No projects found.
                                     </td>
                                 </tr>
@@ -172,8 +164,10 @@
                         </table>
                     </div>
 
+                    <!-- bootstrap pagination -->
+
                     <div class="d-flex justify-content-center">
-                        {{ $projects->links() }}
+                        {{ $projects->links('vendor.pagination.bootstrap-4') }}
                     </div>
                 </div>
             </div>

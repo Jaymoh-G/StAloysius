@@ -36,7 +36,8 @@
                                     </h5>
                                     <p>
                                         {!! $pageData->section_1_content ??
-                                        '25/B Milford, New York, USA' !!}
+                                        setting('address', '25/B Milford, New
+                                        York, USA') !!}
                                     </p>
                                 </div>
                             </div>
@@ -51,8 +52,8 @@
                                         {{ $pageData->section_2_title ?? 'Call Us' }}
                                     </h5>
                                     <p>
-                                        {!! $pageData->section_2_content ?? '+2
-                                        123 4565 789' !!}
+                                        {!! $pageData->section_2_content ??
+                                        setting('phone', '+2 123 4565 789') !!}
                                     </p>
                                 </div>
                             </div>
@@ -68,7 +69,7 @@
                                     </h5>
                                     <p>
                                         {!! $pageData->section_3_content ??
-                                        'info@example.com' !!}
+                                        setting('email', 'info@example.com') !!}
                                     </p>
                                 </div>
                             </div>
@@ -83,8 +84,9 @@
                                         {{ $pageData->section_4_title ?? 'Open Time' }}
                                     </h5>
                                     <p>
-                                        {!! $pageData->section_4_content ?? 'Mon
-                                        - Sat (10.00AM - 05.30PM)' !!}
+                                        {!! $pageData->section_4_content ??
+                                        setting('office_hours', 'Mon - Sat
+                                        (10.00AM - 05.30PM)') !!}
                                     </p>
                                 </div>
                             </div>
@@ -122,9 +124,10 @@
                                 </div>
                                 <form
                                     method="post"
-                                    action="/eduka/assets/php/contact.php"
+                                    action="{{ route('contact.submit') }}"
                                     id="contact-form"
                                 >
+                                    @csrf
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -177,6 +180,74 @@
                                         ></div>
                                     </div>
                                 </form>
+
+                                <script>
+                                    document
+                                        .getElementById("contact-form")
+                                        .addEventListener(
+                                            "submit",
+                                            function (e) {
+                                                e.preventDefault();
+
+                                                const form = this;
+                                                const submitBtn =
+                                                    form.querySelector(
+                                                        'button[type="submit"]'
+                                                    );
+                                                const messageDiv =
+                                                    form.querySelector(
+                                                        ".form-messege"
+                                                    );
+
+                                                // Disable submit button and show loading state
+                                                submitBtn.disabled = true;
+                                                submitBtn.innerHTML =
+                                                    'Sending... <i class="far fa-spinner fa-spin"></i>';
+
+                                                // Get form data
+                                                const formData = new FormData(
+                                                    form
+                                                );
+
+                                                // Send AJAX request
+                                                fetch(form.action, {
+                                                    method: "POST",
+                                                    body: formData,
+                                                    headers: {
+                                                        "X-Requested-With":
+                                                            "XMLHttpRequest",
+                                                    },
+                                                })
+                                                    .then((response) =>
+                                                        response.json()
+                                                    )
+                                                    .then((data) => {
+                                                        if (data.success) {
+                                                            messageDiv.innerHTML =
+                                                                '<div class="alert alert-success">' +
+                                                                data.message +
+                                                                "</div>";
+                                                            form.reset();
+                                                        } else {
+                                                            messageDiv.innerHTML =
+                                                                '<div class="alert alert-danger">' +
+                                                                data.message +
+                                                                "</div>";
+                                                        }
+                                                    })
+                                                    .catch((error) => {
+                                                        messageDiv.innerHTML =
+                                                            '<div class="alert alert-danger">An error occurred. Please try again.</div>';
+                                                    })
+                                                    .finally(() => {
+                                                        // Re-enable submit button
+                                                        submitBtn.disabled = false;
+                                                        submitBtn.innerHTML =
+                                                            'Send Message <i class="far fa-paper-plane"></i>';
+                                                    });
+                                            }
+                                        );
+                                </script>
                             </div>
                         </div>
                     </div>

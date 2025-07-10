@@ -39,14 +39,11 @@
                             class="blog-item wow fadeInUp"
                             data-wow-delay=".25s"
                         >
-                            <div class="blog-date">
-                                <i class="fal fa-calendar-alt"></i>
-                                {{ $project->created_at->format('M d, Y') }}
-                            </div>
+
                             <div class="blog-item-img">
-                                @if ($project->featured_image)
+                                @if ($project->featuredImage)
                                 <img
-                                    src="{{ asset('storage/' . $project->featured_image) }}"
+                                    src="{{ asset('storage/' . $project->featuredImage->path) }}"
                                     alt="{{ $project->title }}"
                                 />
                                 @else
@@ -60,12 +57,19 @@
                                 <div class="blog-item-meta">
                                     <ul>
                                         <li>
-                                            <a href="#"
-                                                ><i
-                                                    class="far fa-user-circle"
-                                                ></i>
-                                                By Admin</a
+                                            @if ($project->status)
+                                              <i class="far fa-flag"></i>
+                                            <span
+                                                class="badge {{ $project->status_badge ?? 'bg-secondary text-white' }}"
+                                                style="
+                                                    font-size: 0.75rem;
+                                                    padding: 0.25rem 0.5rem;
+                                                "
                                             >
+
+                                                {{ $project->status_text ?? 'Unknown' }}
+                                            </span>
+                                            @endif
                                         </li>
                                         <li>
                                             @if ($project->department)
@@ -93,7 +97,7 @@
                                 <a
                                     class="theme-btn"
                                     href="{{ route('project', $project->slug) }}"
-                                    >View Details<i
+                                    >View Project<i
                                         class="fas fa-arrow-right-long"
                                     ></i
                                 ></a>

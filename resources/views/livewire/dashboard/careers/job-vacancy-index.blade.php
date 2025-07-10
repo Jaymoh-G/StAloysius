@@ -47,7 +47,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{ route('careers.show', $job->slug) }}"
+                                            <a href="{{ route('career.show', $job->slug) }}"
                                                 class="btn btn-sm btn-success me-1" target="_blank">
                                                 <i class="fa fa-eye"></i>
                                             </a>

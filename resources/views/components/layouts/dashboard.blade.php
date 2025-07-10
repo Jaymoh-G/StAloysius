@@ -50,6 +50,11 @@
             href="{{ asset('adminassets/css/style.css') }}"
             rel="stylesheet"
         />
+        <!-- Font Awesome CSS -->
+        <link
+            href="{{ asset('adminassets/icons/font-awesome/css/all.min.css') }}"
+            rel="stylesheet"
+        />
         <!-- SweetAlert2 CSS -->
         <link
             href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"

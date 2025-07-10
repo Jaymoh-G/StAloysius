@@ -49,12 +49,7 @@ class Index extends Component
         session()->flash('success', 'Project featured status updated successfully!');
     }
 
-    public function togglePublished($projectId)
-    {
-        $project = Project::findOrFail($projectId);
-        $project->update(['is_published' => !$project->is_published]);
-        session()->flash('success', 'Project published status updated successfully!');
-    }
+
 
     public function deleteProject($projectId)
     {
@@ -66,7 +61,7 @@ class Index extends Component
     public function render()
     {
         $query = Project::query()
-            ->with(['featuredImage']);
+            ->with(['featuredImage', 'department']);
 
         if ($this->search) {
             $query->where(function ($q) {
@@ -89,9 +84,10 @@ class Index extends Component
             $query->where('is_featured', $this->featuredFilter);
         }
 
-        $projects = $query->orderBy('sort_order', 'asc')
+        $projects = $query->orderBy('updated_at', 'desc')
+            ->orderBy('sort_order', 'asc')
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(8);
 
         return view('livewire.dashboard.projects.index', [
             'projects' => $projects,

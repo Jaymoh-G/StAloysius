@@ -20,7 +20,6 @@ class Project extends Model
         'featured_image',
         'technologies_used',
         'is_featured',
-        'is_published',
         'paragraph1',
         'paragraph2',
         'paragraph3',
@@ -48,7 +47,6 @@ class Project extends Model
         'start_date' => 'date',
         'end_date' => 'date',
         'is_featured' => 'boolean',
-        'is_published' => 'boolean',
     ];
 
     protected static function boot()
@@ -60,29 +58,49 @@ class Project extends Model
                 $project->slug = Str::slug($project->title);
             }
         });
+
+        static::updating(function ($project) {
+            // Regenerate slug if title has changed
+            if ($project->isDirty('title')) {
+                $project->slug = Str::slug($project->title);
+            }
+        });
     }
 
     public function images()
     {
-        return $this->hasMany(BlogImage::class);
+        return $this->hasMany(BlogImage::class)->where('category', 'project');
     }
 
     public function featuredImage()
     {
-        return $this->hasOne(BlogImage::class)->where('is_featured', true);
+        return $this->hasOne(BlogImage::class)->where('is_featured', true)->where('category', 'project');
     }
 
     public function getStatusBadgeAttribute()
     {
         $statuses = [
-            'planning' => 'badge-warning',
-            'in_progress' => 'badge-info',
-            'completed' => 'badge-success',
-            'on_hold' => 'badge-secondary',
-            'cancelled' => 'badge-danger'
+            'planning' => 'bg-warning text-dark',
+            'in_progress' => 'bg-info text-white',
+            'completed' => 'bg-success text-white',
+            'on_hold' => 'bg-secondary text-white',
+            'cancelled' => 'bg-danger text-white'
         ];
 
-        return $statuses[$this->status] ?? 'badge-secondary';
+        return $statuses[$this->status] ?? 'bg-secondary text-white';
+    }
+
+    public function getStatusTextAttribute()
+    {
+        $statuses = [
+            'planning' => 'Planning',
+            'in_progress' => 'In Progress',
+            'completed' => 'Completed',
+            'on_hold' => 'On Hold',
+            'cancelled' => 'Cancelled'
+        ];
+
+        return $statuses[$this->status] ?? 'Unknown';
     }
 
     public function getPriorityBadgeAttribute()

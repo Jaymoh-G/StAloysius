@@ -13,7 +13,9 @@ class ProjectDetail extends Component
     public function mount($slug)
     {
         $this->slug = $slug;
-        $this->project = Project::where('slug', $slug)->firstOrFail();
+        $this->project = Project::with(['featuredImage', 'images', 'department'])
+            ->where('slug', $slug)
+            ->firstOrFail();
     }
 
     public function render()

@@ -390,10 +390,10 @@
                                         </ul>
                                     </div>
                                     <h4 class="blog-title">
-                                        <a href="{{ route('careers.show', $job->slug) }}">{{ $job->title }}</a>
+                                        <a href="{{ route('career.show', $job->slug) }}">{{ $job->title }}</a>
                                     </h4>
                                     <p>{{ Str::limit(strip_tags($job->description), 100) }}</p>
-                                    <a class="theme-btn" href="{{ route('careers.show', $job->slug) }}">View Details<i class="fas fa-arrow-right-long"></i></a>
+                                    <a class="theme-btn" href="{{ route('career.show', $job->slug) }}">View Details<i class="fas fa-arrow-right-long"></i></a>
                                 </div>
                             </div>
                         </div>

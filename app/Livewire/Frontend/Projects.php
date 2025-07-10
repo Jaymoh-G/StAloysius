@@ -37,7 +37,8 @@ class Projects extends Component
 
     public function render()
     {
-        $query = Project::where('is_published', true)
+        $query = Project::query()
+            ->with(['featuredImage', 'department'])
             ->orderBy('sort_order', 'asc')
             ->orderBy('created_at', 'desc');
 
@@ -57,7 +58,7 @@ class Projects extends Component
             $query->where('department_id', $this->department);
         }
 
-        $projects = $query->paginate(12);
+        $projects = $query->paginate(6);
 
         return view('livewire.frontend.projects', [
             'projects' => $projects

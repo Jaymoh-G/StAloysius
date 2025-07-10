@@ -79,9 +79,11 @@
                         <div class="card shadow">
                             <div class="card-body p-5">
                                 <form
-                                    wire:submit.prevent="submitApplication"
+                                    method="post"
+                                    action="{{ route('volunteer.submit') }}"
                                     id="volunteer-form"
                                 >
+                                    @csrf
                                     <div class="row">
                                         <div class="col-md-6 mb-4">
                                             <div class="form-group">
@@ -93,15 +95,11 @@
                                                 <input
                                                     type="text"
                                                     id="name"
-                                                    wire:model="name"
-                                                    class="form-control @error('name') is-invalid @enderror"
+                                                    name="name"
+                                                    class="form-control"
                                                     placeholder="Enter your full name"
+                                                    required
                                                 />
-                                                @error('name')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                                @enderror
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-4">
@@ -114,15 +112,11 @@
                                                 <input
                                                     type="tel"
                                                     id="tel"
-                                                    wire:model="tel"
-                                                    class="form-control @error('tel') is-invalid @enderror"
+                                                    name="tel"
+                                                    class="form-control"
                                                     placeholder="Enter your phone number"
+                                                    required
                                                 />
-                                                @error('tel')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                                @enderror
                                             </div>
                                         </div>
                                         <div class="col-12 mb-4">
@@ -135,15 +129,11 @@
                                                 <input
                                                     type="email"
                                                     id="email"
-                                                    wire:model="email"
-                                                    class="form-control @error('email') is-invalid @enderror"
+                                                    name="email"
+                                                    class="form-control"
                                                     placeholder="Enter your email address"
+                                                    required
                                                 />
-                                                @error('email')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                                @enderror
                                             </div>
                                         </div>
                                         <div class="col-12 mb-4">
@@ -155,16 +145,12 @@
                                                 >
                                                 <textarea
                                                     id="skills"
-                                                    wire:model="skills"
-                                                    class="form-control @error('skills') is-invalid @enderror"
+                                                    name="skills"
+                                                    class="form-control"
                                                     rows="4"
                                                     placeholder="Please describe your skills, expertise, and areas where you can contribute (e.g., teaching, mentoring, technical skills, administrative support, etc.)"
+                                                    required
                                                 ></textarea>
-                                                @error('skills')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                                @enderror
                                             </div>
                                         </div>
                                         <div class="col-12 mb-4">
@@ -177,47 +163,98 @@
                                                 >
                                                 <textarea
                                                     id="additional_information"
-                                                    wire:model="additional_information"
-                                                    class="form-control @error('additional_information') is-invalid @enderror"
+                                                    name="additional_information"
+                                                    class="form-control"
                                                     rows="4"
                                                     placeholder="Any additional information about your availability, experience, or specific areas of interest"
                                                 ></textarea>
-                                                @error('additional_information')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                                @enderror
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <button
                                                 type="submit"
                                                 class="theme-btn"
-                                                wire:loading.attr="disabled"
-                                                wire:target="submitApplication"
                                             >
-                                                <span
-                                                    wire:loading.remove
-                                                    wire:target="submitApplication"
-                                                >
-                                                    <i
-                                                        class="far fa-paper-plane me-2"
-                                                    ></i
-                                                    >Submit Application
-                                                </span>
-                                                <span
-                                                    wire:loading
-                                                    wire:target="submitApplication"
-                                                >
-                                                    <i
-                                                        class="far fa-spinner fa-spin me-2"
-                                                    ></i
-                                                    >Submitting...
-                                                </span>
+                                                <i
+                                                    class="far fa-paper-plane me-2"
+                                                ></i
+                                                >Submit Application
                                             </button>
                                         </div>
                                     </div>
                                 </form>
+
+                                <div class="mt-3">
+                                    <div id="volunteer-form-message"></div>
+                                </div>
+
+                                <script>
+                                    document
+                                        .getElementById("volunteer-form")
+                                        .addEventListener(
+                                            "submit",
+                                            function (e) {
+                                                e.preventDefault();
+
+                                                const form = this;
+                                                const submitBtn =
+                                                    form.querySelector(
+                                                        'button[type="submit"]'
+                                                    );
+                                                const messageDiv =
+                                                    document.getElementById(
+                                                        "volunteer-form-message"
+                                                    );
+
+                                                // Disable submit button and show loading state
+                                                submitBtn.disabled = true;
+                                                submitBtn.innerHTML =
+                                                    '<i class="far fa-spinner fa-spin me-2"></i>Submitting...';
+
+                                                // Get form data
+                                                const formData = new FormData(
+                                                    form
+                                                );
+
+                                                // Send AJAX request
+                                                fetch(form.action, {
+                                                    method: "POST",
+                                                    body: formData,
+                                                    headers: {
+                                                        "X-Requested-With":
+                                                            "XMLHttpRequest",
+                                                    },
+                                                })
+                                                    .then((response) =>
+                                                        response.json()
+                                                    )
+                                                    .then((data) => {
+                                                        if (data.success) {
+                                                            messageDiv.innerHTML =
+                                                                '<div class="alert alert-success alert-dismissible fade show" role="alert"><div class="d-flex align-items-center"><i class="far fa-check-circle me-2"></i><div><strong>Success!</strong> ' +
+                                                                data.message +
+                                                                '</div></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+                                                            form.reset();
+                                                        } else {
+                                                            messageDiv.innerHTML =
+                                                                '<div class="alert alert-danger alert-dismissible fade show" role="alert"><div class="d-flex align-items-center"><i class="far fa-exclamation-triangle me-2"></i><div><strong>Error!</strong> ' +
+                                                                data.message +
+                                                                '</div></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+                                                        }
+                                                    })
+                                                    .catch((error) => {
+                                                        messageDiv.innerHTML =
+                                                            '<div class="alert alert-danger alert-dismissible fade show" role="alert"><div class="d-flex align-items-center"><i class="far fa-exclamation-triangle me-2"></i><div><strong>Error!</strong> An error occurred. Please try again.</div></div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+                                                    })
+                                                    .finally(() => {
+                                                        // Re-enable submit button
+                                                        submitBtn.disabled = false;
+                                                        submitBtn.innerHTML =
+                                                            '<i class="far fa-paper-plane me-2"></i>Submit Application';
+                                                    });
+                                            }
+                                        );
+                                </script>
                             </div>
                         </div>
                     </div>

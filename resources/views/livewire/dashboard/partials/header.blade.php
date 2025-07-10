@@ -270,8 +270,13 @@
                         </a>
                     </li>
 
-
-
+                    @canView('settings')
+                    <li><a class="" href="{{ route('dashboard.settings.index') }}" aria-expanded="false">
+                            <i class="fas fa-cog"></i>
+                            <span class="nav-text">Settings</span>
+                        </a>
+                    </li>
+                    @endcanView
 
                     <li>
                         <form method="POST" action="{{ route('logout') }}" style="display: inline;">

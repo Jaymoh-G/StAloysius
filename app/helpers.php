@@ -17,3 +17,11 @@ function formattedDate($date) {
 function formattedTime($datetime) {
     return \Carbon\Carbon::parse($datetime)->format('g:i A');
 }
+
+function setting($key, $default = null) {
+    return \App\Models\Setting::get($key, $default);
+}
+
+function setting_group($group) {
+    return \App\Models\Setting::getGroup($group);
+}

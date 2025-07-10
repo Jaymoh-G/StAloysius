@@ -24,93 +24,203 @@
                     <div class="col-lg-8">
                         <div class="blog-single-wrapper">
                             <div class="blog-single-content">
-                                @if ($project->featured_image)
+                                @if ($project->featuredImage)
                                 <div class="blog-thumb-img">
                                     <img
-                                        src="{{ asset('storage/' . $project->featured_image) }}"
+                                        src="{{ asset('storage/' . $project->featuredImage->path) }}"
                                         alt="{{ $project->title }}"
                                     />
                                 </div>
                                 @endif
+                                <h3 class="blog-details-title mb-20">
+                                    {{ $project->title }}
+                                </h3>
                                 <div class="blog-info">
                                     <div class="blog-meta">
                                         <div class="blog-meta-left">
                                             <ul>
                                                 <li>
-                                                    <i class="far fa-user"></i
-                                                    ><a href="#"
-                                                        >Admin</a
-                                                    >
-                                                </li>
-                                                <li>
                                                     @if ($project->department)
-                                                        Department: {{ $project->department->name }}
-                                                    @else
-                                                        Department: General
+
+                                                    <i class="far fa-tag"></i>
+                                                    {{ $project->department->name }}
+                                                    @else Department: General
                                                     @endif
                                                 </li>
                                                 <li>
-                                                    <i class="far fa-calendar-alt"></i>
+                                                    <i
+                                                        class="far fa-calendar-alt"
+                                                    ></i>
                                                     {{ $project->created_at->format('M d, Y') }}
                                                 </li>
                                                 <li>
                                                     <i class="far fa-clock"></i>
-                                                    Status: <span class="badge {{ $project->status_badge }}">{{ ucfirst(str_replace('_', ' ', $project->status)) }}</span>
+                                                    Status:
+                                                    <span
+                                                        class="badge {{ $project->status_badge }}"
+                                                        >{{ ucfirst(str_replace('_', ' ', $project->status)) }}</span
+                                                    >
                                                 </li>
                                             </ul>
                                         </div>
                                         <div class="blog-meta-right">
-                                            <a href="#" class="share-link"
-                                                ><i class="far fa-share-alt"></i
-                                                >Share</a
-                                            >
+                                            <div class="dropdown">
+                                                <a
+                                                    href="#"
+                                                    class="share-link dropdown-toggle"
+                                                    data-bs-toggle="dropdown"
+                                                    aria-expanded="false"
+                                                >
+                                                    <i
+                                                        class="far fa-share-alt"
+                                                    ></i
+                                                    >Share
+                                                </a>
+                                                <ul
+                                                    class="dropdown-menu dropdown-menu-end"
+                                                >
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item"
+                                                            href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->url()) }}&quote={{ urlencode($project->title) }}"
+                                                            target="_blank"
+                                                        >
+                                                            <i
+                                                                class="fab fa-facebook-f text-primary me-2"
+                                                            ></i
+                                                            >Facebook
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item"
+                                                            href="https://twitter.com/intent/tweet?url={{ urlencode(request()->url()) }}&text={{ urlencode($project->title) }}&hashtags=StAloysius,Projects"
+                                                            target="_blank"
+                                                        >
+                                                            <i
+                                                                class="fab fa-twitter text-info me-2"
+                                                            ></i
+                                                            >Twitter
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item"
+                                                            href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(request()->url()) }}"
+                                                            target="_blank"
+                                                        >
+                                                            <i
+                                                                class="fab fa-linkedin-in text-primary me-2"
+                                                            ></i
+                                                            >LinkedIn
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item"
+                                                            href="https://wa.me/?text={{ urlencode($project->title . ' - ' . request()->url()) }}"
+                                                            target="_blank"
+                                                        >
+                                                            <i
+                                                                class="fab fa-whatsapp text-success me-2"
+                                                            ></i
+                                                            >WhatsApp
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item"
+                                                            href="mailto:?subject={{ urlencode($project->title) }}&body={{ urlencode('Check out this project: ' . request()->url()) }}"
+                                                        >
+                                                            <i
+                                                                class="fas fa-envelope text-secondary me-2"
+                                                            ></i
+                                                            >Email
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <hr
+                                                            class="dropdown-divider"
+                                                        />
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            class="dropdown-item"
+                                                            href="#"
+                                                            onclick="copyToClipboard('{{ request()->url() }}'); return false;"
+                                                        >
+                                                            <i
+                                                                class="fas fa-link text-dark me-2"
+                                                            ></i
+                                                            >Copy Link
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="blog-details">
-                                        <h3 class="blog-details-title mb-20">
-                                            {{ $project->title }}
-                                        </h3>
-
                                         @if ($project->short_description)
                                         <p class="mb-20">
-                                            <strong>{{ $project->short_description }}</strong>
+                                            <strong
+                                                >{{ $project->short_description }}</strong
+                                            >
                                         </p>
+                                        @endif @if ($project->start_date &&
+                                        $project->end_date)
+                                        <div class="row mb-20">
+                                            <div class="col-md-4">
+                                                <h5>
+                                                    <i
+                                                        class="far fa-calendar-plus"
+                                                    ></i>
+                                                    Start Date
+                                                </h5>
+                                                <p>
+                                                    {{ $project->start_date->format('F j, Y') }}
+                                                </p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <h5>
+                                                    <i
+                                                        class="far fa-calendar-check"
+                                                    ></i>
+                                                    End Date
+                                                </h5>
+                                                <p>
+                                                    {{ $project->end_date->format('F j, Y') }}
+                                                </p>
+                                            </div>
+                                            @if ($project->duration)
+                                            <div class="col-md-4">
+                                                <h5>
+                                                    <i class="far fa-clock"></i>
+                                                    Duration
+                                                </h5>
+                                                <p>{{ $project->duration }}</p>
+                                            </div>
+                                            @endif
+                                        </div>
                                         @endif
 
                                         <p class="mb-20">
                                             {!! $project->description !!}
                                         </p>
 
-                                        @if ($project->start_date && $project->end_date)
-                                        <div class="row mb-20">
-                                            <div class="col-md-6">
-                                                <h5><i class="far fa-calendar-plus"></i> Start Date</h5>
-                                                <p>{{ $project->start_date->format('F j, Y') }}</p>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <h5><i class="far fa-calendar-check"></i> End Date</h5>
-                                                <p>{{ $project->end_date->format('F j, Y') }}</p>
-                                            </div>
-                                        </div>
-                                        @endif
-
-                                        @if ($project->duration)
+                                        <!-- First 3 paragraphs -->
+                                        @for ($i = 1; $i <= 3; $i++) @php
+                                        $paragraph = $project->{'paragraph' .
+                                        $i}; @endphp @if (!empty($paragraph))
                                         <div class="mb-20">
-                                            <h5><i class="far fa-clock"></i> Duration</h5>
-                                            <p>{{ $project->duration }}</p>
+                                            {!! $paragraph !!}
                                         </div>
-                                        @endif
+                                        @endif @endfor
 
-                                        @if ($project->technologies_used)
-                                        <div class="mb-20">
-                                            <h5><i class="far fa-tools"></i> Technologies Used</h5>
-                                            <p>{{ $project->technologies_used }}</p>
-                                        </div>
-                                        @endif
-
+                                        <!-- First 2 images -->
                                         @if ($project->images->count() > 0)
                                         <div class="row mb-20">
-                                            @foreach ($project->images->take(4) as $image)
+                                            @foreach ($project->images->take(2)
+                                            as $image)
                                             <div class="col-md-6 mb-20">
                                                 <img
                                                     src="{{ asset('storage/' . $image->path) }}"
@@ -122,74 +232,81 @@
                                         </div>
                                         @endif
 
-                                        @for ($i = 1; $i <= 21; $i++)
-                                            @php
-                                                $paragraph = $project->{'paragraph' . $i};
-                                            @endphp
-                                            @if (!empty($paragraph))
-                                            <div class="mb-20">
-                                                {!! $paragraph !!}
+                                        <!-- Next 4 paragraphs (paragraphs 4-7) -->
+                                        @for ($i = 4; $i <= 7; $i++) @php
+                                        $paragraph = $project->{'paragraph' .
+                                        $i}; @endphp @if (!empty($paragraph))
+                                        <div class="mb-20">
+                                            {!! $paragraph !!}
+                                        </div>
+                                        @endif @endfor
+
+                                        <!-- Next 2 images (images 3-4) -->
+                                        @if ($project->images->count() > 2)
+                                        <div class="row mb-20">
+                                            @foreach($project->images->skip(2)->take(2)
+                                            as $image)
+                                            <div class="col-md-6 mb-20">
+                                                <img
+                                                    src="{{ asset('storage/' . $image->path) }}"
+                                                    alt="{{ $image->caption ?? $project->title }}"
+                                                    class="img-fluid"
+                                                />
                                             </div>
-                                            @endif
-                                        @endfor
+                                            @endforeach
+                                        </div>
+                                        @endif
+
+                                        <!-- Remaining paragraphs (paragraphs 8-21) -->
+                                        @for ($i = 8; $i <= 21; $i++) @php
+                                        $paragraph = $project->{'paragraph' .
+                                        $i}; @endphp @if (!empty($paragraph))
+                                        <div class="mb-20">
+                                            {!! $paragraph !!}
+                                        </div>
+                                        @endif @endfor
+
+                                        <!-- Remaining images (images 5+) -->
+                                        @if ($project->images->count() > 4)
+                                        <div class="row mb-20">
+                                            @foreach ($project->images->skip(4)
+                                            as $image)
+                                            <div class="col-md-6 mb-20">
+                                                <img
+                                                    src="{{ asset('storage/' . $image->path) }}"
+                                                    alt="{{ $image->caption ?? $project->title }}"
+                                                    class="img-fluid"
+                                                />
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                        @endif
 
                                         <hr />
                                         <div class="blog-details-tags pb-20">
-                                            <h5>Project Tags :</h5>
+                                            <h5>Project Department :</h5>
                                             <ul>
                                                 @if ($project->department)
-                                                <li><a href="{{ route('department', $project->department->slug) }}">{{ $project->department->name }}</a></li>
+                                                <li>
+                                                    <a
+                                                        href="{{ route('department', $project->department->slug) }}"
+                                                        >{{ $project->department->name }}</a
+                                                    >
+                                                </li>
                                                 @endif
-                                                <li><a href="#">{{ ucfirst($project->status) }}</a></li>
+                                                <h5>Project Status :</h5>
+                                                <li>
+                                                    <a
+                                                        href="#"
+                                                        >{{ ucfirst($project->status) }}</a
+                                                    >
+                                                </li>
                                                 @if ($project->is_featured)
-                                                <li><a href="#">Featured</a></li>
+                                                <li>
+                                                    <a href="#">Featured</a>
+                                                </li>
                                                 @endif
                                             </ul>
-                                        </div>
-                                    </div>
-                                    <div class="blog-author">
-                                        <div class="blog-author-img">
-                                            <img
-                                                src="{{ asset('assets/img/blog/author.jpg') }}"
-                                                alt=""
-                                            />
-                                        </div>
-                                        <div class="author-info">
-                                            <h6>Project Manager</h6>
-                                            <h3 class="author-name">
-                                                St. Aloysius College
-                                            </h3>
-                                            <p>
-                                                This project represents our commitment to excellence and innovation in education.
-                                                We strive to provide the best learning experiences for our students and community.
-                                            </p>
-                                            <div class="author-social">
-                                                <a href="#"
-                                                    ><i
-                                                        class="fab fa-facebook-f"
-                                                    ></i
-                                                ></a>
-                                                <a href="#"
-                                                    ><i
-                                                        class="fab fa-linkedin-in"
-                                                    ></i
-                                                ></a>
-                                                <a href="#"
-                                                    ><i
-                                                        class="fab fa-instagram"
-                                                    ></i
-                                                ></a>
-                                                <a href="#"
-                                                    ><i
-                                                        class="fab fa-whatsapp"
-                                                    ></i
-                                                ></a>
-                                                <a href="#"
-                                                    ><i
-                                                        class="fab fa-youtube"
-                                                    ></i
-                                                ></a>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -212,46 +329,34 @@
                                     </button>
                                 </form>
                             </div>
-                            <!-- project status -->
-                            <div class="widget category">
-                                <h5 class="widget-title">Project Status</h5>
-                                <div class="category-list">
-                                    <a href="#"><i class="far fa-arrow-right"></i> Planning <span>({{ \App\Models\Project::where('status', 'planning')->count() }})</span></a>
-                                </div>
-                                <div class="category-list">
-                                    <a href="#"><i class="far fa-arrow-right"></i> In Progress <span>({{ \App\Models\Project::where('status', 'in_progress')->count() }})</span></a>
-                                </div>
-                                <div class="category-list">
-                                    <a href="#"><i class="far fa-arrow-right"></i> Completed <span>({{ \App\Models\Project::where('status', 'completed')->count() }})</span></a>
-                                </div>
-                                <div class="category-list">
-                                    <a href="#"><i class="far fa-arrow-right"></i> On Hold <span>({{ \App\Models\Project::where('status', 'on_hold')->count() }})</span></a>
-                                </div>
-                                <div class="category-list">
-                                    <a href="#"><i class="far fa-arrow-right"></i> Cancelled <span>({{ \App\Models\Project::where('status', 'cancelled')->count() }})</span></a>
-                                </div>
-                            </div>
+
                             <!-- recent projects -->
                             <div class="widget recent-post">
                                 <h5 class="widget-title">Recent Projects</h5>
-                                @foreach (\App\Models\Project::where('is_published', true)->orderBy('created_at', 'desc')->take(5)->get() as $recentProject)
+                                @foreach(\App\Models\Project::orderBy('created_at','desc')->take(5)->get()
+                                as $recentProject)
                                 <div class="recent-post-single">
                                     <div class="recent-post-img">
-                                        @if ($recentProject->featured_image)
-                                            <img
-                                                src="{{ asset('storage/' . $recentProject->featured_image) }}"
-                                                alt="{{ $recentProject->title }}"
-                                            />
+                                        @if ($recentProject->featuredImage)
+                                        <img
+                                            src="{{ asset('storage/' . $recentProject->featuredImage->path) }}"
+                                            alt="{{ $recentProject->title }}"
+                                        />
                                         @else
-                                            <img
-                                                src="{{ asset('assets/img/blog/01.jpg') }}"
-                                                alt="{{ $recentProject->title }}"
-                                            />
+                                        <img
+                                            src="{{
+                                                asset('assets/img/blog/01.jpg')
+                                            }}"
+                                            alt="{{ $recentProject->title }}"
+                                        />
                                         @endif
                                     </div>
                                     <div class="recent-post-bio">
                                         <h6>
-                                            <a href="{{ route('project', $recentProject->slug) }}">{{ $recentProject->title }}</a>
+                                            <a
+                                                href="{{ route('project', $recentProject->slug) }}"
+                                                >{{ $recentProject->title }}</a
+                                            >
                                         </h6>
                                         <span
                                             ><i class="far fa-clock"></i
@@ -265,7 +370,7 @@
                             <div class="widget social-share">
                                 <h5 class="widget-title">Follow Us</h5>
                                 <div class="social-share-link">
-                                    <a href="#"
+                                    <a href=""
                                         ><i class="fab fa-facebook-f"></i
                                     ></a>
                                     <a href="#"
@@ -283,19 +388,6 @@
                                 </div>
                             </div>
                             <!-- Project Tags -->
-                            <div class="widget sidebar-tag">
-                                <h5 class="widget-title">Project Tags</h5>
-                                <div class="tag-list">
-                                    <a href="#">Education</a>
-                                    <a href="#">Innovation</a>
-                                    <a href="#">Technology</a>
-                                    <a href="#">Research</a>
-                                    <a href="#">Development</a>
-                                    <a href="#">Students</a>
-                                    <a href="#">Academic</a>
-                                    <a href="#">Community</a>
-                                </div>
-                            </div>
                         </aside>
                     </div>
                 </div>
@@ -304,4 +396,35 @@
         <!-- blog single area end -->
     </main>
     @endsection
+
+    <script>
+        function copyToClipboard(text) {
+            // Create a temporary input element
+            const tempInput = document.createElement("input");
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+
+            // Select and copy the text
+            tempInput.select();
+            tempInput.setSelectionRange(0, 99999); // For mobile devices
+            document.execCommand("copy");
+
+            // Remove the temporary input
+            document.body.removeChild(tempInput);
+
+            // Show success message
+            const button = event.target.closest("button");
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            button.classList.remove("btn-dark");
+            button.classList.add("btn-success");
+
+            // Reset button after 2 seconds
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.classList.remove("btn-success");
+                button.classList.add("btn-dark");
+            }, 2000);
+        }
+    </script>
 </div>

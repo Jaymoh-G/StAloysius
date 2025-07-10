@@ -22,10 +22,11 @@ class Form extends Component
     public $technologies_used;
     public $featured_image;
     public $is_featured = false;
-    public $is_published = true;
+
     public $sort_order = 0;
     public $images = [];
     public $uploadedImages = [];
+    public $existingImages = [];
     public $department_id;
     public $departments;
     public $paragraphs = [];
@@ -39,7 +40,7 @@ class Form extends Component
         'department_id' => 'nullable|exists:department_models,id',
         'technologies_used' => 'nullable|string',
         'is_featured' => 'boolean',
-        'is_published' => 'boolean',
+
         'sort_order' => 'integer|min:0',
         'images.*' => 'nullable|image|max:2048',
     ];
@@ -65,8 +66,10 @@ class Form extends Component
             $this->technologies_used = $project->technologies_used;
             $this->featured_image = $project->featured_image;
             $this->is_featured = $project->is_featured;
-            $this->is_published = $project->is_published;
             $this->sort_order = $project->sort_order;
+
+            // Load existing images
+            $this->existingImages = $project->images()->where('category', 'project')->get();
         }
     }
 
@@ -83,7 +86,7 @@ class Form extends Component
             'department_id' => $this->department_id,
             'technologies_used' => $this->technologies_used,
             'is_featured' => $this->is_featured,
-            'is_published' => $this->is_published,
+
             'sort_order' => $this->sort_order,
         ];
 
@@ -102,19 +105,79 @@ class Form extends Component
 
         // Handle image uploads
         if ($this->images) {
-            foreach ($this->images as $image) {
+            foreach ($this->images as $index => $image) {
                 $path = $image->store('projects', 'public');
                 BlogImage::create([
                     'project_id' => $project->id,
                     'path' => $path,
                     'category' => 'project',
-                    'is_featured' => false,
+                    'is_featured' => $index === 0, // First image is featured
                 ]);
             }
         }
 
         session()->flash('success', 'Project saved successfully!');
         return redirect()->route('dashboard.projects.index');
+    }
+
+    public function deleteImage($imageId)
+    {
+        $image = BlogImage::findOrFail($imageId);
+
+        // Check if this is the featured image
+        $isFeatured = $image->is_featured;
+
+        // Delete the image file
+        if (file_exists(storage_path('app/public/' . $image->path))) {
+            unlink(storage_path('app/public/' . $image->path));
+        }
+
+        // Delete the database record
+        $image->delete();
+
+        // If this was the featured image, set the first remaining image as featured
+        if ($isFeatured && $this->projectId) {
+            $firstImage = BlogImage::where('project_id', $this->projectId)
+                ->where('category', 'project')
+                ->first();
+
+            if ($firstImage) {
+                $firstImage->update(['is_featured' => true]);
+            }
+        }
+
+        // Refresh existing images
+        if ($this->projectId) {
+            $this->existingImages = BlogImage::where('project_id', $this->projectId)
+                ->where('category', 'project')
+                ->get();
+        }
+
+        session()->flash('success', 'Image deleted successfully!');
+    }
+
+    public function setFeaturedImage($imageId)
+    {
+        if (!$this->projectId) {
+            session()->flash('error', 'Project must be saved first.');
+            return;
+        }
+
+        // Remove featured status from all project images
+        BlogImage::where('project_id', $this->projectId)
+            ->where('category', 'project')
+            ->update(['is_featured' => false]);
+
+        // Set the selected image as featured
+        $image = BlogImage::findOrFail($imageId);
+        $image->update(['is_featured' => true]);
+
+        // Refresh existing images
+        $this->existingImages = BlogImage::where('project_id', $this->projectId)
+            ->where('category', 'project')
+            ->get();
+
+        session()->flash('success', 'Featured image updated successfully!');
     }
 
     public function render()

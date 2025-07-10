@@ -45,7 +45,7 @@
                             @foreach ($jobs as $job)
                                 <div class="career-item mb-4">
                                     <div class="career-content">
-                                        <h4><a href="{{ route('careers.show', $job->slug) }}">{{ $job->title }}</a></h4>
+                                        <h4><a href="{{ route('career.show', $job->slug) }}">{{ $job->title }}</a></h4>
                                         <p>{{ Str::limit(strip_tags($job->description), 150) }}</p>
                                         <div class="career-meta">
                                             <span><i class="far fa-tag"></i> {{ $job->category->name }}</span>
@@ -54,7 +54,7 @@
                                         </div>
                                     </div>
                                     <div class="career-link">
-                                        <a href="{{ route('careers.show', $job->slug) }}"><i
+                                        <a href="{{ route('career.show', $job->slug) }}"><i
                                                 class="far fa-arrow-right"></i></a>
                                     </div>
                                 </div>
