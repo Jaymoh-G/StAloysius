@@ -32,7 +32,7 @@ class RoleSeeder extends Seeder
 
         // Define modules and their permissions
         $modules = [
-
+            'dashboard' => ['view'],
             'users' => ['view', 'create', 'edit', 'delete'],
             'roles' => ['view', 'create', 'edit', 'delete'],
             'permissions' => ['view', 'create', 'edit', 'delete'],
@@ -49,7 +49,7 @@ class RoleSeeder extends Seeder
             'projects' => ['view', 'create', 'edit', 'delete', 'publish'],
             'volunteer_applications' => ['view', 'create', 'edit', 'delete', 'approve'],
             'donations' => ['view', 'create', 'edit', 'delete', 'approve'],
-
+            'settings' => ['view', 'edit'],
         ];
 
         // Create all permissions
@@ -79,7 +79,7 @@ class RoleSeeder extends Seeder
 
         // Assign permissions to Editor (content management only)
         $editorPermissions = [
-
+            'view dashboard',
             'view blog',
             'create blog',
             'edit blog',
@@ -97,7 +97,6 @@ class RoleSeeder extends Seeder
             'view testimonials',
             'create testimonials',
             'edit testimonials',
-
             'view gallery',
             'create gallery',
             'edit gallery',
@@ -127,7 +126,8 @@ class RoleSeeder extends Seeder
             'create donations',
             'edit donations',
             'approve donations',
-
+            'view settings',
+            'edit settings',
         ];
         $editorRole->givePermissionTo($editorPermissions);
 
@@ -146,6 +146,7 @@ class RoleSeeder extends Seeder
             'view projects',
             'view volunteer_applications',
             'view donations',
+            'view settings',
         ];
         $userRole->givePermissionTo($userPermissions);
 

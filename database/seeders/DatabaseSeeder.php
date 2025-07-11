@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,6 +25,13 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             SuperAdminSeeder::class,
+            SettingsSeeder::class,
         ]);
+
+        // Clear permission cache after seeding
+        Artisan::call('permission:cache-reset');
+
+        $this->command->info('✅ Database seeding completed successfully!');
+        $this->command->info('✅ Permission cache cleared!');
     }
 }
