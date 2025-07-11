@@ -78,4 +78,4 @@ jobs:
           exclude: |
             **/*
             !deploy.zip
-            !extract.php
+            !e.php
