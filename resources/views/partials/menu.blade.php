@@ -109,6 +109,7 @@
                                     <div class="row">
                                         <div class="col-12 col-sm-4 col-md-3">
                                             <div class="menu-about">
+                                                @if (setting('main_menu_logo_1'))
                                                 <a
                                                     href="#"
                                                     class="menu-about-logo"
@@ -116,12 +117,37 @@
                                                     <img
                                                         src="{{
                                                             asset(
-                                                                'assets/img/logo/Students.jpg'
+                                                                'storage/'.setting(
+                                                                    'main_menu_logo_1'
+                                                                )
                                                             )
                                                         }}"
-                                                        alt=""
+                                                        alt="Menu Logo 1"
+                                                        style="
+                                                            max-width: 100%;
+                                                            height: auto;
+                                                        "
                                                     />
                                                 </a>
+                                                @else
+                                                <a
+                                                    href="#"
+                                                    class="menu-about-logo"
+                                                >
+                                                    <img
+                                                        src="{{
+                                                            asset(
+                                                                'assets/img/logo/Students1.jpg'
+                                                            )
+                                                        }}"
+                                                        alt="Default Menu Logo"
+                                                        style="
+                                                            max-width: 100%;
+                                                            height: auto;
+                                                        "
+                                                    />
+                                                </a>
+                                                @endif
                                             </div>
                                         </div>
 
@@ -136,7 +162,8 @@
                                         <div class="col-12 col-sm-4 col-md-3">
                                             <h5>{{ $mainCategory->name }}</h5>
                                             <ul class="mega-menu-item">
-                                                @foreach($mainCategory->departments as $department)
+                                                @foreach($mainCategory->departments
+                                                as $department)
                                                 <li>
                                                     <a
                                                         class="dropdown-item"
@@ -145,7 +172,8 @@
                                                         {{ $department->name }}
                                                     </a>
                                                 </li>
-                                                @endforeach @foreach($mainCategory->children as $subCategory)
+                                                @endforeach
+                                                @foreach($mainCategory->children as $subCategory)
                                                 <li class="dropdown-submenu">
                                                     <a
                                                         class="dropdown-item dropdown-toggle"
@@ -156,7 +184,8 @@
                                                         {{ $subCategory->name }}
                                                     </a>
                                                     <ul class="dropdown-menu">
-                                                        @forelse($subCategory->departments as $department)
+                                                        @forelse($subCategory->departments
+                                                        as $department)
                                                         <li>
                                                             <a
                                                                 class="dropdown-item"
@@ -200,6 +229,27 @@
 
                                         <div class="col-12 col-sm-4 col-md-3">
                                             <div class="menu-about">
+                                                @if(setting('main_menu_logo_2'))
+                                                <a
+                                                    href="#"
+                                                    class="menu-about-logo"
+                                                >
+                                                    <img
+                                                        src="{{
+                                                            asset(
+                                                                'storage/'.setting(
+                                                                    'main_menu_logo_2'
+                                                                )
+                                                            )
+                                                        }}"
+                                                        alt="Menu Logo 2"
+                                                        style="
+                                                            max-width: 100%;
+                                                            height: auto;
+                                                        "
+                                                    />
+                                                </a>
+                                                @else
                                                 <a
                                                     href="#"
                                                     class="menu-about-logo"
@@ -210,9 +260,14 @@
                                                                 'assets/img/logo/Students.jpg'
                                                             )
                                                         }}"
-                                                        alt=""
+                                                        alt="Default Menu Logo 2"
+                                                        style="
+                                                            max-width: 100%;
+                                                            height: auto;
+                                                        "
                                                     />
                                                 </a>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -341,6 +396,15 @@
                             >School Portals</a
                         >
                         <ul class="dropdown-menu fade-down">
+                            @if (setting('student_portal'))
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="{{ setting('student_portal') }}"
+                                    >Student Portal</a
+                                >
+                            </li>
+                            @else
                             <li>
                                 <a
                                     class="dropdown-item"
@@ -348,6 +412,15 @@
                                     >Student Portal</a
                                 >
                             </li>
+                            @endif @if (setting('staff_portal'))
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="{{ setting('staff_portal') }}"
+                                    >Staff Portal</a
+                                >
+                            </li>
+                            @else
                             <li>
                                 <a
                                     class="dropdown-item"
@@ -355,6 +428,15 @@
                                     >Staff Portal</a
                                 >
                             </li>
+                            @endif @if (setting('webmail_portal'))
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="{{ setting('webmail_portal') }}"
+                                    >Webmails</a
+                                >
+                            </li>
+                            @else
                             <li>
                                 <a
                                     class="dropdown-item"
@@ -362,6 +444,7 @@
                                     >Webmails</a
                                 >
                             </li>
+                            @endif
                         </ul>
                     </li>
                 </ul>

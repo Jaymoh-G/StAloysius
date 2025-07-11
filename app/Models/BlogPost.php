@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class BlogPost extends Model
 {
@@ -43,10 +44,34 @@ class BlogPost extends Model
     {
         return $this->hasMany(BlogImage::class, 'blog_post_id');
     }
-    // BlogPost.php
+
     public function featuredImage()
     {
         return $this->hasOne(BlogImage::class)->where('is_featured', true);
+    }
+
+    /**
+     * Get all comments for this blog post
+     */
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * Get only approved comments for this blog post
+     */
+    public function approvedComments(): HasMany
+    {
+        return $this->hasMany(Comment::class)->approved();
+    }
+
+    /**
+     * Get only top-level approved comments for this blog post
+     */
+    public function topLevelComments(): HasMany
+    {
+        return $this->hasMany(Comment::class)->approved()->topLevel();
     }
 }
 

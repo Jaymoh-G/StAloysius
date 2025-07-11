@@ -41,15 +41,15 @@
                                     data-animation="fadeInUp"
                                     data-delay="1s"
                                 >
-                                    <a href="about.html" class="theme-btn"
-                                        >About More<i
+                                    <a href="{{ route('about-us') }}" class="theme-btn"
+                                        >About Us<i
                                             class="fas fa-arrow-right-long"
                                         ></i
                                     ></a>
                                     <a
-                                        href="contact.html"
+                                        href="{{ route('departments') }}"
                                         class="theme-btn theme-btn2"
-                                        >Learn More<i
+                                        >Our Departments<i
                                             class="fas fa-arrow-right-long"
                                         ></i
                                     ></a>
@@ -110,10 +110,19 @@
                                                 alt=""
                                             />
                                         </div>
+                                        <!-- anniversary year from setting table  -->
+                                        @if (setting('years_of_anniversary'))
                                         <b class="text-start"
-                                            >30 Years Of <br />
-                                            Quality Service</b
+                                            >{{ setting('years_of_anniversary') }}
+                                            Years Of <br /> Quality Service</b
                                         >
+                                            @else
+                                            <b class="text-start"
+                                                >30 Years Of <br />
+                                                Quality Service</b
+                                            >
+                                            @endif
+
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -237,11 +246,12 @@
                             </div>
                         </div>
                         <div class="about-bottom">
-                            <a href="about.html" class="theme-btn"
+                            <a href="{{ route('about-us') }}" class="theme-btn"
                                 >Discover More<i
                                     class="fas fa-arrow-right-long"
                                 ></i
                             ></a>
+                        @if (setting('phone'))
                             <div class="about-phone">
                                 <div class="icon">
                                     <i class="fal fa-headset"></i>
@@ -249,12 +259,14 @@
                                 <div class="number">
                                     <span>Call Now</span>
                                     <h6>
-                                        <a href="tel:+254 715 409 166"
-                                            >+254 715 409 166</a
+                                        <a
+                                            href="tel:{{ setting('phone') }}"
+                                            >{{ setting('phone') }}</a
                                         >
                                     </h6>
                                 </div>
                             </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -269,10 +281,12 @@
             <div class="row g-4">
                 <div class="col-lg-4 wow fadeInLeft" data-wow-delay=".25s">
                     <div class="site-heading mb-3">
-                        <span class="site-title-tagline"
-                            ><i class="far fa-book-open-reader"></i> Latest
-                            Videos</span
-                        >
+                        <a href="{{ route('videos') }}">
+                            <span class="site-title-tagline"
+                                ><i class="far fa-book-open-reader"></i> Latest
+                                Videos</span
+                            >
+                        </a>
                         @if ($featuredVideos)
                         <h2 class="site-title">
                             {{ $featuredVideos->title }}
@@ -691,6 +705,8 @@
         </div>
     </div>
     <!-- enroll area end -->
+
+
 
     <!-- team-area -->
     <div class="team-area py-120">

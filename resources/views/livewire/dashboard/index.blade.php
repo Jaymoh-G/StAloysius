@@ -132,6 +132,28 @@
                 </div>
             </a>
         </div>
+        @endcanView @canView('blog')
+        <div class="col-md-3">
+            <a
+                href="{{ route('dashboard.comments.index') }}"
+                class="text-decoration-none"
+            >
+                <div class="card card-compact shadow h-100">
+                    <div class="card-body text-center">
+                        <i class="fa fa-comments fa-2x text-warning mb-2"></i>
+                        <h6 class="card-title">
+                            Comments
+                            <span
+                                >({{
+                                    $pendingCommentsCount ?? 0
+                                }}
+                                pending)</span
+                            >
+                        </h6>
+                    </div>
+                </div>
+            </a>
+        </div>
         @endcanView @canView('static_pages')
         <div class="col-md-3">
             <a

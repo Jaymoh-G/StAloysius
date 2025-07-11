@@ -35,15 +35,16 @@ Route::get('/fee-paying-students', \App\Livewire\Frontend\FeePayingStudents::cla
 Route::get('/scholarships', \App\Livewire\Frontend\Scholarships::class)->name('scholarships');
 
 // Event routes
+Route::get('/events/{slug}', \App\Livewire\Frontend\Event::class)->name('event');
 Route::get('/events', \App\Livewire\Frontend\Events::class)->name('events');
 Route::get('/upcoming-events', \App\Livewire\Frontend\UpcomingEvents::class)->name('upcoming-events');
 Route::get('/past-events', \App\Livewire\Frontend\PastEvents::class)->name('past-events');
-Route::get('/event/{slug}', \App\Livewire\Frontend\Event::class)->name('event');
 
 // Gallery routes
 Route::get('/gallery', \App\Livewire\Frontend\Gallery::class)->name('gallery');
 Route::get('/photos', \App\Livewire\Frontend\PhotoGallery::class)->name('photos');
 Route::get('/videos', \App\Livewire\Frontend\YoutubeGallery::class)->name('videos');
+Route::get('/videos/category/{category}', \App\Livewire\Frontend\YoutubeGallery::class)->name('videos.categories');
 Route::get('/gallery/album/{slug}', \App\Livewire\Frontend\AlbumView::class)->name('gallery.album');
 
 // Career routes
@@ -58,7 +59,7 @@ Route::get('/facility/{slug}', \App\Livewire\Frontend\Facility::class)->name('fa
 Route::get('/team-member/{slug}', \App\Livewire\Frontend\TeamMember::class)->name('frontend.team.show');
 
 // Project details (frontend)
-Route::get('/project/{slug}', \App\Livewire\Frontend\ProjectDetail::class)->name('project');
+Route::get('/projects/{slug}', \App\Livewire\Frontend\ProjectDetail::class)->name('project');
 
 // Projects listing (frontend)
 Route::get('/projects', \App\Livewire\Frontend\Projects::class)->name('projects');
@@ -111,6 +112,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')
         Route::get('/blog/create', \App\Livewire\Dashboard\Blog\Create::class)->name('blog.create');
         Route::get('/blog/{id}/edit', \App\Livewire\Dashboard\Blog\Create::class)->name('blog.edit');
         Route::get('/blog/categories', \App\Livewire\Dashboard\Blogs\Categories\Index::class)->name('blog.categories.index');
+        Route::get('/comments', \App\Livewire\Dashboard\Comments\Index::class)->name('comments.index');
     });
 
     // Events Management - require view events permission

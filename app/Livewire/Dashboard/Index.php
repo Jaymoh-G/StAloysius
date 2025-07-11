@@ -17,6 +17,7 @@ use App\Models\DepartmentModel;
 use App\Models\FacilityModel;
 use App\Models\User;
 use App\Models\StaticPage;
+use App\Models\Comment;
 use App\Traits\HasModulePermissions;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -181,7 +182,8 @@ class Index extends Component
             'chartDatasets' => $chartDatasets,
             'upcomingEventCount' => $upcomingEventCount,
             'pastEventCount' => $pastEventCount,
-        ])->layout('components.layouts.dashboard');
+            'pendingCommentsCount' => $this->canView('blog') ? Comment::where('is_approved', false)->count() : 0,
+        ]);
     }
 
     private function getMonthlyCounts($modelClass, $months)

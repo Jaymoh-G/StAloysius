@@ -36,8 +36,15 @@
                             </li>
                             @endif @if(setting('address'))
                             <li>
+                                @if (setting('google_map'))
+                                <a href="{{ setting('google_map') }}" target="_blank">
+                                    <i class="far fa-map-marker-alt"></i>
+                                    {{ setting("address") }}
+                                </a>
+                                @else
                                 <i class="far fa-map-marker-alt"></i>
                                 {{ setting("address") }}
+                                @endif
                             </li>
                             @endif @if(setting('email'))
                             <li>
@@ -263,6 +270,25 @@
                                 ></a>
                             </li>
                             @endif
+                            @if(setting('twitter'))
+                            <li>
+                                <a
+                                    target="_blank"
+                                    href="{{ setting('twitter') }}"
+                                    ><i class="fab fa-twitter"></i
+                                ></a>
+                            </li>
+                            @endif
+                            @if(setting('tiktok'))
+                            <li>
+                                <a
+                                    target="_blank"
+                                    href="{{ setting('tiktok') }}"
+                                    ><i class="fab fa-tiktok"></i
+                                ></a>
+                            </li>
+                            @endif
+
                         </ul>
                     </div>
                 </div>

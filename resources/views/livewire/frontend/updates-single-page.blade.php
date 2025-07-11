@@ -97,7 +97,7 @@
                                         <p class="mb-20">
                                             {!! $blog->paragraph6 !!}
                                         </p>
-                                          <p class="mb-20">
+                                        <p class="mb-20">
                                             {!! $blog->paragraph7 !!}
                                         </p>
                                         <p class="mb-20">
@@ -130,205 +130,12 @@
                                         </div>
                                         @endif @endfor
                                         <hr />
-                                        <div class="blog-details-tags pb-20">
-                                            <h5>Tags :</h5>
-                                            <ul>
-                                                <li><a href="#">Course</a></li>
-                                                <li>
-                                                    <a href="#">Students</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Academics</a>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                        
                                     </div>
-                                    <div class="blog-author">
-                                        <div class="blog-author-img">
-                                            <img
-                                                src="assets/img/blog/author.jpg"
-                                                alt=""
-                                            />
-                                        </div>
-                                        <div class="author-info">
-                                            <h6>Author</h6>
-                                            <h3 class="author-name">
-                                                Agnes F. Natale
-                                            </h3>
-                                            <p>
-                                                It is a long established fact
-                                                that a reader will be distracted
-                                                by the abcd readable content of
-                                                a page when looking at its
-                                                layout that more less.
-                                            </p>
-                                            <div class="author-social">
-                                                <a href="#"
-                                                    ><i
-                                                        class="fab fa-facebook-f"
-                                                    ></i
-                                                ></a>
-                                                <a href="#"
-                                                    ><i
-                                                        class="fab fa-linkedin-in"
-                                                    ></i
-                                                ></a>
-                                                <a href="#"
-                                                    ><i
-                                                        class="fab fa-instagram"
-                                                    ></i
-                                                ></a>
-                                                <a href="#"
-                                                    ><i
-                                                        class="fab fa-whatsapp"
-                                                    ></i
-                                                ></a>
-                                                <a href="#"
-                                                    ><i
-                                                        class="fab fa-youtube"
-                                                    ></i
-                                                ></a>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
-                                <div class="blog-comments">
-                                    <h3>Comments (20)</h3>
-                                    <div class="blog-comments-wrapper">
-                                        <div class="blog-comments-single">
-                                            <img
-                                                src="assets/img/blog/com-1.jpg"
-                                                alt="thumb"
-                                            />
-                                            <div class="blog-comments-content">
-                                                <h5>Kecia A. Parada</h5>
-                                                <span
-                                                    ><i
-                                                        class="far fa-clock"
-                                                    ></i>
-                                                    June 18, 2024</span
-                                                >
-                                                <p>
-                                                    There are many variations of
-                                                    passages the majority have
-                                                    suffered in some injected
-                                                    humour or randomised words
-                                                    which don't look even
-                                                    slightly believable.
-                                                </p>
-                                                <a href="#"
-                                                    ><i
-                                                        class="far fa-reply"
-                                                    ></i>
-                                                    Reply</a
-                                                >
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="blog-comments-single blog-comments-reply"
-                                        >
-                                            <img
-                                                src="assets/img/blog/com-2.jpg"
-                                                alt="thumb"
-                                            />
-                                            <div class="blog-comments-content">
-                                                <h5>Thomas A. Lindsey</h5>
-                                                <span
-                                                    ><i
-                                                        class="far fa-clock"
-                                                    ></i>
-                                                    June 18, 2024</span
-                                                >
-                                                <p>
-                                                    There are many variations of
-                                                    passages the majority have
-                                                    suffered in some injected
-                                                    humour or randomised words
-                                                    which don't look even
-                                                    slightly believable.
-                                                </p>
-                                                <a href="#"
-                                                    ><i
-                                                        class="far fa-reply"
-                                                    ></i>
-                                                    Reply</a
-                                                >
-                                            </div>
-                                        </div>
-                                        <div class="blog-comments-single">
-                                            <img
-                                                src="assets/img/blog/com-3.jpg"
-                                                alt="thumb"
-                                            />
-                                            <div class="blog-comments-content">
-                                                <h5>Mary R. Lujan</h5>
-                                                <span
-                                                    ><i
-                                                        class="far fa-clock"
-                                                    ></i>
-                                                    June 18, 2024</span
-                                                >
-                                                <p>
-                                                    There are many variations of
-                                                    passages the majority have
-                                                    suffered in some injected
-                                                    humour or randomised words
-                                                    which don't look even
-                                                    slightly believable.
-                                                </p>
-                                                <a href="#"
-                                                    ><i
-                                                        class="far fa-reply"
-                                                    ></i>
-                                                    Reply</a
-                                                >
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="blog-comments-form">
-                                        <h3>Leave A Comment</h3>
-                                        <form action="#">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            placeholder="Your Name*"
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <input
-                                                            type="email"
-                                                            class="form-control"
-                                                            placeholder="Your Email*"
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <textarea
-                                                            class="form-control"
-                                                            rows="5"
-                                                            placeholder="Your Comment*"
-                                                        ></textarea>
-                                                    </div>
-                                                    <button
-                                                        type="submit"
-                                                        class="theme-btn"
-                                                    >
-                                                        Post Comment
-                                                        <i
-                                                            class="far fa-paper-plane"
-                                                        ></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
+                                @livewire('frontend.blog-comments', ['blogPost'
+                                => $blog])
                             </div>
                         </div>
                     </div>
@@ -357,8 +164,12 @@
                                         ><i class="far fa-arrow-right"></i>
                                         {{ $category->name
 
+
+
                                         }}<span
                                             >({{ $category->blog_posts_count
+
+
 
                                             }})</span
                                         ></a
@@ -393,37 +204,52 @@
                             <div class="widget social-share">
                                 <h5 class="widget-title">Follow Us</h5>
                                 <div class="social-share-link">
-                                    <a href="#"
+                                    @if(setting('facebook'))
+                                    <a
+                                        href="{{ setting('facebook') }}"
+                                        target="_blank"
                                         ><i class="fab fa-facebook-f"></i
                                     ></a>
-                                    <a href="#"
+                                    @endif @if(setting('linkedin'))
+                                    <a
+                                        href="{{ setting('linkedin') }}"
+                                        target="_blank"
                                         ><i class="fab fa-linkedin-in"></i
                                     ></a>
-                                    <a href="#"
-                                        ><i class="fab fa-dribbble"></i
+                                    @endif @if(setting('instagram'))
+                                    <a
+                                        href="{{ setting('instagram') }}"
+                                        target="_blank"
+                                        ><i class="fab fa-instagram"></i
                                     ></a>
-                                    <a href="#"
+                                    @endif @if(setting('whatsapp'))
+                                    <a
+                                        href="{{ setting('whatsapp') }}"
+                                        target="_blank"
                                         ><i class="fab fa-whatsapp"></i
                                     ></a>
-                                    <a href="#"
+                                    @endif @if(setting('youtube'))
+                                    <a
+                                        href="{{ setting('youtube') }}"
+                                        target="_blank"
                                         ><i class="fab fa-youtube"></i
                                     ></a>
+                                    @endif @if(setting('twitter'))
+                                    <a
+                                        href="{{ setting('twitter') }}"
+                                        target="_blank"
+                                        ><i class="fab fa-twitter"></i
+                                    ></a>
+                                    @endif @if(setting('tiktok'))
+                                    <a
+                                        href="{{ setting('tiktok') }}"
+                                        target="_blank"
+                                        ><i class="fab fa-tiktok"></i
+                                    ></a>
+                                    @endif
                                 </div>
                             </div>
                             <!-- Recent Post -->
-                            <div class="widget sidebar-tag">
-                                <h5 class="widget-title">Popular Tags</h5>
-                                <div class="tag-list">
-                                    <a href="#">Courses</a>
-                                    <a href="#">Students</a>
-                                    <a href="#">Tips</a>
-                                    <a href="#">Academic</a>
-                                    <a href="#">Study</a>
-                                    <a href="#">Offer</a>
-                                    <a href="#">Online</a>
-                                    <a href="#">Knowledge</a>
-                                </div>
-                            </div>
                         </aside>
                     </div>
                 </div>

@@ -21,6 +21,22 @@
                         ><i class="fab fa-linkedin"></i
                     ></a>
                     @endif
+                    @if(setting('twitter'))
+                    <a href="{{ setting('twitter') }}" target="_blank"
+                        ><i class="fab fa-twitter"></i
+                    ></a>
+                    @endif
+                    @if(setting('tiktok'))
+                    <a href="{{ setting('tiktok') }}" target="_blank"
+                        ><i class="fab fa-tiktok"></i
+                    ></a>
+                    @endif
+                    @if(setting('whatsapp'))
+                    <a href="{{ setting('whatsapp') }}" target="_blank"
+                        ><i class="fab fa-whatsapp"></i
+                    ></a>
+                    @endif
+
                 </div>
             </div>
             <div class="header-top-right">

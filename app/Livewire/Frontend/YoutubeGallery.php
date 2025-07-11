@@ -27,7 +27,7 @@ class YoutubeGallery extends Component
         $this->resetPage();
 
         // Update URL without full page reload
-        $url = route('videos', ['category' => $categorySlug]);
+        $url = route('videos.categories', ['category' => $categorySlug]);
         $this->dispatch('urlChanged', ['url' => $url]);
     }
 
@@ -63,7 +63,3 @@ class YoutubeGallery extends Component
         ]);
     }
 }
-
-
-
-

@@ -112,6 +112,55 @@
                             </p>
                         </div>
                     </div>
+                     <!-- social share -->
+                            <div class="widget social-share">
+                                <h5 class="widget-title">Follow Us</h5>
+                                <div class="social-share-link">
+                                    @if(setting('facebook'))
+                                    <a
+                                        href="{{ setting('facebook') }}"
+                                        target="_blank"
+                                        ><i class="fab fa-facebook-f"></i
+                                    ></a>
+                                    @endif @if(setting('linkedin'))
+                                    <a
+                                        href="{{ setting('linkedin') }}"
+                                        target="_blank"
+                                        ><i class="fab fa-linkedin-in"></i
+                                    ></a>
+                                    @endif @if(setting('instagram'))
+                                    <a
+                                        href="{{ setting('instagram') }}"
+                                        target="_blank"
+                                        ><i class="fab fa-instagram"></i
+                                    ></a>
+                                    @endif @if(setting('whatsapp'))
+                                    <a
+                                        href="{{ setting('whatsapp') }}"
+                                        target="_blank"
+                                        ><i class="fab fa-whatsapp"></i
+                                    ></a>
+                                    @endif @if(setting('youtube'))
+                                    <a
+                                        href="{{ setting('youtube') }}"
+                                        target="_blank"
+                                        ><i class="fab fa-youtube"></i
+                                    ></a>
+                                    @endif @if(setting('twitter'))
+                                    <a
+                                        href="{{ setting('twitter') }}"
+                                        target="_blank"
+                                        ><i class="fab fa-twitter"></i
+                                    ></a>
+                                    @endif @if(setting('tiktok'))
+                                    <a
+                                        href="{{ setting('tiktok') }}"
+                                        target="_blank"
+                                        ><i class="fab fa-tiktok"></i
+                                    ></a>
+                                    @endif
+                                </div>
+                            </div>
                 </div>
             </div>
         </div>

@@ -94,6 +94,7 @@
                                     @endcanCreate
                                     <li><a href="{{ route('dashboard.blog.categories.index') }}">News Categories</a>
                                     </li>
+                                    <li><a href="{{ route('dashboard.comments.index') }}">Comments</a></li>
                                 </ul>
                             </li>
                             @endcanView

@@ -26,6 +26,7 @@ class Home extends Component
   public $sliderContent;
   public $sliderSections;
   public $homeContent;
+  public $contactInfo;
 
   protected function limitContent($content, $lines = 3)
   {
@@ -68,6 +69,16 @@ class Home extends Component
     // Fetch homepage content from static pages with images from blog_images table
     $this->homeContent = StaticPage::where('page_name', 'Homepage Sections')->first();
 
+    // Fetch contact information from settings
+    $this->contactInfo = [
+      'email' => setting('email'),
+      'phone' => setting('phone'),
+      'address' => setting('address'),
+      'postal_address' => setting('postal_address'),
+      'office_hours' => setting('office_hours'),
+      'google_map' => setting('google_map'),
+    ];
+
     return view('livewire.frontend.home', [
       'latestPosts' => $this->latestPosts,
       'departments' => $this->departments,
@@ -75,7 +86,8 @@ class Home extends Component
       'testimonials' => $this->testimonials,
       'featuredVideos' => $this->featuredVideos,
       'sliderContent' => $this->sliderContent,
-      'homeContent' => $this->homeContent
+      'homeContent' => $this->homeContent,
+      'contactInfo' => $this->contactInfo
     ]);
   }
 }
