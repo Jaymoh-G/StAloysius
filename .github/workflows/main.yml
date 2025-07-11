@@ -1,5 +1,5 @@
 on: push
-name: 🚀 Deploy Laravel as ZIP
+name: 🚀 Deploy Laravel as ZIP + Extract Script
 
 jobs:
   build-and-deploy:
@@ -55,7 +55,9 @@ jobs:
                ".git/*" \
                ".github/*" \
                ".env" \
-               "storage/*" \
+               "storage/logs/*" \
+               "storage/app/*" \
+               "storage/debugbar/*" \
                "deploy.zip"
           ls -lh deploy.zip
 
@@ -65,29 +67,15 @@ jobs:
           name: deploy-package
           path: deploy.zip
 
-      - name: 📤 Upload deploy.zip via FTP
+      - name: 📤 Upload deploy.zip and extract.php via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
           server: 70.32.23.41
           username: ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
           server-dir: /staloysius.breezetech.co.ke/
-          local-dir: ./   # This is where deploy.zip is located
+          local-dir: ./  # root of the repo
           exclude: |
             **/*
             !deploy.zip
-
-      - name: 🧪 Create test.txt
-        run: echo "This is a test file" > test.txt
-
-      - name: 📤 Upload test.txt via FTP
-        uses: SamKirkland/FTP-Deploy-Action@4.3.0
-        with:
-          server: 70.32.23.41
-          username: ${{ secrets.ftp_username1 }}
-          password: ${{ secrets.ftp_password1 }}
-          server-dir: /staloysius.breezetech.co.ke/
-          local-dir: ./   # location of test.txt
-          exclude: |
-            **/*
-            !test.txt
+            !extract.php
