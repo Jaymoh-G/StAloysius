@@ -37,7 +37,10 @@
                             @endif @if(setting('address'))
                             <li>
                                 @if (setting('google_map'))
-                                <a href="{{ setting('google_map') }}" target="_blank">
+                                <a
+                                    href="{{ setting('google_map') }}"
+                                    target="_blank"
+                                >
                                     <i class="far fa-map-marker-alt"></i>
                                     {{ setting("address") }}
                                 </a>
@@ -196,17 +199,35 @@
                                 And News
                             </p>
                             <div class="subscribe-form">
-                                <form action="#">
+                                <form
+                                    action="https://YOUR_DC.list-manage.com/subscribe/post?u=YOUR_U&amp;id=YOUR_ID"
+                                    method="post"
+                                    target="_blank"
+                                    novalidate
+                                >
                                     <input
                                         type="email"
                                         class="form-control"
+                                        name="EMAIL"
                                         placeholder="Your Email"
+                                        required
                                     />
                                     <button class="theme-btn" type="submit">
                                         Subscribe Now
                                         <i class="far fa-paper-plane"></i>
                                     </button>
                                 </form>
+                                <div
+                                    style="position: absolute; left: -5000px"
+                                    aria-hidden="true"
+                                >
+                                    <input
+                                        type="text"
+                                        name="b_YOUR_U_YOUR_ID"
+                                        tabindex="-1"
+                                        value=""
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -269,8 +290,7 @@
                                     ><i class="fab fa-youtube"></i
                                 ></a>
                             </li>
-                            @endif
-                            @if(setting('twitter'))
+                            @endif @if(setting('twitter'))
                             <li>
                                 <a
                                     target="_blank"
@@ -278,8 +298,7 @@
                                     ><i class="fab fa-twitter"></i
                                 ></a>
                             </li>
-                            @endif
-                            @if(setting('tiktok'))
+                            @endif @if(setting('tiktok'))
                             <li>
                                 <a
                                     target="_blank"
@@ -288,7 +307,6 @@
                                 ></a>
                             </li>
                             @endif
-
                         </ul>
                     </div>
                 </div>
