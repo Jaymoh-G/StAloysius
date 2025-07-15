@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Dashboard\Youtube;
 
-use App\Models\YouTubeVideo;
+use App\Models\YoutubeVideo;
 use App\Models\AlbumCategory;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -51,7 +51,7 @@ class Index extends Component
 
     public function render()
     {
-        $videos = YouTubeVideo::with('category')
+        $videos = YoutubeVideo::with('category')
             ->when($this->search, function ($query) {
                 $query->where('title', 'like', '%' . $this->search . '%');
             })
@@ -87,7 +87,7 @@ class Index extends Component
             $data['thumbnail'] = $this->temp_thumbnail->store('youtube-thumbnails', 'public');
         }
 
-        YouTubeVideo::create($data);
+        YoutubeVideo::create($data);
 
         $this->reset(['title', 'description', 'video_id', 'album_category_id', 'is_featured', 'order', 'temp_thumbnail']);
 
@@ -105,7 +105,7 @@ class Index extends Component
         $this->isEditing = true;
         $this->videoId = $id;
 
-        $video = YouTubeVideo::findOrFail($id);
+        $video = YoutubeVideo::findOrFail($id);
         $this->title = $video->title;
         $this->description = $video->description;
         $this->video_id = $video->video_id;
@@ -119,7 +119,7 @@ class Index extends Component
     {
         $this->validate();
 
-        $video = YouTubeVideo::findOrFail($this->videoId);
+        $video = YoutubeVideo::findOrFail($this->videoId);
 
         $data = [
             'title' => $this->title,
@@ -166,7 +166,7 @@ class Index extends Component
     public function deleteConfirmed($id)
     {
         if ($id) {
-            $video = YouTubeVideo::findOrFail($id);
+            $video = YoutubeVideo::findOrFail($id);
 
             if ($video->thumbnail) {
                 Storage::disk('public')->delete($video->thumbnail);

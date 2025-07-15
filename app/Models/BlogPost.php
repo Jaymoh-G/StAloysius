@@ -50,6 +50,11 @@ class BlogPost extends Model
         return $this->hasOne(BlogImage::class)->where('is_featured', true);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     /**
      * Get all comments for this blog post
      */
@@ -74,4 +79,3 @@ class BlogPost extends Model
         return $this->hasMany(Comment::class)->approved()->topLevel();
     }
 }
-

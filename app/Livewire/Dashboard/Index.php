@@ -183,7 +183,7 @@ class Index extends Component
             'upcomingEventCount' => $upcomingEventCount,
             'pastEventCount' => $pastEventCount,
             'pendingCommentsCount' => $this->canView('blog') ? Comment::where('is_approved', false)->count() : 0,
-        ]);
+        ])->layout('components.layouts.dashboard');
     }
 
     private function getMonthlyCounts($modelClass, $months)

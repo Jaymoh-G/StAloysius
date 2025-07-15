@@ -140,6 +140,10 @@ class Create extends Component
             $data['paragraph' . $i] = $this->{'paragraph' . $i};
         }
 
+        if (!$this->postId) {
+            $data['user_id'] = auth()->user()?->id;
+        }
+
         if ($this->postId) {
             $blog = BlogPost::findOrFail($this->postId);
             $blog->update($data);
