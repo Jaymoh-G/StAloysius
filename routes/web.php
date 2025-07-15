@@ -43,6 +43,7 @@ Route::get('/past-events', \App\Livewire\Frontend\PastEvents::class)->name('past
 // Gallery routes
 Route::get('/gallery', \App\Livewire\Frontend\Gallery::class)->name('gallery');
 Route::get('/photos', \App\Livewire\Frontend\PhotoGallery::class)->name('photos');
+Route::get('/photos/category/{category}', \App\Livewire\Frontend\PhotoGallery::class)->name('photos.categories');
 Route::get('/videos', \App\Livewire\Frontend\YoutubeGallery::class)->name('videos');
 Route::get('/videos/category/{category}', \App\Livewire\Frontend\YoutubeGallery::class)->name('videos.categories');
 Route::get('/gallery/album/{slug}', \App\Livewire\Frontend\AlbumView::class)->name('gallery.album');

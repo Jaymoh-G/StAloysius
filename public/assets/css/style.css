@@ -1080,7 +1080,7 @@ label {
 
   .navbar .nav-item .dropdown-menu .dropdown-item:hover {
     background: transparent;
-    color: var(--theme-color2);
+    color: #000;
     padding-left: 32px;
   }
 
@@ -1299,7 +1299,7 @@ label {
   }
 
   .mega-menu .mega-content h5{
-    color: var(--theme-color2);
+    color: #000;
     font-size: 22px;
     margin-bottom: 20px;
   }

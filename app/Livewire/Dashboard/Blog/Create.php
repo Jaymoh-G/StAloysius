@@ -10,6 +10,7 @@ use App\Models\BlogImage;
 use App\Services\ActivityService;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Auth;
 
 class Create extends Component
 {
@@ -141,7 +142,7 @@ class Create extends Component
         }
 
         if (!$this->postId) {
-            $data['user_id'] = auth()->user()?->id;
+            $data['user_id'] = Auth::check() ? Auth::user()->id : null;
         }
 
         if ($this->postId) {

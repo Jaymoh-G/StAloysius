@@ -12,6 +12,7 @@ class BlogPost extends Model
         'slug',
         'content',
         'category_id',
+        'user_id',
         'paragraph1',
         'paragraph2',
         'paragraph3',

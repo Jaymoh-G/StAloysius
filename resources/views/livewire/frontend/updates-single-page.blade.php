@@ -40,11 +40,12 @@
                                                 <li>
                                                     <i class="far fa-user"></i
                                                     ><a href="#"
-                                                        >Jean R Gunter</a
+                                                        >{{ $blog->user->name ?? 'Unknown' }}</a
                                                     >
                                                 </li>
                                                 <li>
-                                                    Category:
+                                                    <i class="far fa-tag"></i>
+                                                    
                                                     {{ $blog->category->name ?? 'Uncategorized' }}
                                                 </li>
                                             </ul>
@@ -130,7 +131,7 @@
                                         </div>
                                         @endif @endfor
                                         <hr />
-                                        
+
                                     </div>
 
                                 </div>
