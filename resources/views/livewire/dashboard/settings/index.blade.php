@@ -40,6 +40,19 @@
                                 </button>
                             </li>
                             @endforeach
+                            <li class="nav-item" role="presentation">
+                                <button
+                                    class="nav-link {{
+                                        $activeTab === 'newsletter'
+                                            ? 'active'
+                                            : ''
+                                    }}"
+                                    type="button"
+                                    wire:click="setActiveTab('newsletter')"
+                                >
+                                    Newsletter
+                                </button>
+                            </li>
                         </ul>
 
                         <!-- Tab Content -->
@@ -171,6 +184,21 @@
                                 </div>
                             </div>
                             @endforeach
+                            <div
+                                class="tab-pane fade {{
+                                    $activeTab === 'newsletter'
+                                        ? 'show active'
+                                        : ''
+                                }}"
+                                id="newsletter"
+                                role="tabpanel"
+                            >
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        @livewire('settings.newsletter-settings')
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mt-4">

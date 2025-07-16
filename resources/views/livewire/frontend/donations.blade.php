@@ -136,20 +136,25 @@
                                                                 Bill"
                                                             </li>
                                                             <li>
-                                                                Business Number:
-                                                                <strong
-                                                                    >880100</strong
-                                                                >
+                                                                Paybill Number:
+                                                                <strong>{{
+                                                                    setting(
+                                                                        "mpesa_paybill",
+                                                                        "880100"
+                                                                    )
+                                                                }}</strong>
                                                             </li>
                                                             <li>
                                                                 Account Number:
-                                                                <strong
-                                                                    >6494410018</strong
-                                                                >
+                                                                <strong>{{
+                                                                    setting(
+                                                                        "bank_account_number",
+                                                                        "6494410018"
+                                                                    )
+                                                                }}</strong>
                                                             </li>
                                                             <li>
                                                                 Enter Amount:
-
                                                             </li>
                                                             <li>
                                                                 Enter your
@@ -178,8 +183,14 @@
                                                                 >Paybill
                                                                 Number:</span
                                                             >
-                                                            <span class="value"
-                                                                >880100</span
+                                                            <span
+                                                                class="value"
+                                                                >{{
+                                                                    setting(
+                                                                        "mpesa_paybill",
+                                                                        "880100"
+                                                                    )
+                                                                }}</span
                                                             >
                                                         </div>
                                                         <div class="detail-row">
@@ -187,8 +198,14 @@
                                                                 >Account
                                                                 Number:</span
                                                             >
-                                                            <span class="value"
-                                                                >6494410018</span
+                                                            <span
+                                                                class="value"
+                                                                >{{
+                                                                    setting(
+                                                                        "bank_account_number",
+                                                                        "6494410018"
+                                                                    )
+                                                                }}</span
                                                             >
                                                         </div>
                                                         <div class="detail-row">
@@ -196,9 +213,29 @@
                                                                 >Account
                                                                 Name:</span
                                                             >
-                                                            <span class="value"
-                                                                >St Aloysius
-                                                                Gonzaga</span
+                                                            <span
+                                                                class="value"
+                                                                >{{
+                                                                    setting(
+                                                                        "bank_account_name",
+                                                                        "St Aloysius Gonzaga"
+                                                                    )
+                                                                }}</span
+                                                            >
+                                                        </div>
+                                                        <div class="detail-row">
+                                                            <span class="label"
+                                                                >Bank
+                                                                Name:</span
+                                                            >
+                                                            <span
+                                                                class="value"
+                                                                >{{
+                                                                    setting(
+                                                                        "bank_name",
+                                                                        "Bank"
+                                                                    )
+                                                                }}</span
                                                             >
                                                         </div>
                                                         <div
@@ -207,7 +244,6 @@
                                                             <span class="label"
                                                                 >Amount:</span
                                                             >
-
                                                         </div>
                                                     </div>
                                                 </div>
@@ -500,7 +536,7 @@
                                                             <a
                                                                 href="{{
                                                                     setting(
-                                                                        'external_donation_url',
+                                                                        'donation_external_link',
                                                                         '#'
                                                                     )
                                                                 }}"
@@ -841,18 +877,15 @@
                 }
 
                 .donation-option-card:first-child .option-icon {
-                         background: linear-gradient(
+                    background: linear-gradient(
                         135deg,
                         #28a745 0%,
                         #20c997 100%
                     );
-
                 }
 
                 .donation-option-card:last-child .option-icon {
-
-
-                     background: linear-gradient(
+                    background: linear-gradient(
                         135deg,
                         #667eea 0%,
                         #764ba2 100%

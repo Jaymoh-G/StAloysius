@@ -199,8 +199,15 @@
                                 And News
                             </p>
                             <div class="subscribe-form">
+                                {{-- The following Mailchimp parameters are managed in the Settings > Newsletter tab --}}
                                 <form
-                                    action="https://YOUR_DC.list-manage.com/subscribe/post?u=YOUR_U&amp;id=YOUR_ID"
+                                    action="https://{{
+                                        setting('mailchimp_dc', 'YOUR_DC')
+                                    }}.list-manage.com/subscribe/post?u={{
+                                        setting('mailchimp_api_key', 'YOUR_U')
+                                    }}&id={{
+                                        setting('mailchimp_list_id', 'YOUR_ID')
+                                    }}"
                                     method="post"
                                     target="_blank"
                                     novalidate
@@ -223,7 +230,17 @@
                                 >
                                     <input
                                         type="text"
-                                        name="b_YOUR_U_YOUR_ID"
+                                        name="b_{{
+                                            setting(
+                                                'mailchimp_api_key',
+                                                'YOUR_U'
+                                            )
+                                        }}_{{
+                                            setting(
+                                                'mailchimp_list_id',
+                                                'YOUR_ID'
+                                            )
+                                        }}"
                                         tabindex="-1"
                                         value=""
                                     />

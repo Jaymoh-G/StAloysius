@@ -38,8 +38,7 @@ class Index extends Component
     {
         $groups = ['socials', 'portals', 'donation', 'contact', 'email_notifications', 'menu_images', 'anniversary', 'footer', 'quick_links', 'resource_links'];
 
-        foreach ($groups as $group) {
-            $groupSettings = Setting::getGroup($group);
+        foreach ($groups as $group) { $groupSettings = Setting::getGroup($group);
             foreach ($groupSettings as $setting) {
                 $this->settings[$setting->key] = $setting->value;
                 // Also store in formData for persistence
