@@ -169,7 +169,7 @@ class Manage extends Component
             'content' => 'required|string',
             'meta_title' => 'nullable|max:70',
             'meta_description' => 'nullable|max:160',
-            'page_name' => 'required|string|max:255',
+            'page_name' => 'required|string|max:255|unique:static_pages,page_name,' . $this->pageId,
         ]);
 
         // Fallback: Extract paragraphs if Livewire updateContent wasn't triggered

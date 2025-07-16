@@ -1,5 +1,4 @@
 <div>
-
     <!-- hero slider -->
     <div class="hero-section">
         <div class="hero-slider owl-carousel owl-theme">
@@ -41,7 +40,9 @@
                                     data-animation="fadeInUp"
                                     data-delay="1s"
                                 >
-                                    <a href="{{ route('about-us') }}" class="theme-btn"
+                                    <a
+                                        href="{{ route('about-us') }}"
+                                        class="theme-btn"
                                         >About Us<i
                                             class="fas fa-arrow-right-long"
                                         ></i
@@ -59,7 +60,59 @@
                     </div>
                 </div>
             </div>
-            @endif @endfor @endif
+            @endif @endfor @else
+            <div
+                class="hero-single"
+                style="background: url({{ asset('assets/img/slider/s1.jpg') }})"
+            >
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-md-12 col-lg-7">
+                            <div class="hero-content">
+                                <h6
+                                    class="hero-sub-title"
+                                    data-animation="fadeInDown"
+                                    data-delay=".25s"
+                                >
+                                    <i class="far fa-book-open-reader"></i>
+                                    St. Aloysius Gonzaga Sch
+                                </h6>
+                                <h1
+                                    class="hero-title"
+                                    data-animation="fadeInRight"
+                                    data-delay=".50s"
+                                >
+                                    Welcome to St. Aloysius Gonzaga School
+                                </h1>
+                                <p
+                                    data-animation="fadeInLeft"
+                                    data-delay=".75s"
+                                >
+                                    Excellence in education, service, and
+                                    leadership. Join us to make a difference!
+                                </p>
+                                <div
+                                    class="hero-btn"
+                                    data-animation="fadeInUp"
+                                    data-delay="1s"
+                                >
+                                    <a href="#" class="theme-btn"
+                                        >About Us<i
+                                            class="fas fa-arrow-right-long"
+                                        ></i
+                                    ></a>
+                                    <a href="#" class="theme-btn theme-btn2"
+                                        >Our Departments<i
+                                            class="fas fa-arrow-right-long"
+                                        ></i
+                                    ></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
         </div>
     </div>
     <!-- hero slider end -->
@@ -73,7 +126,7 @@
     <!-- about area -->
     <div class="about-area py-120">
         <div class="container">
-            <div class="row g-4 align-items-center">
+            <div class="row g-4 align-items-center mb-3">
                 <div class="col-lg-6">
                     <div
                         class="about-left wow fadeInLeft"
@@ -82,12 +135,12 @@
                         <div class="about-img">
                             <div class="row g-4">
                                 <div class="col-md-6">
-                                    @if ($homeContent &&
-                                    $homeContent->images()->where('category',
+                                    @if ($homeAboutUs &&
+                                    $homeAboutUs->images()->where('category',
                                     'section_1')->first())
                                     <img
                                         class="img-1"
-                                        src="{{ asset('storage/' . $homeContent->images()->where('category', 'section_1')->first()->path) }}"
+                                        src="{{ asset('storage/' . $homeAboutUs->images()->where('category', 'section_1')->first()->path) }}"
                                         alt=""
                                     />
                                     @else
@@ -96,7 +149,7 @@
                                         src="{{
                                             asset('assets/img/about/01.jpg')
                                         }}"
-                                        alt=""
+                                        alt="About Us"
                                     />
                                     @endif
                                     <div class="about-experience mt-4">
@@ -113,25 +166,27 @@
                                         <!-- anniversary year from setting table  -->
                                         @if (setting('years_of_anniversary'))
                                         <b class="text-start"
-                                            >{{ setting('years_of_anniversary') }}
-                                            Years Of <br /> Quality Service</b
+                                            >{{
+                                                setting("years_of_anniversary")
+                                            }}
+                                            Years Of <br />
+                                            Quality Service</b
                                         >
-                                            @else
-                                            <b class="text-start"
-                                                >30 Years Of <br />
-                                                Quality Service</b
-                                            >
-                                            @endif
-
+                                        @else
+                                        <b class="text-start"
+                                            >30 Years Of <br />
+                                            Quality Service</b
+                                        >
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    @if ($homeContent &&
-                                    $homeContent->images()->where('category',
+                                    @if ($homeAboutUs &&
+                                    $homeAboutUs->images()->where('category',
                                     'section_2')->first())
                                     <img
                                         class="img-2"
-                                        src="{{ asset('storage/' . $homeContent->images()->where('category', 'section_2')->first()->path) }}"
+                                        src="{{ asset('storage/' . $homeAboutUs->images()->where('category', 'section_2')->first()->path) }}"
                                         alt=""
                                     />
                                     @else
@@ -140,14 +195,14 @@
                                         src="{{
                                             asset('assets/img/about/02.jpg')
                                         }}"
-                                        alt=""
+                                        alt="About Us"
                                     />
-                                    @endif @if ($homeContent &&
-                                    $homeContent->images()->where('category',
+                                    @endif @if ($homeAboutUs &&
+                                    $homeAboutUs->images()->where('category',
                                     'section_3')->first())
                                     <img
                                         class="img-3 mt-4"
-                                        src="{{ asset('storage/' . $homeContent->images()->where('category', 'section_3')->first()->path) }}"
+                                        src="{{ asset('storage/' . $homeAboutUs->images()->where('category', 'section_3')->first()->path) }}"
                                         alt=""
                                     />
                                     @else
@@ -156,7 +211,7 @@
                                         src="{{
                                             asset('assets/img/about/03.jpg')
                                         }}"
-                                        alt=""
+                                        alt="About Us"
                                     />
                                     @endif
                                 </div>
@@ -171,16 +226,15 @@
                     >
                         <div class="site-heading mb-3">
                             <span class="site-title-tagline"
-                                ><i class="far fa-book-open-reader"></i> About
-                                Us</span
+                                ><i class="far fa-book-open-reader"></i> {{ $homeAboutUs ? $homeAboutUs->title : 'Homepage About Us Section' }} </span
                             >
                             <h2 class="site-title">
-                                {!! $homeContent ? $homeContent->section_1_title
-                                : '' !!}
+                                {!! $homeAboutUs ? $homeAboutUs->section_1_title
+                                : 'About St. Aloysius Gonzaga School' !!}
                             </h2>
                         </div>
                         <p class="about-text">
-                            {!! $homeContent ? $homeContent->section_1_content :
+                            {!! $homeAboutUs ? $homeAboutUs->section_1_content :
                             'There are many variations of passages available but
                             the majority have suffered alteration in some form
                             by injected humour randomised words which don\'t
@@ -203,13 +257,13 @@
                                         </div>
                                         <div class="about-item-content">
                                             <h5>
-                                                {!! $homeContent ?
-                                                $homeContent->section_2_title :
+                                                {!! $homeAboutUs ?
+                                                $homeAboutUs->section_2_title :
                                                 'Education Services' !!}
                                             </h5>
                                             <p>
-                                                {!! $homeContent ?
-                                                $homeContent->section_2_content
+                                                {!! $homeAboutUs ?
+                                                $homeAboutUs->section_2_content
                                                 : 'It is a long established fact
                                                 that reader will to using
                                                 content.' !!}
@@ -229,18 +283,32 @@
                                         </div>
                                         <div class="about-item-content">
                                             <h5>
-                                                {!! $homeContent ?
-                                                $homeContent->section_3_title :
+                                                {!! $homeAboutUs ?
+                                                $homeAboutUs->section_3_title :
                                                 'International Hubs' !!}
                                             </h5>
                                             <p>
-                                                {!! $homeContent ?
-                                                $homeContent->section_3_content
+                                                {!! $homeAboutUs ?
+                                                $homeAboutUs->section_3_content
                                                 : 'It is a long established fact
                                                 that reader will to using
                                                 content.' !!}
                                             </p>
                                         </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-5">
+                                    <div class="about-quote">
+                                        <p>
+                                            {!! ($homeAboutUs &&
+                                            !empty($homeAboutUs->section_4_content))
+                                            ? $homeAboutUs->section_4_content :
+                                            'Education is the most powerful
+                                            weapon which you can use to change
+                                            the world. the interesting thing is that the more you use it the more you understand it critical thinking and problem-solving skills.' !!}
+                                        </p>
+                                        <i class="far fa-quote-right"></i>
                                     </div>
                                 </div>
                             </div>
@@ -251,7 +319,7 @@
                                     class="fas fa-arrow-right-long"
                                 ></i
                             ></a>
-                        @if (setting('phone'))
+                            @if (setting('phone'))
                             <div class="about-phone">
                                 <div class="icon">
                                     <i class="fal fa-headset"></i>
@@ -259,10 +327,9 @@
                                 <div class="number">
                                     <span>Call Now</span>
                                     <h6>
-                                        <a
-                                            href="tel:{{ setting('phone') }}"
-                                            >{{ setting('phone') }}</a
-                                        >
+                                        <a href="tel:{{ setting('phone') }}">{{
+                                            setting("phone")
+                                        }}</a>
                                     </h6>
                                 </div>
                             </div>
@@ -278,7 +345,7 @@
     <!-- video-area -->
     <div class="video-area">
         <div class="container">
-            <div class="row g-4">
+            <div class="row g-4 mb-5">
                 <div class="col-lg-4 wow fadeInLeft" data-wow-delay=".25s">
                     <div class="site-heading mb-3">
                         <a href="{{ route('videos') }}">
@@ -287,21 +354,16 @@
                                 Videos</span
                             >
                         </a>
-                        @if ($featuredVideos)
                         <h2 class="site-title">
-                            {{ $featuredVideos->title }}
+                            {{ $featuredVideos ? $featuredVideos->title : "Let's Check Our Latest Video" }}
                         </h2>
-                        @endif
                     </div>
-                    @if ($featuredVideos)
                     <p class="about-text">
-                        {{ Str::limit($featuredVideos->description, 150) }}
+                        {{ $featuredVideos ? Str::limit($featuredVideos->description, 150) : 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.' }}
                     </p>
-                    @endif @if ($featuredVideos)
                     <a href="{{ route('videos') }}" class="theme-btn mt-30"
                         >View All Videos<i class="fas fa-arrow-right-long"></i
                     ></a>
-                    @endif
                 </div>
                 <div class="col-lg-8 wow fadeInRight" data-wow-delay=".25s">
                     @if ($featuredVideos)
@@ -424,16 +486,15 @@
                         <div class="choose-content-info">
                             <div class="site-heading mb-0">
                                 <span class="site-title-tagline"
-                                    ><i class="far fa-book-open-reader"></i> Why
-                                    Choose Us</span
+                                    ><i class="far fa-book-open-reader"></i> {{ $whyChooseUs ? $whyChooseUs->title : 'Homepage Why Choose Us Section' }}</span
                                 >
                                 <h2 class="site-title mb-10 text-white">
-                                    {!! $homeContent ?
-                                    $homeContent->section_4_title : '' !!}
+                                    {!! $whyChooseUs ?
+                                    $whyChooseUs->section_1_title : 'We Are Expert & Do Our Best For Your Goals' !!}
                                 </h2>
                                 <p class="text-white">
-                                    {!! $homeContent ?
-                                    $homeContent->section_4_content : '' !!}
+                                        {!! $whyChooseUs ?
+                                        $whyChooseUs->section_1_content : 'It is a long established fact that a reader ' !!}
                                 </p>
                             </div>
                             <div class="choose-content-wrap">
@@ -448,14 +509,14 @@
                                             </div>
                                             <div class="choose-item-info">
                                                 <h4>
-                                                    {!! $homeContent ?
-                                                    $homeContent->section_5_title
-                                                    : '' !!}
+                                                    {!! $whyChooseUs ?
+                                                    $whyChooseUs->section_2_title
+                                                    : 'Expert Teachers' !!}
                                                 </h4>
                                                 <p>
-                                                    {!! $homeContent ?
-                                                    $homeContent->section_5_content
-                                                    : '' !!}
+                                                    {!! $whyChooseUs ?
+                                                    $whyChooseUs->section_2_content
+                                                    : 'It is a long established fact that a reader .' !!}
                                                 </p>
                                             </div>
                                         </div>
@@ -470,14 +531,14 @@
                                             </div>
                                             <div class="choose-item-info">
                                                 <h4>
-                                                    {!! $homeContent ?
-                                                    $homeContent->section_6_title
-                                                    : '' !!}
+                                                    {!! $whyChooseUs ?
+                                                    $whyChooseUs->section_3_title
+                                                    : 'Expert Teachers' !!}
                                                 </h4>
                                                 <p>
-                                                    {!! $homeContent ?
-                                                    $homeContent->section_6_content
-                                                    : '' !!}
+                                                    {!! $whyChooseUs ?
+                                                    $whyChooseUs->section_3_content
+                                                    : 'It is a long established fact that a reader ' !!}
                                                 </p>
                                             </div>
                                         </div>
@@ -496,14 +557,14 @@
                                             </div>
                                             <div class="choose-item-info">
                                                 <h4>
-                                                    {!! $homeContent ?
-                                                    $homeContent->section_7_title
-                                                    : '' !!}
+                                                    {!! $whyChooseUs ?
+                                                    $whyChooseUs->section_4_title
+                                                    : 'Expert Teachers' !!}
                                                 </h4>
                                                 <p>
-                                                    {!! $homeContent ?
-                                                    $homeContent->section_7_content
-                                                    : '' !!}
+                                                    {!! $whyChooseUs ?
+                                                    $whyChooseUs->section_4_content
+                                                    : 'It is a long established fact that a reader ' !!}
                                                 </p>
                                             </div>
                                         </div>
@@ -518,14 +579,14 @@
                                             </div>
                                             <div class="choose-item-info">
                                                 <h4>
-                                                    {!! $homeContent ?
-                                                    $homeContent->section_8_title
-                                                    : '' !!}
+                                                    {!! $whyChooseUs ?
+                                                    $whyChooseUs->section_5_title
+                                                    : 'Expert Teachers' !!}
                                                 </h4>
                                                 <p>
-                                                    {!! $homeContent ?
-                                                    $homeContent->section_8_content
-                                                    : '' !!}
+                                                        {!! $whyChooseUs ?
+                                                    $whyChooseUs->section_5_content
+                                                    : 'It is a long established fact that ' !!}
                                                 </p>
                                             </div>
                                         </div>
@@ -535,15 +596,15 @@
                         </div>
                     </div>
                 </div>
-                @if ($homeContent && $homeContent->images()->where('category',
-                'section_4')->first())
+                @if ($whyChooseUs && $whyChooseUs->images()->where('category',
+                'section_1')->first())
                 <div class="col-lg-6">
                     <div
                         class="choose-img wow fadeInRight"
                         data-wow-delay=".25s"
                     >
                         <img
-                            src="{{ asset('storage/' . $homeContent->images()->where('category', 'section_4')->first()->path) }}"
+                            src="{{ asset('storage/' . $whyChooseUs->images()->where('category', 'section_1')->first()->path) }}"
                             alt=""
                         />
                     </div>
@@ -562,15 +623,13 @@
                     <div class="site-heading text-center">
                         <span class="site-title-tagline"
                             ><i class="far fa-book-open-reader"></i>
-                            Events</span
+                            {{ $eventsSection ? $eventsSection->title : 'Homepage Events Section' }} </span
                         >
                         <h2 class="site-title">
-                            Our Upcoming <span>Events</span>
+                            {{ $eventsSection ? $eventsSection->section_1_title : 'Our Upcoming Events' }}
                         </h2>
                         <p>
-                            It is a long established fact that a reader will be
-                            distracted by the readable content of a page when
-                            looking at its layout.
+                            {{ $eventsSection ? $eventsSection->section_1_content : 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.' }}
                         </p>
                     </div>
                 </div>
@@ -654,10 +713,9 @@
                         >
                             <div class="enroll-form">
                                 <div class="enroll-form-header">
-                                    <h3>Start Your Enrollment</h3>
+                                    <h3>{{ $enrollment ? $enrollment->section_1_title : 'Homepage Enrollment Section' }}</h3>
                                     <p>
-                                        We are variations of passages the have
-                                        suffered.
+                                        {{ $enrollment ? $enrollment->section_1_content : 'We are variations of passages the have suffered.' }}
                                     </p>
                                 </div>
                                 <livewire:frontend.home-contact-form />
@@ -673,27 +731,18 @@
                                 <div class="site-heading mb-3">
                                     <span class="site-title-tagline"
                                         ><i class="far fa-book-open-reader"></i>
-                                        Our Skills</span
+                                        {{ $enrollment ? $enrollment->title : 'Our Programs' }}</span
                                     >
                                     <h2 class="site-title text-white">
-                                        Explore Your
-                                        <span>Creativity And Talent</span> With
-                                        Us
+                                        {{ $enrollment ? $enrollment->section_2_title : 'Explore Your Creativity And Talent With Us' }}
                                     </h2>
                                 </div>
                                 <p class="text-white">
-                                    There are many variations of passages
-                                    available but the majority have suffered
-                                    alteration in some form by injected humour
-                                    randomised words which don't look even
-                                    slightly believable. If you are going to use
-                                    passage you need sure there anything
-                                    embarrassing first true generator on the
-                                    Internet.
+                                    {{ $enrollment ? $enrollment->section_2_content : 'There are many variations of passages available but the majority have suffered alteration in some form by injected humour randomised words which don\'t look even slightly believable. If you are going to use passage you need sure there anything embarrassing first true generator on the Internet.' }}
                                 </p>
 
-                                <a href="contact.html" class="theme-btn mt-5"
-                                    >Learn More<i
+                                <a href="{{ route('how-to-apply') }}" class="theme-btn mt-5"
+                                    >How to Apply<i
                                         class="fas fa-arrow-right-long"
                                     ></i
                                 ></a>
@@ -706,8 +755,6 @@
     </div>
     <!-- enroll area end -->
 
-
-
     <!-- team-area -->
     <div class="team-area py-120">
         <div class="container">
@@ -715,13 +762,11 @@
                 <div class="col-lg-6 mx-auto">
                     <div class="site-heading text-center">
                         <span class="site-title-tagline"
-                            ><i class="far fa-book-open-reader"></i> Our
-                            Team</span
+                            ><i class="far fa-book-open-reader"></i> {{ $ourTeam ? $ourTeam->title : 'Our Team' }}</span
                         >
-                        <h2 class="site-title">Meet Our <span>Team</span></h2>
+                        <h2 class="site-title">{{ $ourTeam ? $ourTeam->section_1_title : 'Meet Our Team' }}</h2>
                         <p>
-                            Our team is dedicated to providing the best possible
-                            service to our clients.
+                            {{ $ourTeam ? $ourTeam->section_1_content : '  Our team is dedicated to providing the best possible service to our clients.' }}
                         </p>
                     </div>
                 </div>
@@ -811,15 +856,13 @@
                     <div class="site-heading text-center">
                         <span class="site-title-tagline"
                             ><i class="far fa-book-open-reader"></i>
-                            Testimonials</span
+                            {{ $testimonialSection ? $testimonialSection->title : 'Testimonials' }}</span
                         >
                         <h2 class="site-title text-white">
-                            What Our Students & Parents <span>Say</span>
+                            {{ $testimonialSection ? $testimonialSection->section_1_title : 'What Our Students & Parents Say' }}
                         </h2>
                         <p class="text-white">
-                            It is a long established fact that a reader will be
-                            distracted by the readable content of a page when
-                            looking at its layout.
+                            {{ $testimonialSection ? $testimonialSection->section_1_content : 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.' }}
                         </p>
                     </div>
                 </div>
@@ -909,16 +952,13 @@
                 <div class="col-lg-6 mx-auto">
                     <div class="site-heading text-center">
                         <span class="site-title-tagline"
-                            ><i class="far fa-book-open-reader"></i> Our
-                            Blog</span
+                            ><i class="far fa-book-open-reader"></i> {{ $newsSection ? $newsSection->title : 'Homepage News Section' }}</span
                         >
                         <h2 class="site-title">
-                            Latest News & <span>Articles</span>
+                            {{ $newsSection ? $newsSection->section_1_title : 'Latest News & Articles' }}
                         </h2>
                         <p>
-                            It is a long established fact that a reader will be
-                            distracted by the readable content of a page when
-                            looking at its layout.
+                            {{ $newsSection ? $newsSection->section_1_content : 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.' }}
                         </p>
                     </div>
                 </div>
@@ -976,6 +1016,4 @@
         </div>
     </div>
     <!-- blog area end -->
-
-
 </div>

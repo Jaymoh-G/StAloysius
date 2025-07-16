@@ -1,5 +1,4 @@
 <div>
-
     <!-- breadcrumb -->
     <div
         class="site-breadcrumb"
@@ -21,53 +20,50 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="event-details">
-                        <img src="{{ asset('storage/' . $event->featuredImage->path) }}" alt="" />
+                        <img
+                            src="{{ asset('storage/' . $event->featuredImage->path) }}"
+                            alt=""
+                        />
 
                         <div class="my-4">
                             <h3 class="mb-2">{{$event->name}}</h3>
-                            <div> {!! $event->paragraph1 !!}</div>
-                            <div> {!! $event->paragraph2 !!}</div>
+                            <div>{!! $event->paragraph1 !!}</div>
+                            <div>{!! $event->paragraph2 !!}</div>
                         </div>
 
-                        <div class="mb-4">
- {!! $event->paragraph3 !!}
-
-                        </div>
-                        <div class="mb-4">
- {!! $event->paragraph4 !!}
-
-                        </div>
+                        <div class="mb-4">{!! $event->paragraph3 !!}</div>
+                        <div class="mb-4">{!! $event->paragraph4 !!}</div>
                         <div class="row">
-                                        <div class="col-md-6 mb-20">
-                                            <img
-                                                src="{{ isset($event->images[1]) ? asset('storage/' . $event->images[1]->path) : '' }}"
-                                                alt="{{ optional($event->images[1])->alt ?? 'Image 1 for ' . $event->name }}"
-                                            />
-                                        </div>
-                                        <div class="col-md-6 mb-20">
-                                            <img
-                                                src="{{ isset($event->images[2]) ? asset('storage/' . $event->images[2]->path) : '' }}"
-                                                alt="{{ optional($event->images[2])->alt ?? 'Image 2 for ' . $event->name }}"
-                                            />
-                                        </div>
-                                    </div>
-
-                        <div class="mb-4">
-                        <p class="mb-20">
-                                        {!! $event->paragraph3 !!}
-                                    </p>
-                                    <div class="my-4">
-                                        <div class="mb-3">
-                                            <p>{!! $event->paragraph4 !!}</p>
-                                        </div>
-                                    </div>
-                                    @for ($i = 1; $i <= 21; $i++) @php
-                                    $paragraph = $event->{'paragraph' . $i};
-                                    @endphp @if (!empty($paragraph))
-                                    <div class="mb-4">{!! $paragraph !!}</div>
-                                    @endif @endfor
+                            @if(isset($event->images[1]))
+                            <div class="col-md-6 mb-20">
+                                <img
+                                    src="{{ asset('storage/' . $event->images[1]->path) }}"
+                                    alt="{{ $event->images[1]->alt ?? 'Image 1 for ' . $event->name }}"
+                                />
+                            </div>
+                            @endif @if(isset($event->images[2]))
+                            <div class="col-md-6 mb-20">
+                                <img
+                                    src="{{ asset('storage/' . $event->images[2]->path) }}"
+                                    alt="{{ $event->images[2]->alt ?? 'Image 2 for ' . $event->name }}"
+                                />
+                            </div>
+                            @endif
                         </div>
 
+                        <div class="mb-4">
+                            <p class="mb-20">{!! $event->paragraph3 !!}</p>
+                            <div class="my-4">
+                                <div class="mb-3">
+                                    <p>{!! $event->paragraph4 !!}</p>
+                                </div>
+                            </div>
+                            @for ($i = 1; $i <= 21; $i++) @php $paragraph =
+                            $event->{'paragraph' . $i}; @endphp
+                            @if(!empty($paragraph))
+                            <div class="mb-4">{!! $paragraph !!}</div>
+                            @endif @endfor
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
@@ -78,93 +74,89 @@
                             <div class="event-content-single">
                                 <h5>Event Start</h5>
                                 <p>
-                                    <i class="far fa-clock"></i> {{formattedTime($event->start_time)}}&nbsp;&nbsp;&nbsp;
-                                   <i class="far fa-calendar-alt"></i> {{formattedDate($event->start_date)}}
+                                    <i class="far fa-clock"></i>
+                                    {{formattedTime($event->start_time)
+
+                                    }}&nbsp;&nbsp;&nbsp;
+                                    <i class="far fa-calendar-alt"></i>
+                                    {{formattedDate($event->start_date)}}
                                 </p>
                             </div>
                             <div class="event-content-single">
                                 <h5>Event End</h5>
-                               <p>
-                                    <i class="far fa-clock"></i> {{formattedTime($event->end_time)}} &nbsp;&nbsp;&nbsp;
-                                   <i class="far fa-calendar-alt"></i> {{formattedDate($event->end_date)}}
+                                <p>
+                                    <i class="far fa-clock"></i>
+                                    {{formattedTime($event->end_time)}}
+                                    &nbsp;&nbsp;&nbsp;
+                                    <i class="far fa-calendar-alt"></i>
+                                    {{formattedDate($event->end_date)}}
                                 </p>
                             </div>
                             <div class="event-content-single">
                                 <h5>Event Location</h5>
                                 <p>
-                                    <i class="far fa-map-marker-alt"></i> {{$event->location}}
+                                    <i class="far fa-map-marker-alt"></i>
+                                    {{$event->location}}
                                 </p>
                             </div>
 
-
                             <a href="#" class="theme-btn mt-4"
-                                >Support Us <i class="fas fa-arrow-right-long"></i
+                                >Support Us
+                                <i class="fas fa-arrow-right-long"></i
                             ></a>
                         </div>
                     </div>
                     <div class="widget event-author">
                         <h4 class="widget-title">Event Organizer</h4>
                         <div class="event-author-info">
-                            <img src="{{ asset('storage/' . $event->organizer_photo) }}" alt="" />
+                            <img
+                                src="{{ asset('storage/' . $event->organizer_photo) }}"
+                                alt=""
+                            />
                             <h5>{{$event->organizer_name}}</h5>
                             <p>
-                               {{$event->organizer_description}}
+                                {{$event->organizer_description}}
                             </p>
                         </div>
                     </div>
-                     <!-- social share -->
-                            <div class="widget social-share">
-                                <h5 class="widget-title">Follow Us</h5>
-                                <div class="social-share-link">
-                                    @if(setting('facebook'))
-                                    <a
-                                        href="{{ setting('facebook') }}"
-                                        target="_blank"
-                                        ><i class="fab fa-facebook-f"></i
-                                    ></a>
-                                    @endif @if(setting('linkedin'))
-                                    <a
-                                        href="{{ setting('linkedin') }}"
-                                        target="_blank"
-                                        ><i class="fab fa-linkedin-in"></i
-                                    ></a>
-                                    @endif @if(setting('instagram'))
-                                    <a
-                                        href="{{ setting('instagram') }}"
-                                        target="_blank"
-                                        ><i class="fab fa-instagram"></i
-                                    ></a>
-                                    @endif @if(setting('whatsapp'))
-                                    <a
-                                        href="{{ setting('whatsapp') }}"
-                                        target="_blank"
-                                        ><i class="fab fa-whatsapp"></i
-                                    ></a>
-                                    @endif @if(setting('youtube'))
-                                    <a
-                                        href="{{ setting('youtube') }}"
-                                        target="_blank"
-                                        ><i class="fab fa-youtube"></i
-                                    ></a>
-                                    @endif @if(setting('twitter'))
-                                    <a
-                                        href="{{ setting('twitter') }}"
-                                        target="_blank"
-                                        ><i class="fab fa-twitter"></i
-                                    ></a>
-                                    @endif @if(setting('tiktok'))
-                                    <a
-                                        href="{{ setting('tiktok') }}"
-                                        target="_blank"
-                                        ><i class="fab fa-tiktok"></i
-                                    ></a>
-                                    @endif
-                                </div>
-                            </div>
+                    <!-- social share -->
+                    <div class="widget social-share">
+                        <h5 class="widget-title">Follow Us</h5>
+                        <div class="social-share-link">
+                            @if(setting('facebook'))
+                            <a href="{{ setting('facebook') }}" target="_blank"
+                                ><i class="fab fa-facebook-f"></i
+                            ></a>
+                            @endif @if(setting('linkedin'))
+                            <a href="{{ setting('linkedin') }}" target="_blank"
+                                ><i class="fab fa-linkedin-in"></i
+                            ></a>
+                            @endif @if(setting('instagram'))
+                            <a href="{{ setting('instagram') }}" target="_blank"
+                                ><i class="fab fa-instagram"></i
+                            ></a>
+                            @endif @if(setting('whatsapp'))
+                            <a href="{{ setting('whatsapp') }}" target="_blank"
+                                ><i class="fab fa-whatsapp"></i
+                            ></a>
+                            @endif @if(setting('youtube'))
+                            <a href="{{ setting('youtube') }}" target="_blank"
+                                ><i class="fab fa-youtube"></i
+                            ></a>
+                            @endif @if(setting('twitter'))
+                            <a href="{{ setting('twitter') }}" target="_blank"
+                                ><i class="fab fa-twitter"></i
+                            ></a>
+                            @endif @if(setting('tiktok'))
+                            <a href="{{ setting('tiktok') }}" target="_blank"
+                                ><i class="fab fa-tiktok"></i
+                            ></a>
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- event single area end -->
-    
 </div>

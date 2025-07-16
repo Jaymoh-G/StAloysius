@@ -385,6 +385,13 @@
                                     >Careers</a
                                 >
                             </li>
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="{{ route('downloads') }}"
+                                    >Downloads</a
+                                >
+                            </li>
                         </ul>
                     </li>
 

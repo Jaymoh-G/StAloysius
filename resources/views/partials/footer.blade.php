@@ -192,62 +192,40 @@
                 </div>
                 <div class="col-md-6 col-lg-3">
                     <div class="footer-widget-box list">
-                        <h4 class="footer-widget-title">Newsletter</h4>
-                        <div class="footer-newsletter">
-                            <p>
-                                Subscribe Our Newsletter To Get Latest Update
-                                And News
-                            </p>
-                            <div class="subscribe-form">
-                                {{-- The following Mailchimp parameters are managed in the Settings > Newsletter tab --}}
-                                <form
-                                    action="https://{{
-                                        setting('mailchimp_dc', 'YOUR_DC')
-                                    }}.list-manage.com/subscribe/post?u={{
-                                        setting('mailchimp_api_key', 'YOUR_U')
-                                    }}&id={{
-                                        setting('mailchimp_list_id', 'YOUR_ID')
-                                    }}"
-                                    method="post"
-                                    target="_blank"
-                                    novalidate
+                        <h4 class="footer-widget-title">
+                            Follow Us on Facebook
+                        </h4>
+                        <div class="footer-facebook-widget">
+                            <div id="fb-root"></div>
+                            <div
+                                class="fb-page"
+                                data-href="https://web.facebook.com/www.sagnai.org/photos/?_rdc=1&_rdr"
+                                data-tabs="timeline"
+                                data-width=""
+                                data-height="230"
+                                data-small-header="false"
+                                data-adapt-container-width="true"
+                                data-hide-cover="false"
+                                data-show-facepile="true"
+                            >
+                                <blockquote
+                                    cite="https://web.facebook.com/www.sagnai.org/photos/?_rdc=1&_rdr"
+                                    class="fb-xfbml-parse-ignore"
                                 >
-                                    <input
-                                        type="email"
-                                        class="form-control"
-                                        name="EMAIL"
-                                        placeholder="Your Email"
-                                        required
-                                    />
-                                    <button class="theme-btn" type="submit">
-                                        Subscribe Now
-                                        <i class="far fa-paper-plane"></i>
-                                    </button>
-                                </form>
-                                <div
-                                    style="position: absolute; left: -5000px"
-                                    aria-hidden="true"
-                                >
-                                    <input
-                                        type="text"
-                                        name="b_{{
-                                            setting(
-                                                'mailchimp_api_key',
-                                                'YOUR_U'
-                                            )
-                                        }}_{{
-                                            setting(
-                                                'mailchimp_list_id',
-                                                'YOUR_ID'
-                                            )
-                                        }}"
-                                        tabindex="-1"
-                                        value=""
-                                    />
-                                </div>
+                                    <a
+                                        href="https://web.facebook.com/www.sagnai.org/photos/?_rdc=1&_rdr"
+                                        >Facebook Page</a
+                                    >
+                                </blockquote>
                             </div>
                         </div>
                     </div>
+                    <script
+                        async
+                        defer
+                        crossorigin="anonymous"
+                        src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v19.0"
+                    ></script>
                 </div>
             </div>
         </div>
@@ -259,7 +237,7 @@
                     <div class="col-md-6 align-self-center">
                         <p class="copyright-text">
                             &copy; Copyright <span id="date"></span>
-                            <a href="#">
+                            <a href="{{ route('home') }}">
                                 St. Aloysius Gonzaga Secondary School
                             </a>
                             All Rights Reserved.

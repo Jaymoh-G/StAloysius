@@ -26,8 +26,14 @@ class Home extends Component
   public $sliderContent;
   public $sliderSections;
   public $homeContent;
+  public $homeAboutUs;
+  public $whyChooseUs;
   public $contactInfo;
-
+  public $enrollment;
+  public $ourTeam;
+  public $testimonialSection;
+  public $eventsSection;
+  public $newsSection;
   protected function limitContent($content, $lines = 3)
   {
     if (empty($content)) {
@@ -68,7 +74,13 @@ class Home extends Component
 
     // Fetch homepage content from static pages with images from blog_images table
     $this->homeContent = StaticPage::where('page_name', 'Homepage Sections')->first();
-
+    $this->homeAboutUs = StaticPage::where('page_name', 'Homepage About Us Section')->first();
+    $this->whyChooseUs = StaticPage::where('page_name', 'Homepage Why Choose Us Section')->first();
+    $this->enrollment = StaticPage::where('page_name', 'Homepage Enrollment Section')->first();
+    $this->ourTeam = StaticPage::where('page_name', 'Homepage Our Team Section')->first();
+    $this->testimonialSection = StaticPage::where('page_name', 'Homepage Testimonials Section')->first();
+    $this->eventsSection = StaticPage::where('page_name', 'Homepage Events Section')->first();
+    $this->newsSection = StaticPage::where('page_name', 'Homepage News Section')->first();
     // Fetch contact information from settings
     $this->contactInfo = [
       'email' => setting('email'),
@@ -87,6 +99,13 @@ class Home extends Component
       'featuredVideos' => $this->featuredVideos,
       'sliderContent' => $this->sliderContent,
       'homeContent' => $this->homeContent,
+      'homeAboutUs' => $this->homeAboutUs,
+      'whyChooseUs' => $this->whyChooseUs,
+      'enrollment' => $this->enrollment,
+      'ourTeam' => $this->ourTeam,
+      'testimonialSection' => $this->testimonialSection,
+      'eventsSection' => $this->eventsSection,
+      'newsSection' => $this->newsSection,
       'contactInfo' => $this->contactInfo
     ]);
   }
