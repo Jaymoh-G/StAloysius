@@ -234,5 +234,8 @@ Route::get('/logout', function () {
 // CKEditor upload route
 Route::post('/ckeditor/upload', [\App\Http\Controllers\CkeditorUploadController::class, 'upload'])->name('ckeditor.upload');
 
+// 404 Page Not Found route
+Route::fallback(\App\Livewire\Frontend\NotFound::class);
+
 // Include authentication routes
 require __DIR__ . '/auth.php';

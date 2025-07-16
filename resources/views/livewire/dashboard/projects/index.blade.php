@@ -116,7 +116,7 @@
                                             {{ ucfirst(str_replace('_', ' ', $project->status)) }}
                                         </span>
                                     </td>
-                                    <td>{{ $project->department->name }}</td>
+                                    <td>{{ $project->department?->name ?? 'none' }}</td>
                                     <td>{{ $project->duration }}</td>
                                     <td>
                                         <button

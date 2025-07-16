@@ -40,12 +40,12 @@
                                                 <li>
                                                     <i class="far fa-user"></i
                                                     ><a href="#"
-                                                        >{{ $blog->user->name ?? 'Unknown' }}</a
+                                                        >{{ $blog->user->name ?? 'Admin' }}</a
                                                     >
                                                 </li>
                                                 <li>
                                                     <i class="far fa-tag"></i>
-                                                    
+
                                                     {{ $blog->category->name ?? 'Uncategorized' }}
                                                 </li>
                                             </ul>
