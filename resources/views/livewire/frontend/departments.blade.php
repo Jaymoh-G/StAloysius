@@ -1,5 +1,5 @@
 <div>
-    @section('content')
+    
         <main class="main">
             <!-- breadcrumb -->
             <div class="site-breadcrumb" style="background: url({{ asset('assets/img/breadcrumb/01.jpg') }})">
@@ -98,7 +98,7 @@
             </div>
             <!-- department area end -->
         </main>
-    @endsection
+
 </div>
 
 </div>

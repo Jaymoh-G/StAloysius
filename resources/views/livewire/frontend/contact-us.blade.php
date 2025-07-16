@@ -1,5 +1,5 @@
 <div>
-    @section('content')
+
     <main class="main">
         <!-- breadcrumb -->
         <div
@@ -270,5 +270,5 @@
         </div>
     </main>
 
-    @endsection
+    
 </div>

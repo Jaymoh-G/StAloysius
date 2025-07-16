@@ -1,5 +1,4 @@
-<div>
-    @section('content')
+
     <main class="main">
         <!-- breadcrumb -->
         <div
@@ -37,7 +36,7 @@
                             </p>
                             <div class="team-details-info">
                                 <ul>
-                                  
+
                                 </ul>
                             </div>
                             <div class="team-details-social">
@@ -107,5 +106,3 @@
         <!-- biography & skill end -->
     </main>
 
-    @endsection
-</div>

@@ -1,5 +1,5 @@
 <div>
-    @section('content')
+
         <main class="main">
 
             <!-- breadcrumb -->
@@ -126,5 +126,5 @@
                 <!-- facility single end-->
 
         </main>
-    @endsection
+    
 </div>

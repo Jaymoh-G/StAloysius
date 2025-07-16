@@ -69,7 +69,7 @@
         </div>
         <!-- popup search end -->
 
-        <main class="main">@yield('content')</main>
+        <main class="main">{{ $slot }}</main>
 
         <!-- footer area -->
         @include('partials.footer')

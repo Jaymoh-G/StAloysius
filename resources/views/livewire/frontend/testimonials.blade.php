@@ -1,5 +1,5 @@
 <div>
-    @section('content')
+
       <!-- breadcrumb -->
         <div
             class="site-breadcrumb"
@@ -16,7 +16,7 @@
         <!-- breadcrumb end -->
         <div class="container py-5">
 
-           
+
 
             <div class="row">
                 @forelse($testimonials as $testimonial)
@@ -56,5 +56,5 @@
                 {{ $testimonials->links() }}
             </div>
         </div>
-    @endsection
+
 </div>

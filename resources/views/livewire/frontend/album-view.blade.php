@@ -1,5 +1,5 @@
 <div>
-    @section('content')
+
         <!-- breadcrumb -->
         <div class="site-breadcrumb" style="background: url({{ asset('assets/img/breadcrumb/01.jpg') }})">
             <div class="container">
@@ -28,7 +28,7 @@
                 @endif
 
                 <div class="row popup-gallery">
-              
+
 
                     @if ($images->count() > 0)
                         @foreach ($images as $image)
@@ -68,5 +68,5 @@
             </div>
         </div>
         <!-- album-detail-area end -->
-    @endsection
+    
 </div>

@@ -1,5 +1,4 @@
-<div>
-    @section('content')
+
     <main class="main">
         <!-- breadcrumb -->
         <div
@@ -76,6 +75,5 @@
         </div>
         <!-- event area end -->
     </main>
-    @endsection
-</div>
+
 

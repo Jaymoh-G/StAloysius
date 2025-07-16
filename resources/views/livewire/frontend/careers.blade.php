@@ -1,5 +1,5 @@
 <div>
-    @section('content')
+
 
         <!-- Page Title/Header -->
         <!-- breadcrumb -->
@@ -279,7 +279,7 @@
                 }
             }
         </style>
-    @endsection
+
 </div>
 
 <script>

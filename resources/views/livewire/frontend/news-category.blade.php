@@ -1,5 +1,5 @@
-<div>
-    @section('content')
+
+
     <main class="main">
         <!-- breadcrumb -->
         <div
@@ -107,5 +107,4 @@
         </div>
         <!-- blog area end -->
     </main>
-    @endsection
-</div>
+

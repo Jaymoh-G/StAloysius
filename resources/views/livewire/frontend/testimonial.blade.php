@@ -1,5 +1,5 @@
-<div>
-@section('content')
+
+
   <!-- breadcrumb -->
         <div
             class="site-breadcrumb"
@@ -17,7 +17,7 @@
         <!-- breadcrumb end -->
 <div class="container py-5">
 
-    
+
     <div class="row">
         <div class="col-lg-8">
             <div class="card mb-4 shadow-sm">
@@ -79,5 +79,4 @@
         </div>
     </div>
     </div>
-@endsection
-</div>
+

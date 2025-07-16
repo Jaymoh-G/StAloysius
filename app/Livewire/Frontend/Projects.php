@@ -62,6 +62,6 @@ class Projects extends Component
 
         return view('livewire.frontend.projects', [
             'projects' => $projects
-        ]);
+        ])->layout('components.layouts.app');
     }
 }

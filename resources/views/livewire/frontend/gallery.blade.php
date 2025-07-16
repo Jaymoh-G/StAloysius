@@ -1,5 +1,5 @@
 <div>
-    @section('content')
+
     <!-- breadcrumb -->
 
     <div class="gallery-area py-120">
@@ -301,7 +301,7 @@
             background-color: #f8f9fa;
         }
     </style>
-    @endsection
+    
 </div>
 <script>
     // Listen for URL change events

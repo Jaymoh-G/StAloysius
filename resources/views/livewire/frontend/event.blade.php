@@ -1,5 +1,5 @@
 <div>
-    @section('content')
+
     <!-- breadcrumb -->
     <div
         class="site-breadcrumb"
@@ -166,5 +166,5 @@
         </div>
     </div>
     <!-- event single area end -->
-    @endsection
+    
 </div>

@@ -1,5 +1,5 @@
 <div>
-    @section('content')
+
 
     <main class="main">
 
@@ -65,5 +65,5 @@ Let us be reminded that every action, no matter how small, is an opportunity to 
         </div>
         <!-- health-care end -->
 
-    @endsection
+
 </div>

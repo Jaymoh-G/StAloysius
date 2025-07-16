@@ -80,6 +80,6 @@ class VolunteerService extends Component
 
     public function render()
     {
-        return view('livewire.frontend.volunteer-service');
+        return view('livewire.frontend.volunteer-service')->layout('components.layouts.app');
     }
 }

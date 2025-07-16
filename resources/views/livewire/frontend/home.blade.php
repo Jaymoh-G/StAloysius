@@ -1,5 +1,5 @@
 <div>
-    @section('content')
+
     <!-- hero slider -->
     <div class="hero-section">
         <div class="hero-slider owl-carousel owl-theme">
@@ -977,5 +977,5 @@
     </div>
     <!-- blog area end -->
 
-    @endsection
+
 </div>
