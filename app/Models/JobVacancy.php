@@ -15,6 +15,7 @@ class JobVacancy extends Model
         'deadline',
         'application_email',
         'is_active',
+        'pdf_path', // allow mass assignment
     ];
 
     protected $casts = [

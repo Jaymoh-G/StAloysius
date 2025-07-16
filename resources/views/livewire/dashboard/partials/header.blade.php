@@ -232,6 +232,20 @@
                     </li>
                     @endcanView
 
+                    @canView('downloads')
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="fas fa-download"></i>
+                            <span class="nav-text">Downloads</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="{{ route('dashboard.downloads.index') }}">Manage Downloads</a></li>
+                            @canCreate('downloads')
+                            <li><a href="{{ route('dashboard.downloads.create') }}">Add Download</a></li>
+                            @endcanCreate
+                        </ul>
+                    </li>
+                    @endcanView
+
                     @canView('static_pages')
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="fas fa-file-alt"></i>

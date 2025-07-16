@@ -6,9 +6,12 @@ use App\Models\JobCategory;
 use App\Models\JobVacancy;
 use Illuminate\Support\Str;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class JobVacancyForm extends Component
 {
+    use WithFileUploads;
+
     public $jobId;
     public $title;
     public $slug;
@@ -17,6 +20,8 @@ class JobVacancyForm extends Component
     public $deadline;
     public $application_email;
     public $is_active = true;
+    public $pdf; // for file upload
+    public $existingPdfPath;
 
     protected $rules = [
         'title' => 'required|string|max:255',
@@ -26,6 +31,7 @@ class JobVacancyForm extends Component
         'deadline' => 'required|date|after:today',
         'application_email' => 'required|email',
         'is_active' => 'boolean',
+        'pdf' => 'nullable|file|mimes:pdf|max:4096', // 4MB max
     ];
 
     public function mount($id = null)
@@ -34,9 +40,8 @@ class JobVacancyForm extends Component
             $this->jobId = $id;
             $job = JobVacancy::findOrFail($id);
             $this->fill($job->toArray());
-               $this->deadline = optional($job->deadline)->format('Y-m-d');
-               
-
+            $this->deadline = optional($job->deadline)->format('Y-m-d');
+            $this->existingPdfPath = $job->pdf_path;
         }
     }
 
@@ -58,6 +63,13 @@ class JobVacancyForm extends Component
             'application_email' => $this->application_email,
             'is_active' => $this->is_active,
         ];
+
+        // Handle PDF upload
+        if ($this->pdf) {
+            $data['pdf_path'] = $this->pdf->store('job_pdfs', 'public');
+        } elseif ($this->jobId && $this->existingPdfPath) {
+            $data['pdf_path'] = $this->existingPdfPath;
+        }
 
         if ($this->jobId) {
             JobVacancy::findOrFail($this->jobId)->update($data);

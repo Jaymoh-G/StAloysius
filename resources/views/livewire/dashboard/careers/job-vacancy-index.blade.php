@@ -4,17 +4,27 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <h4 class="card-title">Job Vacancies</h4>
-                    <a href="{{ route('dashboard.careers.create') }}" class="btn btn-primary">Add New Job</a>
+                    <a
+                        href="{{ route('dashboard.careers.create') }}"
+                        class="btn btn-primary"
+                        >Add New Job</a
+                    >
                 </div>
                 <div class="card-body">
                     @if (session()->has('message'))
-                        <div class="alert alert-success">{{ session('message') }}</div>
+                    <div class="alert alert-success">
+                        {{ session("message") }}
+                    </div>
                     @endif
 
                     <div class="row mb-4">
                         <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder="Search jobs..."
-                                wire:model.live="search">
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Search jobs..."
+                                wire:model.live="search"
+                            />
                         </div>
                     </div>
 
@@ -26,48 +36,81 @@
                                     <th>Category</th>
                                     <th>Deadline</th>
                                     <th>Status</th>
+                                    <th>PDF</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse($jobs as $job)
-                                    <tr>
-                                        <td>{{ $job->title }}</td>
-                                        <td>{{ $job->category->name ?? 'N/A' }}</td>
-                                        <td>{{ $job->deadline->format('M d, Y') }}</td>
-                                        <td>
-                                            @if ($job->is_active)
-                                                @if ($job->deadline->isPast())
-                                                    <span class="badge bg-warning">Expired</span>
-                                                @else
-                                                    <span class="badge bg-success">Active</span>
-                                                @endif
-                                            @else
-                                                <span class="badge bg-danger">Inactive</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('career.show', $job->slug) }}"
-                                                class="btn btn-sm btn-success me-1" target="_blank">
-                                                <i class="fa fa-eye"></i>
-                                            </a>
-                                            <a href="{{ route('dashboard.careers.edit', $job->id) }}"
-                                                class="btn btn-sm btn-info me-1">
-                                                <i class="fa fa-edit"></i>
-                                            </a>
+                                <tr>
+                                    <td>{{ $job->title }}</td>
+                                    <td>{{ $job->category->name ?? 'N/A' }}</td>
+                                    <td>
+                                        {{ $job->deadline->format('M d, Y') }}
+                                    </td>
+                                    <td>
+                                        @if ($job->is_active) @if($job->deadline->isPast())
+                                        <span class="badge bg-warning"
+                                            >Expired</span
+                                        >
+                                        @else
+                                        <span class="badge bg-success"
+                                            >Active</span
+                                        >
+                                        @endif @else
+                                        <span class="badge bg-danger"
+                                            >Inactive</span
+                                        >
+                                        @endif
+                                    </td>
+                                    <td class="text-center">
+                                        @if($job->pdf_path)
+                                        <a
+                                            href="{{ asset('storage/' . $job->pdf_path) }}"
+                                            target="_blank"
+                                            title="View PDF"
+                                        >
+                                            <i
+                                                class="fas fa-file-pdf text-danger fa-lg"
+                                            ></i>
+                                        </a>
+                                        @else
+                                        <i
+                                            class="fas fa-file-pdf text-muted fa-lg"
+                                            title="No PDF attached"
+                                        ></i>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a
+                                            href="{{ route('career.show', $job->slug) }}"
+                                            class="btn btn-sm btn-success me-1"
+                                            target="_blank"
+                                        >
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <a
+                                            href="{{ route('dashboard.careers.edit', $job->id) }}"
+                                            class="btn btn-sm btn-info me-1"
+                                        >
+                                            <i class="fa fa-edit"></i>
+                                        </a>
 
-
-                                            <button class="btn btn-sm btn-danger"
-                                                wire:click.prevent="delete({{ $job->id }})"
-                                                class="text-red-600 hover:text-red-900">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                        <button
+                                            class="btn btn-sm btn-danger"
+                                            wire:click.prevent="delete({{ $job->id }})"
+                                            class="text-red-600 hover:text-red-900"
+                                        >
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
                                 @empty
-                                    <tr>
-                                        <td colspan="5" class="text-center">No job vacancies found</td>
-                                    </tr>
+                                <tr>
+                                    <td colspan="6" class="text-center">
+                                        No job vacancies found
+                                    </td>
+                                </tr>
                                 @endforelse
                             </tbody>
                         </table>
@@ -82,28 +125,28 @@
 </div>
 
 @push('scripts')
-    <script>
-        document.addEventListener('livewire:initialized', () => {
-            Livewire.on('confirmDelete', (data) => {
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        @this.deleteConfirmed(data.id)
-                        Swal.fire(
-                            'Deleted!',
-                            'Job vacancy has been deleted.',
-                            'success'
-                        )
-                    }
-                })
-            });
+<script>
+    document.addEventListener('livewire:initialized', () => {
+        Livewire.on('confirmDelete', (data) => {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    @this.deleteConfirmed(data.id)
+                    Swal.fire(
+                        'Deleted!',
+                        'Job vacancy has been deleted.',
+                        'success'
+                    )
+                }
+            })
         });
-    </script>
+    });
+</script>
 @endpush

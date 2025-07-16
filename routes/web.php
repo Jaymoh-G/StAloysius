@@ -84,6 +84,8 @@ Route::get('/christian-life-community', \App\Livewire\Frontend\ChristianLifeComm
 Route::get('/our-pillars', \App\Livewire\Frontend\OurPillars::class)->name('our-pillars');
 Route::get('/volunteer', \App\Livewire\Frontend\VolunteerService::class)->name('volunteer');
 Route::get('/donations', \App\Livewire\Frontend\Donations::class)->name('donations');
+// Frontend Downloads
+Route::get('/downloads', \App\Livewire\Frontend\Downloads::class)->name('downloads');
 
 
 
@@ -200,6 +202,15 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')
     Route::middleware(['module.permission:view donations'])->group(function () {
         Route::get('/donations', \App\Livewire\Dashboard\Donations\Index::class)->name('donations.index');
     });
+
+    // Admin Downloads Management
+    Route::middleware(['module.permission:view downloads'])->group(function () {
+        Route::get('/downloads', \App\Livewire\Dashboard\Downloads\Index::class)->name('downloads.index');
+        Route::get('/downloads/create', \App\Livewire\Dashboard\Downloads\Form::class)->name('downloads.create');
+        Route::get('/downloads/{id}/edit', \App\Livewire\Dashboard\Downloads\Form::class)->name('downloads.edit');
+    });
+
+
 
     // Settings Management - require view settings permission
     Route::middleware(['module.permission:view settings'])->group(function () {
