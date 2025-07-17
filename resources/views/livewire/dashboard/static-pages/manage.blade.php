@@ -333,7 +333,7 @@
                                                     <div
                                                         class="d-flex mt-2 flex-wrap gap-3"
                                                     >
-                                                        @foreach ($existingImages as $image)
+                                                        @foreach($existingImages as $image)
                                                         <div
                                                             class="position-relative text-center"
                                                             style="width: 120px"
@@ -456,7 +456,8 @@
                                                 >
 
                                                 <!-- Preview of uploaded section images -->
-                                                @if(isset($sections[$index]['images'])&&count($sections[$index]['images'])> 0)
+                                                @if(isset($sections[$index]['images'])&&count($sections[$index]['images'])>
+                                                0)
                                                 <div class="mt-3">
                                                     <h6 class="text-primary">
                                                         New Section Images:
@@ -500,7 +501,10 @@
                                                 @endif
 
                                                 <!-- Display existing section images -->
-                                                @if(isset($sections[$index]['existingImages']) && count($sections[$index]['existingImages'])> 0)
+                                                @if(isset($sections[$index]['existingImages'])
+                                                &&
+                                                count($sections[$index]['existingImages'])>
+                                                0)
                                                 <div class="mt-3">
                                                     <h6 class="text-success">
                                                         Existing Section Images:
