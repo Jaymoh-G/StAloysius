@@ -18,11 +18,11 @@ class FeePayingStudents extends Component
         $this->feePayingStudents = StaticPage::where('page_name', 'Fee Paying Students')->first();
 
         if (!$this->feePayingStudents) {
-            $this->feePayingStudents = StaticPage::where('page_name', 'Admission Policy')->first();
+            $this->feePayingStudents = StaticPage::where('page_name', 'Fee Paying Students Page')->first();
         }
 
         if (!$this->feePayingStudents) {
-            $this->feePayingStudents = StaticPage::where('page_name', 'Admission')->first();
+            $this->feePayingStudents = StaticPage::where('page_name', 'fee paying students')->first();
         }
 
         // Debug information

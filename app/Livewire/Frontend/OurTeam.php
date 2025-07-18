@@ -32,19 +32,16 @@ class OurTeam extends Component
 
     public function render()
     {
-        $members = TeamMember::with('department')->latest()->get();
-
-
+        $members = TeamMember::with('department')->get();
 
         $academicMembers = $members->filter(function ($member) {
             return $member->department && in_array($member->department->name, $this->academicDepartments);
-        });
+        })->sortBy('sort_order');
 
-        //not in academic departments
         $nonAcademicMembers = $members->filter(function ($member) {
             return !$member->department ||
                 (!in_array($member->department->name, $this->academicDepartments));
-        });
+        })->sortBy('sort_order');
 
         return view('livewire.frontend.our-team', [
             'nonAcademicMembers' => $nonAcademicMembers,

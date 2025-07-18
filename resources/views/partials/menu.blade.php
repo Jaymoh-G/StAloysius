@@ -68,7 +68,7 @@
                             <li>
                                 <a
                                     class="dropdown-item"
-                                    href="/news/a-message-from-the-principal"
+                                    href="/updates/a-message-from-the-principal"
                                     >Principal's Message</a
                                 >
                             </li>
@@ -87,9 +87,9 @@
                                 >
                             </li>
                             <li>
-                                <a
+                                <a target="_blank"
                                     class="dropdown-item"
-                                    href="{{ route('clc') }}"
+                                    href="https://www.clckenya.org/"
                                     >Christian Life Community</a
                                 >
                             </li>

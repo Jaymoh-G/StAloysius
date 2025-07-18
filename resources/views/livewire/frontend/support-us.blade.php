@@ -32,7 +32,7 @@
                                 {{ $projects->title ?? 'Support Our Projects' }}
                             </h3>
                             <p class="card-text">
-                                pp
+                                
                                 {!! $projects->content ?? '' !!}
                             </p>
                             <a

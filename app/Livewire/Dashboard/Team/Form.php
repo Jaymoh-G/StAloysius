@@ -12,6 +12,7 @@ class Form extends Component
     public $name, $position, $description, $experience, $image;
     public $skills = []; // ['HTML' => 90, ...]
     public $socials = []; // ['linkedin' => '...', ...]
+    public $sort_order = 0;
 
     public $newSkill, $newPercent;
     public $newSocial, $newSocialLink;
@@ -27,6 +28,7 @@ class Form extends Component
         'skills' => 'nullable|array',
         'socials' => 'nullable|array',
         'imageTemp' => 'nullable|image|max:2048',
+        'sort_order' => 'nullable|integer',
     ];
 
     public function mount($id = null)
@@ -43,6 +45,7 @@ class Form extends Component
             $this->skills = $teamMember->professional_skills ?? [];
             $this->socials = $teamMember->socials ?? [];
             $this->existingImage = $teamMember->image;
+            $this->sort_order = $teamMember->sort_order ?? 0;
         }
     }
 
@@ -65,6 +68,7 @@ class Form extends Component
                 'professional_skills' => $this->skills,
                 'socials' => $this->socials,
                 'image' => $imagePath,
+                'sort_order' => $this->sort_order,
             ]
         );
 

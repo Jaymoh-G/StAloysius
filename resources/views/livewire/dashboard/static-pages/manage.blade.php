@@ -621,12 +621,16 @@
 </div>
 
 @push('scripts')
+<script>
+    const livewireComponentId = @json($_instance->getId());
+</script>
+
 <script src="{{ asset('adminassets/vendor/ckeditor/ckeditor.js') }}"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         let editor;
-        let isInitialLoad = true;
         let debounceTimer;
+        let isInitialLoad = true;
 
         function strip_tags(html) {
             const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -646,8 +650,8 @@
                 editor.setData('{!! addslashes($content) !!}');
                 isInitialLoad = false;
 
-                // Update content in Livewire when it changes
-                editor.model.document.on("change:data", () => {
+                // Sync content with Livewire on change
+                editor.model.document.on('change:data', () => {
                     if (isInitialLoad) return;
 
                     const data = editor.getData();
@@ -660,52 +664,46 @@
                         validator.setCustomValidity(hasContent ? '' : 'Content is required');
                     }
 
-                    // Show/hide error message
-                    const errorMsg = document.querySelector('#content-error-msg');
+                    // Toggle error message
+                    const errorMsg = document.getElementById('content-error-msg');
                     if (errorMsg) {
                         errorMsg.style.display = hasContent ? 'none' : 'block';
                     }
 
                     clearTimeout(debounceTimer);
                     debounceTimer = setTimeout(() => {
-                        window.Livewire.find('<?php echo e($_instance->getId()); ?>').set('content', data);
+                        window.Livewire.find(livewireComponentId).set('content', data);
                     }, 500);
                 });
 
-                // Override the submit button
+                // Submit button override
                 const submitBtn = document.querySelector('button[type="submit"]');
                 if (submitBtn) {
-                    submitBtn.addEventListener('click', function(e) {
+                    submitBtn.addEventListener('click', function (e) {
                         e.preventDefault();
 
                         const content = editor.getData();
                         const hasContent = content && strip_tags(content).trim().length > 0;
 
-                        // Set content in Livewire component
-                        window.Livewire.find('<?php echo e($_instance->getId()); ?>').set('content', content);
+                        // Set content
+                        window.Livewire.find(livewireComponentId).set('content', content);
 
                         if (!hasContent) {
-                            // Show error message
-                            const errorMsg = document.querySelector('#content-error-msg');
-                            if (errorMsg) {
-                                errorMsg.style.display = 'block';
-                            }
-                            // Scroll to error
-                            document.querySelector('#content').scrollIntoView({
+                            const errorMsg = document.getElementById('content-error-msg');
+                            if (errorMsg) errorMsg.style.display = 'block';
+
+                            document.getElementById('content').scrollIntoView({
                                 behavior: 'smooth',
                                 block: 'center'
                             });
                             return;
                         }
 
-                        // Hide error message if content is valid
-                        const errorMsg = document.querySelector('#content-error-msg');
-                        if (errorMsg) {
-                            errorMsg.style.display = 'none';
-                        }
+                        // Hide error and submit via Livewire
+                        const errorMsg = document.getElementById('content-error-msg');
+                        if (errorMsg) errorMsg.style.display = 'none';
 
-                        // Submit form
-                        window.Livewire.find('<?php echo e($_instance->getId()); ?>').call('save');
+                        window.Livewire.find(livewireComponentId).call('save');
                     });
                 }
             })

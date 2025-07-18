@@ -71,9 +71,9 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
           server: 70.32.23.41
-          username: ${{ secrets.ftp_username }}
-          password: ${{ secrets.ftp_password }}
-          server-dir: /staloysius.breezetech.co.ke/
+          username: ${{ secrets.ftp_username1 }}
+          password: ${{ secrets.ftp_password1 }}
+          server-dir: /staloysiusgonzaga.org/public_html/
           local-dir: ./  # root of the repo
           exclude: |
             **/*

@@ -34,7 +34,7 @@ class Index extends Component
     public function render()
     {
         return view('livewire.dashboard.team.index', [
-            'teamMembers' => TeamMember::latest()->paginate(10),
+            'teamMembers' => TeamMember::orderBy('sort_order')->paginate(10),
         ])->layout('components.layouts.dashboard');
     }
 }

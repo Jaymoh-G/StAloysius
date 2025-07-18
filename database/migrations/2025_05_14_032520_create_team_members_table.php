@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('team_members', function (Blueprint $table) {
-       $table->id();
+       $table->increments('id');
+       $table->integer('sort_order')->nullable()->default(0)->after('id');
         $table->string('name');
         $table->string('position');
         $table->text('description');

@@ -5,16 +5,27 @@
             @if ($sliderContent) @for ($i = 1; $i <= 10; $i++) @php $titleField
             = "section_{$i}_title"; $contentField = "section_{$i}_content";
             $title = $sliderContent->$titleField; $content =
-            $sliderContent->$contentField; @endphp @if ($title || $content)
-            <div
-                class="hero-single"
-                style="background: url({{ $sliderContent->banner_image ? asset('storage/' . $sliderContent->banner_image) : asset('assets/img/slider/s' . $i . '.jpg') }})"
-            >
+            $sliderContent->$contentField;
+            // Fetch the first image for this section from related images
+            $sectionImage =$sliderContent->images->where('category', "section_{$i}")->first();
+            $imageUrl = $sectionImage ? asset('storage/' . $sectionImage->path)
+            : asset('assets/img/slider/s' . $i . '.jpg'); @endphp @if ($title ||
+            $content)
+            <div class="hero-single" style="background: url({{ $imageUrl }})">
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-md-12 col-lg-7">
                             <div class="hero-content">
                                 @if ($title)
+                                <h6
+                                    class="hero-sub-title"
+                                    data-animation="fadeInDown"
+                                    data-delay=".25s"
+                                >
+                                    <i class="far fa-book-open-reader"></i>
+                                    {{ $title }}
+                                </h6>
+                                @else
                                 <h6
                                     class="hero-sub-title"
                                     data-animation="fadeInDown"
@@ -226,8 +237,9 @@
                     >
                         <div class="site-heading mb-3">
                             <span class="site-title-tagline"
-                                ><i class="far fa-book-open-reader"></i> {{ $homeAboutUs ? $homeAboutUs->title : 'Homepage About Us Section' }} </span
-                            >
+                                ><i class="far fa-book-open-reader"></i>
+                                {{ $homeAboutUs ? $homeAboutUs->title : 'Homepage About Us Section' }}
+                            </span>
                             <h2 class="site-title">
                                 {!! $homeAboutUs ? $homeAboutUs->section_1_title
                                 : 'About St. Aloysius Gonzaga School' !!}
@@ -306,7 +318,10 @@
                                             ? $homeAboutUs->section_4_content :
                                             'Education is the most powerful
                                             weapon which you can use to change
-                                            the world. the interesting thing is that the more you use it the more you understand it critical thinking and problem-solving skills.' !!}
+                                            the world. the interesting thing is
+                                            that the more you use it the more
+                                            you understand it critical thinking
+                                            and problem-solving skills.' !!}
                                         </p>
                                         <i class="far fa-quote-right"></i>
                                     </div>
@@ -486,15 +501,18 @@
                         <div class="choose-content-info">
                             <div class="site-heading mb-0">
                                 <span class="site-title-tagline"
-                                    ><i class="far fa-book-open-reader"></i> {{ $whyChooseUs ? $whyChooseUs->title : 'Homepage Why Choose Us Section' }}</span
+                                    ><i class="far fa-book-open-reader"></i>
+                                    {{ $whyChooseUs ? $whyChooseUs->title : 'Homepage Why Choose Us Section' }}</span
                                 >
                                 <h2 class="site-title mb-10 text-white">
                                     {!! $whyChooseUs ?
-                                    $whyChooseUs->section_1_title : 'We Are Expert & Do Our Best For Your Goals' !!}
+                                    $whyChooseUs->section_1_title : 'We Are
+                                    Expert & Do Our Best For Your Goals' !!}
                                 </h2>
                                 <p class="text-white">
-                                        {!! $whyChooseUs ?
-                                        $whyChooseUs->section_1_content : 'It is a long established fact that a reader ' !!}
+                                    {!! $whyChooseUs ?
+                                    $whyChooseUs->section_1_content : 'It is a
+                                    long established fact that a reader ' !!}
                                 </p>
                             </div>
                             <div class="choose-content-wrap">
@@ -516,7 +534,8 @@
                                                 <p>
                                                     {!! $whyChooseUs ?
                                                     $whyChooseUs->section_2_content
-                                                    : 'It is a long established fact that a reader .' !!}
+                                                    : 'It is a long established
+                                                    fact that a reader .' !!}
                                                 </p>
                                             </div>
                                         </div>
@@ -538,7 +557,8 @@
                                                 <p>
                                                     {!! $whyChooseUs ?
                                                     $whyChooseUs->section_3_content
-                                                    : 'It is a long established fact that a reader ' !!}
+                                                    : 'It is a long established
+                                                    fact that a reader ' !!}
                                                 </p>
                                             </div>
                                         </div>
@@ -564,7 +584,8 @@
                                                 <p>
                                                     {!! $whyChooseUs ?
                                                     $whyChooseUs->section_4_content
-                                                    : 'It is a long established fact that a reader ' !!}
+                                                    : 'It is a long established
+                                                    fact that a reader ' !!}
                                                 </p>
                                             </div>
                                         </div>
@@ -584,9 +605,10 @@
                                                     : 'Expert Teachers' !!}
                                                 </h4>
                                                 <p>
-                                                        {!! $whyChooseUs ?
+                                                    {!! $whyChooseUs ?
                                                     $whyChooseUs->section_5_content
-                                                    : 'It is a long established fact that ' !!}
+                                                    : 'It is a long established
+                                                    fact that ' !!}
                                                 </p>
                                             </div>
                                         </div>
@@ -623,8 +645,8 @@
                     <div class="site-heading text-center">
                         <span class="site-title-tagline"
                             ><i class="far fa-book-open-reader"></i>
-                            {{ $eventsSection ? $eventsSection->title : 'Homepage Events Section' }} </span
-                        >
+                            {{ $eventsSection ? $eventsSection->title : 'Homepage Events Section' }}
+                        </span>
                         <h2 class="site-title">
                             {{ $eventsSection ? $eventsSection->section_1_title : 'Our Upcoming Events' }}
                         </h2>
@@ -713,7 +735,9 @@
                         >
                             <div class="enroll-form">
                                 <div class="enroll-form-header">
-                                    <h3>{{ $enrollment ? $enrollment->section_1_title : 'Homepage Enrollment Section' }}</h3>
+                                    <h3>
+                                        {{ $enrollment ? $enrollment->section_1_title : 'Homepage Enrollment Section' }}
+                                    </h3>
                                     <p>
                                         {{ $enrollment ? $enrollment->section_1_content : 'We are variations of passages the have suffered.' }}
                                     </p>
@@ -741,7 +765,9 @@
                                     {{ $enrollment ? $enrollment->section_2_content : 'There are many variations of passages available but the majority have suffered alteration in some form by injected humour randomised words which don\'t look even slightly believable. If you are going to use passage you need sure there anything embarrassing first true generator on the Internet.' }}
                                 </p>
 
-                                <a href="{{ route('how-to-apply') }}" class="theme-btn mt-5"
+                                <a
+                                    href="{{ route('how-to-apply') }}"
+                                    class="theme-btn mt-5"
                                     >How to Apply<i
                                         class="fas fa-arrow-right-long"
                                     ></i
@@ -762,9 +788,12 @@
                 <div class="col-lg-6 mx-auto">
                     <div class="site-heading text-center">
                         <span class="site-title-tagline"
-                            ><i class="far fa-book-open-reader"></i> {{ $ourTeam ? $ourTeam->title : 'Our Team' }}</span
+                            ><i class="far fa-book-open-reader"></i>
+                            {{ $ourTeam ? $ourTeam->title : 'Our Team' }}</span
                         >
-                        <h2 class="site-title">{{ $ourTeam ? $ourTeam->section_1_title : 'Meet Our Team' }}</h2>
+                        <h2 class="site-title">
+                            {{ $ourTeam ? $ourTeam->section_1_title : 'Meet Our Team' }}
+                        </h2>
                         <p>
                             {{ $ourTeam ? $ourTeam->section_1_content : '  Our team is dedicated to providing the best possible service to our clients.' }}
                         </p>
@@ -952,7 +981,8 @@
                 <div class="col-lg-6 mx-auto">
                     <div class="site-heading text-center">
                         <span class="site-title-tagline"
-                            ><i class="far fa-book-open-reader"></i> {{ $newsSection ? $newsSection->title : 'Homepage News Section' }}</span
+                            ><i class="far fa-book-open-reader"></i>
+                            {{ $newsSection ? $newsSection->title : 'Homepage News Section' }}</span
                         >
                         <h2 class="site-title">
                             {{ $newsSection ? $newsSection->section_1_title : 'Latest News & Articles' }}

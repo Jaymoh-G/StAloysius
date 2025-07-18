@@ -57,7 +57,7 @@ class Home extends Component
     $this->albums = Album::with('images')->orderBy('updated_at', 'desc')->take(6)->get();
 
     // show 4 team members updated at
-    $this->teamMembers = TeamMember::orderBy('updated_at', 'desc')->take(4)->get();
+    $this->teamMembers = TeamMember::orderBy('sort_order')->take(4)->get();
     $this->latestPosts = BlogPost::latest()->take(3)->get();
     $this->departments = DepartmentModel::all()->map(function ($dept) {
       $dept->content = $this->limitContent($dept->content);

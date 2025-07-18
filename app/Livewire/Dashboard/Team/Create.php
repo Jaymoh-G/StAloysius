@@ -29,6 +29,7 @@ class Create extends Component
     public $newPercent = '';
     public $newSocial = '';
     public $newSocialLink = '';
+    public $sort_order = 0;
 
     protected function rules()
     {
@@ -93,6 +94,7 @@ class Create extends Component
             $this->department_id = $teamMember->department_id;
             $this->professional_skills = $teamMember->professional_skills ?? [];
             $this->socials = $teamMember->socials ?? [];
+            $this->sort_order = $teamMember->sort_order ?? 0;
         }
     }
 
@@ -190,7 +192,8 @@ class Create extends Component
                 'professional_skills' => $this->professional_skills,
                 'socials' => $this->socials,
                 'department_id' => $this->department_id,
-                'slug' => Str::slug($this->name)
+                'slug' => Str::slug($this->name),
+                'sort_order' => $this->sort_order,
             ];
 
             if ($this->imageTemp) {
