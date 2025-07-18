@@ -38,7 +38,6 @@
                             ></button>
                         </div>
                         @endif
-
                         <form wire:submit.prevent="save" id="pageForm">
                             <ul
                                 class="nav nav-tabs mb-3"
