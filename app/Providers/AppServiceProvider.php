@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,6 +23,9 @@ class AppServiceProvider extends ServiceProvider
     {
            Schema::defaultStringLength(191);
               require_once app_path('helpers.php');
+                if (env('APP_ENV') === 'production') {
+        URL::forceScheme('https');
+    }
     }
 
 }
