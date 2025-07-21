@@ -202,7 +202,7 @@
                     </p>
                 </div>
                 <div class="content-btn">
-                    <a href="#" class="theme-btn"
+                    <a href="{{ route('student-application') }}" class="theme-btn"
                         >Apply Now<i class="fas fa-arrow-right-long"></i
                     ></a>
                 </div>

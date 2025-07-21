@@ -13,12 +13,10 @@
                 padding: 20px;
             }
             .header {
-                background-color: #007bff;
-                color: white;
+                background-color: #f8f9fa;
                 padding: 20px;
                 border-radius: 5px;
                 margin-bottom: 20px;
-                text-align: center;
             }
             .content {
                 background-color: #ffffff;
@@ -46,24 +44,11 @@
                 border-radius: 3px;
                 border-left: 4px solid #007bff;
             }
-            .contact-info {
-                background-color: #e9ecef;
-                padding: 15px;
-                border-radius: 5px;
-                margin-top: 20px;
-            }
-            .contact-info h4 {
-                margin-top: 0;
-                color: #007bff;
-            }
-            .contact-info p {
-                margin-bottom: 5px;
-            }
         </style>
     </head>
     <body>
         <div class="header">
-            <h2>📧 New Contact Form Submission</h2>
+            <h2>New Contact Form Submission</h2>
             <p>
                 A new message has been submitted through your website's contact
                 form.
@@ -72,12 +57,12 @@
 
         <div class="content">
             <div class="field">
-                <div class="field-label">Full Name:</div>
+                <div class="field-label">Name:</div>
                 <div class="field-value">{{ $name }}</div>
             </div>
 
             <div class="field">
-                <div class="field-label">Email Address:</div>
+                <div class="field-label">Email:</div>
                 <div class="field-value">{{ $email }}</div>
             </div>
 
@@ -88,18 +73,7 @@
 
             <div class="field">
                 <div class="field-label">Message:</div>
-                <div class="message-content">{{ $user_message }}</div>
-            </div>
-
-            <div class="contact-info">
-                <h4>📋 Contact Information</h4>
-                <p><strong>From:</strong> {{ $name }}</p>
-                <p><strong>Email:</strong> {{ $email }}</p>
-                <p><strong>Subject:</strong> {{ $subject }}</p>
-                <p>
-                    <strong>Submitted:</strong>
-                    {{ now()->format('F j, Y \a\t g:i A') }}
-                </p>
+                <div class="message-content">{{ $message }}</div>
             </div>
 
             <div
@@ -111,20 +85,7 @@
                     color: #666;
                 "
             >
-                <p><strong>Next Steps:</strong></p>
-                <ul>
-                    <li>Review the message details above</li>
-                    <li>
-                        Reply directly to this email to respond to {{ $name }}
-                    </li>
-                    <li>
-                        Consider adding {{ $name }} to your contact database
-                    </li>
-                    <li>
-                        Follow up within 24-48 hours for best customer service
-                    </li>
-                </ul>
-                <p style="margin-top: 15px">
+                <p>
                     This email was sent from your website contact form. You can
                     reply directly to this email to respond to {{ $name }}.
                 </p>

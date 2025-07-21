@@ -1016,13 +1016,13 @@
                                     <li>
                                         <a href="#"
                                             ><i class="far fa-user-circle"></i>
-                                            By James Mbatia</a
+                                           {{  $post->author->name ?? 'Admin' }}</a
                                         >
                                     </li>
+                                    <!-- post category -->
                                     <li>
                                         <a href="#"
-                                            ><i class="far fa-comments"></i> 03
-                                            Comments</a
+                                            ><i class="far fa-comments"></i> {{ $post->category->name ?? 'Uncategorized' }}</a
                                         >
                                     </li>
                                 </ul>

@@ -220,6 +220,16 @@
                         </ul>
                     </li>
                     @endcanView
+                    @canView('student_applications')
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="fas fa-user-graduate"></i>
+                            <span class="nav-text">Student Applications</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="{{ route('dashboard.student-applications.index') }}">Applications</a></li>
+                        </ul>
+                    </li>
+                    @endcanView
 
                     @canView('donations')
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">

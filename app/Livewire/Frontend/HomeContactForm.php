@@ -5,6 +5,7 @@ namespace App\Livewire\Frontend;
 use Livewire\Component;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 
 class HomeContactForm extends Component
 {
@@ -12,12 +13,14 @@ class HomeContactForm extends Component
     public $email = '';
     public $tel = '';
     public $message = '';
+    public $turnstile_token;
 
     protected $rules = [
         'name' => 'required|string|max:255',
         'email' => 'required|email|max:255',
         'tel' => 'required|string|max:20',
         'message' => 'required|string|max:1000',
+        'turnstile_token' => 'required|string',
     ];
 
     protected $messages = [
@@ -38,15 +41,29 @@ class HomeContactForm extends Component
     {
         $this->validate();
 
+        // Verify Turnstile token
+        $response = Http::asForm()->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
+            'secret' => config('services.turnstile.secret'),
+            'response' => $this->turnstile_token,
+            'remoteip' => request()->ip(),
+        ]);
+        if (!($response->json('success') ?? false)) {
+            $this->addError('turnstile_token', 'CAPTCHA verification failed. Please try again.');
+            return;
+        }
+
         try {
             // Send email
             Mail::send('emails.contact-form', [
                 'name' => $this->name,
                 'email' => $this->email,
                 'tel' => $this->tel,
-                'message' => $this->message,
-            ], function ($message) {
-                $message->to(config('mail.admin_email', 'admin@staloysius.com'))
+                'user_message' => $this->message, // Renamed to avoid conflict
+                'subject' => 'Website Enquiry',
+            ], function (
+                $message
+            ) {
+                $message->to('info@staloysiusgonzaga.org')
                     ->subject('New Enrollment Inquiry - St Aloysius Gonzaga')
                     ->replyTo($this->email, $this->name);
             });

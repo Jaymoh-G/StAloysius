@@ -87,6 +87,8 @@ Route::get('/donations', \App\Livewire\Frontend\Donations::class)->name('donatio
 // Frontend Downloads
 Route::get('/downloads', \App\Livewire\Frontend\Downloads::class)->name('downloads');
 
+// Student Application Form (frontend)
+Route::get('/student-application', \App\Livewire\Frontend\StudentApplications::class)->name('student-application');
 
 
 // Dashboard routes (protected)
@@ -210,6 +212,10 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')
         Route::get('/downloads/{id}/edit', \App\Livewire\Dashboard\Downloads\Form::class)->name('downloads.edit');
     });
 
+    // Student Applications Management (admin, protected)
+    Route::middleware(['module.permission:view student_applications'])->group(function () {
+        Route::get('/student-applications', \App\Livewire\Dashboard\StudentApplications\Index::class)->name('student-applications.index');
+    });
 
 
     // Settings Management - require view settings permission

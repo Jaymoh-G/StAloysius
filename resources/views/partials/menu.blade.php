@@ -87,7 +87,8 @@
                                 >
                             </li>
                             <li>
-                                <a target="_blank"
+                                <a
+                                    target="_blank"
                                     class="dropdown-item"
                                     href="https://www.clckenya.org/"
                                     >Christian Life Community</a
@@ -162,8 +163,7 @@
                                         <div class="col-12 col-sm-4 col-md-3">
                                             <h5>{{ $mainCategory->name }}</h5>
                                             <ul class="mega-menu-item">
-                                                @foreach($mainCategory->departments
-                                                as $department)
+                                                @foreach($mainCategory->departments as $department)
                                                 <li>
                                                     <a
                                                         class="dropdown-item"
@@ -184,8 +184,7 @@
                                                         {{ $subCategory->name }}
                                                     </a>
                                                     <ul class="dropdown-menu">
-                                                        @forelse($subCategory->departments
-                                                        as $department)
+                                                        @forelse($subCategory->departments as $department)
                                                         <li>
                                                             <a
                                                                 class="dropdown-item"
@@ -208,7 +207,8 @@
                                                 @endforeach
                                             </ul>
                                         </div>
-                                        @endforeach @if ($standaloneCategories->count() > 0)
+                                        @endforeach
+                                        @if($standaloneCategories->count() > 0)
                                         <div class="col-12 col-sm-4 col-md-3">
                                             <h5>Other Departments</h5>
                                             <ul class="mega-menu-item">
@@ -309,7 +309,14 @@
                                 <a
                                     class="dropdown-item"
                                     href="{{ route('how-to-apply') }}"
-                                    >How to Apply</a
+                                    >Application Requirements</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="{{ route('student-application') }}"
+                                    >Apply Now</a
                                 >
                             </li>
                         </ul>
@@ -454,6 +461,8 @@
                             @endif
                         </ul>
                     </li>
+
+              
                 </ul>
 
                 <div class="nav-right">

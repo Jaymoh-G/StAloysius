@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     <div class="content-btn">
-                            <a href="#" class="theme-btn">Apply Now<i class="fas fa-arrow-right-long"></i></a>
+                            <a href="{{ route('student-application') }}" class="theme-btn">Apply Now<i class="fas fa-arrow-right-long"></i></a>
                         </div>
             </div>
                 </div>
@@ -143,5 +143,5 @@
 
 
         </main>
-    
+
 </div>

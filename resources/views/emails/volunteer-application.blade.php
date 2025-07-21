@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-    @section('content')
     <head>
         <meta charset="utf-8" />
         <title>New Volunteer Application</title>
@@ -120,5 +119,4 @@
             </div>
         </div>
     </body>
-    @endsection
 </html>

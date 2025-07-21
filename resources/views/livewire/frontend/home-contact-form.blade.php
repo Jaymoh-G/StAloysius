@@ -78,6 +78,23 @@
             @enderror
         </div>
 
+        <div class="form-group mt-3">
+            <div
+                id="cf-turnstile"
+                class="cf-turnstile"
+                data-sitekey="{{ config('services.turnstile.sitekey') }}"
+                data-callback="onTurnstileSuccess"
+            ></div>
+            @error('turnstile_token')
+            <div class="invalid-feedback d-block">{{ $message }}</div>
+            @enderror
+        </div>
+        <input
+            type="hidden"
+            wire:model="turnstile_token"
+            id="turnstile_token"
+        />
+
         <button
             type="submit"
             class="theme-btn"
@@ -85,11 +102,32 @@
             wire:target="submitForm"
         >
             <span wire:loading.remove wire:target="submitForm">
-                Enroll Now<i class="fas fa-arrow-right-long"></i>
+                Enquire Now<i class="fas fa-arrow-right-long"></i>
             </span>
             <span wire:loading wire:target="submitForm">
                 <i class="far fa-spinner fa-spin me-2"></i>Sending...
             </span>
         </button>
+        <p>Token: {{ $turnstile_token }}</p>
+
     </form>
+
 </div>
+
+<script
+    src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+    async
+    defer
+></script>
+<script>
+    function onTurnstileSuccess(token) {
+        document.getElementById("turnstile_token").value = token;
+        // Update Livewire property
+        if (window.Livewire) {
+            const lw = window.Livewire.find(
+                document.querySelector("[wire\:id]").getAttribute("wire:id")
+            );
+            if (lw) lw.set("turnstile_token", token);
+        }
+    }
+</script>
