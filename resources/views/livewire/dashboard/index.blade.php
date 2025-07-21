@@ -292,15 +292,34 @@
                 </div>
             </a>
         </div>
+        @endcanView @canView('student_applications')
+        <div class="col-md-3">
+            <a
+                href="{{ route('dashboard.student-applications.index') }}"
+                class="text-decoration-none"
+            >
+                <div class="card card-compact shadow h-100">
+                    <div class="card-body text-center">
+                        <i
+                            class="fa fa-user-graduate fa-2x text-success mb-2"
+                        ></i>
+                        <h6 class="card-title">
+                            Student Applications
+                            <span>({{ $studentApplicationsCount ?? 0 }})</span>
+                        </h6>
+                    </div>
+                </div>
+            </a>
+        </div>
         @endcanView
     </div>
 
     <!-- Recent Items + Trends Section -->
     <div class="row mt-5">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="row g-3">
                 @canView('blog')
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="card card-compact h-100">
                         <div class="card-header bg-primary text-white">
                             Recent News
@@ -324,7 +343,7 @@
                     </div>
                 </div>
                 @endcanView @canView('events')
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="card card-compact h-100">
                         <div class="card-header bg-success text-white">
                             Recent Events
@@ -348,7 +367,7 @@
                     </div>
                 </div>
                 @endcanView @canView('testimonials')
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="card card-compact h-100">
                         <div class="card-header bg-info text-white">
                             Recent Testimonials
@@ -372,9 +391,9 @@
                     </div>
                 </div>
                 @endcanView @canView('gallery')
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="card card-compact h-100">
-                        <div class="card-header bg-danger text-white">
+                        <div class="card-header bg-purpel text-white">
                             Recent Albums
                         </div>
                         <ul class="list-group list-group-flush">
@@ -396,7 +415,7 @@
                     </div>
                 </div>
                 @endcanView @canView('youtube')
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="card card-compact h-100">
                         <div class="card-header bg-danger text-white">
                             Recent Videos
@@ -420,9 +439,9 @@
                     </div>
                 </div>
                 @endcanView @canView('volunteer_applications')
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="card card-compact h-100">
-                        <div class="card-header bg-danger text-white">
+                        <div class="card-header bg-dark-blue text-white">
                             Recent Volunteers
                         </div>
                         <ul class="list-group list-group-flush">
@@ -447,7 +466,7 @@
                     </div>
                 </div>
                 @endcanView @canView('donations')
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="card card-compact h-100">
                         <div class="card-header bg-success text-white">
                             Recent Donations
@@ -477,7 +496,7 @@
                     </div>
                 </div>
                 @endcanView @canView('projects')
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="card card-compact h-100">
                         <div class="card-header bg-warning text-white">
                             Recent Projects
@@ -500,6 +519,36 @@
                         </ul>
                     </div>
                 </div>
+                @endcanView @canView('student_applications')
+                <div class="col-md-4">
+                    <div class="card card-compact h-100">
+                        <div class="card-header bg-success text-white">
+                            Recent Student Applications
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            @forelse($recentStudentApplications as $item)
+                            <li class="list-group-item">
+                                <a
+                                    href="{{
+                                        route(
+                                            'dashboard.student-applications.index'
+                                        )
+                                    }}"
+                                    class="fw-bold truncate-title"
+                                    >{{ $item->student_name }}</a
+                                ><br />
+                                <small class="text-muted">
+                                    {{ $item->created_at->format('M d, Y') }}
+                                </small>
+                            </li>
+                            @empty
+                            <li class="list-group-item text-muted">
+                                No recent student applications
+                            </li>
+                            @endforelse
+                        </ul>
+                    </div>
+                </div>
                 @endcanView
 
                 <!-- 👇 Trends Section placed last here -->
@@ -518,7 +567,7 @@
             </div>
         </div>
         @canView('blog')
-        <div class="col-md-6">@livewire('dashboard.recent-activity')</div>
+        <div class="col-md-4">@livewire('dashboard.recent-activity')</div>
         @endcanView
     </div>
 </div>

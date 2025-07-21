@@ -53,11 +53,18 @@
                     <li class="nav-item dropdown">
                         <a
                             class="nav-link dropdown-toggle"
-                            href="{{ route('about-us') }}"
+                            href="#"
                             data-bs-toggle="dropdown"
                             >About Us</a
                         >
                         <ul class="dropdown-menu fade-down">
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="{{ route('about-us') }}"
+                                    >About Our School</a
+                                >
+                            </li>
                             <li>
                                 <a
                                     class="dropdown-item"
@@ -100,7 +107,7 @@
                     <li class="nav-item mega-menu dropdown">
                         <a
                             class="nav-link dropdown-toggle"
-                            href="{{ route('departments') }}"
+                            href="#"
                             data-bs-toggle="dropdown"
                             >Departments</a
                         >
@@ -110,9 +117,11 @@
                                     <div class="row">
                                         <div class="col-12 col-sm-4 col-md-3">
                                             <div class="menu-about">
-                                                @if (setting('main_menu_logo_1'))
+                                                @if(setting('main_menu_logo_1'))
                                                 <a
-                                                    href="#"
+                                                    href="{{
+                                                        route('media-centre')
+                                                    }}"
                                                     class="menu-about-logo"
                                                 >
                                                     <img
@@ -132,7 +141,9 @@
                                                 </a>
                                                 @else
                                                 <a
-                                                    href="#"
+                                                    href="{{
+                                                        route('media-centre')
+                                                    }}"
                                                     class="menu-about-logo"
                                                 >
                                                     <img
@@ -161,7 +172,15 @@
                                         false)->with('departments')->get();
                                         @endphp @foreach ($mainCategories as $mainCategory)
                                         <div class="col-12 col-sm-4 col-md-3">
-                                            <h5>{{ $mainCategory->name }}</h5>
+                                            <a
+                                                href="{{
+                                                    route('departments')
+                                                }}"
+                                            >
+                                                <h5>
+                                                    {{ $mainCategory->name }}
+                                                </h5>
+                                            </a>
                                             <ul class="mega-menu-item">
                                                 @foreach($mainCategory->departments as $department)
                                                 <li>
@@ -325,11 +344,18 @@
                     <li class="nav-item dropdown">
                         <a
                             class="nav-link dropdown-toggle"
-                            href="{{ route('media-centre') }}"
+                            href="#"
                             data-bs-toggle="dropdown"
                             >Media Centre</a
                         >
                         <ul class="dropdown-menu fade-down">
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="{{ route('media-centre') }}"
+                                    >All Media</a
+                                >
+                            </li>
                             <li>
                                 <a
                                     class="dropdown-item"
@@ -461,8 +487,6 @@
                             @endif
                         </ul>
                     </li>
-
-              
                 </ul>
 
                 <div class="nav-right">

@@ -13,7 +13,8 @@ class OurTeam extends Component
         'Language Department',
         'Graduates Department',
         'Technical Department',
-        'Mathematics Department'
+        'Mathematics Department',
+        'Library Department'
     ];
 
     protected $nonAcademicDepartments = [

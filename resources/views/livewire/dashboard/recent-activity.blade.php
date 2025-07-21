@@ -2,12 +2,12 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
-                <h4 class="card-title mb-0">Recent Activity Timeline</h4>
+                <h4 class="card-title mb-0">Recent Activities</h4>
                 <a
                     href="{{ route('dashboard.activities.index') }}"
                     class="btn btn-sm btn-outline-primary"
                 >
-                    <i class="fas fa-list me-1"></i>View All
+                    All
                 </a>
             </div>
             <div class="card-tools mt-2">

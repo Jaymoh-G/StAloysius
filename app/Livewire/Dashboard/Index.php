@@ -21,6 +21,7 @@ use App\Models\Comment;
 use App\Traits\HasModulePermissions;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use App\Models\StudentApplication;
 
 class Index extends Component
 {
@@ -37,6 +38,8 @@ class Index extends Component
         $recentVolunteers = $this->canView('volunteer_applications') ? VolunteerApplication::latest()->take(2)->get() : collect();
         $recentDonations = $this->canView('donations') ? Donation::latest()->take(2)->get() : collect();
         $recentTestimonials = $this->canView('testimonials') ? Testimonial::latest()->take(2)->get() : collect();
+        $recentStudentApplications = $this->canView('student_applications') ?
+            \App\Models\StudentApplication::latest()->take(2)->get() : collect();
 
         $today = now()->startOfDay();
         $upcomingEventCount = $this->canView('events') ? EventModel::where('start_date', '>=', $today)->count() : 0;
@@ -183,6 +186,8 @@ class Index extends Component
             'upcomingEventCount' => $upcomingEventCount,
             'pastEventCount' => $pastEventCount,
             'pendingCommentsCount' => $this->canView('blog') ? Comment::where('is_approved', false)->count() : 0,
+            'studentApplicationsCount' => $this->canView('student_applications') ? StudentApplication::count() : 0,
+            'recentStudentApplications' => $recentStudentApplications,
         ])->layout('components.layouts.dashboard');
     }
 

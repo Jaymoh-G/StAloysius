@@ -28,7 +28,6 @@ Route::get('/department/{slug}', \App\Livewire\Frontend\Department::class)->name
 // Dashboard Department Management routes are now inside the dashboard group
 
 // Admission routes
-Route::get('/admission', \App\Livewire\Frontend\Admission::class)->name('admission');
 Route::get('/admission-policy', \App\Livewire\Frontend\AdmissionPolicy::class)->name('admission-policy');
 Route::get('/how-to-apply', \App\Livewire\Frontend\HowToApply::class)->name('how-to-apply');
 Route::get('/fee-paying-students', \App\Livewire\Frontend\FeePayingStudents::class)->name('fee-paying-students');

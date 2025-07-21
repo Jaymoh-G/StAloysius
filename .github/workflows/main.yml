@@ -1,24 +1,81 @@
 on: push
-name: 🚀 Deploy website on push
+name: 🚀 Deploy Laravel as ZIP + Extract Script
+
 jobs:
-  web-deploy:
-    name: 🎉 Deploy
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: 🚚 Get latest code
+      - name: 📥 Checkout code
         uses: actions/checkout@v2
 
-      - name: 📂 Sync files
+      - name: 🧰 Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: 🔐 Copy .env.example to .env
+        run: cp .env.example .env
+
+      - name: 🧶 Install Composer dependencies
+        run: composer install --no-dev --prefer-dist --optimize-autoloader
+
+      - name: 🧰 Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: 📦 Install Node dependencies
+        run: npm install
+
+      - name: 🛠️ Build frontend assets
+        run: npm run build
+
+      - name: 🛠️ Ensure Laravel storage dirs exist
+        run: |
+          mkdir -p storage/framework/views
+          mkdir -p storage/framework/cache
+          mkdir -p storage/framework/sessions
+          mkdir -p storage/logs
+          chmod -R 775 storage
+          chmod -R 775 bootstrap/cache
+
+      - name: ⚙️ Laravel optimization
+        run: |
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
+
+      - name: 🗜️ Zip deployment package
+        run: |
+          echo "Zipping project into deploy.zip"
+          zip -r deploy.zip . \
+            -x "node_modules/*" \
+               "tests/*" \
+               ".git/*" \
+               ".github/*" \
+               ".env" \
+               "storage/logs/*" \
+               "storage/app/*" \
+               "storage/debugbar/*" \
+               "deploy.zip"
+          ls -lh deploy.zip
+
+      - name: 💾 Upload deploy.zip to GitHub (as artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: deploy-package
+          path: deploy.zip
+
+      - name: 📤 Upload deploy.zip and extract.php via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
           server: 70.32.23.41
-          username: ${{ secrets.ftp_username }}
-          password: ${{ secrets.ftp_password }}
+          username: ${{ secrets.ftp_username1 }}
+          password: ${{ secrets.ftp_password1 }}
           server-dir: /public_html/
+          local-dir: ./  # root of the repo
           exclude: |
-            **/.git*
-            **/node_modules/**
-            **/vendor/**
-            storage/**
-            .env
-
+            **/*
+            !deploy.zip
+            !e.php

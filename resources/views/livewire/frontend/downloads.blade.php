@@ -11,7 +11,9 @@
                 >
                     All
                 </button>
-                @foreach($categories as $key => $label)
+                @foreach($categories as $key => $label) @php $count =
+                $downloads->where('category', $key)->count(); @endphp @if($count
+                > 0)
                 <button
                     class="theme-btn btn-sm {{
                         $category == $key ? 'active' : ''
@@ -20,7 +22,7 @@
                 >
                     {{ $label }}
                 </button>
-                @endforeach
+                @endif @endforeach
             </div>
         </div>
     </div>

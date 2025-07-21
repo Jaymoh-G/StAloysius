@@ -7,12 +7,15 @@ use App\Models\EventModel;
 use App\Models\BlogPost;
 use App\Models\JobVacancy;
 use Illuminate\Support\Carbon;
+use App\Models\Download;
 
 class MediaCentre extends Component
 {
     public $upcomingEvents;
     public $latestNews;
     public $latestJobs;
+    public $recentDownloads;
+    public $randomAlbums;
 
     public function mount()
     {
@@ -34,6 +37,15 @@ class MediaCentre extends Component
             ->latest()
             ->take(2)
             ->get();
+
+        // Get 3 most recent downloads
+        $this->recentDownloads = Download::orderBy('updated_at', 'desc')->take(3)->get();
+
+        // Get random albums with cover images
+        $this->randomAlbums = \App\Models\Album::whereNotNull('cover_image')
+            ->inRandomOrder()
+            ->take(8)
+            ->get();
     }
 
     public function render()
@@ -41,5 +53,3 @@ class MediaCentre extends Component
         return view('livewire.frontend.media-centre');
     }
 }
-
-
