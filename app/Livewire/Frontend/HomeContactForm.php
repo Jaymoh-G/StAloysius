@@ -63,7 +63,10 @@ class HomeContactForm extends Component
             ], function (
                 $message
             ) {
-                $message->to('info@staloysiusgonzaga.org')
+                $fromEmail = setting('email', 'info@staloysiusgonzaga.org');
+                $message->from($fromEmail, 'St Aloysius Gonzaga');
+                $toEmail = setting('enroll_email', 'info@staloysiusgonzaga.org');
+                $message->to($toEmail)
                     ->subject('New Enrollment Inquiry - St Aloysius Gonzaga')
                     ->replyTo($this->email, $this->name);
             });

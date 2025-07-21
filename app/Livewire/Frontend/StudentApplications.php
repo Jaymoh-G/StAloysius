@@ -97,7 +97,10 @@ class StudentApplications extends Component
         ])->render();
 
         Mail::html($emailContent, function ($message) use ($applicantData) {
-            $message->to('info@staloysiusgonzaga.org')
+            $fromEmail = setting('email', 'info@staloysiusgonzaga.org');
+            $toEmail = setting('enroll_email', 'info@staloysiusgonzaga.org');
+            $message->from($fromEmail, 'St Aloysius Gonzaga');
+            $message->to($toEmail)
                 ->subject('New Student Application: ' . $applicantData['student_name']);
         });
     }

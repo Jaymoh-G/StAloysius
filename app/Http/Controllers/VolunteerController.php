@@ -57,7 +57,10 @@ class VolunteerController extends Controller
 
             // Send email using Laravel's mail system
             Mail::send('emails.volunteer-application', $emailData, function ($message) use ($emailData) {
-                $message->to('info@breezetech.co.ke')
+                $fromEmail = setting('email', 'info@staloysiusgonzaga.org');
+                $message->from($fromEmail, 'St Aloysius Gonzaga');
+                $toEmail = setting('volunteer_email', 'info@staloysiusgonzaga.org');
+                $message->to($toEmail)
                     ->subject('New Volunteer Application: ' . $emailData['name'])
                     ->replyTo($emailData['email'], $emailData['name']);
             });

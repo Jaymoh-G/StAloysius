@@ -71,8 +71,8 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
           server: 70.32.23.41
-          username: ${{ secrets.ftp_username1 }}
-          password: ${{ secrets.ftp_password1 }}
+          username: ${{ secrets.ftp_username }}
+          password: ${{ secrets.ftp_password }}
           server-dir: /public_html/
           local-dir: ./  # root of the repo
           exclude: |

@@ -421,7 +421,8 @@ class Donations extends Component
 
             // Send email using raw HTML content to avoid Livewire template issues
             Mail::html($emailContent, function ($message) use ($donation) {
-                $message->to('info@staloysiusgonzaga.org')
+                $toEmail = setting('donation_email', 'info@staloysiusgonzaga.org');
+                $message->to($toEmail)
                     ->subject('New Donation Submission: KES ' . number_format($this->amount, 2) . ' from ' . $this->donorName)
                     ->replyTo($this->email, $this->donorName);
             });
