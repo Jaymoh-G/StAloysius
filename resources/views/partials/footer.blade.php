@@ -236,11 +236,14 @@
                 <div class="row">
                     <div class="col-md-6 align-self-center">
                         <p class="copyright-text">
-                            &copy; Copyright <span id="date"></span>
+                            &copy; <span id="date"></span>
                             <a href="{{ route('home') }}">
-                                St. Aloysius Gonzaga Secondary School
+                                St. Aloysius Sch.
                             </a>
-                            All Rights Reserved.
+                            All Rights Reserved | Developed by
+                            <a href="https://breezetech.co.ke" target="_blank"
+                                >BreezeTech</a
+                            >
                         </p>
                     </div>
                     <div class="col-md-6 align-self-center">

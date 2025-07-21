@@ -1,10 +1,15 @@
 <?php
 
 $zipFile = 'deploy.zip';
-$extractPath = __DIR__;
+$extractPath = dirname(__DIR__) . '/staloysius'; // one level up + /staloysius
 
 if (!file_exists($zipFile)) {
     die("❌ File $zipFile does not exist.");
+}
+
+// Create the folder if it doesn't exist
+if (!is_dir($extractPath)) {
+    mkdir($extractPath, 0755, true);
 }
 
 $zip = new ZipArchive;
@@ -13,7 +18,7 @@ $res = $zip->open($zipFile);
 if ($res === TRUE) {
     $zip->extractTo($extractPath);
     $zip->close();
-    echo "✅ Project extracted successfully.<br>";
+    echo "✅ Project extracted successfully to $extractPath.<br>";
     unlink($zipFile);
     unlink(__FILE__);
     echo "🧹 Cleaned up deploy.zip and extract.php.";
