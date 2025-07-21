@@ -15,3 +15,10 @@ jobs:
           username: ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
           server-dir: /public_html/
+          exclude: |
+            **/.git*
+            **/node_modules/**
+            **/vendor/**
+            storage/**
+            .env
+
