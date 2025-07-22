@@ -15,6 +15,7 @@ class Donations extends Component
     public $email = '';
     public $phone = '';
     public $message = '';
+    public $turnstile_token;
 
     protected $rules = [
         'selectedOption' => 'required|in:external,direct',
@@ -23,6 +24,7 @@ class Donations extends Component
         'email' => 'required|email|max:255',
         'phone' => 'nullable|string|max:20',
         'message' => 'nullable|string|max:1000',
+        'turnstile_token' => 'required|string',
     ];
 
     protected $messages = [
@@ -33,6 +35,7 @@ class Donations extends Component
         'donorName.required' => 'Please enter your name.',
         'email.required' => 'Please enter your email address.',
         'email.email' => 'Please enter a valid email address.',
+        'turnstile_token.required' => 'Please complete the CAPTCHA.',
     ];
 
     // Real-time validation
@@ -49,6 +52,7 @@ class Donations extends Component
     public function submitDonation()
     {
         $this->validate();
+        // TODO: Add server-side Turnstile verification here
 
         try {
             // Generate reference number

@@ -15,11 +15,13 @@ class BlogComments extends Component
     public $comment = '';
     public $parentId = null;
     public $replyTo = null;
+    public $turnstile_token;
 
     protected $rules = [
         'name' => 'required|min:2|max:255',
         'email' => 'required|email|max:255',
         'comment' => 'required|min:10|max:1000',
+        'turnstile_token' => 'required|string',
     ];
 
     protected $messages = [
@@ -30,6 +32,7 @@ class BlogComments extends Component
         'comment.required' => 'Please enter your comment.',
         'comment.min' => 'Comment must be at least 10 characters.',
         'comment.max' => 'Comment cannot exceed 1000 characters.',
+        'turnstile_token.required' => 'Please complete the CAPTCHA.',
     ];
 
     public function mount(BlogPost $blogPost)
@@ -53,6 +56,7 @@ class BlogComments extends Component
     public function submitComment()
     {
         $this->validate();
+        // TODO: Add server-side Turnstile verification here
 
         $comment = Comment::create([
             'blog_post_id' => $this->blogPost->id,

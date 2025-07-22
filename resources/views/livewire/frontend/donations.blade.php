@@ -1,4 +1,7 @@
-<div>
+<div
+    x-data
+    @turnstile-success.window="window.Livewire.find($root.getAttribute('wire:id')).set('turnstile_token', $event.detail)"
+>
     <!-- breadcrumb -->
     <div
         class="site-breadcrumb"
@@ -274,6 +277,8 @@
                                                         </div>
                                                         <form
                                                             wire:submit.prevent="submitDonation"
+                                                            x-data
+                                                            @turnstile-success.window="window.Livewire.find($root.getAttribute('wire:id')).set('turnstile_token', $event.detail)"
                                                         >
                                                             <div class="row">
                                                                 <div
@@ -434,6 +439,30 @@
                                                                 </div>
                                                                 @enderror
                                                             </div>
+                                                            <div
+                                                                class="form-group mt-3"
+                                                            >
+                                                                <div
+                                                                    id="cf-turnstile-donation"
+                                                                    class="cf-turnstile"
+                                                                    data-sitekey="{{
+                                                                        config(
+                                                                            'services.turnstile.sitekey'
+                                                                        )
+                                                                    }}"
+                                                                    data-callback="onTurnstileSuccess"
+                                                                ></div>
+                                                                @error('turnstile_token')
+                                                                <div
+                                                                    class="invalid-feedback d-block"
+                                                                >
+                                                                    {{
+                                                                        $message
+                                                                    }}
+                                                                </div>
+                                                                @enderror
+                                                            </div>
+
                                                             <div
                                                                 class="text-center"
                                                             >
@@ -578,6 +607,8 @@
                                                         </div>
                                                         <form
                                                             wire:submit.prevent="submitDonation"
+                                                            x-data
+                                                            @turnstile-success.window="window.Livewire.find($root.getAttribute('wire:id')).set('turnstile_token', $event.detail)"
                                                         >
                                                             <div class="row">
                                                                 <div
@@ -738,6 +769,30 @@
                                                                 </div>
                                                                 @enderror
                                                             </div>
+                                                            <div
+                                                                class="form-group mt-3"
+                                                            >
+                                                                <div
+                                                                    id="cf-turnstile-donation-external"
+                                                                    class="cf-turnstile"
+                                                                    data-sitekey="{{
+                                                                        config(
+                                                                            'services.turnstile.sitekey'
+                                                                        )
+                                                                    }}"
+                                                                    data-callback="onTurnstileSuccess"
+                                                                ></div>
+                                                                @error('turnstile_token')
+                                                                <div
+                                                                    class="invalid-feedback d-block"
+                                                                >
+                                                                    {{
+                                                                        $message
+                                                                    }}
+                                                                </div>
+                                                                @enderror
+                                                            </div>
+                                                       
                                                             <div
                                                                 class="text-center"
                                                             >
@@ -1351,3 +1406,41 @@
         </div>
     </div>
 </div>
+<script
+    src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+    async
+    defer
+></script>
+<script>
+    function onTurnstileSuccess(token) {
+        window.dispatchEvent(
+            new CustomEvent("turnstile-success", { detail: token })
+        );
+    }
+
+    function renderTurnstile() {
+        if (window.turnstile) {
+            let rendered = false;
+            if (document.getElementById("cf-turnstile-donation")) {
+                window.turnstile.render("#cf-turnstile-donation", {
+                    sitekey: "{{ config('services.turnstile.sitekey') }}",
+                    callback: onTurnstileSuccess,
+                });
+                rendered = true;
+            }
+            if (document.getElementById("cf-turnstile-donation-external")) {
+                window.turnstile.render("#cf-turnstile-donation-external", {
+                    sitekey: "{{ config('services.turnstile.sitekey') }}",
+                    callback: onTurnstileSuccess,
+                });
+                rendered = true;
+            }
+            if (!rendered) {
+                setTimeout(renderTurnstile, 100);
+            }
+        }
+    }
+    document.addEventListener("livewire:navigated", renderTurnstile);
+    document.addEventListener("livewire:load", renderTurnstile);
+    document.addEventListener("livewire:update", renderTurnstile);
+</script>

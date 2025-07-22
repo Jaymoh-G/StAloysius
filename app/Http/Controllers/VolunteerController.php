@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Http;
 use App\Models\VolunteerApplication;
 
 class VolunteerController extends Controller
@@ -18,12 +19,14 @@ class VolunteerController extends Controller
             'email' => 'required|email|max:255',
             'skills' => 'required|string|max:1000',
             'additional_information' => 'nullable|string|max:2000',
+            'turnstile_token' => 'required|string',
         ], [
             'name.required' => 'Please enter your full name.',
             'tel.required' => 'Please enter your telephone number.',
             'email.required' => 'Please enter your email address.',
             'email.email' => 'Please enter a valid email address.',
             'skills.required' => 'Please describe your skills and expertise.',
+            'turnstile_token.required' => 'Please complete the CAPTCHA.',
         ]);
 
         if ($validator->fails()) {
@@ -31,6 +34,19 @@ class VolunteerController extends Controller
                 'success' => false,
                 'message' => 'Please fill all required fields correctly.',
                 'errors' => $validator->errors()
+            ], 422);
+        }
+
+        // Verify Turnstile token with Cloudflare
+        $response = Http::asForm()->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
+            'secret' => config('services.turnstile.secret'),
+            'response' => $request->input('turnstile_token'),
+            'remoteip' => $request->ip(),
+        ]);
+        if (!($response->json('success') ?? false)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'CAPTCHA verification failed. Please try again.'
             ], 422);
         }
 

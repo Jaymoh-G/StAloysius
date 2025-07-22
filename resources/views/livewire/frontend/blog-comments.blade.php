@@ -1,4 +1,7 @@
-<div>
+<div
+    x-data
+    @turnstile-success.window="window.Livewire.find($root.getAttribute('wire:id')).set('turnstile_token', $event.detail)"
+>
     @if (session()->has('message'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{ session("message") }}
@@ -117,6 +120,21 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        <div class="form-group mt-3">
+                            <div
+                                id="cf-turnstile-comments"
+                                class="cf-turnstile"
+                                data-sitekey="{{
+                                    config('services.turnstile.sitekey')
+                                }}"
+                                data-callback="onTurnstileSuccess"
+                            ></div>
+                            @error('turnstile_token')
+                            <div class="invalid-feedback d-block">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
                         <button
                             type="submit"
                             class="theme-btn"
@@ -149,3 +167,16 @@
         });
     </script>
 </div>
+
+<script
+    src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+    async
+    defer
+></script>
+<script>
+    function onTurnstileSuccess(token) {
+        window.dispatchEvent(
+            new CustomEvent("turnstile-success", { detail: token })
+        );
+    }
+</script>

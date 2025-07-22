@@ -21,6 +21,7 @@ class StudentApplications extends Component
     public $death_certificates = [];
 
     public $successMessage;
+    public $turnstile_token;
 
     protected function rules()
     {
@@ -35,12 +36,14 @@ class StudentApplications extends Component
             'academic_certificates.*' => 'file|mimes:pdf,doc,docx,jpg,jpeg,png|max:4096',
             'death_certificates' => 'nullable|array|max:2',
             'death_certificates.*' => 'file|mimes:pdf,doc,docx,jpg,jpeg,png|max:4096',
+            'turnstile_token' => 'required|string',
         ];
     }
 
     public function submit()
     {
         $this->validate();
+        // TODO: Add server-side Turnstile verification here
 
         // Store files
         $applicationLetterPath = $this->application_letter->store('student_applications/letters', 'public');

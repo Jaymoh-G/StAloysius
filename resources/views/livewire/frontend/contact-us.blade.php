@@ -176,6 +176,16 @@
                                                 placeholder="Write Your Message"
                                             ></textarea>
                                         </div>
+                                        <div class="form-group mt-3">
+                                            <div
+                                                id="cf-turnstile-contact"
+                                                class="cf-turnstile"
+                                                data-sitekey="{{ config('services.turnstile.sitekey') }}"
+                                                data-callback="onTurnstileSuccessContact"
+                                            ></div>
+                                            <input type="hidden" name="turnstile_token" id="turnstile_token_contact" />
+                                            <div class="invalid-feedback d-block" id="turnstile-error-contact" style="display:none;">Please complete the CAPTCHA.</div>
+                                        </div>
                                         <button type="submit" class="theme-btn">
                                             Send Message
                                             <i class="far fa-paper-plane"></i>
@@ -186,13 +196,23 @@
                                             ></div>
                                         </div>
                                     </form>
-
+                                    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
                                     <script>
+                                        function onTurnstileSuccessContact(token) {
+                                            document.getElementById('turnstile_token_contact').value = token;
+                                            document.getElementById('turnstile-error-contact').style.display = 'none';
+                                        }
                                         document
                                             .getElementById("contact-form")
                                             .addEventListener(
                                                 "submit",
                                                 function (e) {
+                                                    const token = document.getElementById('turnstile_token_contact').value;
+                                                    if (!token) {
+                                                        e.preventDefault();
+                                                        document.getElementById('turnstile-error-contact').style.display = '';
+                                                        return;
+                                                    }
                                                     e.preventDefault();
 
                                                     const form = this;

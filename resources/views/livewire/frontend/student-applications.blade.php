@@ -1,4 +1,8 @@
-<main class="main">
+<main
+    class="main"
+    x-data
+    @turnstile-success.window="window.Livewire.find($root.getAttribute('wire:id')).set('turnstile_token', $event.detail)"
+>
     <!-- breadcrumb -->
     <div
         class="site-breadcrumb"
@@ -24,12 +28,7 @@
                         </p>
                     </div>
                     <div class="card-body p-4">
-                        @if ($successMessage)
-                        <div class="alert alert-success text-center">
-                            <i class="fas fa-check-circle me-2"></i>
-                            {{ $successMessage }}
-                        </div>
-                        @endif
+
 
                         <form
                             wire:submit.prevent="submit"
@@ -282,6 +281,21 @@
                                 </div>
                             </div>
                             <div class="mt-4 text-center">
+                                <div class="form-group mt-3">
+                                    <div
+                                        id="cf-turnstile-student-app"
+                                        class="cf-turnstile"
+                                        data-sitekey="{{
+                                            config('services.turnstile.sitekey')
+                                        }}"
+                                        data-callback="onTurnstileSuccess"
+                                    ></div>
+                                    @error('turnstile_token')
+                                    <div class="invalid-feedback d-block">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
                                 <button
                                     type="submit"
                                     class="theme-btn btn-lg px-5"
@@ -299,9 +313,28 @@
                                 </button>
                             </div>
                         </form>
+                         @if ($successMessage)
+                        <div class="alert alert-success text-center">
+                            <i class="fas fa-check-circle me-2"></i>
+                            {{ $successMessage }}
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </main>
+
+<script
+    src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+    async
+    defer
+></script>
+<script>
+    function onTurnstileSuccess(token) {
+        window.dispatchEvent(
+            new CustomEvent("turnstile-success", { detail: token })
+        );
+    }
+</script>

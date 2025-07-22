@@ -107,7 +107,6 @@
                 <i class="far fa-spinner fa-spin me-2"></i>Sending...
             </span>
         </button>
-        <p>Token: {{ $turnstile_token }}</p>
     </form>
 </div>
 
