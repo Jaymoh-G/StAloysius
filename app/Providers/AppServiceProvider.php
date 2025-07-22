@@ -13,7 +13,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind('path.public', function () {
+            return base_path('public_html');
+        });
     }
 
     /**
@@ -21,11 +23,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-           Schema::defaultStringLength(191);
-              require_once app_path('helpers.php');
-                if (env('APP_ENV') === 'production') {
-        URL::forceScheme('https');
+        Schema::defaultStringLength(191);
+        require_once app_path('helpers.php');
+        if (env('APP_ENV') === 'production') {
+            URL::forceScheme('https');
+        }
     }
-    }
-
 }

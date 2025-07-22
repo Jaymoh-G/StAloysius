@@ -1,4 +1,7 @@
-<div>
+<div
+    x-data
+    @turnstile-success.window="window.Livewire.find($root.getAttribute('wire:id')).set('turnstile_token', $event.detail)"
+>
     @if (session()->has('contact_success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <div class="d-flex align-items-center">
@@ -89,11 +92,7 @@
             <div class="invalid-feedback d-block">{{ $message }}</div>
             @enderror
         </div>
-        <input
-            type="hidden"
-            wire:model="turnstile_token"
-            id="turnstile_token"
-        />
+        {{-- Removed hidden input for turnstile_token --}}
 
         <button
             type="submit"
@@ -109,9 +108,7 @@
             </span>
         </button>
         <p>Token: {{ $turnstile_token }}</p>
-
     </form>
-
 </div>
 
 <script
@@ -121,13 +118,8 @@
 ></script>
 <script>
     function onTurnstileSuccess(token) {
-        document.getElementById("turnstile_token").value = token;
-        // Update Livewire property
-        if (window.Livewire) {
-            const lw = window.Livewire.find(
-                document.querySelector("[wire\:id]").getAttribute("wire:id")
-            );
-            if (lw) lw.set("turnstile_token", token);
-        }
+        window.dispatchEvent(
+            new CustomEvent("turnstile-success", { detail: token })
+        );
     }
 </script>
