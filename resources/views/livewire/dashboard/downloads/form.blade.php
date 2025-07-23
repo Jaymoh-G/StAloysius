@@ -60,7 +60,7 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">File (max 5MB)</label>
+                            <label class="form-label">File  ( Compressed to the least size possible. Ma of 4MB)</label>
                             <input
                                 type="file"
                                 class="form-control @error('file') is-invalid @enderror"
