@@ -30,7 +30,7 @@ Route::get('/department/{slug}', \App\Livewire\Frontend\Department::class)->name
 // Admission routes
 Route::get('/admission-policy', \App\Livewire\Frontend\AdmissionPolicy::class)->name('admission-policy');
 Route::get('/how-to-apply', \App\Livewire\Frontend\HowToApply::class)->name('how-to-apply');
-Route::get('/fee-paying-students', \App\Livewire\Frontend\FeePayingStudents::class)->name('fee-paying-students');
+Route::get('/Self-sponsored-students', \App\Livewire\Frontend\SelfsponsoredStudents::class)->name('self-sponsored-students');
 Route::get('/scholarships', \App\Livewire\Frontend\Scholarships::class)->name('scholarships');
 
 // Event routes
@@ -79,7 +79,7 @@ Route::get('/faqs', \App\Livewire\Frontend\Faqs::class)->name('faqs');
 Route::get('/join-us', \App\Livewire\Frontend\JoinUs::class)->name('join-us');
 Route::get('/our-clubs', \App\Livewire\Frontend\OurClubs::class)->name('our-clubs');
 Route::get('/club/{slug}', \App\Livewire\Frontend\Club::class)->name('club.show');
-Route::get('/christian-life-community', \App\Livewire\Frontend\ChristianLifeCommunity::class)->name('clc');
+Route::get('/christian-life-community', \App\Livewire\Frontend\ClcStaticPage::class)->name('clc');
 Route::get('/our-pillars', \App\Livewire\Frontend\OurPillars::class)->name('our-pillars');
 Route::get('/volunteer', \App\Livewire\Frontend\VolunteerService::class)->name('volunteer');
 Route::get('/donations', \App\Livewire\Frontend\Donations::class)->name('donations');
@@ -88,6 +88,9 @@ Route::get('/downloads', \App\Livewire\Frontend\Downloads::class)->name('downloa
 
 // Student Application Form (frontend)
 Route::get('/student-application', \App\Livewire\Frontend\StudentApplications::class)->name('student-application');
+
+// School of Hope Page
+Route::get('/school-of-hope', \App\Livewire\Frontend\SchoolOfHopePage::class)->name('school-of-hope-page');
 
 
 // Dashboard routes (protected)

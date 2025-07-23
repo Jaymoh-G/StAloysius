@@ -61,8 +61,29 @@
                             <li>
                                 <a
                                     class="dropdown-item"
+                                    href="{{ route('clc') }}"
+                                    >Christian Life Community</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="{{ route('school-of-hope-page') }}"
+                                    >School of Hope</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    class="dropdown-item"
                                     href="{{ route('about-us') }}"
                                     >About Our School</a
+                                >
+                            </li>
+                               <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="/updates/a-message-from-the-principal"
+                                    >Principal's Message</a
                                 >
                             </li>
                             <li>
@@ -72,13 +93,7 @@
                                     >Our Team</a
                                 >
                             </li>
-                            <li>
-                                <a
-                                    class="dropdown-item"
-                                    href="/updates/a-message-from-the-principal"
-                                    >Principal's Message</a
-                                >
-                            </li>
+
                             <li>
                                 <a
                                     class="dropdown-item"
@@ -95,10 +110,9 @@
                             </li>
                             <li>
                                 <a
-                                    target="_blank"
                                     class="dropdown-item"
-                                    href="https://www.clckenya.org/"
-                                    >Christian Life Community</a
+                                    href="{{ route('contact') }}"
+                                    >Contact Us</a
                                 >
                             </li>
                         </ul>
@@ -320,8 +334,8 @@
                             <li>
                                 <a
                                     class="dropdown-item"
-                                    href="{{ route('fee-paying-students') }}"
-                                    >Fees Paying Students</a
+                                    href="{{ route('self-sponsored-students') }}"
+                                    >Self-Sponsored Students</a
                                 >
                             </li>
                             <li>
