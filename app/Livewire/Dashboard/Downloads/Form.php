@@ -22,7 +22,13 @@ class Form extends Component
     protected $rules = [
         'title' => 'required|string|max:255',
         'category' => 'required|in:admissions,exams_results,forms,jobs,financials,reports',
-        'file' => 'nullable|file|max:10240', // 10MB
+        'file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png|max:5120', // 5MB, allowed types
+    ];
+
+    protected $messages = [
+        'file.required' => 'Please select a file to upload.',
+        'file.mimes' => 'Only PDF, DOC, DOCX, XLS, XLSX, JPG, JPEG, or PNG files are allowed.',
+        'file.max' => 'The file size must not exceed 5MB.',
     ];
 
     public function mount($id = null)
@@ -78,5 +84,11 @@ class Form extends Component
         return view('livewire.dashboard.downloads.form', [
             'categories' => $categories,
         ])->layout('components.layouts.dashboard');
+    }
+
+    // Clear the file error when a new file is selected
+    public function updatedFile()
+    {
+        $this->resetErrorBag('file');
     }
 }

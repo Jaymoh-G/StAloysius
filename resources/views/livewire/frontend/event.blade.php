@@ -100,7 +100,7 @@
                                 </p>
                             </div>
 
-                            <a href="#" class="theme-btn mt-4"
+                            <a href="{{ route('support-us') }}" class="theme-btn mt-4"
                                 >Support Us
                                 <i class="fas fa-arrow-right-long"></i
                             ></a>

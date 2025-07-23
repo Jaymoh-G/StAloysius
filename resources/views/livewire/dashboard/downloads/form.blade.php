@@ -12,6 +12,14 @@
                     <div class="alert alert-success">
                         {{ session("message") }}
                     </div>
+                    @endif @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                     @endif
                     <form wire:submit.prevent="save">
                         <div class="mb-3">
@@ -52,15 +60,29 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">File (max 10MB)</label>
+                            <label class="form-label">File (max 5MB)</label>
                             <input
                                 type="file"
                                 class="form-control @error('file') is-invalid @enderror"
                                 wire:model="file"
                             />
                             @error('file')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror @if($existingFilePath)
+                            <div class="invalid-feedback">
+                                {{
+                                    $message == "The file failed to upload."
+                                        ? "The file type is not allowed or the file is too large. Please select a PDF, DOC, DOCX, XLS, XLSX, JPG, JPEG, or PNG file under 2MB."
+                                        : $message
+                                }}
+                            </div>
+                            @enderror
+                            <div
+                                wire:loading
+                                wire:target="file"
+                                class="text-info mt-2"
+                            >
+                                Uploading...
+                            </div>
+                            @if($existingFilePath)
                             <div class="mt-2">
                                 <a
                                     href="{{

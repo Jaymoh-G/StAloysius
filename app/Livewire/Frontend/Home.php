@@ -63,9 +63,8 @@ class Home extends Component
       $dept->content = $this->limitContent($dept->content);
       return $dept;
     });;
-    $this->events = EventModel::whereDate('end_date', '>=', $now)
-      ->orderBy('start_date', 'desc')->get();
-    $this->testimonials = Testimonial::orderBy('created_at', 'desc')->take(5)->get();
+    $this->events = EventModel::latest()->get();
+    $this->testimonials = Testimonial::orderBy('updated_at', 'desc')->get();
 
     $this->featuredVideos = YoutubeVideo::where('order', 1)->first();
 

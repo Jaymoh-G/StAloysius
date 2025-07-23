@@ -69,11 +69,24 @@ return [
         'directory' => 'livewire-tmp',
         'middleware' => null,
         'preview_mimes' => [
-            'png', 'gif', 'bmp', 'svg', 'wav', 'mp4',
-            'mov', 'avi', 'wmv', 'mp3', 'm4a',
-            'jpg', 'jpeg', 'mpga', 'webp', 'wma',
+            'png',
+            'gif',
+            'bmp',
+            'svg',
+            'wav',
+            'mp4',
+            'mov',
+            'avi',
+            'wmv',
+            'mp3',
+            'm4a',
+            'jpg',
+            'jpeg',
+            'mpga',
+            'webp',
+            'wma',
         ],
-        'max_upload_time' => 5,
+        'max_upload_size' => 5120, // 5MB in KB
     ],
 
     /*
@@ -157,7 +170,3 @@ return [
 
     'pagination_theme' => 'tailwind',
 ];
-
-
-
-
