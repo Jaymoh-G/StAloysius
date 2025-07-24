@@ -84,6 +84,37 @@
                                         </div>
                                         @enderror
                                     </div>
+                                    <div class="form-group mt-3">
+                                        <label
+                                            for="institution"
+                                            class="form-label"
+                                            >Institution
+                                            <span class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <select
+                                            class="form-select @error('institution') is-invalid @enderror"
+                                            id="institution"
+                                            wire:model="institution"
+                                        >
+                                            <option value="">
+                                                Select Institution
+                                            </option>
+                                            <option value="St. Aloysius">
+                                                St. Aloysius
+                                            </option>
+                                            <option value="CLC">CLC</option>
+                                            <option value="Sch of Hope">
+                                                Sch of Hope
+                                            </option>
+                                        </select>
+                                        @error('institution')
+                                        <div class="text-danger mt-1">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
 
@@ -116,14 +147,14 @@
                                         <label
                                             for="description"
                                             class="form-label"
-                                            >Description</label
+                                            >About the Team Member</label
                                         >
                                         <textarea
                                             class="form-control @error('description') is-invalid @enderror"
                                             id="description"
                                             wire:model="description"
                                             rows="3"
-                                            placeholder="Enter description"
+                                            placeholder="Write about the Team Member"
                                         ></textarea>
                                         @error('description')
                                         <div class="text-danger mt-1">
@@ -140,14 +171,14 @@
                                         <label
                                             for="experience"
                                             class="form-label"
-                                            >Experience</label
+                                            >From the Team Member</label
                                         >
                                         <textarea
                                             class="form-control @error('experience') is-invalid @enderror"
                                             id="experience"
                                             wire:model="experience"
                                             rows="3"
-                                            placeholder="Enter experience"
+                                            placeholder="Write a message from the Team Member"
                                         ></textarea>
                                         @error('experience')
                                         <div class="text-danger mt-1">
@@ -384,86 +415,75 @@
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <div class="card">
-
-
-                                            @if ($image && !$imageTemp)
-                                            <div class="mb-3">
-                                                <label class="form-label"
-                                                    >Current Photo:</label
-                                                >
-                                                <div>
-                                                    <img
-                                                        src="{{
-                                                            asset(
-                                                                'storage/'
-                                                                    .$image
-                                                            )
-                                                        }}"
-                                                        class="img-thumbnail"
-                                                        style="
-                                                            max-height: 150px;
-                                                        "
-                                                    />
-                                                </div>
-                                            </div>
-                                            @endif
-
-                                            <div class="form-group">
-                                                <label
-                                                    for="imageTemp"
-                                                    class="form-label"
-                                                    >Upload New Photo</label
-                                                >
-                                                <input
-                                                    type="file"
-                                                    class="form-control @error('imageTemp') is-invalid @enderror"
-                                                    id="imageTemp"
-                                                    wire:model="imageTemp"
+                                        @if ($image && !$imageTemp)
+                                        <div class="mb-3">
+                                            <label class="form-label"
+                                                >Current Photo:</label
+                                            >
+                                            <div>
+                                                <img
+                                                    src="{{
+                                                        asset('storage/'.$image)
+                                                    }}"
+                                                    class="img-thumbnail"
+                                                    style="max-height: 150px"
                                                 />
-                                                @error('imageTemp')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                                @enderror @if ($imageTemp)
-                                                <div class="mt-2">
-                                                    <img
-                                                        src="{{ $imageTemp->temporaryUrl() }}"
-                                                        class="img-thumbnail"
-                                                        style="
-                                                            max-height: 150px;
-                                                        "
-                                                    />
-                                                </div>
-                                                @endif
                                             </div>
-                                     
-                                    </div>
-                                </div>
+                                        </div>
+                                        @endif
 
-                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label
-                                                for="sort_order"
+                                                for="imageTemp"
                                                 class="form-label"
-                                                >Sort Order</label
+                                                >Upload New Photo</label
                                             >
                                             <input
-                                                type="number"
-                                                class="form-control @error('sort_order') is-invalid @enderror"
-                                                id="sort_order"
-                                                wire:model="sort_order"
-                                                min="0"
-                                                placeholder="Enter sort order"
+                                                type="file"
+                                                class="form-control @error('imageTemp') is-invalid @enderror"
+                                                id="imageTemp"
+                                                wire:model="imageTemp"
                                             />
-                                            @error('sort_order')
-                                            <div class="text-danger mt-1">
+                                            @error('imageTemp')
+                                            <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
-                                            @enderror
+                                            @enderror @if ($imageTemp)
+                                            <div class="mt-2">
+                                                <img
+                                                    src="{{ $imageTemp->temporaryUrl() }}"
+                                                    class="img-thumbnail"
+                                                    style="max-height: 150px"
+                                                />
+                                            </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
 
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label
+                                            for="sort_order"
+                                            class="form-label"
+                                            >Sort Order</label
+                                        >
+                                        <input
+                                            type="number"
+                                            class="form-control @error('sort_order') is-invalid @enderror"
+                                            id="sort_order"
+                                            wire:model="sort_order"
+                                            min="0"
+                                            placeholder="Enter sort order"
+                                        />
+                                        @error('sort_order')
+                                        <div class="text-danger mt-1">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="row">
                                 <div class="col-12">

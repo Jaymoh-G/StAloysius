@@ -30,6 +30,7 @@ class Create extends Component
     public $newSocial = '';
     public $newSocialLink = '';
     public $sort_order = 0;
+    public $institution = '';
 
     protected function rules()
     {
@@ -40,8 +41,9 @@ class Create extends Component
             'experience' => 'required|string',
             'imageTemp' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif,svg',
             'department_id' => 'required|exists:department_models,id',
-            'professional_skills' => 'array|required',
-            'socials' => 'array'
+            'professional_skills' => 'array',
+            'socials' => 'array',
+            'institution' => 'required|string|in:St. Aloysius,CLC,Sch of Hope',
         ];
 
         // If we're editing, modify the name validation to ignore the current record
@@ -74,6 +76,8 @@ class Create extends Component
         'professional_skills.array' => 'The professional skills must be an array.',
         'socials.array' => 'The socials must be an array.',
         'position.required' => 'The position field is required.',
+        'institution.required' => 'The institution field is required.',
+        'institution.in' => 'Please select a valid institution.',
 
     ];
 
@@ -95,6 +99,7 @@ class Create extends Component
             $this->professional_skills = $teamMember->professional_skills ?? [];
             $this->socials = $teamMember->socials ?? [];
             $this->sort_order = $teamMember->sort_order ?? 0;
+            $this->institution = $teamMember->institution ?? '';
         }
     }
 
@@ -194,6 +199,7 @@ class Create extends Component
                 'department_id' => $this->department_id,
                 'slug' => Str::slug($this->name),
                 'sort_order' => $this->sort_order,
+                'institution' => $this->institution,
             ];
 
             if ($this->imageTemp) {

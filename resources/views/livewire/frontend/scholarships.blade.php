@@ -63,11 +63,7 @@
                             src="{{ asset('storage/' . $scholarshipPage->images()->where('category', 'section_1')->first()->path) }}"
                             alt=""
                         />
-                        @else
-                        <img
-                            src="{{ asset('assets/img/apply/01.jpg') }}"
-                            alt=""
-                        />
+
                         @endif
                     </div>
                 </div>
@@ -107,12 +103,7 @@
                             src="{{ asset('storage/' . $scholarshipPage->images()->where('category', 'section_2')->first()->path) }}"
                             alt=""
                         />
-                        @else
-                        <img
-                            class="img-1"
-                            src="{{ asset('assets/img/about/01.jpg') }}"
-                            alt=""
-                        />
+
                         @endif
                     </div>
                     <div class="col-md-6 mb-20">
@@ -124,12 +115,7 @@
                             src="{{ asset('storage/' . $scholarshipPage->images()->where('category', 'section_3')->first()->path) }}"
                             alt=""
                         />
-                        @else
-                        <img
-                            class="img-1"
-                            src="{{ asset('assets/img/about/01.jpg') }}"
-                            alt=""
-                        />
+
                         @endif
                     </div>
                 </div>
@@ -159,31 +145,10 @@
                             src="{{ asset('storage/' . $scholarshipPage->images()->where('category', 'section_4')->first()->path) }}"
                             alt=""
                         />
-                        @else
-                        <img
-                            class="img-1"
-                            src="{{ asset('assets/img/about/01.jpg') }}"
-                            alt=""
-                        />
+
                         @endif
                     </div>
-                    <div class="col-md-6 mb-20">
-                        @if ($scholarshipPage &&
-                        $scholarshipPage->images()->where('category',
-                        'section_5')->first())
-                        <img
-                            class="img-1"
-                            src="{{ asset('storage/' . $scholarshipPage->images()->where('category', 'section_5')->first()->path) }}"
-                            alt=""
-                        />
-                        @else
-                        <img
-                            class="img-1"
-                            src="{{ asset('assets/img/about/01.jpg') }}"
-                            alt=""
-                        />
-                        @endif
-                    </div>
+                 
                 </div>
                 <div class="my-4">
                     <h3 class="mb-2">

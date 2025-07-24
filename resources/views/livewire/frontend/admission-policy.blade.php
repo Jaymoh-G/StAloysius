@@ -17,8 +17,6 @@
             <!-- breadcrumb end -->
 
 
-
-
             <!-- health-care -->
             <div class="health-care py-120">
                 <div class="container">
@@ -28,8 +26,6 @@
                                 <img class="img-1"
                                     src="{{ asset('storage/' . $admissionPolicy->images()->where('category', 'general')->first()->path) }}"
                                     alt="">
-                            @else
-                                <img src="assets/img/health-care/01.jpg" alt="">
                             @endif
 
                         </div>
@@ -43,8 +39,7 @@
                                     <img class="img-1"
                                         src="{{ asset('storage/' . $admissionPolicy->images()->where('category', 'section_1')->first()->path) }}"
                                         alt="">
-                                @else
-                                    <img src="assets/img/health-care/02.jpg" alt="">
+
                                 @endif
                             </div>
                             <div class="col-md-6 mb-20">
@@ -52,8 +47,6 @@
                                     <img class="img-1"
                                         src="{{ asset('storage/' . $admissionPolicy->images()->where('category', 'section_1')->skip(1)->first()->path) }}"
                                         alt="">
-                                @else
-                                    <img src="assets/img/health-care/02.jpg" alt="">
                                 @endif
                             </div>
                         </div>
@@ -67,8 +60,6 @@
                                 <img class="img-1"
                                     src="{{ asset('storage/' . $admissionPolicy->images()->where('category', 'section_2')->first()->path) }}"
                                         alt="">
-                                @else
-                                        <img src="assets/img/health-care/02.jpg" alt="">
                                 @endif
                             </div>
                         <div class="my-4">
@@ -82,8 +73,7 @@
                                     <img class="img-1"
                                         src="{{ asset('storage/' . $admissionPolicy->images()->where('category', 'section_3')->first()->path) }}"
                                         alt="">
-                                @else
-                                    <img src="assets/img/health-care/02.jpg" alt="">
+
                                 @endif
                             </div>
                         <div class="my-4">
@@ -96,8 +86,7 @@
                                     <img class="img-1"
                                         src="{{ asset('storage/' . $admissionPolicy->images()->where('category', 'section_4')->first()->path) }}"
                                         alt="">
-                                @else
-                                    <img src="assets/img/health-care/02.jpg" alt="">
+
                                 @endif
                             </div>
                     </div>
@@ -105,5 +94,5 @@
             </div>
             <!-- health-care end -->
         </main>
-    
+
 </div>

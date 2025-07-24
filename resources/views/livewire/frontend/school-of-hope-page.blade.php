@@ -160,5 +160,20 @@
             </div>
         </div>
         <!-- content section end -->
+
+            <div class="container pb-5">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <a
+                        href="https://www.schoolofhopekenya.org/"
+                        target="_blank"
+                        class="theme-btn"
+                    >
+                        Visit School of Hope Website
+                        <i class="fas fa-arrow-right-long"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
     </main>
 </div>

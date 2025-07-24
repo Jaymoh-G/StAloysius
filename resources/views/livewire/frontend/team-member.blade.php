@@ -67,12 +67,13 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="biography">
-                            <h4 class="mb-3">Biography</h4>
+                            <h4 class="mb-3">From {{ $member->position }}</h4>
                             <p class="mb-10">
                               {{ $member->experience }}
                             </p>
                         </div>
                     </div>
+                    @if($member->professional_skills)
                     <div class="col-md-6">
                         <div class="team-skill">
                             <h4 class="mb-3">Professional Skills</h4>
@@ -97,9 +98,10 @@
                                 @endif
                                 @endif
 
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
         </div>

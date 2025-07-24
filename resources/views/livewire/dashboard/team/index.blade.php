@@ -30,6 +30,7 @@
                                         <th scope="col">Name</th>
                                         <th scope="col">Position</th>
                                         <th scope="col">Department</th>
+                                        <th scope="col">Institution</th>
                                         <th scope="col">Sort</th>
                                         <th scope="col">Skills</th>
                                         <th scope="col">Social Links</th>
@@ -82,6 +83,15 @@
                                             >
                                             @endif
                                         </td>
+                                        <td>
+                                            @if ($member->institution)
+                                            {{ $member->institution }}
+                                            @else
+                                            <span class="text-muted"
+                                                >No institution</span
+                                            >
+                                            @endif
+                                        </td>
                                         <td>{{ $member->sort_order }}</td>
                                         <td>
                                             @if ($member->professional_skills)
@@ -90,7 +100,8 @@
                                             ? $member->professional_skills :
                                             json_decode($member->professional_skills,
                                             true); @endphp @if ($skills)
-                                            @foreach ($skills as $skill =>$percent)
+                                            @foreach ($skills as $skill
+                                            =>$percent)
                                             {{ $skill }}
                                             ({{ $percent }}%) @endforeach @else
                                             <span class="text-muted"
@@ -108,7 +119,9 @@
                                             is_array($member->socials) ?
                                             $member->socials :
                                             json_decode($member->socials, true);
-                                            @endphp @if ($socialLinks) @foreach($socialLinks as $platform => $url)
+                                            @endphp @if ($socialLinks)
+                                            @foreach($socialLinks as $platform
+                                            => $url)
                                             <a
                                                 href="{{ $url }}"
                                                 target="_blank"

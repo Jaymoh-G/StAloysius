@@ -4,6 +4,7 @@ namespace App\Livewire\Frontend;
 
 use Livewire\Component;
 use App\Models\StaticPage;
+use App\Models\TeamMember;
 
 class ClcStaticPage extends Component
 {
@@ -28,9 +29,11 @@ class ClcStaticPage extends Component
 
     public function render()
     {
+        $clcTeamMembers = TeamMember::where('institution', 'CLC')->get();
         return view('livewire.frontend.clc-static-page', [
             'clcPage' => $this->clcPage,
             'images' => $this->images,
+            'clcTeamMembers' => $clcTeamMembers,
         ]);
     }
 }

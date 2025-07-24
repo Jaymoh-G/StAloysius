@@ -23,6 +23,7 @@ class TeamMember extends Model
         'slug',
         'department_id',
         'sort_order',
+        'institution',
     ];
 
     public function department()
