@@ -33,7 +33,7 @@ class OurTeam extends Component
 
     public function render()
     {
-        $members = TeamMember::with('department')->get();
+        $members = TeamMember::with('department')->where('institution', 'St. Aloysius')->get();
         $academicMembers = $members->filter(function ($member) {
             return $member->department && in_array($member->department->name, $this->academicDepartments);
         })->sortBy('sort_order');

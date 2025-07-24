@@ -29,7 +29,7 @@ class ClcStaticPage extends Component
 
     public function render()
     {
-        $clcTeamMembers = TeamMember::where('institution', 'CLC')->get();
+        $clcTeamMembers = TeamMember::where('institution', 'CLC')->orderBy('sort_order')->get();
         return view('livewire.frontend.clc-static-page', [
             'clcPage' => $this->clcPage,
             'images' => $this->images,
