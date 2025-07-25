@@ -23,9 +23,7 @@
             <div class="col-lg-10">
                 <div class="card shadow border-0">
                     <div class="card-header bg-success text-white text-center">
-                        <p class="mb-0">
-                            Apply for admission 
-                        </p>
+                        <p class="mb-0">Apply for admission</p>
                     </div>
                     <div class="card-body p-4">
                         @if (!$applicationOpen)
@@ -36,7 +34,7 @@
                             @endif @if ($applicationDeadline)
                             <div class="mt-2">
                                 <strong>Next Application Deadline:</strong>
-                                {{ $applicationDeadline }}
+                             <strong> {{ \Carbon\Carbon::parse($applicationDeadline)->format('jS F Y') }}</strong>
                             </div>
                             @endif
                         </div>
@@ -47,7 +45,7 @@
                         @endif @if ($applicationDeadline)
                         <div class="alert alert-secondary text-center mb-4">
                             <strong>Application Deadline:</strong>
-                            {{ $applicationDeadline }}
+                            {{ \Carbon\Carbon::parse($applicationDeadline)->format('jS F Y') }}
                         </div>
                         @endif @endif @if ($applicationOpen)
                         <form
