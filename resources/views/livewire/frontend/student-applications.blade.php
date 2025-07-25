@@ -24,12 +24,32 @@
                 <div class="card shadow border-0">
                     <div class="card-header bg-success text-white text-center">
                         <p class="mb-0">
-                            Apply for admission by filling out the form below
+                            Apply for admission 
                         </p>
                     </div>
                     <div class="card-body p-4">
-
-
+                        @if (!$applicationOpen)
+                        <div class="alert alert-warning text-center mb-4">
+                            <strong>Applications are currently closed.</strong>
+                            @if ($applicationNote)
+                            <div class="mt-2">{!! $applicationNote !!}</div>
+                            @endif @if ($applicationDeadline)
+                            <div class="mt-2">
+                                <strong>Next Application Deadline:</strong>
+                                {{ $applicationDeadline }}
+                            </div>
+                            @endif
+                        </div>
+                        @else @if ($applicationNote)
+                        <div class="alert alert-info text-center mb-4">
+                            {!! $applicationNote !!}
+                        </div>
+                        @endif @if ($applicationDeadline)
+                        <div class="alert alert-secondary text-center mb-4">
+                            <strong>Application Deadline:</strong>
+                            {{ $applicationDeadline }}
+                        </div>
+                        @endif @endif @if ($applicationOpen)
                         <form
                             wire:submit.prevent="submit"
                             enctype="multipart/form-data"
@@ -313,7 +333,7 @@
                                 </button>
                             </div>
                         </form>
-                         @if ($successMessage)
+                        @endif @if ($successMessage)
                         <div class="alert alert-success text-center">
                             <i class="fas fa-check-circle me-2"></i>
                             {{ $successMessage }}

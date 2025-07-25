@@ -48,4 +48,19 @@ class Setting extends Model
             ->orderBy('key')
             ->get();
     }
+
+    public static function isApplicationOpen()
+    {
+        return static::get('student_application_open', '0') === '1';
+    }
+
+    public static function getApplicationNote()
+    {
+        return static::get('student_application_note', '');
+    }
+
+    public static function getApplicationDeadline()
+    {
+        return static::get('student_application_deadline', '');
+    }
 }

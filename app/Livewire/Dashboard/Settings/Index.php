@@ -25,6 +25,10 @@ class Index extends Component
     public function mount()
     {
         $this->loadSettings();
+        // If a query parameter or property is set, show only the applications tab
+        if (request()->has('tab') && request()->get('tab') === 'applications') {
+            $this->activeTab = 'applications';
+        }
         logger("Component mounted with " . count($this->settings) . " settings loaded");
     }
 
@@ -36,7 +40,7 @@ class Index extends Component
 
     public function loadSettings()
     {
-        $groups = ['socials', 'portals', 'donation', 'contact', 'email_notifications', 'menu_images', 'anniversary', 'footer', 'quick_links', 'resource_links'];
+        $groups = ['socials', 'portals', 'donation', 'contact', 'email_notifications', 'menu_images', 'anniversary', 'footer', 'quick_links', 'resource_links', 'applications'];
 
         foreach ($groups as $group) { $groupSettings = Setting::getGroup($group);
             foreach ($groupSettings as $setting) {
@@ -144,16 +148,22 @@ class Index extends Component
             'anniversary' => 'Anniversary',
             'footer' => 'Footer',
             'quick_links' => 'Quick Links',
-            'resource_links' => 'Resource Links'
+            'resource_links' => 'Resource Links',
+            'applications' => 'Student Applications',
         ];
 
         $settingsByGroup = [];
-        foreach ($groups as $groupKey => $groupName) {
+        $visibleGroups = $groups;
+        // If only applications tab should be shown
+        if ($this->activeTab === 'applications' && request()->has('tab') && request()->get('tab') === 'applications') {
+            $visibleGroups = ['applications' => $groups['applications']];
+        }
+        foreach ($visibleGroups as $groupKey => $groupName) {
             $settingsByGroup[$groupKey] = Setting::getGroup($groupKey);
         }
 
         return view('livewire.dashboard.settings.index', [
-            'groups' => $groups,
+            'groups' => $visibleGroups,
             'settingsByGroup' => $settingsByGroup,
         ])->layout('components.layouts.dashboard');
     }

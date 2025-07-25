@@ -528,11 +528,7 @@
                                                                     Donation
                                                                 </h2>
                                                                 <p>
-                                                                    Secure
-                                                                    payment
-                                                                    through our
-                                                                    trusted
-                                                                    platform
+                                                                    Donate via School of Hope Website
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -575,7 +571,7 @@
                                                                 <i
                                                                     class="fas fa-external-link-alt"
                                                                 ></i>
-                                                                Donate Online
+                                                                Click here to donate
                                                             </a>
                                                         </div>
                                                     </div>
@@ -792,7 +788,7 @@
                                                                 </div>
                                                                 @enderror
                                                             </div>
-                                                       
+
                                                             <div
                                                                 class="text-center"
                                                             >

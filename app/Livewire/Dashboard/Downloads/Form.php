@@ -68,7 +68,7 @@ class Form extends Component
             Download::create($data);
             session()->flash('message', 'Download created successfully!');
         }
-        return redirect()->route('downloads.index');
+        return redirect()->route('dashboard.downloads.index');
     }
 
     public function render()

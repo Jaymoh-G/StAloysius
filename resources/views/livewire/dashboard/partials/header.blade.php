@@ -227,6 +227,7 @@
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="{{ route('dashboard.student-applications.index') }}">Applications</a></li>
+                            <li><a href="{{ route('dashboard.settings.index') }}?tab=applications">Application Settings</a></li>
                         </ul>
                     </li>
                     @endcanView

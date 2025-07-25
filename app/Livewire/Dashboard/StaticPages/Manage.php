@@ -60,13 +60,11 @@ class Manage extends Component
     {
         $this->content = $value;
 
-        // Try to extract HTML block elements first
+        // Extract paragraphs using the same logic as the updates/news module
         preg_match_all('/<(p|h[1-6]|div|section|article|blockquote)[^>]*>.*?<\/\1>/is', $value, $matches);
-        if (!empty($matches[0])) {
-            $this->paragraphs = $matches[0];
-        } else {
-            // Fallback: split plain text by double newlines
-            $this->paragraphs = preg_split('/\n\s*\n/', trim($value));
+        $paragraphs = $matches[0];
+        for ($i = 0; $i < 21; $i++) {
+            $this->paragraphs[$i] = $paragraphs[$i] ?? null;
         }
     }
 
@@ -180,10 +178,9 @@ class Manage extends Component
         // Fallback: Extract paragraphs if Livewire updateContent wasn't triggered
         if (empty($this->paragraphs)) {
             preg_match_all('/<(p|h[1-6]|div|section|article|blockquote)[^>]*>.*?<\/\1>/is', $this->content, $matches);
-            if (!empty($matches[0])) {
-                $this->paragraphs = $matches[0];
-            } else {
-                $this->paragraphs = preg_split('/\n\s*\n/', trim($this->content));
+            $paragraphs = $matches[0];
+            for ($i = 0; $i < 21; $i++) {
+                $this->paragraphs[$i] = $paragraphs[$i] ?? null;
             }
         }
 

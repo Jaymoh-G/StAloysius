@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\StudentApplication;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Setting;
 
 class StudentApplications extends Component
 {
@@ -22,6 +23,9 @@ class StudentApplications extends Component
 
     public $successMessage;
     public $turnstile_token;
+    public $applicationOpen;
+    public $applicationNote;
+    public $applicationDeadline;
 
     protected function rules()
     {
@@ -40,8 +44,19 @@ class StudentApplications extends Component
         ];
     }
 
+    public function mount()
+    {
+        $this->applicationOpen = Setting::isApplicationOpen();
+        $this->applicationNote = Setting::getApplicationNote();
+        $this->applicationDeadline = Setting::getApplicationDeadline();
+    }
+
     public function submit()
     {
+        if (!Setting::isApplicationOpen()) {
+            $this->addError('general', 'The application period is currently closed.');
+            return;
+        }
         $this->validate();
         // TODO: Add server-side Turnstile verification here
 
@@ -110,6 +125,10 @@ class StudentApplications extends Component
 
     public function render()
     {
-        return view('livewire.frontend.student-applications');
+        return view('livewire.frontend.student-applications', [
+            'applicationOpen' => $this->applicationOpen,
+            'applicationNote' => $this->applicationNote,
+            'applicationDeadline' => $this->applicationDeadline,
+        ]);
     }
 }

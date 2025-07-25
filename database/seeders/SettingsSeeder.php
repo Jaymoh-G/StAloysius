@@ -154,5 +154,10 @@ class SettingsSeeder extends Seeder
         foreach ($resourceLinksSettings as $key => $data) {
             Setting::set($key, '', 'resource_links', $data[2], $data[0], $data[1]);
         }
+
+        // Student Application Period Settings
+        Setting::set('student_application_open', '0', 'applications', 'boolean', 'Is Student Application Open?', 'Toggle left to close and right to open applications.');
+        Setting::set('student_application_note', '', 'applications', 'textarea', 'Application Note', 'Note to display when applications are open.');
+        Setting::set('student_application_deadline', '', 'applications', 'text', 'Application Deadline', 'Deadline for student applications.');
     }
 }
