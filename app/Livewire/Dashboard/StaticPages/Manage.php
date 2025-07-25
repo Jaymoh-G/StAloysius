@@ -60,9 +60,14 @@ class Manage extends Component
     {
         $this->content = $value;
 
-        // Extract paragraphs from content
+        // Try to extract HTML block elements first
         preg_match_all('/<(p|h[1-6]|div|section|article|blockquote)[^>]*>.*?<\/\1>/is', $value, $matches);
-        $this->paragraphs = $matches[0] ?? [];
+        if (!empty($matches[0])) {
+            $this->paragraphs = $matches[0];
+        } else {
+            // Fallback: split plain text by double newlines
+            $this->paragraphs = preg_split('/\n\s*\n/', trim($value));
+        }
     }
 
     public function generateSlug()
@@ -175,7 +180,11 @@ class Manage extends Component
         // Fallback: Extract paragraphs if Livewire updateContent wasn't triggered
         if (empty($this->paragraphs)) {
             preg_match_all('/<(p|h[1-6]|div|section|article|blockquote)[^>]*>.*?<\/\1>/is', $this->content, $matches);
-            $this->paragraphs = $matches[0] ?? [];
+            if (!empty($matches[0])) {
+                $this->paragraphs = $matches[0];
+            } else {
+                $this->paragraphs = preg_split('/\n\s*\n/', trim($this->content));
+            }
         }
 
         $data = [

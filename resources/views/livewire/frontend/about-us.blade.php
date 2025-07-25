@@ -246,71 +246,23 @@
         <div class="faq-area py-120">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-6">
-                        <div class="faq-right">
-                            <div class="site-heading mb-3">
-                                <span
-                                    class="site-title-tagline justify-content-start"
-                                    ><i class="far fa-book-open-reader"></i>
-                                </span>
-                                <h2>{!! $aboutUsPage->paragraph11 !!}</h2>
-                            </div>
-                            <p class="mb-3">
+                    <div class="col-lg-12">
+
+
+{!! $aboutUsPage->paragraph11 !!}
                                 {!! $aboutUsPage->paragraph12 !!} {!!
                                 $aboutUsPage->paragraph13 !!} {!!
                                 $aboutUsPage->paragraph14 !!} {!!
                                 $aboutUsPage->paragraph15 !!}
-                            </p>
-                            <h2>Spiritual and Personal Development</h2>
-                            <p class="mb-4">
-                                • Catechism Program: The school offers spiritual
-                                formation rooted in the values of St. Ignatius
-                                of Loyola, including termly class masses and 2
-                                termly school masses and weekly staff mass. A
-                                full-time priest in charge of chaplaincy
-                                provides spiritual guidance to students and
-                                staff.
-                            </p>
-                            <a href="#" class="theme-btn mt-2"
+
+
+
+                            <a href="{{ route('contact') }}" class="theme-btn mt-2"
                                 >Have Any Question ?</a
                             >
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="faq-right">
-                            <div class="site-heading mb-3">
-                                <span
-                                    class="site-title-tagline justify-content-start"
-                                    ><i class="far fa-book-open-reader"></i>
-                                </span>
-                                <h2>Student Support and Welfare</h2>
-                            </div>
-                            <p class="mb-3">
-                                • Daily Routine and Structure: The school
-                                maintains a structured daily schedule, including
-                                early morning rising, classes, assemblies,
-                                games, and prep time, fostering discipline and
-                                time management among students. • Graduate
-                                Support: Post-secondary support is provided,
-                                with the school sponsoring graduates to pursue
-                                further studies in universities, diploma, or
-                                certificate programs. • Psychosocial Support:
-                                The school offers strong psychosocial support
-                                through a dedicated counselling department that
-                                addresses students' emotional, psychological,
-                                and social challenges. In addition to in-school
-                                counselling, a social worker regularly visits
-                                students' homes to assess their living
-                                conditions, understand their unique social
-                                needs, and extend support to their families,
-                                ensuring holistic care and a nurturing learning
-                                environment. • Health and Nutrition: The school
-                                provides a balanced diet, with a focus on
-                                nutritious meals to support students' physical
-                                well-being.
-                            </p>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
