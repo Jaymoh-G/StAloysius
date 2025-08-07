@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Blade;
-use App\Helpers\SeoHelper;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +13,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind('path.public', function () {
+            return base_path('public_html');
+        });
     }
 
     /**
@@ -21,49 +23,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Register SEO helper functions
-        if (!function_exists('seo_slug')) {
-            function seo_slug($string, $separator = '-')
-            {
-                return SeoHelper::generateSlug($string, $separator);
-            }
+        Schema::defaultStringLength(191);
+        require_once app_path('helpers.php');
+        if (env('APP_ENV') === 'production') {
+            URL::forceScheme('https');
         }
-
-        if (!function_exists('seo_description')) {
-            function seo_description($text, $length = 160)
-            {
-                return SeoHelper::truncateDescription($text, $length);
-            }
-        }
-
-        if (!function_exists('seo_title')) {
-            function seo_title($title, $suffix = null, $maxLength = 60)
-            {
-                return SeoHelper::generateMetaTitle($title, $suffix, $maxLength);
-            }
-        }
-
-        if (!function_exists('seo_clean_text')) {
-            function seo_clean_text($text)
-            {
-                return SeoHelper::cleanText($text);
-            }
-        }
-
-        if (!function_exists('seo_keywords')) {
-            function seo_keywords($text, $maxKeywords = 10)
-            {
-                return SeoHelper::generateKeywords($text, $maxKeywords);
-            }
-        }
-
-        // Register Blade directives for SEO
-        Blade::directive('seoMeta', function ($expression) {
-            return "<?php echo app('App\\Services\\SeoService')->getMetaTags($expression); ?>";
-        });
-
-        Blade::directive('structuredData', function ($expression) {
-            return "<?php echo app('App\\Services\\SeoService')->generateStructuredData($expression); ?>";
-        });
     }
 }
