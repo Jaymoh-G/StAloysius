@@ -1,0 +1,25 @@
+{
+    "name": "St Aloysius Gonzaga Secondary School",
+    "short_name": "St Aloysius",
+    "description": "Excellence in Education - St Aloysius Gonzaga Secondary School",
+    "start_url": "https://staloysiusgonzaga.org/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#1e40af",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/assets/img/logo/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/assets/img/logo/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "categories": ["education", "school"],
+    "lang": "en",
+    "dir": "ltr"
+}

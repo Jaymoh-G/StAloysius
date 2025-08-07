@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Frontend;
 
-
 use App\Models\Album;
 use Livewire\Component;
 use App\Models\BlogPost;
@@ -34,6 +33,7 @@ class Home extends Component
   public $testimonialSection;
   public $eventsSection;
   public $newsSection;
+
   protected function limitContent($content, $lines = 3)
   {
     if (empty($content)) {
@@ -62,7 +62,7 @@ class Home extends Component
     $this->departments = DepartmentModel::all()->map(function ($dept) {
       $dept->content = $this->limitContent($dept->content);
       return $dept;
-    });;
+    });
     $this->events = EventModel::latest()->get();
     $this->testimonials = Testimonial::orderBy('updated_at', 'desc')->get();
 
@@ -80,6 +80,7 @@ class Home extends Component
     $this->testimonialSection = StaticPage::where('page_name', 'Homepage Testimonials Section')->first();
     $this->eventsSection = StaticPage::where('page_name', 'Homepage Events Section')->first();
     $this->newsSection = StaticPage::where('page_name', 'Homepage News Section')->first();
+
     // Fetch contact information from settings
     $this->contactInfo = [
       'email' => setting('email'),
@@ -106,6 +107,6 @@ class Home extends Component
       'eventsSection' => $this->eventsSection,
       'newsSection' => $this->newsSection,
       'contactInfo' => $this->contactInfo
-    ]);
+    ])->layout('components.layouts.app');
   }
 }

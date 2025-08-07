@@ -11,6 +11,10 @@ use App\Livewire\Dashboard\Gallery\Images\ImageIndex;
 use App\Livewire\Dashboard\Gallery\CategoryIndex;
 use App\Livewire\Dashboard\Youtube\VideoIndex;
 
+// SEO Routes
+Route::get('/sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
+Route::get('/generate-sitemap', [App\Http\Controllers\SitemapController::class, 'generate'])->name('sitemap.generate');
+
 // Home page
 Route::get('/', \App\Livewire\Frontend\Home::class)->name('home');
 
