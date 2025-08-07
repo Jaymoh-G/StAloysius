@@ -5,7 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         {{-- SEO Meta Tags --}}
-        <x-seo-meta :page="$page ?? null" :model="$model ?? null" />
+        @include('components.seo-meta', ['page' => $page ?? null, 'model' =>
+        $model ?? null])
 
         {{-- Structured Data --}}
         <x-structured-data type="organization" />

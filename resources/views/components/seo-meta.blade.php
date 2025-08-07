@@ -1,17 +1,27 @@
-@props(['page' => null, 'model' => null]) @php // Default meta tags if no
-specific page/model is provided $meta = [ 'title' => 'St Aloysius Gonzaga
-Secondary School - Excellence in Education', 'description' => 'St Aloysius
-Gonzaga Secondary School provides quality education with a focus on academic
-excellence, character formation, and holistic development. Join our community of
-learners.', 'keywords' => 'St Aloysius, secondary school, education, Kenya,
-academic excellence, character formation', 'author' => 'St Aloysius Gonzaga
-Secondary School', 'robots' => 'index, follow', 'og_type' => 'website',
-'twitter_card' => 'summary_large_image', ]; // If page is provided, get specific
-meta tags if ($page) { $seoService = app(\App\Services\SeoService::class); $meta
-= $seoService->getMetaTags($page, $model); } @endphp
+@php
+$page = $page ?? null;
+$model = $model ?? null;
+
+// Default meta tags
+$meta = [
+    'title' => 'St Aloysius Gonzaga Secondary School - Excellence in Education',
+    'description' => 'St Aloysius Gonzaga Secondary School provides quality education with a focus on academic excellence, character formation, and holistic development. Join our community of learners.',
+    'keywords' => 'St Aloysius, secondary school, education, Kenya, academic excellence, character formation',
+    'author' => 'St Aloysius Gonzaga Secondary School',
+    'robots' => 'index, follow',
+    'og_type' => 'website',
+    'twitter_card' => 'summary_large_image',
+];
+
+// If page is provided, get specific meta tags
+if ($page) {
+    $seoService = app(\App\Services\SeoService::class);
+    $meta = $seoService->getMetaTags($page, $model);
+}
+@endphp
 
 {{-- Basic Meta Tags --}}
-<title>{{ $meta["title"] }}</title>
+<title>{{ $meta['title'] }}</title>
 <meta name="description" content="{{ $meta['description'] }}" />
 <meta name="keywords" content="{{ $meta['keywords'] }}" />
 <meta name="author" content="{{ $meta['author'] }}" />
@@ -44,15 +54,10 @@ meta tags if ($page) { $seoService = app(\App\Services\SeoService::class); $meta
 
 {{-- Additional Meta Tags for Articles --}}
 @if(isset($meta['article_published_time']))
-<meta
-    property="article:published_time"
-    content="{{ $meta['article_published_time'] }}"
-/>
-@endif @if(isset($meta['article_modified_time']))
-<meta
-    property="article:modified_time"
-    content="{{ $meta['article_modified_time'] }}"
-/>
+<meta property="article:published_time" content="{{ $meta['article_published_time'] }}" />
+@endif
+@if(isset($meta['article_modified_time']))
+<meta property="article:modified_time" content="{{ $meta['article_modified_time'] }}" />
 @endif
 
 {{-- Mobile Meta Tags --}}
@@ -60,23 +65,9 @@ meta tags if ($page) { $seoService = app(\App\Services\SeoService::class); $meta
 <meta name="format-detection" content="telephone=no" />
 
 {{-- Favicon and App Icons --}}
-<link
-    rel="icon"
-    type="image/png"
-    sizes="32x32"
-    href="{{ asset('assets/img/logo/favicon-32x32.png') }}"
-/>
-<link
-    rel="icon"
-    type="image/png"
-    sizes="16x16"
-    href="{{ asset('assets/img/logo/favicon-16x16.png') }}"
-/>
-<link
-    rel="apple-touch-icon"
-    sizes="180x180"
-    href="{{ asset('assets/img/logo/apple-touch-icon.png') }}"
-/>
+<link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/img/logo/favicon-32x32.png') }}" />
+<link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/img/logo/favicon-16x16.png') }}" />
+<link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/logo/apple-touch-icon.png') }}" />
 <link rel="manifest" href="{{ asset('site.webmanifest') }}" />
 
 {{-- Preconnect for Performance --}}
