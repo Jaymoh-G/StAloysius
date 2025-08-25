@@ -30,49 +30,60 @@
                             @endif @if ($applicationDeadline)
                             <div class="mt-2">
                                 <strong>Next Application Deadline:</strong>
-                             <strong> {{ \Carbon\Carbon::parse($applicationDeadline)->format('jS F Y') }}</strong>
+                                <strong>
+                                    {{ \Carbon\Carbon::parse($applicationDeadline)->format('jS F Y') }}</strong
+                                >
                             </div>
                             @endif
                         </div>
-                        @else 
-                            @if ($applicationNote)
-                            <div class="alert alert-info text-center mb-4">
-                                {!! $applicationNote !!}
+                        @else @if ($applicationNote)
+                        <div class="alert alert-info text-center mb-4">
+                            {!! $applicationNote !!}
+                        </div>
+                        @endif @if ($applicationDeadline)
+                        <div class="alert alert-secondary text-center mb-4">
+                            <strong>Application Deadline:</strong>
+                            {{ \Carbon\Carbon::parse($applicationDeadline)->format('jS F Y') }}
+                        </div>
+                        @endif @if ($googleFormUrl)
+                        <div class="text-center mb-4">
+                            <div class="alert alert-success">
+                                <h5 class="mb-3">🎓 Ready to Apply?</h5>
+                                <p class="mb-4">
+                                    Click the button below to access our online
+                                    application form.
+                                </p>
+                                <a
+                                    href="{{ $googleFormUrl }}"
+                                    target="_blank"
+                                    class="btn btn-success btn-lg px-5"
+                                >
+                                    <i
+                                        class="fas fa-external-link-alt me-2"
+                                    ></i>
+                                    Apply Now - Google Form
+                                </a>
+                                <p class="mt-3 text-muted small">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    The form will open in a new tab. Please
+                                    complete all required fields and submit your
+                                    application.
+                                </p>
                             </div>
-                            @endif 
-                            @if ($applicationDeadline)
-                            <div class="alert alert-secondary text-center mb-4">
-                                <strong>Application Deadline:</strong>
-                                {{ \Carbon\Carbon::parse($applicationDeadline)->format('jS F Y') }}
-                            </div>
-                            @endif 
-                            
-                            @if ($googleFormUrl)
-                                <div class="text-center mb-4">
-                                    <div class="alert alert-success">
-                                        <h5 class="mb-3">🎓 Ready to Apply?</h5>
-                                        <p class="mb-4">Click the button below to access our online application form.</p>
-                                        <a href="{{ $googleFormUrl }}" target="_blank" class="btn btn-success btn-lg px-5">
-                                            <i class="fas fa-external-link-alt me-2"></i>
-                                            Apply Now - Google Form
-                                        </a>
-                                        <p class="mt-3 text-muted small">
-                                            <i class="fas fa-info-circle me-1"></i>
-                                            The form will open in a new tab. Please complete all required fields and submit your application.
-                                        </p>
-                                    </div>
-                                </div>
-                            @else
-                                <div class="alert alert-warning text-center">
-                                    <i class="fas fa-exclamation-triangle me-2"></i>
-                                    <strong>Application form not configured.</strong>
-                                    <p class="mb-0 mt-2">Please contact the administration to set up the application form.</p>
-                                </div>
-                            @endif
-                        @endif
-                        
+                        </div>
+                        @else
+                        <div class="alert alert-warning text-center">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong>Application form not configured.</strong>
+                            <p class="mb-0 mt-2">
+                                Please contact the administration to set up the
+                                application form.
+                            </p>
+                        </div>
+                        @endif @endif
+
                         {{-- Commented out the original form - now using Google Form instead --}}
-                        {{-- 
+                        {{--
                         <form
                             wire:submit.prevent="submit"
                             enctype="multipart/form-data"
@@ -357,7 +368,7 @@
                             </div>
                         </form>
                         @endif
-                        
+
                         {{-- Success message no longer needed since we're using Google Form --}}
                         {{-- @if ($successMessage)
                         <div class="alert alert-success text-center">
@@ -373,7 +384,7 @@
 </main>
 
 {{-- Turnstile script no longer needed since we're using Google Form --}}
-{{-- 
+{{--
 <script
     src="https://challenges.cloudflare.com/turnstile/v0/api.js"
     async
