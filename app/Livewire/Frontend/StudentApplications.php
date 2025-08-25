@@ -26,6 +26,7 @@ class StudentApplications extends Component
     public $applicationOpen;
     public $applicationNote;
     public $applicationDeadline;
+    public $googleFormUrl;
 
     protected function rules()
     {
@@ -49,6 +50,7 @@ class StudentApplications extends Component
         $this->applicationOpen = Setting::isApplicationOpen();
         $this->applicationNote = Setting::getApplicationNote();
         $this->applicationDeadline = Setting::getApplicationDeadline();
+        $this->googleFormUrl = Setting::getGoogleFormUrl();
     }
 
     public function submit()
@@ -129,6 +131,7 @@ class StudentApplications extends Component
             'applicationOpen' => $this->applicationOpen,
             'applicationNote' => $this->applicationNote,
             'applicationDeadline' => $this->applicationDeadline,
+            'googleFormUrl' => $this->googleFormUrl,
         ]);
     }
 }

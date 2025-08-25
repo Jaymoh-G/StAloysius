@@ -102,6 +102,25 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="row">
+                                            <div class="col-12 mb-3">
+                                                <div class="form-group">
+                                                    <label for="student_application_google_form_url" class="form-label">Google Form URL</label>
+                                                    <input
+                                                        wire:model="formData.student_application_google_form_url"
+                                                        type="url"
+                                                        id="student_application_google_form_url"
+                                                        class="form-control @error('formData.student_application_google_form_url') is-invalid @enderror"
+                                                        placeholder="https://forms.google.com/your-form-url"
+                                                    />
+                                                    <small class="text-muted">Enter the complete URL to your Google Form for student applications.</small>
+                                                    @error('formData.student_application_google_form_url')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </div>
                                     @else
                                         <div class="row">
                                             @foreach($settingsByGroup[$groupKey] as $setting)
@@ -134,6 +153,14 @@
                                                                 id="{{ $setting->key }}"
                                                                 class="form-control @error('formData.' . $setting->key) is-invalid @enderror"
                                                                 placeholder="Select application deadline"
+                                                            />
+                                                        @elseif($setting->key === 'student_application_google_form_url')
+                                                            <input
+                                                                wire:model="formData.{{ $setting->key }}"
+                                                                type="url"
+                                                                id="{{ $setting->key }}"
+                                                                class="form-control @error('formData.' . $setting->key) is-invalid @enderror"
+                                                                placeholder="https://forms.google.com/your-form-url"
                                                             />
                                                         @elseif($setting->type === 'textarea')
                                                             <textarea

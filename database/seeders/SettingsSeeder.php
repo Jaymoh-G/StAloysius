@@ -159,5 +159,6 @@ class SettingsSeeder extends Seeder
         Setting::set('student_application_open', '0', 'applications', 'boolean', 'Is Student Application Open?', 'Toggle left to close and right to open applications.');
         Setting::set('student_application_note', '', 'applications', 'textarea', 'Application Note', 'Note to display when applications are open.');
         Setting::set('student_application_deadline', '', 'applications', 'text', 'Application Deadline', 'Deadline for student applications.');
+        Setting::set('student_application_google_form_url', '', 'applications', 'url', 'Google Form URL', 'URL to the Google Form for student applications.');
     }
 }

@@ -63,4 +63,9 @@ class Setting extends Model
     {
         return static::get('student_application_deadline', '');
     }
+
+    public static function getGoogleFormUrl()
+    {
+        return static::get('student_application_google_form_url', '');
+    }
 }
