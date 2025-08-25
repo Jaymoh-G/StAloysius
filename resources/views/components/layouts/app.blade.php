@@ -32,9 +32,7 @@
             rel="stylesheet"
             href="{{ asset('assets/css/owl.carousel.min.css') }}"
         />
-        <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
-
-        @livewireStyles
+        @vite(['resources/css/app.css', 'resources/js/app.js']) @livewireStyles
     </head>
 
     <body>
