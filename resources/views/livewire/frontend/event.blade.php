@@ -52,13 +52,8 @@
                         </div>
 
                         <div class="mb-4">
-                            <p class="mb-20">{!! $event->paragraph3 !!}</p>
-                            <div class="my-4">
-                                <div class="mb-3">
-                                    <p>{!! $event->paragraph4 !!}</p>
-                                </div>
-                            </div>
-                            @for ($i = 1; $i <= 21; $i++) @php $paragraph =
+                          
+                            @for ($i = 5; $i <= 21; $i++) @php $paragraph =
                             $event->{'paragraph' . $i}; @endphp
                             @if(!empty($paragraph))
                             <div class="mb-4">{!! $paragraph !!}</div>
