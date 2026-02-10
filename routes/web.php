@@ -257,6 +257,41 @@ Route::get('/logout', function () {
 // CKEditor upload route
 Route::post('/ckeditor/upload', [\App\Http\Controllers\CkeditorUploadController::class, 'upload'])->name('ckeditor.upload');
 
+// Storage file fallback route (serves files if symlink doesn't work)
+Route::get('/storage/{path}', function ($path) {
+    // Prevent directory traversal attacks
+    $path = str_replace('..', '', $path);
+    $basePath = storage_path('app/public');
+    $filePath = $basePath . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $path);
+
+    if (!file_exists($filePath) || !is_file($filePath)) {
+        abort(404);
+    }
+
+    $realFilePath = realpath($filePath);
+    $publicPath = realpath($basePath);
+
+    if (!$realFilePath || !$publicPath) {
+        abort(404);
+    }
+
+    // Ensure the file is within the public storage directory (Windows-safe comparison)
+    $normalizedReal = str_replace('\\', '/', $realFilePath);
+    $normalizedPublic = str_replace('\\', '/', $publicPath);
+    if (!str_starts_with($normalizedReal, $normalizedPublic)) {
+        abort(404);
+    }
+
+    $mimeType = mime_content_type($realFilePath);
+    $fileSize = filesize($realFilePath);
+
+    return response()->file($realFilePath, [
+        'Content-Type' => $mimeType,
+        'Content-Length' => $fileSize,
+        'Cache-Control' => 'public, max-age=31536000, immutable',
+    ]);
+})->where('path', '.*')->name('storage.serve');
+
 // 404 Page Not Found route
 Route::fallback(\App\Livewire\Frontend\NotFound::class);
 
