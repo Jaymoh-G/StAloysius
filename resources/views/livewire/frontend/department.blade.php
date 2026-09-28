@@ -52,20 +52,19 @@
                                             <p>{!! $dep->paragraph4 !!}</p>
                                         </div>
                                     </div>
+                                    @php $extraImages = $dep->images->values()->slice(1, 2); @endphp
+                                    @if ($extraImages->isNotEmpty())
                                     <div class="row">
+                                        @foreach ($extraImages as $index => $image)
                                         <div class="col-md-6 mb-20">
                                             <img
-                                                src="{{ isset($dep->images[1]) ? asset('storage/' . $dep->images[1]->path) : '' }}"
-                                                alt="{{ optional($dep->images[1])->alt ?? 'Image 1 for ' . $dep->name }}"
+                                                src="{{ asset('storage/' . $image->path) }}"
+                                                alt="{{ $image->alt ?? 'Image ' . $index . ' for ' . $dep->name }}"
                                             />
                                         </div>
-                                        <div class="col-md-6 mb-20">
-                                            <img
-                                                src="{{ isset($dep->images[2]) ? asset('storage/' . $dep->images[2]->path) : '' }}"
-                                                alt="{{ optional($dep->images[2])->alt ?? 'Image 2 for ' . $dep->name }}"
-                                            />
-                                        </div>
+                                        @endforeach
                                     </div>
+                                    @endif
                                     @for ($i = 5; $i <= 21; $i++) @php
                                     $paragraph = $dep->{'paragraph' . $i};
                                     @endphp @if (!empty($paragraph))
