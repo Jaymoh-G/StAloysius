@@ -13,7 +13,7 @@ use App\Livewire\Dashboard\Youtube\VideoIndex;
 
 // SEO Routes
 Route::get('/sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
-Route::get('/generate-sitemap', [App\Http\Controllers\SitemapController::class, 'generate'])->name('sitemap.generate');
+Route::get('/generate-sitemap', [App\Http\Controllers\SitemapController::class, 'generate'])->middleware(['auth', 'verified'])->name('sitemap.generate');
 
 // Home page
 Route::get('/', \App\Livewire\Frontend\Home::class)->name('home');
@@ -255,7 +255,7 @@ Route::get('/logout', function () {
 })->middleware('auth');
 
 // CKEditor upload route
-Route::post('/ckeditor/upload', [\App\Http\Controllers\CkeditorUploadController::class, 'upload'])->name('ckeditor.upload');
+Route::post('/ckeditor/upload', [\App\Http\Controllers\CkeditorUploadController::class, 'upload'])->middleware(['auth', 'verified'])->name('ckeditor.upload');
 
 // Storage file fallback route (serves files if symlink doesn't work)
 Route::get('/storage/{path}', function ($path) {

@@ -3,24 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class CkeditorUploadController extends Controller
 {
     public function upload(Request $request)
     {
-        if ($request->hasFile('upload')) {
-            $file = $request->file('upload');
-            $filename = time().'_'.$file->getClientOriginalName();
-            $path = $file->storeAs('uploads/ckeditor', $filename, 'public');
+        $validator = validator($request->all(), [
+            'upload' => 'required|file|mimes:jpeg,jpg,png,gif,webp|max:5120',
+        ]);
 
-            return response()->json([
-                'uploaded' => 1,
-                'fileName' => $filename,
-                'url' => asset('storage/'.$path),
-            ]);
+        if ($validator->fails()) {
+            return response()->json(['uploaded' => 0, 'error' => ['message' => $validator->errors()->first('upload')]], 422);
         }
 
-        return response()->json(['uploaded' => 0, 'error' => ['message' => 'Upload failed']]);
+        // Store under a random name so the client can't choose the filename or extension.
+        $path = $request->file('upload')->store('uploads/ckeditor', 'public');
+
+        return response()->json([
+            'uploaded' => 1,
+            'fileName' => basename($path),
+            'url' => asset('storage/' . $path),
+        ]);
     }
 }
